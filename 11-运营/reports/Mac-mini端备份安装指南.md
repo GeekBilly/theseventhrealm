@@ -1,24 +1,24 @@
 # Mac mini 端 · 每日自动备份安装指南
 
-> 目标：把 Mac mini 变成**纯备份机** —— 外接移动硬盘，每天凌晨自动从 GitHub 拉一次。
+> 目标：把 Mac mini 变成**纯备份机** —— 外接移动硬盘，每天凌晨自动从 GitHub 拉一次。  
 > 全程约 10 分钟。**所有命令都在 Mac mini 的「终端」里执行**，不是在 📱 手机上。
 
 ---
 
 ## 零、先确认一件事
 
-这份指南假设你已经把项目推送到了 GitHub。如果还没有，先在 **MacBook** 上完成：
+这份指南假设你已经把项目推送到了 GitHub。如果还没有，先在 **MacBook** 上完成：  
 `sh 11-运营/scripts/qj-sync.sh push "首次提交"`。
 
 ---
 
 ## 一、准备三样东西
 
-| 项 | 怎么拿 | 示例 |
-|---|---|---|
-| **仓库地址** | 已确定，**直接抄** | `git@github.com:GeekBilly/theseventhrealm.git` |
-| **移动硬盘路径** | 插上硬盘后跑 `ls /Volumes` | `/Volumes/Backup` |
-| ** mini 上的项目路径** | 你要把脚本放哪 | `~/WorkBuddy/2026-09-25-15-56-17/11-运营/scripts` |
+| 项                   | 怎么拿                  | 示例                                              |
+| ------------------- | -------------------- | ----------------------------------------------- |
+| **仓库地址**            | 已确定，**直接抄**          | `git@github.com:GeekBilly/theseventhrealm.git`  |
+| **移动硬盘路径**          | 插上硬盘后跑 `ls /Volumes` | `/Volumes/Backup`                               |
+| \** mini 上的项目路径\*\* | 你要把脚本放哪              | `~/WorkBuddy/2026-09-25-15-56-17/11-运营/scripts` |
 
 ---
 
@@ -44,7 +44,7 @@ ssh -T git@github.com
 
 ### 方案 B：HTTPS + Token
 
-GitHub → Settings → Developer settings → Personal access tokens → 生成 **repo** 权限的 token，
+GitHub → Settings → Developer settings → Personal access tokens → 生成 **repo** 权限的 token，  
 然后 `git clone https://<token>@github.com/用户名/仓库.git`。
 
 ---
@@ -103,11 +103,11 @@ sh 11-运营/scripts/backup-pull.sh --once
 
 ### 🔴 如果报错
 
-| 报错 | 原因 | 怎么修 |
-|---|---|---|
-| `移动硬盘未挂载` | 硬盘没插好，或路径写错 | `ls /Volumes` 看真实名字 |
-| `Permission denied (publickey)` | SSH key 没加到 GitHub | 回第二节重配 |
-| `repository not found` | 地址错，或私有仓库没权限 | 核对 SSH 地址 |
+| 报错                              | 原因                 | 怎么修                 |
+| ------------------------------- | ------------------ | ------------------- |
+| `移动硬盘未挂载`                       | 硬盘没插好，或路径写错        | `ls /Volumes` 看真实名字 |
+| `Permission denied (publickey)` | SSH key 没加到 GitHub | 回第二节重配              |
+| `repository not found`          | 地址错，或私有仓库没权限       | 核对 SSH 地址           |
 
 ---
 
@@ -141,7 +141,7 @@ cat /tmp/theseventhrealm-backup.err                                           # 
 
 脚本会自检：如果发现 `/Volumes/.../repo` 里有人改过文件，会**立刻停止并告警**。
 
-因为架构是 **MacBook 唯一写入端**，mini 一旦也改，pull 就会产生冲突，`--ff-only` 会失败，
+因为架构是 **MacBook 唯一写入端**，mini 一旦也改，pull 就会产生冲突，`--ff-only` 会失败，  
 每日备份从此卡住。**所以：别在 mini 的备份目录里改东西。**
 
 ### 2. 硬盘没拔/没挂载时会失败
@@ -164,22 +164,22 @@ du -sh .
 
 能看到昨天的 commit 就说明链路通了。
 
-🔑 **终极检验**：把其中一个文件的内容改回一个月前的版本，看能不能 `git checkout` 出来。
+🔑 **终极检验**：把其中一个文件的内容改回一个月前的版本，看能不能 `git checkout` 出来。  
 **没做过恢复演练的备份，不算备份。**
 
 ---
 
 ## 九、⚠️ 恢复时必须知道：脱敏是单向的
 
-仓库里的 `*.md / *.csv / *.txt` 经过了 **clean 过滤器**——苹果中转邮箱在入库瞬间被换成了 `[relay-redacted]`。
+仓库里的 `*.md / *.csv / *.txt` 经过了 **clean 过滤器**——苹果中转邮箱在入库瞬间被换成了 `[relay-redacted]`。  
 所以你 clone 下来、或从备份恢复出来的，一律是**脱敏版**：
 
 ```
 [relay-redacted]   →   [relay-redacted]
 ```
 
-**日常操作不受影响**（MacBook 上跑的是本地原件，一个字没改）。
-但如果有一天真的要从仓库/移动硬盘恢复 MacBook，恢复后必须手工把邮箱填回去——
+**日常操作不受影响**（MacBook 上跑的是本地原件，一个字没改）。  
+但如果有一天真的要从仓库/移动硬盘恢复 MacBook，恢复后必须手工把邮箱填回去——  
 真值只有一处权威来源：`11-运营/风险管控/账号与邮箱链路清单.md` 的**本地原件**。
 
 ⇒ 这条也意味着：**那份本地原件永远不能删**（它不在 Git 的保护范围内，是唯一的活水源）。
