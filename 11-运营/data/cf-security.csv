@@ -6,5 +6,6 @@ date,events,challenge,block,bypassed,managed_challenge,top_path,top_path_n,top_c
 2026-10-05,443,391,17,0,391,/wp-cron.php,90,SG,206,WordPress/7.1.2; https://theseventhrealm.com,90,2026-10-08 21:10
 2026-10-06,625,538,16,0,538,/wp-cron.php,157,SG,316,WordPress/7.1.2; https://theseventhrealm.com,151,2026-10-09 21:10
 2026-10-07,929,618,66,0,618,/wp-cron.php,158,SG,333,WordPress/7.1.3; https://theseventhrealm.com,156,2026-10-10 21:10
-2026-10-08,765,717,10,0,717,/wp-admin/install.php,89,PL,408,http://tantse.com/wp-admin/install.php?step=1,89,2026-10-10 21:10
-2026-10-09,657,484,43,0,484,/wp-login.php,116,ID,206,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l",206,2026-10-10 21:10
+2026-10-08,765,717,10,0,717,/wp-admin/install.php,89,PL,408,http://tantse.com/wp-admin/install.php?step=1,89,2026-10-11 21:10
+2026-10-09,657,484,43,0,484,/wp-login.php,116,ID,206,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l",206,2026-10-11 21:10
+2026-10-10,474,404,2,0,404,/wp-admin/install.php,86,RU,86,http://tantse.com/wp-admin/install.php?step=1,86,2026-10-11 21:10

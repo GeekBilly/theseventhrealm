@@ -16,7 +16,7 @@
 
 | 项 | 怎么拿 | 示例 |
 |---|---|---|
-| **仓库地址** | GitHub 仓库页 → 绿色 Code 按钮 → SSH | `git@github.com:billy/theseventhrealm.git` |
+| **仓库地址** | 已确定，**直接抄** | `git@github.com:GeekBilly/theseventhrealm.git` |
 | **移动硬盘路径** | 插上硬盘后跑 `ls /Volumes` | `/Volumes/Backup` |
 | ** mini 上的项目路径** | 你要把脚本放哪 | `~/WorkBuddy/2026-09-25-15-56-17/11-运营/scripts` |
 
@@ -71,7 +71,7 @@ cd ~/WorkBuddy/2026-09-25-15-56-17
 
 ```xml
 <key>REPO_URL</key>
-<string>git@github.com:billy/theseventhrealm.git</string>   ← 你的仓库
+<string>git@github.com:GeekBilly/theseventhrealm.git</string>   ← 已定，无需改
 
 <key>BACKUP_ROOT</key>
 <string>/Volumes/Backup/第七境备份</string>                ← 你的硬盘
@@ -166,3 +166,22 @@ du -sh .
 
 🔑 **终极检验**：把其中一个文件的内容改回一个月前的版本，看能不能 `git checkout` 出来。
 **没做过恢复演练的备份，不算备份。**
+
+---
+
+## 九、⚠️ 恢复时必须知道：脱敏是单向的
+
+仓库里的 `*.md / *.csv / *.txt` 经过了 **clean 过滤器**——苹果中转邮箱在入库瞬间被换成了 `[relay-redacted]`。
+所以你 clone 下来、或从备份恢复出来的，一律是**脱敏版**：
+
+```
+[relay-redacted]   →   [relay-redacted]
+```
+
+**日常操作不受影响**（MacBook 上跑的是本地原件，一个字没改）。
+但如果有一天真的要从仓库/移动硬盘恢复 MacBook，恢复后必须手工把邮箱填回去——
+真值只有一处权威来源：`11-运营/风险管控/账号与邮箱链路清单.md` 的**本地原件**。
+
+⇒ 这条也意味着：**那份本地原件永远不能删**（它不在 Git 的保护范围内，是唯一的活水源）。
+
+要确认某个是真值还是占位符，看 `grep -c privaterelay` 的结果：`0` 就是脱敏版，`>0` 才是原件。
