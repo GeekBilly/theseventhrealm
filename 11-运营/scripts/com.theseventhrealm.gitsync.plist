@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.theseventhrealm.gitsync</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/zsh</string>
+		<string>-c</string>
+		<string>export HOME=/Users/billyhou; cd /Users/billyhou/WorkBuddy/2026-09-25-15-56-17 &amp;&amp; sh 11-运营/scripts/qj-sync.sh auto "每日自动同步"</string>
+	</array>
+	<key>RunAtLoad</key>
+	<false/>
+	<key>StandardErrorPath</key>
+	<string>/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/11-运营/logs/gitsync.err</string>
+	<key>StandardOutPath</key>
+	<string>/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/11-运营/logs/gitsync.log</string>
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>2</integer>
+		<key>Minute</key>
+		<integer>30</integer>
+	</dict>
+</dict>
+</plist>
