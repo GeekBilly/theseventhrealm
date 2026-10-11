@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第七境 · 公司风险健康体检盘</title>
+<style>
+  :root{
+    --paper:#F7F4EC;
+    --paper2:#FFFDF7;
+    --ink:#1F1D1A;
+    --ink2:#4A453E;
+    --ink3:#8B8478;
+    --line:#DED6C6;
+    --seal:#9E2B25;
+    --seal-soft:#C1453D;
+    --green:#3F7A55;
+    --amber:#B8862B;
+    --graybg:#EDE7D9;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Songti SC","STSong","Noto Serif SC",Georgia,"Times New Roman",serif;
+    line-height:1.7;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(158,43,37,.035) 0, transparent 42%),
+      radial-gradient(circle at 88% 22%, rgba(31,29,26,.05) 0, transparent 46%);
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:38px 26px 80px}
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  h1{font-size:27px;margin:0 0 6px;letter-spacing:3px;font-weight:600}
+  .sub{color:var(--ink3);font-size:13.5px;letter-spacing:1px}
+  .meta{margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--ink2)}
+  .meta input{border:1px solid var(--line);background:var(--paper2);padding:5px 9px;font-family:inherit;font-size:13px;color:var(--ink);border-radius:2px}
+
+  /* 总分区 */
+  .hero{display:flex;gap:26px;align-items:center;background:var(--paper2);border:1px solid var(--line);
+    padding:22px 26px;margin:22px 0 26px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+  .seal{width:112px;height:112px;flex:none;border-radius:50%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;border:2.5px solid var(--seal);color:var(--seal);background:#fff}
+  .seal .n{font-size:38px;font-weight:700;line-height:1}
+  .seal .t{font-size:11px;letter-spacing:2px;margin-top:3px}
+  .hero-txt h2{margin:0 0 6px;font-size:19px;letter-spacing:1px}
+  .hero-txt p{margin:0;color:var(--ink2);font-size:13.5px}
+  .bar{height:8px;background:var(--graybg);border-radius:4px;margin:12px 0 6px;overflow:hidden;max-width:520px}
+  .bar>i{display:block;height:100%;transition:width .35s ease;border-radius:4px}
+  .counts{font-size:12.5px;color:var(--ink3)}
+  .counts b{font-weight:600}
+
+  /* 模块 */
+  .mod{background:var(--paper2);border:1px solid var(--line);margin-bottom:16px}
+  .mod>h3{margin:0;padding:13px 18px;font-size:15.5px;letter-spacing:1.5px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+  .mod>h3 .sc{font-size:12.5px;font-weight:400;letter-spacing:0}
+  .pill{padding:2px 10px;border-radius:11px;font-size:12px;color:#fff;letter-spacing:1px}
+  .body{padding:6px 18px 16px}
+  .mod.collapsed .body{display:none}
+  .q{padding:11px 0;border-bottom:1px dashed var(--line)}
+  .q:last-child{border-bottom:none}
+  .qhead{display:flex;gap:10px;align-items:flex-start}
+  .wtag{flex:none;font-size:11px;letter-spacing:1px;padding:1px 7px;border-radius:2px;margin-top:4px}
+  .w3{background:rgba(158,43,37,.12);color:var(--seal)}
+  .w2{background:rgba(184,134,43,.15);color:var(--amber)}
+  .w1{background:var(--graybg);color:var(--ink3)}
+  .qt{font-size:14px}
+  .tip{display:none;margin:8px 0 0 40px;padding:8px 12px;background:#FBF7EC;border-left:3px solid var(--amber);
+    font-size:12.8px;color:var(--ink2)}
+  .q.red .tip,.q.amber .tip{display:block}
+  .opts{margin-left:auto;display:flex;gap:6px;flex:none}
+  .opt{border:1px solid var(--line);background:var(--paper);color:var(--ink2);font-family:inherit;
+    font-size:12.5px;padding:3px 11px;cursor:pointer;border-radius:2px;transition:.15s}
+  .opt:hover{border-color:var(--ink3)}
+  .opt.on{color:#fff;border-color:transparent}
+  .opt.on.g{background:var(--green)}
+  .opt.on.a{background:var(--amber)}
+  .opt.on.r{background:var(--seal)}
+
+  /* 行动清单 */
+  .acts{background:var(--paper2);border:1px solid var(--line);padding:18px 22px;margin-top:22px}
+  .acts h3{margin:0 0 12px;font-size:16px;letter-spacing:1.5px}
+  .act{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .act:last-child{border-bottom:none}
+  .act .dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:9px}
+  .act .why{color:var(--ink3);font-size:12.5px}
+  .empty{color:var(--ink3);font-size:13.5px}
+
+  footer{margin-top:26px;border-top:1px solid var(--line);padding-top:14px;color:var(--ink3);font-size:12.5px}
+  .btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  button.act-btn{border:1px solid var(--ink);background:var(--ink);color:var(--paper2);font-family:inherit;
+    padding:7px 16px;font-size:13px;cursor:pointer;border-radius:2px;letter-spacing:1px}
+  button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  textarea{width:100%;margin-top:12px;height:150px;border:1px solid var(--line);background:var(--paper2);
+    font-family:ui-monospace,Menlo,monospace;font-size:12px;padding:10px;color:var(--ink);display:none}
+  @media (max-width:720px){
+    .hero{flex-direction:column;align-items:flex-start}
+    .qhead{flex-wrap:wrap}
+    .opts{margin-left:0;width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>第七境 · 公司风险健康体检盘</h1>
+    <div class="sub">适用法律主体形态：自然人起步阶段（未注册市场主体）· 契合《风险管控手册 v1.0》</div>
+    <div class="meta">
+      <span>体检日期</span><input type="date" id="date">
+      <span>检查人</span><input type="text" id="by" value="本人" style="width:90px">
+      <span>建议频次：季度一次</span>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="seal"><span class="n" id="score">–</span><span class="t">健 康 分</span></div>
+    <div class="hero-txt">
+      <h2 id="verdict">尚未评分</h2>
+      <p id="verdictTxt">在下方逐项勾选「达标 / 部分 / 未达标」，总分与行动清单会自动生成，结果保存在本机浏览器。</p>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+      <div class="counts" id="counts">共 <b>0</b> 项检查 · 达标 <b>0</b> · 部分 <b>0</b> · 未达标 <b>0</b></div>
+    </div>
+  </div>
+
+  <div id="mods"></div>
+
+  <div class="acts">
+    <h3>优先行动清单（未达标优先，权重高者优先）</h3>
+    <div id="actList"><div class="empty">暂无条目 —— 全部达标，或尚未开始勾选。</div></div>
+    <div class="btns">
+      <button class="act-btn" id="exp">导出本次打分（Markdown）</button>
+      <button class="act-btn ghost" id="reset">清空重填</button>
+    </div>
+    <textarea id="out" readonly></textarea>
+  </div>
+
+  <footer>
+    本盘仪为自查工具，用于识别优先整改项，不构成法律或税务意见；跨境收入、合同签署、商标布局请以主管部门最新口径与专业人士意见为准。<br>
+    配套文档：<code>11-运营/风险管控/第七境-风险管控手册-第1年.md</code>
+  </footer>
+</div>
+
+<script>
+const DATA=[
+ {m:"一、主体资格与登记",qs:[
+  {q:"已对照触发线梳理过登记需求（月流水、签合同、入驻平台要求）",w:3,tip:"满足任一触发线应立即办理个体工商户，不建议以自然人身份持续承接经营性业务。"},
+  {q:"经营性收支已与个人生活收支分开走账",w:2,tip:"即使尚未注册主体，也应先分开账户与流水，这是未来所有税务工作的地基。"},
+  {q:"已明确触发升级为有限责任公司的条件并写入年度计划",w:1,tip:"参考：年流水超 30 万、出现外包团队/库存、签订对外合同时升级。"}
+ ]},
+ {m:"二、商标与知识产权",qs:[
+  {q:"中文名「第七境」已在第 41 / 9 / 16 / 35 类提交商标申请",w:3,tip:"最高优先级。国内为申请在先原则，一旦被抢注，域名与品牌一并失效。"},
+  {q:"图形 LOGO 的商标申请与版权存证已完成",w:2,tip:"文字与图形建议分案申请；LOGO 设计底稿与定稿同步存证。"},
+  {q:"核心作品（小说全文、长卷图文、主题曲）已完成著作权登记或存证",w:3,tip:"核心资产走作品登记，日常产出走批量时间戳/区块链存证。"},
+  {q:"AI 生成内容保留了 prompt、参数、时间与平台付费凭证",w:2,tip:"付费层才可能含商用许可，并截图留存当时的许可条款页面。纯 AI 生成物可版权性弱，需人工实质性编排。"},
+  {q:"商标状态每季度复查（有无他人近似申请）",w:1,tip:"在中国商标网做近似检索，发现近似尽早提异议，越晚成本越高。"}
+ ]},
+ {m:"三、内容与合规红线",qs:[
+  {q:"全部中国疆域/朝代疆域图取自标准地图服务并保留审图号",w:3,tip:"唯一推荐来源：自然资源部标准地图服务系统 bzdt.ch.mnr.gov.cn。禁止手绘描改比例。"},
+  {q:"对外文案已过禁用词清单（无最好/第一/保证收益等表述）",w:3,tip:"教育培训类广告不得宣传收益率、通过率、保证性承诺（广告法第 24 条）。"},
+  {q:"评论区/社群已开启先审后发，并有明确群规",w:2,tip:"UGC 内容由站点运营者承担管理责任，先审后发是最省力的方案。"},
+  {q:"历史人物与事件评价有史料出处标注，无影射式当代评议",w:2,tip:"每条目下标注出处，既是内容质量，也是合规证据。"},
+  {q:"电子书/数字出版物的呈现形式已评估过资质风险",w:1,tip:"自站建议以「会员数字内容/付费专栏」呈现，或上架持牌平台由平台担责。"}
+ ]},
+ {m:"四、字体与素材台账",qs:[
+  {q:"在售/在用的全部字体已入台账，且均为可商用授权",w:3,tip:"延续 11-运营/字体授权台账.md。有疑虑的一律按不可商用处理。"},
+  {q:"OFL 许可文件与字体一同部署在服务器同一目录",w:2,tip:"网站 @font-face 加载也构成分发，需随附版权声明与 OFL 全文。"},
+  {q:"图片/音乐/视频素材全部有来源、授权类型与下载日期记录",w:3,tip:"三十秒一条登记，出事时值三万。表格字段见手册 §6.4。"},
+  {q:"外包作品已签署著作权转让 + 原创保证 + 保密 + 验收付款条款",w:2,tip:"合同四件套，先签后做；尾款留 20–30% 在验收后支付。"}
+ ]},
+ {m:"五、税务与跨境金融",qs:[
+  {q:"已识别跨境数字商品的 VAT / GST 义务（欧盟 OSS、英国 VAT、澳洲 GST）",w:3,tip:"欧盟/英国客户优先走 Gumroad、Etsy 等平台（平台作为视同供应方代扣代缴），自站直卖前须完成评估。"},
+  {q:"跨境收款路径已设计（Stripe/PayPal → Payoneer/Wise → 银行）且凭证留存",w:2,tip:"个人便利化额度是为非经营性收付设计的；持续大额经营性收入应通过已登记主体办理。"},
+  {q:"境外所得已纳入年度汇算申报，境外已缴税款按规定抵免",w:2,tip:"次年汇算时申报，留存合同、平台结算单与流水三件套。"},
+  {q:"每月完成记账（收入 / 成本 / 净额），成本凭证（主机、AI 订阅、外包）齐全",w:3,tip:"沿用《积分账本与产能测算》的表式扩展，这本账同时也是课程内容。"},
+  {q:"已备份最近 12 个月的完整交易流水与平台结算单",w:1,tip:"平台数据可能随时变更或下架，定期导出本地保存。"}
+ ]},
+ {m:"六、支付与资金安全",qs:[
+  {q:"数字商品有清晰的退款政策与即时交付凭证（邮件 + 日志）",w:3,tip:"拒付是资金冻结的第一诱因。页面明示、邮件即达、日志留存。"},
+  {q:"账单描述符为可识别品牌名，降低「不认识这笔消费」型拒付",w:1,tip:"在支付后台设置 descriptor，成本为零。"},
+  {q:"Stripe / PayPal / 银行均已开启双因素认证",w:3,tip:"优先验证器 App 或硬件密钥，次选短信。"},
+  {q:"已建立争议响应机制（争议窗口内 48 小时答复）",w:2,tip:"PayPal 争议期约 180 天，响应时附交付证据。"}
+ ]},
+ {m:"七、技术、备份与权限",qs:[
+  {q:"WordPress 文件 + 数据库每周自动备份，且有一份异地副本",w:3,tip:"异地是关键词——同机备份不算备份。"},
+  {q:"近 90 天内做过一次真实恢复演练并记录日期",w:3,tip:"未被验证过的备份等于没有备份。"},
+  {q:"域名到期日 > 90 天，已开启自动续费 + 转移锁 + Whois 隐私",w:3,tip:"域名丢失是不可挽回型事件，代价远超续费。"},
+  {q:"站点必备页齐备：隐私政策 / 服务条款 / 退款政策 / 联系方式",w:2,tip:"多个司法辖区均有明示要求，一次性补齐。"},
+  {q:"应用密码 90 天轮换一次，凭据不落入任何文件、仓库或截图",w:2,tip:"最小权限原则：编辑角色够用就不要给管理员。"}
+ ]},
+ {m:"八、单点人风险与应急预案",qs:[
+  {q:"所有关键账号集中在密码管理器，且设有紧急联系人/离线应急方案",w:3,tip:"一人公司最隐形的风险：所有钥匙在一人手上。"},
+  {q:"恢复邮箱独立且安全性最高，未与其他用途混用",w:2,tip:"邮箱是所有账号的根，丢了邮箱等于丢了全部。"},
+  {q:"关键服务到期日集中在一张看板表，提前 30 天提醒",w:1,tip:"域名、主机、CDN、各类订阅、AI 会员。"},
+  {q:"已通读手册 §9 应急预案，知道收到投诉/冻结/函件时先做什么",w:2,tip:"核心原则：先止损保全证据，不自行补写或倒签凭证，正式函件先咨询专业人士。"}
+ ]}
+];
+
+const KEY="qijing_risk_health_v1";
+let st=JSON.parse(localStorage.getItem(KEY)||"{}");
+if(!st.a) st={d:"",by:"本人",a:{}};
+
+</script>
+<script>
+const wrap=document.getElementById("mods");
+DATA.forEach((mod,mi)=>{
+  const d=document.createElement("div");d.className="mod";d.innerHTML=`<h3>${mod.m}<span class="sc"><span class="pill">–</span></span></h3><div class="body"></div>`;
+  const body=d.querySelector(".body");
+  mod.qs.forEach((q,qi)=>{
+    const id=mi+"-"+qi;
+    const row=document.createElement("div");row.className="q";row.dataset.for=id;
+    row.innerHTML=`<div class="qhead">
+        <span class="wtag ${q.w===3?'w3':q.w===2?'w2':'w1'}">${q.w===3?'高':q.w===2?'中':'低'}</span>
+        <span class="qt">${q.q}</span>
+        <span class="opts">
+          <button class="opt g" data-v="2">达标</button>
+          <button class="opt a" data-v="1">部分</button>
+          <button class="opt r" data-v="0">未达标</button>
+        </span>
+      </div><div class="tip">${q.tip}</div>`;
+    body.appendChild(row);
+  });
+  wrap.appendChild(d);
+  d.querySelector("h3").onclick=e=>{if(e.target.tagName!=="BUTTON")d.classList.toggle("collapsed")};
+});
+
+document.querySelectorAll(".opt").forEach(b=>{
+  b.onclick=()=>{
+    const row=b.closest(".q"),id=row.dataset.for,v=b.dataset.v;
+    row.querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    st.a[id]=+v; save(); render();
+  };
+});
+document.getElementById("date").value=st.d;
+document.getElementById("by").value=st.by;
+document.getElementById("date").oninput=e=>{st.d=e.target.value;save()};
+document.getElementById("by").oninput=e=>{st.by=e.target.value;save()};
+
+function save(){localStorage.setItem(KEY,JSON.stringify(st))}
+function color(p){return p>=85?"var(--green)":p>=60?"var(--amber)":"var(--seal)"}
+
+function render(){
+  let tot=0,got=0,cnt={2:0,1:0,0:0};
+  const acts=[];
+  DATA.forEach((mod,mi)=>{
+    let sw=0,sg=0;
+    mod.qs.forEach((q,qi)=>{
+      const row=document.querySelector(`.q[data-for="${mi}-${qi}"]`);
+      const v=st.a[mi+"-"+qi];
+      row.classList.remove("red","amber");
+      row.querySelectorAll(".opt").forEach(x=>x.classList.toggle("on",+x.dataset.v===v));
+      if(v===undefined)return;
+      cnt[v]++;
+      sw+=q.w*2; sg+=q.w*v;
+      tot+=q.w*2; got+=q.w*v;
+      if(v<2)acts.push({v,w:q.w,q:q.q,tip:q.tip,m:mod.m});
+    });
+    const p=sw?Math.round(sg/sw*100):null;
+    const el=document.getElementById("mods").children[mi].querySelector(".pill");
+    if(p===null){el.textContent="未填";el.style.background="var(--ink3)"}
+    else{el.textContent=p+" 分";el.style.background=color(p)}
+  });
+  const p=tot?Math.round(got/tot*100):null;
+  const bar=document.getElementById("bar"),sc=document.getElementById("score");
+  if(p===null){sc.textContent="–";bar.style.width="0%";document.getElementById("verdict").textContent="尚未评分";
+    document.getElementById("verdictTxt").textContent="在下方逐项勾选「达标 / 部分 / 未达标」，总分与行动清单会自动生成。";}
+  else{
+    sc.textContent=p;bar.style.width=p+"%";bar.style.background=color(p);
+    const v=p>=85?["健康","整体防线基本成型，保持季度体检节奏即可。"]
+      :p>=70?["亚健康","存在明显缺口，优先处理下方红色条目中的高权重项。"]
+      :p>=50?["亮黄灯","已有系统性敞口，建议 30 天内闭合全部高权重未达标项。"]
+      :["高危","当前形态下多个不可挽回型风险未设防，建议立即按手册 §11 时间表处理。"];
+    document.getElementById("verdict").textContent="当前判定：" + v[0];
+    document.getElementById("verdictTxt").textContent=v[1];
+  }
+  document.getElementById("counts").innerHTML=`共 <b>${cnt[2]+cnt[1]+cnt[0]}</b> 项已评 · 达标 <b>${cnt[2]}</b> · 部分 <b>${cnt[1]}</b> · 未达标 <b>${cnt[0]}</b>`;
+
+  acts.sort((a,b)=>a.v-b.v||b.w-a.w);
+  const list=document.getElementById("actList");
+  if(!acts.length){list.innerHTML=`<div class="empty">${cnt[2]?"全部达标，很稳。建议下季度复跑一次。":"暂无条目 —— 尚未开始勾选。"}</div>`}
+  else list.innerHTML=acts.slice(0,12).map(a=>{
+    const c=a.v===0?"var(--seal)":"var(--amber)";
+    return `<div class="act"><span class="dot" style="background:${c}"></span>
+      <div><div><b>[${a.m.replace(/^[一二三四五六七八]、/,"")}]</b> ${a.q} <span style="color:${c};font-size:12px">${a.v===0?"未达标":"部分"}</span></div>
+      <div class="why">→ ${a.tip}</div></div></div>`}).join("");
+}
+
+document.getElementById("reset").onclick=()=>{if(confirm("清空本次所有打分？")){st.a={};save();location.reload()}};
+document.getElementById("exp").onclick=()=>{
+  const p=document.getElementById("score").textContent;
+  let md=`# 第七境 · 风险健康体检报告\n\n- 体检日期：${st.d||"（未填）"}\n- 检查人：${st.by||"（未填）"}\n- 综合健康分：**${p}**\n\n## 分项得分\n\n`;
+  document.querySelectorAll(".mod").forEach((el,i)=>{
+    md+=`- ${DATA[i].m}：${el.querySelector(".pill").textContent}\n`;
+  });
+  md+=`\n## 待整改项\n\n`;
+  const acts=[];
+  DATA.forEach((mod,mi)=>mod.qs.forEach((q,qi)=>{const v=st.a[mi+"-"+qi];if(v!==undefined&&v<2)acts.push({v,w:q.w,q:q.q,tip:q.tip,m:mod.m})}));
+  acts.sort((a,b)=>a.v-b.v||b.w-a.w);
+  if(!acts.length)md+="（无）\n";
+  else acts.forEach((a,i)=>{md+=`${i+1}. [${a.v===0?"未达标":"部分"}] ${a.q} —— ${a.tip}\n`});
+  md+=`\n> 归档至 11-运营/reports/\n`;
+  const t=document.getElementById("out");t.value=md;t.style.display="block";t.select();
+};
+render();
+</script>
+</body>
+</html>

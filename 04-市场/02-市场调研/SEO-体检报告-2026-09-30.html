@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第七境 · SEO 体检报告 2026-09-30</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --ink2:#4a4a4a; --ink3:#8a8a8a;
+    --paper:#faf9f6; --paper2:#ffffff; --line:#e3e0d8;
+    --red:#b23b3b; --amber:#b8860b; --green:#4a7c59; --seal:#a8342f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 28px 80px}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:8px}
+  .kicker{font-size:12px;letter-spacing:.32em;color:var(--ink3);margin-bottom:14px}
+  h1{font-size:30px;margin:0 0 10px;font-weight:600;letter-spacing:.02em}
+  .sub{font-size:14px;color:var(--ink2)}
+
+  .verdict{margin:28px 0 40px;padding:24px 26px;background:var(--paper2);
+    border:1px solid var(--line);border-left:4px solid var(--seal);border-radius:3px}
+  .verdict .lead{font-size:19px;font-weight:600;line-height:1.7;margin-bottom:14px}
+  .verdict p{margin:8px 0;font-size:14.5px;color:var(--ink2)}
+  .verdict strong{color:var(--ink)}
+
+  h2{font-size:19px;margin:44px 0 6px;padding-bottom:10px;
+    border-bottom:1px solid var(--line);font-weight:600}
+  h2 .n{color:var(--seal);font-size:13px;margin-right:10px;letter-spacing:.1em}
+  .note{font-size:13px;color:var(--ink3);margin:0 0 20px}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:18px 0}
+  .card{background:var(--paper2);border:1px solid var(--line);border-radius:3px;
+    padding:18px 20px;position:relative}
+  .card .tag{position:absolute;top:14px;right:14px;font-size:10px;letter-spacing:.14em;
+    padding:3px 8px;border-radius:2px;font-family:ui-monospace,monospace}
+  .t-red{background:#f7eaea;color:var(--red)}
+  .t-green{background:#eaf1ec;color:var(--green)}
+  .t-amber{background:#faf3e2;color:var(--amber)}
+  .card h3{margin:0 0 10px;font-size:15px;font-weight:600;padding-right:64px}
+  .card .big{font-size:24px;font-weight:600;letter-spacing:.02em;margin:6px 0 2px}
+  .card p{margin:6px 0 0;font-size:13px;color:var(--ink2);line-height:1.65}
+
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px;
+    background:var(--paper2)}
+  th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f4f2ec;font-weight:600;font-size:12.5px;letter-spacing:.06em;color:var(--ink2)}
+  td code,th code{background:#f0eee7;padding:1px 5px;border-radius:2px;
+    font-family:ui-monospace,monospace;font-size:12px}
+  tr:last-child td{border-bottom:none}
+
+  .status{font-weight:600;white-space:nowrap}
+  .s-bad{color:var(--red)}.s-mid{color:var(--amber)}.s-ok{color:var(--green)}
+
+  ol{margin:14px 0;padding-left:22px}
+  ol li{margin:11px 0;font-size:14.5px;line-height:1.75}
+  ol li strong{font-weight:600}
+
+  .tier{border:1px solid var(--line);border-radius:3px;padding:20px 22px;
+    background:var(--paper2);margin:16px 0}
+  .tier .lvl{font-size:11px;letter-spacing:.2em;color:var(--seal);margin-bottom:8px}
+  .tier h3{margin:0 0 12px;font-size:16px;font-weight:600}
+  .tier ul{margin:0;padding-left:19px}
+  .tier ul li{margin:7px 0;font-size:13.5px;line-height:1.7;color:var(--ink2)}
+  .tier ul li strong{color:var(--ink)}
+
+  .excerpt{border-left:2px solid var(--line);padding:2px 0 2px 18px;margin:16px 0 26px}
+  .excerpt .url{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--ink3);
+    letter-spacing:.02em;display:block;margin-bottom:5px}
+  .excerpt .txt{font-size:14px;line-height:1.8;color:var(--ink2)}
+  .excerpt .txt b{color:var(--ink);font-weight:600}
+
+  .quote{background:#f4f2ec;border-left:3px solid var(--ink3);padding:14px 18px;
+    margin:18px 0;font-size:13.5px;line-height:1.8;color:var(--ink2)}
+  .quote code{background:#ece9e1;padding:1px 5px;border-radius:2px;
+    font-family:ui-monospace,monospace;font-size:12px}
+
+  .warn{background:#fdf6f5;border:1px solid #ecdbd8;border-left:4px solid var(--red);
+    border-radius:3px;padding:16px 20px;margin:18px 0;font-size:13.5px;line-height:1.75}
+  .warn strong{color:var(--red)}
+
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink3);line-height:1.9}
+  @media(max-width:720px){
+    .grid3,.grid2{grid-template-columns:1fr}
+    .wrap{padding:32px 18px 60px}
+    h1{font-size:24px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">T H E &nbsp; S E V E N T H &nbsp; R E A L M</div>
+  <h1>SEO 体检报告</h1>
+  <div class="sub">2026-09-30 · 全部结论基于线上实测（curl 抓取 + 子主题源码），非推测</div>
+</header>
+
+<div class="verdict">
+  <div class="lead">先把百度爬虫放进来。<br>在此之前，这个站对国内第一大搜索入口是隐形的。</div>
+  <p><strong>唯一的致命项</strong>：伪装 Baiduspider 抓取任意页面，返回 <strong>HTTP 403</strong>，
+     响应体 <code>Your request was blocked.</code>，响应头 <code>server: cloudflare</code>——
+     Cloudflare 在边缘就把它拒了。</p>
+  <p>它被<strong>两层</strong>拦着，必须两层都解：① <code>WAF / Bot Fight</code>（硬拦）② 托管 robots.txt 里的
+     <code>User-agent: Baiduspider → Disallow: /</code>（声明）。只改一层没用。</p>
+  <p><strong>而最好修的问题，恰好是最贵的那个</strong>：给 17 个页面各写一条摘要，
+     description / og:description / twitter:description 三处同时自动变好——
+     <strong>一行主题代码都不用改</strong>（子主题 <code>functions.php</code> 第 95 行已经照这个写了）。</p>
+</div>
+
+<h2><span class="n">壹</span>爬虫可达性</h2>
+<p class="note">同一个 URL，只换 User-Agent。这一层是后面所有工作的前提。</p>
+<div class="grid3">
+  <div class="card">
+    <span class="tag t-red">致命</span>
+    <h3>Baiduspider</h3>
+    <div class="big s-bad">403</div>
+    <p>国内最大中文搜索入口，<strong>零收录</strong>。而本站 16 卷长文全是中文。</p>
+  </div>
+  <div class="card">
+    <span class="tag t-green">正常</span>
+    <h3>Googlebot</h3>
+    <div class="big s-ok">200</div>
+    <p>可正常抓取。意味着海外中文学习者这条触达路径是通的——且完全不需要你访问任何境外平台。</p>
+  </div>
+  <div class="card">
+    <span class="tag t-green">正常</span>
+    <h3>bingbot</h3>
+    <div class="big s-ok">200</div>
+    <p>可正常抓取。随 Google 一并受益。机器人目前在 200 OK 状态下通过。</p>
+  </div>
+</div>
+
+<h2><span class="n">贰</span>元信息体检</h2>
+<p class="note">差的地方不是"没有"，是"有，但值全是废的"。</p>
+<table>
+  <tr><th style="width:20%">项</th><th style="width:12%">判定</th><th>实测情况</th></tr>
+  <tr><td><code>title</code></td><td class="status s-mid">偏自我视角</td>
+      <td>格式「商朝 · 上下五千年 · 第七境 THE SEVENTH REALM」。<strong>没人搜"上下五千年"，也没人搜"第七境"</strong>——搜索词一个都没埋进去。</td></tr>
+  <tr><td><code>meta description</code></td><td class="status s-bad">废值</td>
+      <td>WordPress 把正文前 110 字机械截断，交出去的是一段<strong>目录</strong>：<code>…本卷目录 一、商从哪来 二、殷墟…</code>。等于递了一本书的目录当名片。</td></tr>
+  <tr><td>OG / Twitter Card</td><td class="status s-mid">同上</td>
+      <td>标签齐全，但共用上面那段废文本。</td></tr>
+  <tr><td>JSON-LD 结构化数据</td><td class="status s-bad">完全没有</td>
+      <td>拿不到富摘要（面包屑 / Article / 站内搜索框）。这部分资格完全是白白丢掉的。</td></tr>
+  <tr><td><code>og:image</code></td><td class="status s-mid">全站一张 logo</td>
+      <td>16 朝各有专属精美壁纸，社交分享却全用同一个 512 图标。</td></tr>
+  <tr><td><code>canonical</code> / <code>lang</code> / <code>viewport</code></td><td class="status s-ok">正确</td>
+      <td>全站自引用无误，无重复。</td></tr>
+  <tr><td>站内互链</td><td class="status s-ok">很好</td>
+      <td>每页 22 条去重站内链接（靠导航下拉全通），权重传递通畅。</td></tr>
+  <tr><td>sitemap</td><td class="status s-ok">正常</td>
+      <td><code>/wp-sitemap.xml</code> 收录 24 个页面，结构完整。副产品：<code>/author/admin/</code> 被收入，属无谓索引。</td></tr>
+</table>
+
+<h2><span class="n">叁</span>为什么"写摘要"这么便宜就够了</h2>
+<div class="quote">
+子主题 <code>functions.php</code> 第 95 行：
+<code>$raw = $post->post_excerpt ? $post->post_excerpt : $post->post_content;</code>
+<br>——<strong>页面有摘要就用摘要，没有才回退到正文截断。</strong>
+</div>
+<table>
+  <tr><th style="width:38%">改进项</th><th style="width:26%">需要动什么</th><th>上线档位</th></tr>
+  <tr><td><strong>修 description</strong>（写 17 条摘要）</td><td>REST 改页面字段</td><td class="status s-ok">A/B 档 · 几乎零成本 · 立刻可做</td></tr>
+  <tr><td>title 加真实搜索词</td><td>改主题（加自定义字段支持）</td><td class="status s-mid">C 档 · 须真机验收</td></tr>
+  <tr><td>JSON-LD 结构化数据</td><td>改主题</td><td class="status s-mid">C 档</td></tr>
+  <tr><td>og:image 按页配壁纸</td><td>改主题</td><td class="status s-mid">C 档</td></tr>
+</table>
+<p class="note">主题包上传是稀缺操作，后三项攒一批一起传；第一项现在就能做。</p>
+
+<h2><span class="n">肆</span>行动顺序</h2>
+
+<div class="tier">
+  <div class="lvl">P 0 &nbsp;·&nbsp; 解封（前提）</div>
+  <h3>约 3 分钟，只有你能点</h3>
+  <ul>
+    <li><strong>现在做任何百度侧优化，收益都是 0</strong>——蜘蛛进不来，优化给谁看？</li>
+    <li>Cloudflare 后台解除对 Baiduspider 的 <strong>WAF / Bot Fight 拦截</strong></li>
+    <li>修改托管 robots.txt，<strong>删掉</strong> <code>User-agent: Baiduspider → Disallow: /</code></li>
+  </ul>
+</div>
+
+<div class="tier">
+  <div class="lvl">P 1 &nbsp;·&nbsp; 把资产翻译给搜索引擎</div>
+  <h3>我全包，不占你时间</h3>
+  <ul>
+    <li><strong>17 页 SEO 摘要</strong> —— 已写好，批准即可上线（见下节）</li>
+    <li>17 页 title 重写 —— 搜索词前置到 30 字内（C 档，随下一批主题包）</li>
+    <li>JSON-LD（Breadcrumb + Article + WebSite）、og:image 按页配壁纸、关闭 <code>/author/</code> 索引</li>
+  </ul>
+</div>
+
+<div class="tier">
+  <div class="lvl">P 2 &nbsp;·&nbsp; 独占机会</div>
+  <h3>「汉字演变」词群 —— 结构性优势最大的一块</h3>
+  <ul>
+    <li>已有流水线能批量产出<strong>任意字</strong>的字形演变图，目前只做了商、周两个字</li>
+    <li>搜索意图明确、竞争度中等；「甲骨文怎么写」「某个字是怎样演变的」正是天然长尾词</li>
+    <li><strong>别人复制不了</strong>：需要同时具备古文字数据、字体资源与版式能力</li>
+    <li>建议做成「一字一词」落地页集群 —— 本周不做，先挂号</li>
+  </ul>
+</div>
+
+<div class="warn">
+  <strong>权衡题，要你决定</strong><br>
+  robots.txt 里 <code>GPTBot / ClaudeBot / CCBot / Google-Extended</code> 全被 Disallow。
+  保持现状＝保护内容不被抓去训练 AI，<strong>但放弃了被 AI 搜索（Perplexity / DeepSeek / ChatGPT Search）引用的入口</strong>。
+  这是「短期保护 vs 长期可见性」的取舍。<strong>建议先不动</strong>——百度主战场跑起来之前，变量不要一次加两个。
+</div>
+
+<h2><span class="n">伍</span>17 页 SEO 摘要（已写好，待批准上线）</h2>
+<p class="note">写法：前 30 字埋真实搜索词 → 中段给时间范围与内容特色 → 尾段落到专业价值。100 字内，目录与编号全部剔除。</p>
+
+<div class="excerpt"><span class="url">/5000years/sanhuang/</span><div class="txt"><b>三皇五帝是哪三皇五帝？</b>本卷讲传说时代的文明起点——火的使用、土壤上的长期投资，以及为什么这段历史应当"当传说读、当史实看"。不附会神话，只梳理文献与考古能对上的部分。</div></div>
+<div class="excerpt"><span class="url">/5000years/xia/</span><div class="txt"><b>夏朝到底存不存在？</b>本卷从洪水传说与气候事件讲起：大禹改堵为导的工作方法、九州铸鼎的政治含义，以及二里头遗址能不能对上文献里的夏。前 2070 — 前 1600。</div></div>
+<div class="excerpt"><span class="url">/5000years/shang/</span><div class="txt"><b>商朝历史</b>（前 1600 — 前 1046）：为什么商又叫"殷"？甲骨文里记录的占卜如何运作？本卷从殷墟发掘讲起，还原一个由甲骨刻辞与青铜礼器支撑的王朝，含问神者与写字者的分工。</div></div>
+<div class="excerpt"><span class="url">/5000years/zhou/</span><div class="txt"><b>周朝多少年</b>（前 1046 — 前 256）：周公如何把"天命"翻译成一套可执行的制度？<b>礼乐</b>怎样成为当时的纲常，又为何在王室东迁后孕育出诸子百家。本卷贯通西周与东周八百年。</div></div>
+<div class="excerpt"><span class="url">/5000years/qin/</span><div class="txt"><b>秦朝统一六国</b>靠的不是一场战争：百年积累加一次水渠事故。本卷讲清楚十年灭六国的节奏，以及书同文、车同轨这套标准为何比打仗更深远——前 221 — 前 207，十五年而亡，影响两千年。</div></div>
+<div class="excerpt"><span class="url">/5000years/han/</span><div class="txt"><b>汉朝历史</b>（前 202 — 220）：从一个亭长的四年楚汉战争讲起，经文景不折腾、七国之乱与推恩令，到丝路通西域与"明犯强汉者，虽远必诛"的底气来源。看懂汉族为何叫汉族。</div></div>
+<div class="excerpt"><span class="url">/5000years/sanguo/</span><div class="txt"><b>三国历史</b>（220 — 280）：起点不是一个日期，而是一本书如何覆盖一段史实。本卷撇开演义，讲魏蜀吴三个政权各自的资源困局与解法，以及鼎足三分为什么维持了六十年。</div></div>
+<div class="excerpt"><span class="url">/5000years/jin/</span><div class="txt"><b>两晋南北朝</b>（266 — 589）：<b>衣冠南渡</b>是怎样的一次大搬家？本卷讲很短的统一之后很长的一段分裂，玄学清谈为何兴起，以及胡汉相融如何为隋唐埋下伏笔。</div></div>
+<div class="excerpt"><span class="url">/5000years/sui/</span><div class="txt"><b>隋朝</b>两代而亡（581 — 618），却留下了两条用了一千三百年的骨架：<b>大运河与科举</b>。本卷讲关陇集团的权力交接方式，以及一场考试如何开始取代门第。</div></div>
+<div class="excerpt"><span class="url">/5000years/tang/</span><div class="txt"><b>唐朝历史</b>（618 — 907）：唐的制度骨架直接长在隋的骨头上。本卷讲三省六部如何运转、武则天打破了什么规矩，以及"万国衣冠拜冕旒"的长安靠什么支撑，又为何终于安史之乱。</div></div>
+<div class="excerpt"><span class="url">/5000years/wudai/</span><div class="txt"><b>五代十国</b>（907 — 960）五十年换了五个姓：士兵的忠诚该归谁？本卷讲这笔账如何从唐末藩镇一路记下来，以及燕云十六州怎样成为一笔持续四百年的欠账。</div></div>
+<div class="excerpt"><span class="url">/5000years/song/</span><div class="txt"><b>宋朝历史</b>（960 — 1279）：为什么先解决军人的问题？本卷讲科举真正成为主渠道之后，市井为何空前繁华，词与散文为什么在这一刻成熟，以及"格物穷理"如何走向理学。</div></div>
+<div class="excerpt"><span class="url">/5000years/yuan/</span><div class="txt"><b>元朝</b>（1271 — 1368）不等于蒙古帝国——这是本卷的起点。讲行省与驿站这套治理架构如何被后世沿用，以及曲韵里唱出来的兴亡：关汉卿笔下的窦娥为什么指控天地。</div></div>
+<div class="excerpt"><span class="url">/5000years/ming/</span><div class="txt"><b>明朝历史</b>（1368 — 1644）：开国那套制度是专门为了"不再乱"而设计的。本卷讲郑和为什么七下西洋、为什么不再有第八次，以及王阳明"你未看此花时"的心学答案。</div></div>
+<div class="excerpt"><span class="url">/5000years/qing/</span><div class="txt"><b>清朝历史</b>（1636 — 1912）：现代中国版图的底色是这一时期奠定的。本卷讲从关外到入关的路径、康乾盛世到底盛在哪，以及龚自珍"不拘一格降人才"的变法呼声。</div></div>
+<div class="excerpt"><span class="url">/5000years/juexing/</span><div class="txt"><b>觉醒年代</b>（1912 — 1949）：一九一二之后制度换了，话却还没换。本卷讲白话文为什么一定会来、新青年凭什么成为一面旗帜，以及"摆脱冷气，只是向上走"的来处。</div></div>
+<div class="excerpt"><span class="url">/5000years/ （总览）</span><div class="txt"><b>上下五千年完整时间线</b>：从三皇五帝到觉醒年代，十六卷长文一站式索引。每卷配一手典籍引注与年表，总计 9.5 万字原创，不戏说、不附会，可读可查。</div></div>
+
+<h2><span class="n">陆</span>为什么主战场是百度</h2>
+<table>
+  <tr><th>后台</th><th>国内可达</th><th>看数据</th><th>主动推送</th></tr>
+  <tr><td><strong>百度站长平台</strong> <code>ziyuan.baidu.com</code></td><td class="status s-ok">完全可用</td><td class="status s-ok">能</td><td class="status s-ok">支持 API（可自动化）</td></tr>
+  <tr><td>Bing Webmaster Tools</td><td class="status s-mid">不稳定</td><td>—</td><td>—</td></tr>
+  <tr><td>Google Search Console</td><td class="status s-bad">不可直连</td><td class="status s-bad">否</td><td class="status s-bad">否</td></tr>
+</table>
+<div class="warn">
+  <strong>这条不要再往"跨境信道"的方案上引。</strong><br>
+  Google 侧的正确姿势是「优化 + 等它自己来爬」——
+  <strong>不要为了看 GSC 数据去开任何东西</strong>，那是 R-20 原样重演。
+  反过来说：<strong>SEO 是唯一一条不触碰 R-20 的海外线</strong>，因为 Googlebot 是自己来的，你不用登录任何境外平台。
+</div>
+
+<h2><span class="n">柒</span>分工与预期</h2>
+<div class="grid2">
+  <div class="card"><h3>你要做的（约 3 分钟，一次性）</h3>
+    <p>Cloudflare 后台解封 Baiduspider（两层都解）；百度站长平台添加站点并验证所有权（属关键改动，我出申请单）。</p></div>
+  <div class="card"><h3>我做的（不占你时间）</h3>
+    <p>17 条摘要的 REST 上线（批准后）；每周监测收录量 / 展现量 / 点击率并入现有检查；后续 C 档主题改动攒一批打包。</p></div>
+</div>
+<div class="quote">
+<strong>预期要诚实说</strong>：百度对新站的收录周期通常 <strong>2–6 个月</strong>，SEO 是慢变量，不是这周就能看到数字的事。<br>
+正因为它慢，现在开始最划算；也正因为它慢，它是<strong>唯一一种"你睡觉时它还在长"的渠道</strong>——与你每周 310–470 分钟的时间预算几乎零冲突。这也是它能和账号注销冷静期并行推进的原因。
+</div>
+
+<footer>
+  搜索引擎 evaluate 层 | 数据源：theseventhrealm.com 线上实测 + seventhrealm-child/functions.php 源码<br>
+  搜索词（如「夏朝到底存不存在」「礼乐制度」）为基于内容倒推的候选，<strong>未经搜索量验证</strong>；验证窗口在百度站长关键词工具，上线 2–4 周后第一次校核。<br>
+  详细版：<code>04-市场/02-市场调研/SEO诊断与引流方案-2026-09-30.md</code>
+</footer>
+
+</div>
+</body>
+</html>

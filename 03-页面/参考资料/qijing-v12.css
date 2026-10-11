@@ -1,0 +1,277 @@
+/* ============================================================
+   第七境 · 全站设计样式（由子主题统一加载，页面内容无需再带 CSS）
+   纯白 · 无框 · 居中 · 毛笔字 + 宋体 · 朱砂点睛
+   ============================================================ */
+@import url('https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+:root{
+  --white:#ffffff;
+  --ink:#1a1a18;
+  --ink2:#6b675f;
+  --ink-light:rgba(26,26,24,.05);
+  --cinnabar:#b03826;
+  --f-brush:'Ma Shan Zheng','Xingkai SC','STXingkai','KaiTi','STKaiti',serif;
+  --f-body:'Noto Serif SC','Songti SC','STSong','KaiTi','STKaiti',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--white)!important;
+  color:var(--ink);
+  font-family:var(--f-body)!important;
+  overflow-x:hidden;
+  line-height:1.95;
+  text-align:center;
+}
+::selection{background:var(--ink);color:#fff}
+a{color:inherit;text-decoration:none}
+
+/* ===== WordPress 主题间距/限宽修正 ===== */
+/* 父主题（Twenty Twenty-Five）会给 <body> 加根内边距（约 50px），
+   导致品牌横幅内缩、导航用 100vw 硬撑而多出约 8px 横向溢出。
+   这两条一并解决：取消 body 根内边距 + 横幅与导航回归自然通栏。 */
+body{padding-left:0!important;padding-right:0!important}
+.brand,nav{margin-left:0!important;margin-right:0!important;width:auto!important;max-width:none!important}
+
+.wp-site-blocks{padding:0!important}
+.wp-site-blocks > *{margin-top:0!important;margin-bottom:0!important}
+main.wp-block-group{margin-top:0!important;padding-top:0!important}
+.entry-content,.wp-block-post-content{margin-top:0!important}
+.wp-block-post-content{max-width:none!important;width:100%}
+.entry-content.alignfull,.wp-block-post-content.alignfull{padding-left:0!important;padding-right:0!important}
+.brand{margin-top:0!important}
+nav{margin-top:0!important}
+
+/* ---------- 墨尘（极淡） ---------- */
+.dust{position:fixed;z-index:-1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, rgba(26,26,24,.16), transparent 70%);
+  animation:drift linear infinite;opacity:0}
+@keyframes drift{
+  0%{transform:translate(0,0);opacity:0}
+  15%{opacity:.35}
+  100%{transform:translate(30px,-108vh) scale(.4);opacity:0}
+}
+
+/* ---------- 通用 ---------- */
+/* 商标上标：未注册商标用 ™，注册核准后改为 ®（只需改 HTML 里的字符） */
+.tm{font-size:.5em;vertical-align:super;letter-spacing:0;opacity:.55;margin-left:1px}
+.wrap{max-width:840px;margin:0 auto;padding:0 24px}
+section{padding:clamp(56px,7vw,68px) 24px;position:relative}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1.2s ease,transform 1.2s ease}
+.reveal.in{opacity:1;transform:none}
+
+.brush{width:min(200px,48%);height:14px;margin:12px auto 28px;display:block}
+.brush path{fill:var(--ink)}
+.trigram{font-size:13px;letter-spacing:15px;padding-left:15px;
+  color:rgba(26,26,24,.3);display:block;margin-bottom:24px}
+h2{font-family:var(--f-brush);font-weight:400;font-size:clamp(27px,3.6vw,34px);letter-spacing:12px;color:var(--ink)}
+
+/* ---------- 品牌 Logo 区 ---------- */
+.brand{padding:0 0 14px;text-align:center}
+.brand a{
+  display:block;width:100%;max-width:none;margin:0 auto
+}
+.brand .logo-img{display:block;width:100%;height:auto}
+
+/* ---------- 顶部导航（粘性固定） ---------- */
+nav{
+  position:sticky;top:var(--wp-admin--admin-bar--height,0);z-index:50;
+  width:100%;max-width:none;
+  padding:16px 16px 12px;text-align:center;
+  background:rgba(255,255,255,.94);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(26,26,24,.16);
+  border-top:1px solid rgba(26,26,24,.16)
+}
+nav a{
+  font-family:var(--f-brush);
+  font-size:clamp(16px,2.2vw,19px);letter-spacing:5px;
+  margin:0 clamp(8px,1.8vw,16px);color:var(--ink);
+  padding-bottom:4px;border-bottom:2px solid transparent;
+  transition:color .3s,border-color .3s
+}
+nav a:hover{color:var(--cinnabar)}
+nav a.here{color:var(--cinnabar);border-bottom-color:var(--cinnabar)}
+nav a.todo{color:rgba(26,26,24,.38)}
+nav a.todo:hover{color:var(--ink2)}
+nav a.todo::after{content:"未启";font-size:10px;letter-spacing:1px;color:var(--cinnabar);
+  vertical-align:super;margin-left:2px;font-family:var(--f-body)}
+
+/* ---------- 主视觉 ---------- */
+.hero{min-height:82vh;display:flex;flex-direction:column;justify-content:center;padding:40px 24px}
+.hero .zi-top{font-size:clamp(14px,2vw,17px);letter-spacing:9px;padding-left:9px;color:var(--ink2);margin-bottom:8px}
+.hero h1{
+  font-family:var(--f-brush);font-weight:400;
+  font-size:clamp(54px,9vw,92px);line-height:1.25;
+  letter-spacing:.08em;text-indent:.08em;color:var(--ink);
+}
+.hero .subtitle{margin-top:14px;font-size:clamp(16px,2.3vw,20px);letter-spacing:10px;color:var(--ink2)}
+.hero .subtitle span{margin:0 10px;opacity:0;animation:fadeUp 1.1s ease forwards}
+.hero .subtitle span:nth-child(1){animation-delay:.4s}
+.hero .subtitle span:nth-child(2){animation-delay:.9s}
+.hero .seal{
+  margin-top:30px;display:inline-block;
+  background:var(--cinnabar);color:#fff;
+  font-family:var(--f-brush);
+  padding:7px 14px;font-size:14px;letter-spacing:6px;border-radius:2px;
+  box-shadow:0 4px 14px rgba(176,56,38,.28);
+  animation:fadeUp 1.1s ease 1.5s forwards;opacity:0
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.scroll-hint{
+  display:block;margin-top:40px;
+  font-size:12px;letter-spacing:6px;color:rgba(26,26,24,.35);
+  animation:bob 2.2s ease-in-out infinite
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ---------- 诗篇 ---------- */
+.vpoem{display:flex;justify-content:center;align-items:flex-start;gap:clamp(20px,4vw,42px)}
+.vpoem p{
+  writing-mode:vertical-rl;
+  font-family:var(--f-brush);
+  font-size:clamp(19px,2.8vw,25px);letter-spacing:12px;
+  color:var(--ink);line-height:1
+}
+.vpoem p em{font-style:normal;color:var(--cinnabar)}
+.verse .ghost{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-brush);
+  font-size:clamp(150px,24vw,280px);color:var(--ink-light);
+  pointer-events:none;user-select:none;z-index:-1
+}
+.book-tag{
+  display:inline-block;margin-bottom:24px;
+  font-family:var(--f-brush);
+  font-size:clamp(22px,3vw,28px);letter-spacing:12px;padding-left:12px;color:var(--ink)
+}
+
+@media(max-width:640px){
+  .vpoem{flex-direction:column;align-items:center;gap:4px}
+  .vpoem p{writing-mode:horizontal-tb;letter-spacing:6px;line-height:2.1}
+}
+
+/* ---------- 三释 ---------- */
+.sanshi{display:flex;justify-content:center;align-items:flex-start;gap:clamp(36px,9vw,100px);margin-top:20px}
+.sanshi .col{display:flex;flex-direction:column;align-items:center;gap:18px}
+.sanshi .zi{
+  width:72px;height:72px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-brush);font-size:42px;color:#fff;
+  background:var(--ink);border-radius:4px;
+  box-shadow:0 8px 22px rgba(26,26,24,.22)
+}
+.sanshi .col.red .zi{background:var(--cinnabar);box-shadow:0 8px 22px rgba(176,56,38,.26)}
+.sanshi .desc{font-size:clamp(17px,2.3vw,20px);letter-spacing:6px;color:var(--ink)}
+.sanshi .en{font-size:12px;letter-spacing:2px;color:var(--ink2)}
+@media(max-width:640px){
+  .sanshi{flex-direction:column;align-items:center;gap:40px}
+}
+
+/* ---------- 独句 ---------- */
+.lone{font-family:var(--f-brush);font-size:clamp(26px,3.8vw,36px);letter-spacing:10px;line-height:2}
+.lone em{font-style:normal;color:var(--cinnabar)}
+
+/* ---------- 宏文 ---------- */
+.prose{max-width:680px;margin:0 auto}
+.prose p{font-size:clamp(17px,2.4vw,20px);letter-spacing:3px;line-height:1.95;margin:14px 0;color:var(--ink)}
+.prose strong{color:var(--cinnabar);font-weight:600}
+
+/* ---------- 终章 ---------- */
+.finale{padding:16px 0 6px}
+.finale .list{font-size:clamp(17px,2.5vw,21px);letter-spacing:4px;line-height:2.25}
+.finale .money{margin-top:14px;color:var(--ink2);font-size:clamp(15px,2.2vw,18px);letter-spacing:4px}
+.final-line{
+  margin-top:22px;font-family:var(--f-brush);
+  font-size:clamp(28px,4.5vw,42px);letter-spacing:10px;color:var(--ink)
+}
+.final-line b{font-weight:400;color:var(--cinnabar)}
+
+/* ---------- 分支导航 ---------- */
+.branches{display:flex;justify-content:center;align-items:stretch;gap:clamp(18px,4vw,44px);flex-wrap:wrap}
+.branches a{
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  font-family:var(--f-brush);font-size:clamp(20px,2.8vw,25px);letter-spacing:6px;
+  color:var(--ink);transition:color .3s,transform .4s
+}
+.branches a .axis{
+  writing-mode:vertical-rl;
+  letter-spacing:10px;line-height:1.2;
+  padding:22px 10px;
+  background:linear-gradient(180deg, rgba(26,26,24,.045), rgba(26,26,24,.11));
+  border-radius:3px;min-height:170px;display:flex;align-items:center;
+  transition:transform .4s ease, box-shadow .4s ease
+}
+.branches a:hover{color:var(--cinnabar);transform:translateY(-6px)}
+.branches a:hover .axis{box-shadow:0 16px 34px -16px rgba(26,26,24,.4)}
+.branches a.todo{color:rgba(26,26,24,.4)}
+.branches a.todo:hover{transform:none;color:rgba(26,26,24,.4)}
+.branches a.todo .axis{background:rgba(26,26,24,.035)}
+.branches a .tag{
+  font-family:var(--f-body);font-size:12px;letter-spacing:3px;color:var(--ink2)
+}
+.branches a.todo .tag{color:rgba(26,26,24,.4)}
+@media(max-width:640px){
+  .branches{gap:14px}
+  .branches a .axis{min-height:120px;padding:16px 8px}
+}
+
+/* ---------- 时间长卷 ---------- */
+.timeline{position:relative;max-width:760px;margin:0 auto;padding:30px 0 10px}
+.timeline::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg, transparent, rgba(26,26,24,.28) 6%, rgba(26,26,24,.28) 94%, transparent)
+}
+.era{position:relative;padding:34px 0 46px}
+.era::before{
+  content:"";position:absolute;left:50%;top:64px;transform:translateX(-50%);
+  width:11px;height:11px;border-radius:50%;background:var(--ink);
+  box-shadow:0 0 0 5px rgba(26,26,24,.08)
+}
+.era.red::before{background:var(--cinnabar);box-shadow:0 0 0 5px rgba(176,56,38,.12)}
+.era .years{
+  font-size:clamp(12px,1.8vw,14px);letter-spacing:4px;color:var(--ink2);
+  margin-bottom:2px
+}
+.era h3{
+  font-family:var(--f-brush);font-weight:400;
+  font-size:clamp(30px,4.6vw,44px);letter-spacing:14px;padding-left:14px;
+  color:var(--ink);line-height:1.5
+}
+.era h3 em{font-style:normal;color:var(--cinnabar)}
+.era .word{
+  font-size:clamp(15px,2.2vw,18px);letter-spacing:5px;color:var(--ink2);margin-top:6px
+}
+.era .note{
+  max-width:560px;margin:10px auto 0;
+  font-size:clamp(14px,2vw,16px);letter-spacing:2px;color:var(--ink2);
+  text-align:justify;text-align-last:center
+}
+.era .ghost{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-family:var(--f-brush);font-size:clamp(110px,18vw,190px);
+  color:var(--ink-light);pointer-events:none;user-select:none;z-index:-1;white-space:nowrap
+}
+
+/* ---------- 卷尾回链 ---------- */
+.back-home{
+  display:inline-block;margin-top:36px;
+  font-family:var(--f-brush);
+  font-size:clamp(17px,2.4vw,20px);letter-spacing:6px;color:var(--ink);
+  padding-bottom:4px;border-bottom:2px solid rgba(26,26,24,.35);
+  transition:color .3s,border-color .3s
+}
+.back-home:hover{color:var(--cinnabar);border-bottom-color:var(--cinnabar)}
+
+/* ---------- 页脚 ---------- */
+footer{padding:70px 24px 60px;text-align:center;font-size:13px;letter-spacing:4px;color:var(--ink2)}
+footer .tg{letter-spacing:14px;display:block;margin-bottom:12px;color:rgba(26,26,24,.35)}
+footer .f-links{margin-top:24px;display:flex;justify-content:center;align-items:center;gap:20px;
+  font-family:var(--f-brush);font-size:15px;letter-spacing:3px}
+footer .f-links a{color:var(--ink2);transition:color .3s}
+footer .f-links a:hover{color:var(--cinnabar)}
+footer .f-links .sep{font-size:9px;color:rgba(26,26,24,.25)}
+footer .cp{margin-top:16px;font-size:11px;letter-spacing:2.5px;color:rgba(26,26,24,.38)}
+footer .legal{margin-top:8px;font-size:10.5px;letter-spacing:1.5px;color:rgba(26,26,24,.32);line-height:2}
+footer .legal a{color:rgba(26,26,24,.45);text-decoration:underline;text-underline-offset:3px}
+footer .legal a:hover{color:var(--cinnabar)}

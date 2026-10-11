@@ -1,0 +1,1431 @@
+<!-- 注意：v1对应的是headernew_v1.html v2对应的是header_v2.html -->
+<!doctype html>
+<html>
+    <head>
+    <title>方正小篆体字体包，方正小篆体字体打包下载_方正字库官网</title>
+    <meta name="description" content="方正小篆体是由2款字体组成，分别是">
+    <meta name="keywords" content="方正小篆体字体包，方正小篆体字体打包下载_方正字库官网">
+    <link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/public/base.css?v=202609231115"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/v2/header.css?v=202609231115"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/v2/rightSidebar.css?v=202609231115"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/js/fzProtocolCheck/protocolcheck.css?v=202609231115"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/v2/footer.css?v=202609231115"/>
+    <style type="text/css">
+        @font-face {font-family: 'FZXZTFW_1424620826';src: url('https://cdn13.foundertype.com/ncss/FZXZTFW/e67d49b3c0c616e96c491a0ac18e4de6/FZXZTFW_1424620826.eot'); /* IE9 Compat Modes */src: url('https://cdn13.foundertype.com/ncss/FZXZTFW/e67d49b3c0c616e96c491a0ac18e4de6/FZXZTFW_1424620826.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */url('https://cdn13.foundertype.com/ncss/FZXZTFW/e67d49b3c0c616e96c491a0ac18e4de6/FZXZTFW_1424620826.woff') format('woff'), /* Modern Browsers */url('https://cdn13.foundertype.com/ncss/FZXZTFW/e67d49b3c0c616e96c491a0ac18e4de6/FZXZTFW_1424620826.ttf')  format('truetype'), /* Safari, Android, iOS */url('https://cdn13.foundertype.com/ncss/FZXZTFW/e67d49b3c0c616e96c491a0ac18e4de6/FZXZTFW_1424620826.svg#FZBGDT_2215703541') format('svg'); /* Legacy iOS */}     </style>
+    
+    <script type="text/javascript">
+        var register_url = "/index.php/Register/index.html";
+        var forget_url = "/index.php/Login/forgetPwd.html";
+        var doLogin_url = "/index.php/Login/doLogin.html";
+        var third_qq = "/index.php/ThirdBind/qqLogin/type/qq.html";
+        var third_weixin = "/index.php/ThirdBind/thirdLogin/type/weixin.html";
+        var add_url = "/index.php/Index/addlike.html";
+        var remove_url = "/index.php/Index/removelike.html";
+        var login_url = "/index.php/Login/index.html";
+        var add_cart = "/index.php/Personal/addCart.html"; // 加入购物车
+        var cart_icon = "/Public/Home/img/bannerHome/draw.png";
+        var old_login_url = "/index.php/Login/zkLogin.html";
+        var checkNumUrl = "/index.php/Collections/checkNumByUid.html";
+        var getUserInfoUrl = "/index.php/Users/getUserInfo.html";
+        var c_name = "FontInfo";
+        var muid = "";
+        var domain = ".foundertype.com";
+        var REG_USER_URL = "/index.php/Register/index.html";
+        var REG_COMPANY_URL = "https://shop.foundertype.com/index.php/Company/comReg.html";
+        var WX_URL = "/index.php/Login/getwx.html";
+        var WX_LOGIN_URL = "/index.php/Login/wxislogin.html";
+        var ADD_FONT_ID = "/index.php/FontCloud/addfontid.html"; // 加入本地清单
+        var CANCEL_FONT_ID= "/index.php/FontCloud/cancelfontid.html"; // 取消本地清单
+        var LOCAL_FONT_LIST = "/index.php/FontCloud/localfontlist.html"; // 获取清单列表
+        var DO_FONT_CLOUD = "/index.php/FontCloud/dofontcloud.html"; // 清单数据上传到云端
+        var GET_LOCAL_NUM = "/index.php/FontCloud/getlocalnum.html"; // 获取清单数量
+        var WIN_DOWN_URL = "https://cdn13zk.foundertype.com/fclient/pro/windows/1.1.8/FounderClient_1.1.8.exe";
+        var MAC_DOWN_URL = "https://cdn13zk.foundertype.com/fclient/pro/mac/1.1.8/FounderClient_1.1.8.dmg";
+        //传递参数浏览器打开客户端，新增参数open_type 1:批量激活;2:单个字体激活。如果单个字体激活需要传递参数fid.返回结果code=1为结果成功，其中参数zj_code用于浏览器打开客户端传参和数据埋点传参20220705
+        var GET_CLIENT_CODE_URL = "/index.php/index/getClientCode.html";
+        //传递参数调整：zj_code为get_client_code_url返回结果，其他值保持不变20220705
+        var OPEN_CLIENT_URL = "/index.php/index/adDown.html";
+        var ZJ_DOWN_URL = "/index.php/Index/ftXplorer/utm_source//";
+        var IS_BUTTON_URL = "/index.php/FontCloud/is_button.html"; // 获取字体的状态
+        var IS_LOGIN_URL = '/index.php/FontCloud/is_logo.html'; // 判断是否登录
+        var GET_AI_SECRET = '/index.php/Login/getAISecret.html'; // 获取字库聚合平台的登录信息
+        var IS_DOWN_SHOW_URL = '/index.php/FindFont/isdwonshow.html';//下载字体是否弹窗
+        var SET_DOWN_SHOW_URL = '/index.php/FindFont/setdwonshow.html';//下载字体弹窗设置不在展示
+    </script>
+
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/fzProtocolCheck/protocolcheck.js?v=202609231115"></script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/fzProtocolCheck/protocolcheck2.js?v=202609231115"></script>
+    
+    
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/common.js?v=202609231115"></script>
+    <script type="text/javascript">
+        $(function() {
+
+            function getByteLength(str) {
+                var byteCount = 0;
+                for (var i = 0; i < str.length; i++) {
+                   
+                    var charCode = str.charCodeAt(i);
+                
+                    if (charCode <= 0x007F) {
+                        byteCount += 1; 
+                      
+                    } else {
+                        byteCount += 2;
+                       
+                    }
+                }
+                
+                return byteCount;
+            }
+
+            // 点击AI工具
+            $('.header-aitool').on('click', 'a', function(e) {
+                var $this = $(this);
+                var pageName = $this.attr('data-name');
+
+                if ($this.hasClass('is-disabled')) return;
+                $this.addClass('is-disabled');
+                $.ajax({
+                    type: "GET",
+                    url: GET_AI_SECRET,
+                    dataType: "json",
+                    success: function (response) {
+                        $this.removeClass('is-disabled');
+                        if (response.code == 1) {
+                            window.open(response.jump_url + '&pageName=' + pageName);
+                        }
+                    },
+                    error: function(error) {
+                        $this.removeClass('is-disabled');
+                    }
+                });
+            });
+
+            // 头部搜索：回车提交
+            function doHeaderSearch() {
+                var keyword = $.trim($('#headerSearchInput').val() || '');
+
+                if (keyword) {
+                    window.location.href = "/index.php/FindFont/searchtrack?keyword=" + encodeURIComponent(keyword);
+                }
+            }
+
+            $(".header-search-input").keyup(function (event) {
+                if (event.which == 13) {
+                    doHeaderSearch();
+                }
+            });
+
+            // 左侧放大镜点击提交搜索
+            $('.header-search-icon').on('click', function () {
+                doHeaderSearch();
+            });
+
+            // AI助手：复用「AI工具」菜单点击逻辑
+            $('.header-search-ai').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('.header-aitool a[data-name="aiChat"]').first().trigger('click');
+            });
+
+            // 导航栏submenu mouseover事件
+            $('.header-submenu').mouseover(function(e) {
+                $('.header-submenu-mask').show();
+            });
+
+            // 导航栏submenu mouseout事件
+            $('.header-submenu').mouseout(function(e) {
+                $('.header-submenu-mask').hide();
+            });
+
+            // 非登录、非注册页，jump_url注入到cookie中
+            if (c_name != 'Login' && c_name != 'Register' && c_name != 'Public') {
+                var jump_url = document.location.href;
+                document.cookie = 'jump_url=' + encodeURI(jump_url) + ';path=/;domain='+domain;
+                document.cookie = 'muid=' + muid + ';path=/';
+            }
+
+            function isPureChinese(str) {
+                var regex = /^[\u4e00-\u9fa5]+$/;
+                return regex.test(str);
+            }
+
+            // 输入框input paste事件
+            $('#headerSearchInput').on('input paste', function() {
+                var input = $(this).val();
+                var filteredInput = input.replace(/[.；、，。！？：；﹑•＂…‘’“”〝〞¦‖— 〈〉﹞﹝「」‹›〖〗】【»«』『〕〔》《﹐¸﹕︰﹔！¡？¿﹖﹌﹏﹋＇´ˊˋ―﹫︳︴¯＿￣﹢﹦﹤‐ ˜﹟﹩﹠﹪﹡﹨﹍﹉﹎﹊ˇ︵︶︷︸︹︿﹀︺︽︾ˉ﹁﹂﹃﹄︻︼,!\/@#$%&*()_+{}:;"|<>?-\s]/g, '');
+                var maxMixedChar = 40;  // 非中文最大字节长度
+                var maxChineseChar = 20;  // 纯中文最大字节长度
+                var finalInput = '';  // 最终回显的字符串
+                var processedLength = 0;  // 处理后的字符长度计数
+                var inputWithSymbols = input;  // 原始输入包含特殊符号
+
+                // 根据是否纯中文选择不同的字符限制
+                var limitLength = isPureChinese(filteredInput) ? maxChineseChar : maxMixedChar;
+                
+                // 按字符逐个处理，保证长度限制
+                for (var i = 0; i < inputWithSymbols.length; i++) {
+                    var char = inputWithSymbols[i];
+                    
+                    // 判断字符是否是特殊字符和空格
+                    if (/[.；、，。！？：；﹑•＂…‘’“”〝〞¦‖— 〈〉﹞﹝「」‹›〖〗】【»«』『〕〔》《﹐¸﹕︰﹔！¡？¿﹖﹌﹏﹋＇´ˊˋ―﹫︳︴¯＿￣﹢﹦﹤‐ ˜﹟﹩﹠﹪﹡﹨﹍﹉﹎﹊ˇ︵︶︷︸︹︿﹀︺︽︾ˉ﹁﹂﹃﹄︻︼,!\/@#$%&*()_+{}:;"|<>?-\s]/.test(char)) {
+                        finalInput += char;  // 如果是符号，直接添加
+                    } else {
+                        // 判断已处理的字符长度是否超过限制
+                        if (processedLength < limitLength) {
+                            finalInput += char;  // 添加字符
+                            processedLength++;  // 增加字符长度计数
+                        } else {
+                            break;  // 如果达到最大字符数，停止处理
+                        }
+                    }
+                }
+
+                $(this).val(finalInput);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="fz-body">
+        <div class="fz-header">
+            <div class="header-top">
+                <div class="header-container clearfix">
+                    <a href="/" class="header-logo fl">
+                        <img src="https://cdn1.foundertype.com/Public/www2/Home/img/v2/public/logo.png" class="logo" />
+                    </a>
+
+                    <div class="header-userinfo fr">
+                    <!-- 未登录状态 -->
+                        <div class="not-login">
+                            <a href="/index.php/Login/index.html" class="login">登录</a>
+                          
+                        </div>
+                                        </div>
+
+
+                    <div class="header-contact fr">
+                        <img src="https://cdn1.foundertype.com/Public/www2/Home/img/v2/public/icon_tel.png" />
+                    </div>
+                    <a href="/index.php/Index/ftXplorer/" target="_blank" class="fr download-btn">
+                        <img src="https://cdn1.foundertype.com/Public/www2/Home/img/newfindfont/newloadfzclient.png" class="fl"/>
+                       
+                    </a>
+
+
+                </div>
+            </div>
+            <div class="header-bottom">
+                <div class="header-container clearfix">
+                    <ul class="header-menu fl">
+                        <li class="header-menu-item">
+                            <a href="/">首页</a>
+                        </li>
+                        <li class="header-submenu header-fontdown">
+                            <a href="/index.php/FindFont/fontlist" target='_blank' class="header-submenu-text">
+                                <span>字体下载</span>
+                                <!-- <i class="menu-arrow"></i> -->
+                            </a>
+                            <div class="header-submenu-list">
+                                <div class="header-container">
+                                    <div class="header-submenu-inner">
+                                        <a href="/index.php/FindFont/fontlist" target='_blank'>字体下载</a>
+                                        <a href="/heji_l.html" target='_blank'>字体合集</a>
+                                        <a href="/index.php/Cases/caseList.html" target='_blank' class="submenu-case">
+                                            应用案例<i class="case-label"></i>
+                                        </a>
+                                        <a href="/index.php/Newsfonts/information.html" target='_blank' class="submenu-case">
+                                            字用研习室<i class="case-label"></i>
+                                        </a>
+                                        <a href="/index.php/Index/ftXplorer" target='_blank' class="submenu-case">
+                                            下载客户端<i class="case-label"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- ... existing code ... -->
+                        <li class="header-submenu font-custom">
+                            <div class="header-aitool-inner">
+                                <a href="/index.php/FontofMade/index" target="_blank" class="header-submenu-text">
+                                    <span>字体定制</span>
+                                </a>
+                            </div>
+                            <div class="header-submenu-list" >
+                                <div class="header-container">
+                                    <div class="header-submenu-inner">
+                                        <a href="/index.php/FontofMade/index#customType" target='_blank'>定制类型</a>
+                                        <a href="/index.php/FontofMade/customFont.html" target='_blank'>定制案例</a>
+                                        <a href="/index.php/FontofMade/customTeam.html" target='_blank'>定制团队</a>
+                                        <a href="/index.php/FontofMade/customCooperation.html" target='_blank'>全球化合作</a>
+                                        <a href="/index.php/FontofMade/customContact.html" target='_blank'>联系我们</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- ... existing code ... -->
+
+                        <li class="header-submenu header-activity">
+                            <a href="javascript:;" class="header-submenu-text">
+                                <span>解决方案</span>
+                            </a>
+                            <div class="header-submenu-list header-solution-panel-wrap">
+                                <div class="header-solution-panel">
+                                    <div class="header-solution-group">
+                                        <div class="header-solution-group-title header-solution-group-title--industry">
+                                            <i class="header-solution-icon header-solution-icon--industry"></i>
+                                            <span>行业方案</span>
+                                        </div>
+                                        <div class="header-solution-group-body header-solution-group-body--cols">
+                                            <div class="header-solution-col">
+                                                <a href="/index.php/About/solvePaper.html" target="_blank">报纸出版</a>
+                                                <a href="/index.php/About/solveBook.html" target="_blank">书刊</a>
+                                                <a href="/index.php/About/solvegj.html" target="_blank">古籍出版</a>
+                                            </div>
+                                            <div class="header-solution-col">
+                                                <a href="/index.php/About/solvegd.html" target="_blank">广电行业</a>
+                                                <a href="/index.php/About/solveGoverment.html" target="_blank">政府办公</a>
+                                                <a href="/index.php/About/solveNation.html" target="_blank">民族文</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="header-solution-group">
+                                        <div class="header-solution-group-title header-solution-group-title--tech">
+                                            <i class="header-solution-icon header-solution-icon--tech"></i>
+                                            <span>技术方案</span>
+                                        </div>
+                                        <div class="header-solution-group-body header-solution-group-body--cols">
+                                            <div class="header-solution-col">
+                                                <a href="/index.php/variableFont/index.html" target="_blank">可变字体</a>
+                                                <a href="/index.php/About/solveqr.html" target="_blank">嵌入式系统</a>
+                                                <a href="/UncommonWords.html" target="_blank">生僻字</a>
+                                            </div>
+                                            <div class="header-solution-col">
+                                                <a href="/index.php/About/solvedz.html" target="_blank">国家标准点阵</a>
+                                                <a href="/index.php/Ptiger/index" target="_blank">包装字体</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="header-solution-group">
+                                        <div class="header-solution-group-title header-solution-group-title--designer">
+                                            <i class="header-solution-icon header-solution-icon--designer"></i>
+                                            <span>设计师合作</span>
+                                        </div>
+                                        <div class="header-solution-group-body">
+                                            <a href="/index.php/Fontcoopetn/index" target="_blank">签约合作</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="header-submenu header-customize">
+                            <a href="/index.php/News/information" target="_blank" class="header-submenu-text">
+                                <span>新闻中心</span>
+                            </a>
+                            <div class="header-submenu-list">
+                                <div class="header-container">
+                                    <div class="header-submenu-inner">
+                                        <a href="/index.php/News/information" target='_blank'>新闻资讯</a>
+                                        <a href="/index.php/NewsActivity/information" target='_blank'>设计活动</a>
+                                        <a href="https://ztds.foundertype.com/" target='_blank'>字体大赛</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="header-submenu header-solution header-aitool">
+                            <a href="javascript:;" data-name="aiChat" class="header-submenu-text">
+                                <span>AI工具</span>
+                            </a>
+                            <div class="header-submenu-list ">
+                                <div class="header-container">
+                                    <div class="header-submenu-inner">
+                                        <a href="javascript:;" data-name="smartProofreading">智能审校</a>
+                                        <a href="javascript:;" data-name="aiFont">AI创意字</a>
+                                        <a href="javascript:;" data-name="aiEffect">AI特效</a>
+                                        <a href="javascript:;" data-name="textToImage">文生图</a>
+                                        <a href="javascript:;" data-name="smartImage">智能识字</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="header-submenu header-solution_last">
+                            <a href="javascript:;" data-name="aiChat" class="header-submenu-text">
+                                <span>关于我们</span>
+                            </a>
+                            <div class="header-submenu-list">
+                                <div class="header-container">
+                                    <div class="header-submenu-inner">
+                                        <a href="/index.php/About/aboutUsfz.html" data-name="smartProofreading">公司介绍</a>
+                                        <a href="/index.php/About/aboutUsBus.html" data-name="aiEffect">授权模式</a>
+                                        <a href="/index.php/About/aboutUsSm.html" data-name="textToImage">商业声明</a>
+                                        <a href="/index.php/Service/index" data-name="smartImage">服务咨询</a>
+                                        <a href="https://shop.foundertype.com/index.php/Joinus/index" data-name="smartImage">合作招募</a>
+                                        <a href="https://nzj.foundertype.com/" data-name="smartImage">字加社区</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="header-submenu header-solution_last1">
+                            <a href="javascript:;" data-name="aiChat" class="header-submenu-text">
+                                <span>授权购买</span>
+                            </a>
+                            <div class="header-submenu-list">
+                                <div class="header-container">
+                                    <div class="header-submenu-inner">
+                                        <a href="/index.php/About/powerAllowPro.html" data-name="smartProofreading">产权保护</a>
+                                        <a href="/index.php/About/powerbus.html" data-name="aiEffect">授权认证</a>
+                                        <a href="/index.php/About/powerCus.html" data-name="textToImage">品牌客户</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="header-menu-item">
+                            <a href="https://shop.foundertype.com" target='_blank'>字体商城</a>
+                        </li>
+                    </ul>
+                    <div class="header-search fr">
+                        <div class="header-search-box">
+                            <input type="text" class="header-search-input" id="headerSearchInput" placeholder="搜索字体、产品、解决方案" autocomplete="off" />
+                            <span class="header-search-icon" title="搜索"></span>
+                        </div>
+                        <span class="header-search-ai" data-name="aiChat" ></span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-submenu-mask"></div>
+        </div>
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdn1.foundertype.com/Public/www2/Home/js/video/video-js.min.css">
+<!--<link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/js/protocolCheck/protocolcheck.css?v=202609231115"/>-->
+<link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/public/caseDialog.css?v=202609231115"/>
+<link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/fontDetails2.css?v=202609231115"/>
+<link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/aliwhcaptcah.css?v=202609231115">
+<link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/public/loadFontLayer.css?v=202609231115"/>
+
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn1.foundertype.com/Public/www2/Home/css/findFontTest.css?v=202609231115"/> -->
+
+<script type="text/javascript" src="https://o.alicdn.com/captcha-frontend/aliyunCaptcha/AliyunCaptcha.js"></script>
+
+<link rel="stylesheet" type="text/css" href="" id="skin"/>
+<script type="text/javascript">
+    var CASE_INFO_URL = "/index.php/Cases/caseInfoUrl.html"; // 案例详情接口
+    var CASE_LIKE_URL = "/index.php/Cases/caseLikeUrl.html"; // 收藏案例接口
+    var CASE_CART_URL = "/index.php/Personal/addCart.html"; // 案例添加字体到购物车接口
+
+
+    var MY_ZJ_WIN_DOWN_URL = "";
+    var MY_ZJ_MAC_DOWN_URL = "";
+    //传递参数浏览器打开客户端，新增参数open_type 1:批量激活;2:单个字体激活。如果单个字体激活需要传递参数fid.返回结果code=1为结果成功，其中参数zj_code用于浏览器打开客户端传参和数据埋点传参20220705
+    var MY_ZJ_GET_CLIENT_CODE_URL = "/index.php/index/getClientCode.html";
+    //传递参数调整：zj_code为get_client_code_url返回结果，其他值保持不变20220705
+    var MY_ZJ_OPEN_CLIENT_URL = "/index.php/index/zjadDown.html";
+    var MY_ZJ_DOWN_URL = "/index.php/Index/plusExtend/utm_source/_newfontinfo/";
+
+    var getPdfUrl = "" ;
+    var uid= "";
+    var type = "";
+    var wuh_captcha= "/index.php/Ptiger/captcha.html";
+    var type = "";
+    var captchaVerifyParam = null;
+    var whsceneid = "d3dhhgcf";
+    var prefix = "1i3keh";
+
+    var IS_DoWN_SHoW_URL = '/index.php/FindFont/isdwonshow.html';//下载字体是否弹窗
+    var SET_DoWN_SHOW_URL='/index.php/FindFont/setdwonshow.html';//下载字体弹窗设置不在展示
+    var newCompareUrl ="/index.php/FindFont/compareFontnew.html";
+
+</script>
+
+<!--[if IE 8]>
+<![endif]-->
+
+<!-- <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/newSearchFont.js?v=202609231115"></script> -->
+
+<div class="fzBody">
+    <!-- 固定头部 -->
+    <div class="fixedButtons">
+        <div class="fzContainer clearfix">
+            <b class="fixedLeft">方正小篆体</b>
+            <div class="fixedRight fr">
+
+                <a href="/index.php/FontInfo/buyFontauth/fid/305.html" class="fixedAuthBtn">购买字体授权</a>                                <span class="buy buy-other fixedDownFontBtn" data-fid="305"  data-serid="234" code_id="25">下载字体</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 潘虎包装体 -->
+    
+    <div class="fontWrapper">
+        <div class="fzContainer clearfix">
+            <div class="fontLeft fl">
+                <div class="flHead clearfix">
+                    <b class="flName fl" >
+                        <span class="flNameTxt" >方正小篆体</span>
+                        <!-- 获奖图标 -->
+                                            </b>
+                    <div class="flShare fr">
+                        <i class="shareIcon"></i>
+                        <div class="shareTips">
+                            <ul class="shareList bdShare bdsharebuttonbox">
+                                <li class="shareWechat weixin"><a href="javascript:void(0);" data-img="https://xcx.foundertype.com/static/qrimgc_fontInfo305.png" data-cmd="weixin"></a></li><!--
+                                --><li class="shareQQ"><a href="https://connect.qq.com/widget/shareqq/index.html?url=https%3A%2F%2Fwww.foundertype.com%2Findex.php%2FFontInfo%2Fductdetail%2Fid%2F165.html&title=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E4%BD%93&desc=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E7%94%B1%E4%B9%A6%E6%B3%95%E5%AE%B6%E5%BC%A0%E6%B0%B8%E6%98%8E%E5%85%88%E7%94%9F%E5%88%9B%E4%BD%9C%E3%80%82%E8%BF%99%E6%AC%BE%E5%AD%97%E4%BD%93%E7%BB%93%E6%9E%84%E4%B8%A5%E8%B0%A8%EF%BC%8C%E7%94%A8%E7%AC%94%E4%B8%AD%E6%AD%A3%E4%BB%8E%E5%AE%B9%E3%80%82%E4%BD%9C%E8%80%85%E7%B2%BE%E7%A0%94%E3%80%8A%E8%AF%B4%E6%96%87%E8%A7%A3%E5%AD%97%E3%80%8B%EF%BC%8C%E7%BB%93%E6%9E%84%E8%A7%84%E8%8C%83%EF%BC%8C%E8%AE%A9%E8%BF%99%E6%AC%BE%E5%AD%97%E4%B8%8D%E4%BD%86%E8%83%BD%E6%BB%A1%E8%B6%B3%E6%97%A5%E5%B8%B8%E5%AE%9E%E7%94%A8%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BD%9C%E4%B8%BA%E5%B0%8F%E7%AF%86%E6%9F%A5%E9%98%85%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E7%85%A7%E3%80%82%E5%B0%8F%E7%AF%86%E4%BD%9C%E4%B8%BA%E5%8F%A4%E6%96%87%E5%AD%97%EF%BC%8C%E4%BB%8A%E5%A4%A9%E4%BB%8D%E8%A2%AB%E4%BD%9C%E4%B8%BA%E6%96%87%E5%8C%96%E7%B4%A0%E6%9D%90%E5%BA%94%E7%94%A8%E4%BA%8E%E5%90%84%E7%B1%BB%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%96%87%E5%8C%96%E7%9B%B8%E5%85%B3%E7%9A%84%E6%B4%BB%E5%8A%A8%E3%80%81%E8%8A%82%E6%97%A5%E3%80%81%E5%BD%B1%E8%A7%86%E5%92%8C%E5%8A%A8%E6%BC%AB%E4%B9%8B%E4%B8%AD%E3%80%82&summary=&site=baidu&pics=https%3A%2F%2Fcdn1.foundertype.com%2FPublic%2FUploads%2Fbanner%2F1496927599_9445.jpg" data-cmd="sqq" target="_blank"></a></li><!--
+                                --><li class="shareQzone"><a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https%3A%2F%2Fwww.foundertype.com%2Findex.php%2FFontInfo%2Fductdetail%2Fid%2F165.html&title=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E4%BD%93&desc=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E7%94%B1%E4%B9%A6%E6%B3%95%E5%AE%B6%E5%BC%A0%E6%B0%B8%E6%98%8E%E5%85%88%E7%94%9F%E5%88%9B%E4%BD%9C%E3%80%82%E8%BF%99%E6%AC%BE%E5%AD%97%E4%BD%93%E7%BB%93%E6%9E%84%E4%B8%A5%E8%B0%A8%EF%BC%8C%E7%94%A8%E7%AC%94%E4%B8%AD%E6%AD%A3%E4%BB%8E%E5%AE%B9%E3%80%82%E4%BD%9C%E8%80%85%E7%B2%BE%E7%A0%94%E3%80%8A%E8%AF%B4%E6%96%87%E8%A7%A3%E5%AD%97%E3%80%8B%EF%BC%8C%E7%BB%93%E6%9E%84%E8%A7%84%E8%8C%83%EF%BC%8C%E8%AE%A9%E8%BF%99%E6%AC%BE%E5%AD%97%E4%B8%8D%E4%BD%86%E8%83%BD%E6%BB%A1%E8%B6%B3%E6%97%A5%E5%B8%B8%E5%AE%9E%E7%94%A8%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BD%9C%E4%B8%BA%E5%B0%8F%E7%AF%86%E6%9F%A5%E9%98%85%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E7%85%A7%E3%80%82%E5%B0%8F%E7%AF%86%E4%BD%9C%E4%B8%BA%E5%8F%A4%E6%96%87%E5%AD%97%EF%BC%8C%E4%BB%8A%E5%A4%A9%E4%BB%8D%E8%A2%AB%E4%BD%9C%E4%B8%BA%E6%96%87%E5%8C%96%E7%B4%A0%E6%9D%90%E5%BA%94%E7%94%A8%E4%BA%8E%E5%90%84%E7%B1%BB%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%96%87%E5%8C%96%E7%9B%B8%E5%85%B3%E7%9A%84%E6%B4%BB%E5%8A%A8%E3%80%81%E8%8A%82%E6%97%A5%E3%80%81%E5%BD%B1%E8%A7%86%E5%92%8C%E5%8A%A8%E6%BC%AB%E4%B9%8B%E4%B8%AD%E3%80%82&summary=&site=&pics=https%3A%2F%2Fcdn1.foundertype.com%2FPublic%2FUploads%2Fbanner%2F1496927599_9445.jpg" data-cmd="qzone" target="_blank"></a></li><!--
+                                --><li class="shareWeibo"><a href="http://service.weibo.com/share/share.php?url=https%3A%2F%2Fwww.foundertype.com%2Findex.php%2FFontInfo%2Fductdetail%2Fid%2F165.html&title=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E4%BD%93&appkey=1343713053&pic=https%3A%2F%2Fcdn1.foundertype.com%2FPublic%2FUploads%2Fbanner%2F1496927599_9445.jpg&searchPic=true" data-cmd="tsina" target="_blank"></a></li><!--
+                                --><li class="shareDouban"><a href="https://www.douban.com/share/service?href=https%3A%2F%2Fwww.foundertype.com%2Findex.php%2FFontInfo%2Fductdetail%2Fid%2F165.html&name=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E4%BD%93&text=%E6%96%B9%E6%AD%A3%E5%B0%8F%E7%AF%86%E7%94%B1%E4%B9%A6%E6%B3%95%E5%AE%B6%E5%BC%A0%E6%B0%B8%E6%98%8E%E5%85%88%E7%94%9F%E5%88%9B%E4%BD%9C%E3%80%82%E8%BF%99%E6%AC%BE%E5%AD%97%E4%BD%93%E7%BB%93%E6%9E%84%E4%B8%A5%E8%B0%A8%EF%BC%8C%E7%94%A8%E7%AC%94%E4%B8%AD%E6%AD%A3%E4%BB%8E%E5%AE%B9%E3%80%82%E4%BD%9C%E8%80%85%E7%B2%BE%E7%A0%94%E3%80%8A%E8%AF%B4%E6%96%87%E8%A7%A3%E5%AD%97%E3%80%8B%EF%BC%8C%E7%BB%93%E6%9E%84%E8%A7%84%E8%8C%83%EF%BC%8C%E8%AE%A9%E8%BF%99%E6%AC%BE%E5%AD%97%E4%B8%8D%E4%BD%86%E8%83%BD%E6%BB%A1%E8%B6%B3%E6%97%A5%E5%B8%B8%E5%AE%9E%E7%94%A8%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BD%9C%E4%B8%BA%E5%B0%8F%E7%AF%86%E6%9F%A5%E9%98%85%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E7%85%A7%E3%80%82%E5%B0%8F%E7%AF%86%E4%BD%9C%E4%B8%BA%E5%8F%A4%E6%96%87%E5%AD%97%EF%BC%8C%E4%BB%8A%E5%A4%A9%E4%BB%8D%E8%A2%AB%E4%BD%9C%E4%B8%BA%E6%96%87%E5%8C%96%E7%B4%A0%E6%9D%90%E5%BA%94%E7%94%A8%E4%BA%8E%E5%90%84%E7%B1%BB%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%96%87%E5%8C%96%E7%9B%B8%E5%85%B3%E7%9A%84%E6%B4%BB%E5%8A%A8%E3%80%81%E8%8A%82%E6%97%A5%E3%80%81%E5%BD%B1%E8%A7%86%E5%92%8C%E5%8A%A8%E6%BC%AB%E4%B9%8B%E4%B8%AD%E3%80%82&image=https%3A%2F%2Fcdn1.foundertype.com%2FPublic%2FUploads%2Fbanner%2F1496927599_9445.jpg" data-cmd="douban" target="_blank"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                                    </div>
+
+                    <!-- 中文 -->
+                                                <div class="flBody" style="font-family:'FZXZTFW_1424620826',hiatus">
+                        <h2 class="poemTitle">自将磨洗认前朝</h2>
+                        <p class="poemText">坐对韦编灯动壁，高歌夜半雪压庐。</p>
+                        <p class="poemText">地炉茶鼎烹活火，一清足称读书者。</p>
+                            </div>
+                    <!-- 外文 -->
+                    <!-- <h2 class="langTitle">The quick brown fox jumps over a lazy dog</h2>
+                    <p class="langText">The quick brown fox jumps over a lazy dog</p> -->
+
+            </div>
+            <div class="fontRight fr" style="width: 333px">
+                <div class="licenseAgree">
+                    <h3 class="agreeTitle">授权协议</h3>
+                    <p>在使用字体时需要获取字体授权，具体授权包括：</p>
+                    <ul class="agreeList">
+                        <li><img src="https://cdn1.foundertype.com/Public/www2/Home/img/fontDetails/icon_dismond.png" /><span>个人家庭版授权</span></li>
+                        <li><img src="https://cdn1.foundertype.com/Public/www2/Home/img/fontDetails/icon_dismond.png" /><span>发布使用授权</span></li>
+                        <li><img src="https://cdn1.foundertype.com/Public/www2/Home/img/fontDetails/icon_dismond.png" /><span>出版物授权:针对出版物</span></li>
+                        <li><img src="https://cdn1.foundertype.com/Public/www2/Home/img/fontDetails/icon_dismond.png" /><span>嵌入式应用授权</span></li>
+                    </ul>
+                    <p>如果您的应用场景没有包含在这些授权形式中，请联系我们，我们将为您提供更多选择。</p>
+
+
+                    <a href="/index.php/FontInfo/buyFontauth/fid/305.html" class="getAuthBtn">购买字体授权</a>
+                        <div class="buy buy-other downFontBtn " code_id="25" data-fid="305" >下载字体</div>
+
+                    <p>适用系统：Windows/Mac<b class="installNotes">字库安装说明？</b></p>
+                </div>
+                <div class="fontIntro">
+                    <h3 class="introTitle">基础信息</h3>
+                    <ul class="introList">
+                        <li class="introBrand clearfix">
+                            <b class="introLabel fl">字体品牌：</b>
+                            <div class="fl introLiContent">
+                                <a href="/index.php/Provider/index/id/2.html" class="j_color fl">
+                                            <img height="22px;" src="https://cdn1.foundertype.com/fontmanage/Public/provider/foundertype.png">                                            <em class="typeGether">方正字库</em><br/>
+                                        </a>
+                                                                </div>
+                        </li>
+                        <li class="clearfix">
+                            <b class="introLabel fl" style="width:71px;"> 设计师：</b>
+                            <div class="introLiContent fl">
+                                张永明                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <b class="introLabel fl">字体分类：</b>
+                            <div class="fl introLiContent">
+                                <em class="fl ">篆书</em>                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <b class="introLabel fl">字体属性：</b>
+                            <div class="fl introLiContent">
+                                                                    <em class="fl ">精品字</em>                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <b class="introLabel fl">字符集：</b>
+                            <div class="fl introLiContent">
+                                <em class="fl">大陆繁体(GB12345-90)、</em><em class="fl">简繁扩展(GBK)</em>                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <b class="introLabel fl">发布时间：</b>
+                            <div class="fl introLiContent">
+                               2000                            </div>
+                        </li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下载字加客户端 -->
+    <div class="fontClient">
+        <div class="fzContainer loadClientPar"  id="loadClientPar">
+                        <img src="https://cdn1.foundertype.com/Public/www2/Home/img/fontDetails/banner_new1.png?t=1" class="fontClientImg" />
+            <span class="btn1"></span>
+            <!-- <div class="fontClientLink clearfix">
+                <a href="javascript:;" class="fontClientButton fr">
+                    <i></i>下载客户端
+                </a>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- 字体样式 -->
+    <div class="fontStyle">
+        <div class="fzContainer feelparent">
+            <div class="feel clearfix" id="feelText">
+                <b class="styleLabel fl">字体样式</b>
+
+                <div class="prompt fr" id="prompt">
+                    <img src="https://cdn1.foundertype.com/Public/www2/Home/img/fontDetails/icon_text.png" class="fl" />
+                    <i class="promptLine fl"></i>
+                    <input type="text" id="ipText" maxlength="11" autocomplete="off" />
+                    <span>输入文字，即时体验</span>
+                </div>
+
+                <!--切换背景-->
+                <div class="switchBack fr">
+                    <span class="fl fontcolor">背景</span>
+                    <div class="fl change_color" id="changeCol" >
+                        <p class="black"></p>
+                        <p class="white"></p>
+                    </div>
+                </div>
+
+                <!--拖拽-->
+                <div class="drag">
+                    <div class="parent" id="newParent">
+                        <p></p>
+                        <span></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!---字体部分-->
+    <div class="font_parent allfontshow showfont  ff-font-list" id="font_parent">
+        <!--结构新变化10-18-->
+        <div id="fonPar">
+            <div class="detail ff-list-item--western">
+                <div class="clearfix addHeight ff-list-head ">
+                    <div class="ff-list-head-info">
+                        <b class="name">
+                            <a class="nameLink" data-fontname="方正小篆体" fid="305" lid >方正小篆体</a>
+                        </b>
+                                                <span class="ff-list-brand-divider">|</span>
+                        <div class="ff-list-brands">
+                            <a href="/index.php/Provider/index/id/2" class="factory ff-list-brand">
+                                <img class="jumpFirm" src="https://cdn1.foundertype.com/fontmanage/Public/provider/foundertype.png" alt="">                                <b class="FirmName">方正字库</b>
+                            </a>
+                        </div>
+                    </div>
+                                        <div class="ff-list-head-actions">
+                        <b class="fontcomp compare">
+                            <img src="/Public/Home/img/newfindfont/compareIcon.png" alt="">
+                        </b>
+                        <div class="like add_like" languageid="263" like_data="305">
+                            <img src="/Public/Home/img/newfindfont/collectIcon.png" alt="">
+                        </div>
+                        <b class="shuxianLine"></b>
+                        <div class="fontcomp download">
+                            <img src="/Public/Home/img/newfindfont/downloadIcon.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <p class="text ff-list-script-text active j_showfont"  id="FZXZTFW" data-version="FZXZTFW@5.31" data-cssurl="https://cdn13.foundertype.com/ncss/FZXZTFW/bb45f1c34295c7db2f44cee68f5bdfa2/FZXZTFW_2891527382" data-iswebfont="1" data-code="25" data-one_cssurl="https://cdn16.foundertype.com/character/08e1a5d571c0f60ca40e2be5c4c84bac/FZXZTFW/" data-font_id="305"  style="font-size: 49.8px;">透过字体传递汉字文化</p>
+                </a>
+            </div><div class="detail ff-list-item--western">
+                <div class="clearfix addHeight ff-list-head ">
+                    <div class="ff-list-head-info">
+                        <b class="name">
+                            <a class="nameLink" data-fontname="方正小篆体_GBK" fid="2216" lid >方正小篆体_GBK</a>
+                        </b>
+                                                <span class="ff-list-brand-divider">|</span>
+                        <div class="ff-list-brands">
+                            <a href="/index.php/Provider/index/id/2" class="factory ff-list-brand">
+                                <img class="jumpFirm" src="https://cdn1.foundertype.com/fontmanage/Public/provider/foundertype.png" alt="">                                <b class="FirmName">方正字库</b>
+                            </a>
+                        </div>
+                    </div>
+                                        <div class="ff-list-head-actions">
+                        <b class="fontcomp compare">
+                            <img src="/Public/Home/img/newfindfont/compareIcon.png" alt="">
+                        </b>
+                        <div class="like add_like" languageid="263" like_data="2216">
+                            <img src="/Public/Home/img/newfindfont/collectIcon.png" alt="">
+                        </div>
+                        <b class="shuxianLine"></b>
+                        <div class="fontcomp download">
+                            <img src="/Public/Home/img/newfindfont/downloadIcon.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <p class="text ff-list-script-text active j_showfont"  id="FZXZTK" data-version="FZXZTK@5.31" data-cssurl="https://cdn13.foundertype.com/ncss/FZXZTK/0757c451ff2d14233512c39225b31264/FZXZTK_1991476717" data-iswebfont="1" data-code="9" data-one_cssurl="https://cdn16.foundertype.com/character/b4d325eed94296968b024e74fd5ec011/FZXZTK/" data-font_id="2216"  style="font-size: 49.8px;">透過字體給讀者更多關愛</p>
+                </a>
+            </div>        </div>
+        <div class="loading" id="loading">
+            <div class="clienth" id="clienth"></div>
+            <img src="https://cdn1.foundertype.com/Public/www2/Home/img/loading2.gif" class="iconloading"/>
+        </div>
+        <!---10-17当输入文字体验时候，显示loading图片（结束）-->
+    </div>
+
+    <!-- 字体展示 -->
+
+
+    <div class="fontDisplay">
+        <div class="fzContainer">
+            <h2 class="fontHeadLine">字体介绍</h2>
+            <!---小标宋-->
+            <p class="displayContent">方正小篆由书法家张永明先生创作。这款字体结构严谨，用笔中正从容。作者精研《说文解字》，结构规范，让这款字不但能满足日常实用，也可作为小篆查阅学习的参照。小篆作为古文字，今天仍被作为文化素材应用于各类与传统文化相关的活动、节日、影视和动漫之中。</p>
+            <div class="fontLabels clearfix">
+                <b class="labelText fl">字体标签：</b>
+                <div class="labelList fl">
+                    <span class="labelItem fl">中国风</span><span class="labelItem fl">古典</span><span class="labelItem fl">复古</span><span class="labelItem fl">柔美</span>                </div>
+            </div>
+            <!-- 字体模板 中文 -->
+            <div class="chineseTemp clearfix" style="font-family:'FZXZTFW_1424620826'">
+                    <div class="chineseTempLeft fl">永</div>
+                    <div class="chineseTempRight fr">
+                        <p>雾若日月纵横有可</p>
+                        <p>弓硬矢若水火若云</p>
+                        <p>叶若利剑长戈若强</p>
+                        <p>若愁若喜若虫食木</p>
+                        <p>若往若来若卧若起</p>
+                        <p>若坐若行若飞若动</p>
+                        <p>为书之体须入其形</p>
+                    </div>
+                </div>
+                <div class="chineseTempSymbol" style="font-family:'FZXZTFW_1424620826'">
+                    <p>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@.，：；！？’）]”＜＞/&-</p>
+                </div>                <!-- 字体模板 繁U -->
+                            <!-- 字体模板 英文 -->
+            
+            <!-- 字体模板 日文 -->
+                            <!-- 获奖情况 -->
+                        <!-- 字体其他内容展示 -->
+                            <div class="displayOther">
+                    <h2 class="fontHeadLine">字体展示</h2>
+                                    </div>
+            <div class="displayBanner">
+                <img src="https://cdn1.foundertype.com/Public/Uploads/banner/1496927599_9445.jpg" />
+            </div>
+        </div>
+    </div>
+
+    <div class="fontCase">
+            <div class="fzContainer">
+        <h2 class="fontHeadLine">相似字体</h2>
+        <div class="recommendPanel">
+
+            <div class="panelBoxs clearfix">
+                <div class="panelBox fl">
+                        <a href="/index.php/FontInfo/ductdetail/id/4504" target="_blank">
+                            <div class="panelImage scaleImage">
+                                <div class="panelImageBg" style="background-image: url(https://cdn1.foundertype.com/fontmanage/Public/img/5be9458a971f3.jpg);"></div>
+                            </div>
+                            <p class="panelName">方正字迹-顧建平篆書 繁U</p>
+                        </a>
+                    </div><div class="panelBox fl">
+                        <a href="/index.php/FontInfo/ductdetail/id/6253" target="_blank">
+                            <div class="panelImage scaleImage">
+                                <div class="panelImageBg" style="background-image: url(https://cdn1.foundertype.com/fontmin/css_v2.0/engcss/img/644742a3aaa29.jpg);"></div>
+                            </div>
+                            <p class="panelName">方正字迹-宋伯軍篆書 繁U</p>
+                        </a>
+                    </div><div class="panelBox fl">
+                        <a href="/index.php/FontInfo/ductdetail/id/4944" target="_blank">
+                            <div class="panelImage scaleImage">
+                                <div class="panelImageBg" style="background-image: url(https://cdn1.foundertype.com/fontmanage/Public/img/5eba2ec2246a0.jpg);"></div>
+                            </div>
+                            <p class="panelName">时光与猫</p>
+                        </a>
+                    </div>            </div>
+        </div>
+            </div>
+        </div>    <!-- 字体案例 -->
+    <div class="fontCase">
+        <div class="fzContainer">
+            <h2 class="fontHeadLine">
+                <a href="/index.php/Cases/caseList">发现灵感</a>
+                <a href="/index.php/Cases/caseList.html"  target="_blank" class="clickMore fr">
+                    查看更多
+                    <i class="moreIcon"></i>
+                </a>
+            </h2>
+                <div class="caseBoxs clearfix">
+                                        <div class="caseBox fl" data-case_id="7929">
+                        <div class="caseImgBox" >
+                            <img src="https://cdn1.foundertype.com/public/fontcase/downloadimg/a79086ac19fc8d9d228098858cfbabd5.JPG" class="caseImg">
+                        </div>
+
+                        <div class="fontCaseList">
+                                <a href="/index.php/FontInfo/ductdetail/id/199" class="fontCaseItem" data-font_id="793">
+                                    <b fid="459" style="line-height:25px;font-size: 22px;letter-spacing: 1px;white-space: nowrap;overflow: hidden;" data-code_id="1" data-font_css="https://cdn13.foundertype.com/ncss/FZQKBYSJW/538743d5d15e75429770006621a02c66/FZQKBYSJW_2988108578" data-ttf_name="FZQKBYSJW" data-otf_name="FZQKBYSJ" data-otf_name="FZQKBYSJ">方正清刻本悦宋简体</b>
+                                </a>
+                            </div>
+                        <div class="caseLogoWrap">
+                            <img src="https://cdn1.foundertype.com/public/fontcase/imgtemp/sys_7929_308.jpeg" class="caseLogo">
+                        </div>
+                    </div>
+                                        <div class="caseBox fl" data-case_id="4980">
+                        <div class="caseImgBox" >
+                            <img src="https://cdn1.foundertype.com/public/fontcase/downloadimg/111323e431f1ed63f1cc87e0d04dd249.JPG" class="caseImg">
+                        </div>
+
+                        <div class="fontCaseList">
+                                <a href="/index.php/FontInfo/ductdetail/id/216" class="fontCaseItem" data-font_id="793">
+                                    <b fid="507" style="line-height:25px;font-size: 22px;letter-spacing: 1px;white-space: nowrap;overflow: hidden;" data-code_id="1" data-font_css="https://cdn13.foundertype.com/ncss/FZLTZHJW/d0ad2c4fc6e2b515755cf0b97f118ed8/FZLTZHJW_3046027343" data-ttf_name="FZLTZHJW" data-otf_name="FZLTZHJ" data-otf_name="FZLTZHJ">方正兰亭中黑简体</b>
+                                </a>
+                            </div>
+                        <div class="caseLogoWrap">
+                            <img src="https://cdn1.foundertype.com/public/fontcase/imgtemp/34566f994ea9541373910006d90b8f1d.jpg" class="caseLogo">
+                        </div>
+                    </div>
+                                        <div class="caseBox fl" data-case_id="6364">
+                        <div class="caseImgBox" >
+                            <img src="https://cdn1.foundertype.com/public/fontcase/downloadimg/3d3f2237ac1143e930242fe50cd75c80.JPG" class="caseImg">
+                        </div>
+
+                        <div class="fontCaseList">
+                                <a href="/index.php/FontInfo/ductdetail/id/304" class="fontCaseItem" data-font_id="793">
+                                    <b fid="794" style="line-height:25px;font-size: 22px;letter-spacing: 1px;white-space: nowrap;overflow: hidden;" data-code_id="1" data-font_css="https://cdn13.foundertype.com/ncss/FZFeiFTJ_Zhun/193896badfdf871ae2c48d423bad8055/FZFeiFTJ_Zhun_1370752533" data-ttf_name="FZFeiFTJ_Zhun" data-otf_name="FZFeiFTJ_Zhun" data-otf_name="FZFeiFTJ_Zhun">方正非凡体简体 Medium</b>
+                                </a>
+                            </div>
+                        <div class="caseLogoWrap">
+                            <img src="https://cdn1.foundertype.com/public/fontcase/imgtemp/sys_6364_743.jpeg" class="caseLogo">
+                        </div>
+                    </div>
+                                        <div class="caseBox fl" data-case_id="8006">
+                        <div class="caseImgBox" >
+                            <img src="https://cdn1.foundertype.com/public/fontcase/downloadimg/71d5f57fc3c755e46f3638849521254e.JPG" class="caseImg">
+                        </div>
+
+                        <div class="fontCaseList">
+                                <a href="/index.php/FontInfo/ductdetail/id/202" class="fontCaseItem" data-font_id="793">
+                                    <b fid="464" style="line-height:25px;font-size: 22px;letter-spacing: 1px;white-space: nowrap;overflow: hidden;" data-code_id="1" data-font_css="https://cdn13.foundertype.com/ncss/FZCuJinLJW/15f1c889365ec873f93600296342a753/FZCuJinLJW_2692134251" data-ttf_name="FZCuJinLJW" data-otf_name="" data-otf_name="">方正粗金陵简体</b>
+                                </a>
+                            </div>
+                        <div class="caseLogoWrap">
+                            <img src="https://cdn1.foundertype.com/public/fontcase/imgtemp/sys_8006_44.jpeg" class="caseLogo">
+                        </div>
+                    </div>
+                                    </div>            
+        </div>
+    </div>            <div class="fz-footer footer" data-authcode='C62X4D'>
+    <div class="footer-container">
+        <div class="footer-logo">
+            <img src="https://cdn1.foundertype.com/Public/www2/Home/img/v2/public/logo_black.png" />
+        </div>
+        <div class="footer-list clearfix">
+            <ul class="footer-ul footer-divide fl">
+                <li class="footer-li-first">方正字体资料素材</li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/2026%E5%AD%97%E4%BD%93%E8%B6%8B%E5%8A%BF%E6%8A%A5%E5%91%8A.pdf" >2026字体趋势报告</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/Index/get_font_trends_down.html" >2025字体趋势报告</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/2023%E5%AD%97%E4%BD%93%E8%B6%8B%E5%8A%BF%E6%8A%A5%E5%91%8A.pdf" >2023字体趋势报告</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/方正宣传册_转曲_0926.pdf" >下载方正字库商业手册</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/方正字库字体样张.pdf">下载方正字库字体样张</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/Monotype西文样册.pdf" >下载Monotype字体样张</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/ProductionType西文样册.pdf" >下载Production Type字体样张</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://cdn25.foundertype.com/www/manual/2019-05-22_Catalogue2019-Chinese_RG.pdf" >下载TypeTogether字体样张</a></li>
+            </ul>
+            <ul class="footer-ul footer-divide fl">
+                <li class="footer-li-first">解决方案</li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solvedz.html" >国家标准点阵</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solveqr.html">嵌入式系统</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/Ptiger/index.html">包装字体</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solvePaper.html">报纸</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solveBook.html">书刊</a></li>
+                <li><a target='_blank' rel="nofollow" href="/UncommonWords.html">生僻字</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solvegj.html">古籍出版</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solveGoverment.html">政府办公</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solveNation.html">民族文</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/solvegd.html">广电行业</a></li>
+            </ul>
+            <ul class="footer-ul footer-divide fl">
+                <li class="footer-li-first">授权许可</li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/powerAllowPro.html">产品许可协议</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/powerGetp.html">获得授权</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/powerbus.html">授权认证</a></li>
+                <!--<li><a target='_blank' rel="nofollow" href="/index.php/About/powerBook.html">图书授权</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/powerqk.html">期刊授权</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/powerbk.html">报刊授权</a></li>-->
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/powerCus.html">品牌客户</a></li>
+                <!--<li><a target='_blank' rel="nofollow" href="/index.php/About/powerPer.html">个人非商业</a></li>-->
+            </ul>
+            <ul class="footer-ul footer-divide fl">
+                <li class="footer-li-first">关于我们</li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsfz.html">公司介绍</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://nzj.foundertype.com">字加社区</a></li>
+                <!-- <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsdev.html">发展历程</a></li>-->
+                <!--  <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsLinkUs.html">联系我们</a></li> -->
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsSm.html">商业声明</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsMz.html">免责声明</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsBus.html">商业模式</a></li>
+                <li><a target='_blank' rel="nofollow" href="https://shop.foundertype.com/index.php/Joinus/index">品牌入驻</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/About/aboutUsAdvice.html">意见反馈</a></li>
+                <li><a target='_blank' rel="nofollow" href="/index.php/Service/index">服务咨询</a></li>
+            </ul>
+            <ul class="footer-ul footer-contact fl">
+                <li class="contact-first">联系我们</li>
+                <li class="contact-second">电话：4006-516763</li>
+                <li class="contact-third">邮箱：font_sales@founder.com</li>
+                <li class="contact-fourth">时间：9:00 ~ 18:00</li>
+                <li class="contact-fifth">
+                    <img src="https://cdn1.foundertype.com/Public/www2/Home/img/v2/public/footer_contact.png" />
+                    <p>方正字库微信</p>
+                </li>
+            </ul>
+            <ul class="footer-ul footer-follow fl">
+                <li class="footer-li-first">关注我们</li>
+                <li class="foolow-list">
+                    <div class="follow-top clearfix">
+                        <a class="follow-weibo fl" href="https://weibo.com/u/2017531423" target="_blank" rel="nofollow"></a>
+                        <div class="follow-weixin-box fl">
+                            <span class="follow-weixin"></span>
+                            <img src="https://cdn1.foundertype.com/Public/www2/Home/img/v2/public/wechat_qrcode.png" />
+                        </div>
+                        <div class="follow-douyin-box fl">
+                            <span class="follow-douyin"></span>
+                            <img src="https://cdn1.foundertype.com/Public/www2/Home/img/v2/public/douyin_qrcode.png" />
+                        </div>
+                        <a class="follow-xiaohongshu fl" href="https://www.xiaohongshu.com/user/profile/604b379d000000000101e694?xhsshare=CopyLink&appuid=604b379d000000000101e694&apptime=1656470987" target="_blank" rel="nofollow"></a>
+                    </div>
+                    <div class="clearfix">
+                        <a class="follow-instagram fl" href="https://www.instagram.com/foundertype" target="_blank" rel="nofollow"></a>
+                        <a class="follow-twitter fl" href="https://twitter.com/foundertype" target="_blank" rel="nofollow"></a>
+                        <a class="follow-zcool fl" href="https://founder.zcool.com.cn/" target="_blank" rel="nofollow"></a>
+                        <a class="follow-bili fl" href="https://space.bilibili.com/354094134" target="_blank" rel="nofollow"></a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="footer-ul footer-copyright fr">
+                <li class="copyright-first">北京北大方正电子有限公司 版权所有</li>
+                <li><a href="https://beian.miit.gov.cn/" rel="nofollow">京ICP备09064830号</a></li>
+                <li><a href="https://beian.miit.gov.cn/" rel="nofollow">京ICP备09064830号-27</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <!-- 引入右侧边栏 显示对比按钮 -->
+    <div class="sideBarTools" id="sideBarTools">
+    <!--<div class="aiwenxiang header-aitool" id="aiwenxiang">
+        <a href="javascript:;"   data-name="textToImage">
+            <div class="aiwenxiangImg"></div>
+        </a>
+    </div>-->
+    <ul class="sideBarNew" id="sideBarNew">
+                <li class="navBar" id="j_shopCar" style="display:none;">
+           
+            <div class="shopCar j_color">
+                <div class="navBarInner">
+                    <b class="shopCarNum"></b>
+                    <i class="iconCheckList"></i>
+                    <p class="sideBarTxt">清单</p>
+                </div>
+            </div>
+            
+            <div class="sonShop j_hover">
+                字体清单 <b class="fc4a4a shopcount"></b>
+            </div>
+        </li>
+        <li class="navBar" id="j_compare" style="display: block;">
+            <div class="comPareFt j_color">
+                <div class="navBarInner">
+                    <b class="iconRedDot"></b>
+                    <i class="iconCompare"></i>
+                    <p class="sideBarTxt">对比</p>
+                </div>
+            </div>
+            <div class="add_comp j_hover" id="add_comp"><span style="display:none" id='is_begin'>0</span>
+                <div class="box" id="compare_font">
+                    <div id=comp_text>
+                        <p>&nbsp;&nbsp; <b class="symbol">#</b>&nbsp;点击 "加入比较" , 把需要比较的字体加入到比较列表</p>
+                        <p>&nbsp;&nbsp; <b class="symbol">#</b>&nbsp;点击 "开始比较" , 对所选的字体进行比较</p>
+                    </div>
+                    <ul id="comp_ft" class="comp_ft">
+                    </ul>
+                    <b class="compASty" id="sta_com">开始比较</b>
+                    <b class="compASty export">导出样式</b>
+                </div>
+            </div>
+        </li> 
+        <!-- <li class="navBar" id="bugPower" style="display: none">
+            <a target='_blank' href="https://shop.foundertype.com">
+                <div class="buyShopPowerIcon j_color">
+                    <img src="https://cdn1.foundertype.com/Public/www2/Home/img/modifyUl/buyPower.png" alt="">
+                </div>
+                <a href="https://shop.foundertype.com" style="color:#fff;" target="_blank">
+                    <div class="sonOnline j_hover">
+                        购买授权
+                    </div>
+                </a>
+            </a>
+        </li> -->
+        <li class="navBar" id="onlineTalk" >
+            <a href="http://www.foundertype.com/onlinetalk.html" style="color:#fff;" target="_blank">
+                <div class="onlineTalk j_color">
+                    <div class="navBarInner">
+                        <i class="iconService"></i>
+                        <p class="sideBarTxt">客服</p>
+                    </div>
+                </div>
+            </a>
+            <div class="onlineTalkCode j_hover">
+                <img src="https://cdn1.foundertype.com/Public/www/Home/img/customerService/qiyeSer.png" />
+            </div>
+        </li>
+    </ul>
+    <div class="sideBarClient" id="j_client">
+        <a href="/index.php/Index/ftXplorer/" target="_blank">
+            <div class="downClient">
+                <i class="iconClient"></i>
+                <p class="sideBarTxt">客户端</p>
+                <!-- <p class="sideBarTxt">字库</p> -->
+            </div>
+        </a>
+    </div>
+    <div class="sideBarTop" id="j_toTop">
+        <div class="toTop j_color" id="toTop">
+            <div class="navBarInner">
+                <i class="iconTop"></i>
+                <p class="sideBarTxt">顶部</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        var authCode = $('.footer').attr('data-authcode');
+        var options = {
+            url: OPEN_CLIENT_URL,
+            adNum: 0,
+            codeUrl: GET_CLIENT_CODE_URL,
+            macUrl: MAC_DOWN_URL,
+            winUrl: WIN_DOWN_URL,
+            downUrl: ZJ_DOWN_URL,
+            localUrl: GET_LOCAL_NUM,
+            cloudUrl: DO_FONT_CLOUD,
+            delFontUrl: CANCEL_FONT_ID,
+            authCode: authCode
+        };
+
+        // 侧边栏事件
+        sideBar();
+
+        // 获取本地清单数量
+        $.getCartNumberMethod({ url: GET_LOCAL_NUM });
+         
+        // 字体激活方法
+        $.fontActivationMethod('#fonPar', options);
+    });
+</script>
+
+    <script type="text/javascript">
+        var third_qq = "/index.php/ThirdBind/qqLogin/type/qq.html";
+        var third_weixin = "/index.php/ThirdBind/thirdLogin/type/weixin.html";
+        var _hmt = _hmt || [];
+
+        $.toTop('#j_toTop');
+    </script>
+
+    <script type="text/javascript">
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?58c54b495261c50cb2cfe32d5b2081c8";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- <script type="text/javascript">
+    $(function() {
+        guideToPhoneXcx();
+    
+        function guideToPhoneXcx() {
+            if (isPhone()) {
+                var oDiv = $('<div class="guidePhoneXcx" id="guidePhoneXcxBox">\
+                                <img src="/Public/Home/img/guideXcx/telPic.png" alt="" id="guidePhoneXcx">\
+                                <img src="/Public/Home/img/guideXcx/close1.png" class="closePopGuideXcx" id="closePopGuideXcx" alt="">\
+                            </div>');
+                oDiv.appendTo('body');
+                $("#closePopGuideXcx").click(function(event) {
+                    $("#guidePhoneXcx").remove();
+                });
+            }   
+        }
+
+        function isPhone() {
+            if (/Android|webOS|iPhone|iPod|BlackBerry|Windows Phone|SymbianOS/i.test(navigator.userAgent)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    });
+</script> -->
+
+</body>
+</html>
+
+
+     <!--字加广告位-->
+     <div style=" width:1180px;position: fixed;bottom:0px; left:50%; margin-left:-590px; text-align:center;z-index: 1000;display: none;" class="ad_plus_info">
+        <a data-href="/index.php/Index/ftXplorer/utm_source//" href="javascript:;" data-type="ad" style="display: block;" class="protocol-check">
+            <img class="ad_show" src="" alt="" style="width: 1180px;">
+        </a>
+        <span class="list_ad_close" id="colse_banner"></span>
+    </div>
+    <!--end-->
+
+    <!-- 视频 -->
+    
+    <!-- 字库安装说明 -->
+    <div class="fontInstallDialog">
+    <div class="fontInstallMask"></div>
+    <div class="fontInstall">
+        <h3 class="fontInstallHead clearfix">
+            字库安装说明<span class="fontInstallClose fr"></span>
+        </h3>
+        <div class="fontInstallBody">
+            <p>
+                <b class="stepLabel">步骤一：</b>字体库安装到计算机系统中，任何桌面程序的字体栏菜单都可以调用并在屏幕显示。
+            </p>
+            <p>
+                <b class="stepLabel">步骤二：</b>Windows系统：将字体文件复制到C:\WINDOWS\Fonts 文件夹即可（Win7以上版本选中文件，右键可以直接安装）。
+            </p>
+            <p>
+                <b class="stepLabel">步骤三：</b>MAC OS系统：点击菜单栏->前往->应用程序->字体册，将字体文件复制到字体册中即可。
+            </p>
+        </div>
+    </div>
+</div>
+
+
+    <!-- 授权协议 -->
+    <div class="licenseDialog">
+    <div class="licenseMask"></div>
+    <div class="license">
+        <h3 class="licenseHead clearfix">
+            授权协议<span class="licenseClose fr"></span>
+        </h3>
+        <div class="licenseBody">
+            <div class="licenseIntro">
+                <p class="licenseSummary">您可以按您的需求购买如下字体授权形式，请您仔细阅读所需授权的最终用户许可协议。如果您的应用场景没有包含在这些授权形式中，请联系我们，我们将为您提供更多选择。</p>
+
+                <div class="licenseBox">
+                    <h4 class="licenseBoxTitle">
+                        <img src="/Public/Home/img/fontDetails/icon_license4.png" />个人家庭版授权
+                    </h4>
+                    <b>个人桌面显示和打印</b>
+                    <p>常见的字体库应用场景，字体库安装到计算机系统中，任何桌面程序的字体栏菜单都可以调用并在屏幕显示。</p>
+                    <p>1. 在MAC或Windows系统中，安装字体库</p>
+                    <p>2. 在桌面程序中使用，如MS WORD，MS PPT，Mac Pages，Adobe InDesign，Adobe Photoshop等</p>
+                    <p>3. 个人打印、微博图片、美化照片、学生作业等所有个人非商业用途</p>
+                    <p>家庭版是基于用户数量授权的形式，即您仅可以在一台装有Windows 或Mac OS 的电子计算机上安装、运行本字库软件供个人非商业使用。</p>
+                    <p>如果您需要在两台或两台以上的电子计算机设备上同时使用本字库软件，请购买需要的授权数量。</p>
+                    <p>更多详细介绍请查阅<a href="https://www.foundertype.com/index.php/About/powerPer.html" target="_blank">《方正字库家庭版用户授权许可协议》</a></p>
+                </div>
+
+                <div class="licenseBox">
+                    <h4 class="licenseBoxTitle">
+                        <img src="/Public/Home/img/fontDetails/icon_license1.png" />发布使用授权
+                    </h4>
+                    <p>当您需要将字体作为视觉设计要素，用于您的产品、产品包装、产品宣传时，您需要得到字体的商业发布授权常见的商业发布形式有：</p>
+                    <p>1. 全媒体商业发布，包括印刷媒体和电子媒体</p>
+                    <p>2. 商业设计案，如手册、海报、平面广告、户外广告、影视广告、产品包装等</p>
+                    <p>3. 企业网站、企业网店、<a href="https://shop.foundertype.com/index.php/Purpose/index" target="_blank">购买网站发布商业授权</p></a>
+                    <p>4. 企业VI系统</p>
+                    <p>5. 新媒体，以图片的形式在APP软件、微信公众号等平台宣传使用。</p>
+                    <p>更多详细介绍请查阅<a href="https://www.foundertype.com/index.php/About/powerbus.html" target="_blank">《方正字库字体授权许可说明》</a></p>
+                    <p></p>
+                    <b>以个人为主体的，非公司性质的</b>
+                    <p>1. 个人出版物，如同人作品，漫画等</p>
+                    <p>2. 个人以作者身份发布的APP应用</p>
+                    <p>3. 个人网络店铺（包括个人微店）</p>
+                    <p>此类授权仅针对个人用户</p>
+                </div>
+                <div class="licenseBox">
+                    <h4 class="licenseBoxTitle">
+                        <img src="/Public/Home/img/fontDetails/icon_license2.png" />出版物授权: 针对出版物
+                    </h4>
+                    <p>在您需要使用将字体嵌入到图书的封面及内文、电子书、影视剧等多媒体出版物时，需要购买字体的出版物授权。常见的出版物形式：</p>
+                    <p>1. 报纸、图书、期刊等</p>
+                    <p style="display: none">2. 影视剧</p>
+                    <p style="display: none">3. 电视栏目</p>
+                    <p>如果这个字体不是用于出版物的本身，而是用于出版物的宣传，您应该购买字体的商业发布授权。</p>
+                    <p>更多详细介绍请查阅<a href="https://www.foundertype.com/index.php/About/powerBook.html" target="_blank">《图书发布授权说明》</a>和<a href="https://www.foundertype.com/index.php/About/powerqk.html" target="_blank">《期刊发布授权说明》</a></p>
+                </div>
+                <div class="licenseBox">
+                    <h4 class="licenseBoxTitle">
+                        <img src="/Public/Home/img/fontDetails/icon_license3.png" />嵌入式应用授权
+                    </h4>
+                    <b>嵌入电子设备系统的使用</b>
+                    <p>如果您将字体库嵌入到计算机、手机、导航仪等电子设备的系统中使用，需要购买嵌入式应用授权。</p>
+                    <p>嵌入式应用的购买是基于您的设备型号授权的。</p>
+                    
+                    <b>软件内置字体的使用（包括电脑应用程序，游戏，手机程序）</b>
+                    <p>在您开发一个系统（如iOS、Android）上的应用程序时，如果您的应用程序中需要嵌入字体，请选择软件内置字体应用授权。</p>
+                    <p>软件内置字体应用授权的购买是基于您的应用程序名称授权的。</p>
+                    <p>如果这个字体文件本身没有被嵌入到手机程序中，例如这个字体是以图片的形式用于宣传图或LOGO等，您应该购买字体的商业发布授权。</p>
+                    <p>更多详细介绍请查阅<a href="https://www.foundertype.com/index.php/About/solveqr" target="_blank">《嵌入式应用介绍》</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- 微信分享 -->
+    <style type="text/css">
+    .share_weixin_qrcode_wrapper {
+        display: none;
+    }
+
+    .share_weixin_bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000000;
+        opacity: .5;
+        filter: alpha(opacity=50);
+        z-index: 19;
+    }
+
+    .weixin_popup_bg {
+        position: absolute;
+        left: -400px;
+        top: -400px;
+        width: 260px;
+        height: 320px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        z-index: 11000
+    }
+
+    .weixin_popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -180px;
+        margin-left: -150px;
+        padding: 15px;
+        width: 270px !important;
+        height: 310px !important;
+        background: #fff;
+        z-index: 20;
+        font-size: 12px;
+    }
+
+    .weixin_popup .weixin_popup_head {
+        font-size: 14px;
+        font-weight: bold;
+        text-align: left;
+        line-height: 16px;
+        height: 16px;
+        position: relative;
+        color: #333333;
+    }
+
+    .weixin_popup .weixin_popup_head .weixin_popup_close {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: #999;
+        text-decoration: none;
+        font-size: 16px
+    }
+
+    .weixin_popup .weixin_popup_head .weixin_popup_close:hover {
+        text-decoration: none
+    }
+
+    .weixin_popup .weixin_popup_main {
+        margin-top: 40px;
+        padding: 15px 10px;
+        min-height: 150px;
+        _height: 150px
+    }
+
+    .weixin_popup .weixin_popup_foot {
+        font-size: 12px;
+        text-align: left;
+        line-height: 22px;
+        color: #666;
+        text-align: center;
+    }
+
+    .weixin_popup .weixin_popup_qrcode {
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+    }
+
+    .weixin_popup .weixin_popup_qrcode img {
+        width: 100%;
+        height: 100%;
+    }
+
+</style>
+
+<div class="share_weixin_qrcode_wrapper">
+    <div class="share_weixin_bg"></div>
+    <div id="share_weixin_qrcode_dialog" class="weixin_popup">
+        <div class="weixin_popup_head">
+            <span>分享到微信朋友圈</span>
+            <a href="#" onclick="return false;" class="weixin_popup_close">&times;</a>
+        </div>
+        <div id="share_weixin_qrcode_dialog_qr" class="weixin_popup_main">
+            <div class="weixin_popup_qrcode">
+                <img class="weixin_popup_pic" src="" alt="">
+            </div>
+        </div>
+        <div class="weixin_popup_foot">
+            扫码分享给微信好友
+        </div>
+    </div>
+    </div>
+
+<script type="text/javascript">
+    $(function() {
+        // 关闭二维码弹窗
+        $('.weixin_popup_close').on('click', function(e) {
+            $('.share_weixin_qrcode_wrapper').hide();
+        });
+
+        // 微信按钮，弹出二维码弹窗
+        if ($('.bdsharebuttonbox').length > 0) {
+            $('.bdsharebuttonbox').on('click', '.weixin', function(e) {
+                var _src = $(this).find('a').attr('data-img');
+
+                $('.weixin_popup_pic').attr('src', _src);
+                $('.share_weixin_qrcode_wrapper').show();
+            });
+        }
+        
+    });
+</script>
+    
+    <script type="text/javascript">
+        $('#my_text').keydown(function(event){
+            if(event.which==13){
+                var font =$('#my_text').val();
+                $('.show_font').html(font);
+            }
+        });
+
+        $("#colse_banner").click(function(){
+            $(this).parent().remove();
+        });
+
+        var addCollectUrl = "/index.php/Collections/getMyCollection.html";
+        var createCollectUrl = "/index.php/Collections/createCollect.html";
+        var addToCollectUrl = "/index.php/Collections/addlike.html";
+        var removeToCollectUrl = "/index.php/Collections/removelike.html";
+        var login_url = "/index.php/Login/index.html";
+        var register_url = "/index.php/Register/index.html";
+        var forget_url = "/index.php/Login/forgetPwd.html";
+        var doLogin_url = "/index.php/Login/doLogin.html";
+        var get_pop_url = "/index.php/Download/get_down_pop.html";
+        var down_url = "/index.php/Download/fontDown.html";
+        var comp_url = "/index.php/FindFont/fontlist.html";
+        var export_url = "/index.php/FindFont/createpdf.html";
+        var find_font_url = "/index.php/FindFont/fontlist.html";
+        var find_down_url = "/index.php/Download/fontDown.html";
+        var get_pop_url = "/index.php/Download/get_down_pop.html";
+        var MY_CART_NUM = "/index.php/Personal/myCartnum.html";
+        var ad_source = '';
+        var win_down_url = "";
+        var mac_down_url = "";
+        //传递参数浏览器打开客户端，新增参数open_type 1:批量激活;2:单个字体激活。如果单个字体激活需要传递参数fid.返回结果code=1为结果成功，其中参数zj_code用于浏览器打开客户端传参和数据埋点传参20220705
+        var get_client_code_url = "/index.php/index/getClientCode.html";
+        //传递参数调整：zj_code为get_client_code_url返回结果，其他值保持不变20220705
+        var zj_server_url = "/index.php/index/adDown.html";
+        var zj_down_url = "/index.php/Index/ftXplorer/utm_source//";
+        //点击广告位方式 1:浏览器打开字加客户端；0：跳转到宣传页
+        var is_open ="0";
+
+        var initialCallWebfont = false;
+
+        $(function() {
+            function checkMobile() {
+                return /Android|webOS|iPhone|iPod|BlackBerry|Windows Phone|SymbianOS/i.test(navigator.userAgent);
+            }
+
+            $("#playBtn").click(function() {
+                document.getElementById('videoPar').style.display="none";
+                document.getElementById('myVideo').play();
+            });
+
+            var bro = $.browser;
+
+            if (bro.msie && bro.version < 9) {     
+                $("#playVideoBox").hide();
+            }
+
+            //用户从付费渠道进来，点击了下载,不再展示广告
+            var is_plus_down = getCookie('is_plus_down_'+ad_source);
+            if(is_plus_down != 1) {
+                if(ad_source && !checkMobile()){
+                    if(ad_source == "bdsem1" || ad_source == "bdsem2"){
+                        $(".ad_show").attr({ "src": "/Public/Home/img/newAllFonts/info_ad1.png?v=20191024", "data-number": "1" });
+                    }else {
+                        //控制广告展示（2个图轮流展示）
+                        var rand = Math.floor((Math.random() * 10) + 1);
+                        if (rand < 4) {
+                            $(".ad_show").attr({ "src": "/Public/Home/img/newAllFonts/info_ad2.png?v=20191024", "data-number": "2"  });
+                        } else if (rand > 6) {
+                            $(".ad_show").attr({ "src": "/Public/Home/img/newAllFonts/info_ad1.png?v=20191024", "data-number": "1" });
+                        } else {
+                            $(".ad_show").attr({ "src": "/Public/Home/img/newAllFonts/info_ad3.png?v=20191024", "data-number": "3" });
+                        }
+                    }
+                    $(".ad_plus_info").show();
+                }
+            }
+
+            // 微信分享，显示二维码弹窗
+            $('.bdsharebuttonbox').on('click', '.wei_xin', function(e) {
+                var _src = $(this).find('a').attr('data-img');
+
+                $('.weixin_popup_pic').attr('src', _src);
+                $('.share_weixin_qrcode_wrapper').show();
+            });
+
+        })
+
+    </script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/protocolCheckNew/protocolcheck.js?v=202609231115"></script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/video/video.min.js"></script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/public/caseDialog.js?v=202609231115"></script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/collections.js?v=202609231115"></script>
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/public/loadFontLayer.js?v=202609231115"></script>
+
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/fontDetails2.js?v=202609231115"></script>
+    <!-- <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/findFontTest.js?v=202609231115"></script> -->
+    <script type="text/javascript" src="https://cdn1.foundertype.com/Public/www2/Home/js/aliwhcaptcah.js?v=202609231115"></script>
+    
+
+    <script type="text/javascript">
+
+        var bdPic = $('#my_pic').attr('src'),
+            my_name = $('#my_name').attr('value');
+
+        // 图片不是以http或者https开头的（相对路径），需加上当前的origin
+        if (!/^(http|https):\/\/([\w.]+\/?)\S*/.test(bdPic)) {
+            bdPic = window.location.origin + bdPic;
+        }
+    </script>
+</div>

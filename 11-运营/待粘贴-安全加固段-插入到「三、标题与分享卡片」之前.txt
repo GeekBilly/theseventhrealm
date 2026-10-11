@@ -1,0 +1,145 @@
+════════════════════════════════════════════════════════════════
+ 粘贴说明（REQ-2026-10-04-01 · 站点安全加固）
+════════════════════════════════════════════════════════════════
+
+【第 1 步】改版本号（可选，1 秒钟）
+  文件最上面第 3 行左右，把：
+       * 第七境子主题 v1.4
+  改成：
+       * 第七境子主题 v1.5
+
+【第 2 步】插入新段
+  往下找到这一行（大约在中段）：
+
+       /* ============================================================
+          三、标题与分享卡片
+
+  把下面【横线之间的整段】粘贴到它【前面】，前面留一个空行。
+
+【第 3 步】保存并验证
+  保存 → 立刻刷新 https://theseventhrealm.com/
+  · 正常显示 = 成功
+  · 白屏 = 失败，把 functions.php.bak-20261004-加固前 改名成 functions.php 回滚
+
+⚠️ 只粘横线之间的内容，不要把本说明粘进去
+⚠️ 不要动文件开头的 <?php
+⚠️ 不要动「三、标题与分享卡片」及它后面的任何内容
+
+════════════════════════════════════════════════════════════════
+↓ ↓ ↓  从这里开始复制  ↓ ↓ ↓
+════════════════════════════════════════════════════════════════
+
+/* ============================================================
+   四、安全加固（2026-10-04 · REQ-2026-10-04-01）
+   背景：外网实测发现三条缺口 ——
+     ① /?author=1 → 301 到 /author/admin/，用户名被枚举
+     ② /wp-json/wp/v2/users 未登录即可读，吐出了 admin 与 MollyBot_No.2
+     ③ 登录入口无失败限制（连试 3 次错误密码全部正常返回 200）
+   数据侧证据：机器人访问 /wp-login.php 达 1436 次（比最大真实页面还多 3 倍）
+   ============================================================ */
+
+/**
+ * 4.0 取真实访客 IP
+ * ⚠️ 站点在 Cloudflare 后面：REMOTE_ADDR 永远是 CF 的机房 IP，
+ *    用它做限流会把所有访客当成同一个人。必须优先读 CF 头。
+ */
+if ( ! function_exists( 'sr_client_ip' ) ) :
+function sr_client_ip() {
+	foreach ( array( 'HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' ) as $k ) {
+		if ( empty( $_SERVER[ $k ] ) ) {
+			continue;
+		}
+		$ip = trim( explode( ',', $_SERVER[ $k ] )[0] );
+		if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			return $ip;
+		}
+	}
+	return '0.0.0.0';
+}
+endif;
+
+/**
+ * 4.1 关闭 ?author= 用户名枚举
+ * 未登录访客访问 /?author=N 或 /author/xxx/ 一律 301 回首页。
+ * ⚠️ 不要加 ! is_author() 条件 —— /?author=1 本身就会被 WordPress 解析成
+ *    author 归档，is_author() 本来就是 TRUE，加了之后条件永远不成立。
+ *    2026-10-04 实测踩过：加了它，?author=1 照样 301 到 /author/admin/。
+ */
+add_action( 'template_redirect', function () {
+	if ( is_admin() || is_user_logged_in() ) {
+		return;
+	}
+	if ( isset( $_GET['author'] ) || is_author() ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+}, 1 );
+
+/**
+ * 4.2 未登录访客不可读用户列表
+ * 只对「没有 edit_posts 能力」的请求摘掉这两个端点；
+ * 编辑器和后台作者下拉框照常可用（否则会白屏）。
+ */
+add_filter( 'rest_endpoints', function ( $endpoints ) {
+	if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
+		return $endpoints;
+	}
+	unset( $endpoints['/wp/v2/users'] );
+	unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+	return $endpoints;
+} );
+
+/**
+ * 4.3 登录失败限流（轻量版，不依赖插件）
+ * 同一 IP 15 分钟内失败 ≥5 次即锁定，成功登录后清零。
+ * 只拦前台登录；后台已登录用户的正常操作不受影响。
+ */
+/* ⚠️ 用 define + 存在性判断，不用顶层 const ——
+   顶层 const 若本文件被重复 include 会触发致命错误，整站白屏。
+   WP 正常只加载一次，但部署方式（插件/自动优化器）可能重复包含。 */
+if ( ! defined( 'SR_LOGIN_MAX_FAIL' ) ) {
+	define( 'SR_LOGIN_MAX_FAIL', 5 );
+}
+if ( ! defined( 'SR_LOGIN_WINDOW' ) ) {
+	define( 'SR_LOGIN_WINDOW', 900 ); // 15 分钟
+}
+
+add_action( 'wp_login_failed', function () {
+	if ( is_admin() && is_user_logged_in() ) {
+		return;
+	}
+	$key = 'sr_lf_' . md5( sr_client_ip() );
+	set_transient( $key, (int) get_transient( $key ) + 1, SR_LOGIN_WINDOW );
+} );
+
+add_filter( 'authenticate', function ( $user, $username, $password ) {
+	if ( '' === $username && '' === $password ) {
+		return $user; // 空提交不计数
+	}
+	$key = 'sr_lf_' . md5( sr_client_ip() );
+	if ( (int) get_transient( $key ) >= SR_LOGIN_MAX_FAIL ) {
+		return new WP_Error(
+			'sr_too_many_logins',
+			'<strong>尝试次数过多</strong>：请 15 分钟后再试。'
+		);
+	}
+	return $user;
+}, 30, 3 );
+
+add_action( 'wp_login', function ( $login, $user ) {
+	delete_transient( 'sr_lf_' . md5( sr_client_ip() ) );
+}, 10, 2 );
+
+/**
+ * 4.4 移除响应头里的 PHP 版本信息
+ * 实测 /wp-login.php 返回 x-powered-by: PHP/8.3.33 —— 白送攻击者一个版本号。
+ */
+add_action( 'init', function () {
+	if ( ! is_admin() ) {
+		header_remove( 'X-Powered-By' );
+	}
+} );
+
+════════════════════════════════════════════════════════════════
+↑ ↑ ↑  复制到这里结束  ↑ ↑ ↑
+════════════════════════════════════════════════════════════════

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!--
+════════════════════════════════════════════════════════════════════════════
+ 朝代线（A 线「字体演变」）版式模板 v9 · 唯一权威文件
+   · 这个文件本身就是「商」的成品 HTML —— 直接渲染即得成品图
+   · 除「三联字 / 古文字图 / 金句 / 出处 / 年代 / 底纹」这些**数据**外，
+     所有**位置、字号、字距、颜色**都是写死的字面量，不在任何脚本里
+   · 生成器只做槽位替换（见文末「数据槽位清单」），不持有任何版式数值
+════════════════════════════════════════════════════════════════════════════
+
+【这个文件的来历】= 05-承接站/样张/shang-v9-std.html（母版）
+   + gen-wallpaper-classic.py 注入的商品要素（系列小标 .series-tag 与 ™）
+   合并成一份，理由：原先「版式在 HTML、商品要素在脚本」两处分散，
+   查版式要开两个文件，且脚本一改就与 HTML 失同步（2026-10-03 用户要求归一）。
+
+⚠️ 已知存在**另一份 A 线 HTML 家族**：02-商品/03-字形线/版式/gen-evolution.py 产的
+   evolution-{期}-{std,mac}.html。两者差异仅两处，均为**文案**、非版式：
+     系列小标  ✅ 2026-10-05 用户定夺：**两处统一为「上 下 五 千 年 · 朝代名」**
+     品牌落款  本文件「TANTSE™」（拉丁）      ｜ evolution「第七境™」（毛笔）
+   → 所以本模板把这两处也做成了**数据槽位**，一份模板可出两种口径。
+   ⚠️ 系列小标已统一（见上行）；**品牌落款仍保留两口径**：中文产品一律「第七境™」，
+      母版「TANTSE™」只用于英文站/历史样张，不要互相套用（用户 2026-10-04 定）。
+
+⚠️ 第三处口径差异（**本模板已按「母版样张」口径定，故旧代码重跑会变**）：
+   小字字体（系列标 / 画心标题 / 格下小字 / 出处 / 年代）
+     本模板      `--f-body:'Noto Serif SC',Georgia,serif` → 本机系统衬线**细体**
+                 （＝ 05-承接站/样张/shang-v9-std.png 的实际字形，用户比对的母版）
+     旧 evolution `--f-body:'SerifBlack','Songti SC',serif` → 思源宋体 **Black**（重一档）
+   → 因此**重跑本模板出图，A 线小字会比已交付的商/周成品细一档**。
+     已交付的 PNG **本次一张未动**；要不要统一重渲染 A 线两版，等用户定夺（本地零积分）。
+
+【平齐规格表】判据一律「距画面上/下边缘 px」
+  ① 左上角系列标       距上  66   距左 210     16px / 字距 6
+  ② 画心上方标题两行   距上 262   水平居中     20px/字距14 + 14px/字距7（行间 13）
+  ③ 右上题跋           距上  62   距右 150
+     金句列宽 56，54px / line-height 1.9（＝逐字中心距 102.6）
+     出处接在金句左侧：`.vc.src` 右缘与金句组左缘间距 55（gap30 + margin-right24）
+     出处底边比金句盒底低 12（margin-bottom:-12，母版就是这么做的）
+  ④ 画心三联字         盒 371→710，**中心 540**（画面正中）
+     格间距 gap 40；格宽 290；字号 262px；分隔竖线 1×200 / 下边距 48
+  ⑤ 字下「英文+年代」  距上 746   水平居中     26px/字距18 + 19px/字距8
+  ⑥ 左下角落款        距底 140   距左 210     竖排 40px/1.44 + 朱砂点 + 印高 70
+  ⑦ 正下中品牌行      距底 140   水平居中     40px/字距10 + 18px/字距5 + ™22px
+  ⑧ 底纹：整幅铺满（inset:0 / object-fit:cover / opacity .32 / 灰度 + 椭圆遮罩）
+
+【Mac 版差异】见 模板-朝代-v9-mac.html，只差 6 处（画幅高 1248）
+  画心标题 262→343｜三联字区 371→455｜字下行 746→830
+  落款两区 距底 140→130（左下角 + 正下中）
+
+【渲染流程】（唯一一条写不进 HTML 的规矩，因为它发生在 HTML 之外）
+  1. 先按 2× 设备像素渲染 → 3840×2160
+  2. 再用 LANCZOS 缩回 1920×1080 —— 商周成品 std 图本身就是 4K 缩制品
+     （实测：std 与「4K 缩回」差异 mean 0.59、墨量完全相同）
+  3. 4K 档直接留第 1 步；Mac 档 1920×1248 同法 2× 得 3840×2496
+
+【数据槽位清单】生成器用注释对定位替换（左括号写 S:xxx，右括号写 E:xxx）
+  ⚠️⚠️ 本注释块里**不许**出现完整的 HTML 注释定界符字面量，否则大注释会被提前闭合、
+      残余文字被当成正文渲染 → 整幅下移（2026-10-03 在 B 线模板上踩过，症状是
+      所有元素一起下移 46px）
+  tag      左上角系列标文字
+  title    画心上方标题两行
+  triple   画心三联字（碑刻宋 | 毛笔 | 古文字，屏幕自左向右）
+  quote    右上题跋 —— 固定**右起**：最左是 `.vc.src` 出处列，金句第一句贴最右。
+           ⚠️ `.quote` 是 flex row，**DOM 顺序＝屏幕自左向右**，所以 DOM 里金句列是
+           「第二句在前、第一句在后」（见下方默认样本：降而生商 → 天命玄鸟）。
+           生成器拿到的数据是阅读顺序，由它 reversed() 后写入 —— 别再手工倒一遍。
+  （底纹不是注释槽位：正文里那张 class 为 texture 的底纹图，其 src 由生成器在
+    `</style>` 之后的正文里用正则替换 —— 因为注释标记塞进属性值会被当字面文本。
+    ⚠️ 本注释块**不得**出现带真实文件名的底纹标签示例：曾因此让全文件替换命中注释、
+    正文底纹没被换掉（周被悄悄换成商的玄鸟），2026-10-04 已修）
+  brand    正下中品牌行 —— 固定「第七境™」（方案① 中英分立，见 .brand-cn 注释）
+  era      字下「英文 + 年代」两行
+
+【与姓氏线模板的对应】02-商品/06-姓氏线/版式/模板-姓氏-v11.html
+  两线的七个区位一一对应，只有三处结构性差异：
+    · 画心：本文件三联（3 格 × 290 宽）｜姓氏线四联（4 格 + 3 道竖线）
+    · 底纹：本文件整幅铺满居中｜姓氏线人物居右 0/底 0、高 1000、opacity .215
+    · 小字字体：本文件 --f-body 走 webfont｜姓氏线同一套（2026-10-03 起统一）
+════════════════════════════════════════════════════════════════════════════
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face{
+  font-family:'Noto Serif SC Black Local';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/nssc-black.woff2') format('woff2');
+  font-weight:900;
+}
+@font-face{
+  font-family:'Ma Shan Zheng Local';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf') format('truetype');
+  font-weight:400;
+}
+/* 落款/金句字体：⭐ 把项目字体文件排链首，不依赖系统装没装 'Ma Shan Zheng'
+   （2026-10-03 查明：母版成品落款/金句的字形＝马善政，与项目 MaShanZheng.ttf 骨架重合度 1.000） */
+@font-face{font-family:'msz';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf') format('truetype')}
+/* ⚠️⚠️ 这里**故意不引外链 webfont**（原 gen-wallpaper-classic.py 有一行
+   @import fonts.loli.net 的 Noto Serif SC）。2026-10-03 实测：
+     母版成品 png 的题头/出处小字 = **外链没加载成功**时的系统衬线兜底字形
+     （「去掉 @import 重渲」与母版 png 在该区差异 mean 1.52、>60 仅 18 像素；
+      而「外链加载成功」重渲则差 mean 10.04）；
+     更麻烦的是外链**时通时不通** → 同一份 HTML 两次出图小字不同，100 张批量必翻车。
+   → 结论：小字就用 --f-body 的原栈，让它确定性地走本机系统衬线兜底。 */
+:root{
+  --white:#ffffff; --ink:#1a1a18; --ink2:#54504a;
+  --cinnabar:#b03826;
+  --f-brush:'msz','Ma Shan Zheng Local','Ma Shan Zheng','KaiTi',serif;
+  --f-body:'Noto Serif SC',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--white)}
+.stage{position:relative;width:1920px;height:1080px;background:#fff;overflow:hidden}
+
+/* ⑧ 底纹：整幅铺满，不做白色让渡，字直接压在上面 */
+.texture{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.32;pointer-events:none;
+  filter:grayscale(100%) contrast(.96);
+  -webkit-mask-image:radial-gradient(ellipse 78% 72% at 52% 46%, #000 55%, transparent 100%);
+  mask-image:radial-gradient(ellipse 78% 72% at 52% 46%, #000 55%, transparent 100%)}
+
+/* ② 题头（三联正上方，无底衬，靠加深字色保证可读） */
+.title-box{position:absolute;left:960px;top:262px;transform:translateX(-50%);z-index:2;
+  text-align:center;white-space:nowrap}
+.triple-title{font-family:var(--f-body);font-size:20px;letter-spacing:14px;color:#24221d;
+  text-indent:14px}
+.triple-hint{margin-top:13px;font-family:var(--f-body);font-size:14px;
+  letter-spacing:7px;color:#4a463f;text-indent:7px}
+
+/* ④ 画心：三联（真居中，画面正中） */
+.triple{position:absolute;left:960px;top:371px;transform:translateX(-50%);
+  display:flex;align-items:flex-end;gap:40px}
+.cell{width:290px;text-align:center;position:relative}
+
+/* 甲骨文（展卷最先看到，居右） */
+.oracle-box{height:266px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.oracle-glyph{width:246px;height:246px;display:block}
+/* ⚠️ 上面这两个尺寸只是**兜底默认值**：古文字尺寸每期不同（商 246 / 周 274），
+   由生成器在标签上内联 style 覆盖。改这里不会影响成品 —— 要改尺寸请改
+   gen-evolution.py 里 ERAS[*].ancient.size */
+/* 古文字若用字体渲染而非 SVG（如后续期次），走这个类 */
+.oracle-font{font-family:'AncientGlyph';font-size:246px;line-height:1;color:var(--ink)}
+/* 中间：马善政毛笔 */
+.brush-char{font-family:var(--f-brush);font-size:262px;line-height:1;color:var(--ink);margin-top:4px}
+/* 展卷末尾（居左）：思源宋体 Black 碑刻 */
+.song-char{font-family:'Noto Serif SC Black Local','Songti SC',serif;font-weight:900;
+  font-size:262px;line-height:1;color:var(--ink);margin-top:4px}
+
+.cell .cap{margin-top:22px;font-family:var(--f-body);font-size:17px;
+  letter-spacing:9px;color:#3d3931;text-indent:9px}
+.cell .sub{margin-top:9px;font-family:var(--f-body);font-size:13px;
+  letter-spacing:5px;color:#6b675f;text-indent:5px}
+
+/* 分隔：两道极细竖向断线 */
+.divider{width:1px;height:200px;background:#ded7c9;margin-bottom:48px}
+
+/* 朱砂点睛：落在画心正中（毛笔今文） */
+.cinnabar-dot{position:absolute;right:26px;top:2px;
+  width:17px;height:17px;border-radius:50%;background:var(--cinnabar);
+  box-shadow:22px 26px 0 -8px rgba(176,56,38,.35)}
+
+/* ③ 右起题跋：竖排金句（贴顶部菜单栏下沿，作为展卷起点） */
+.quote{position:absolute;right:150px;top:62px;
+  display:flex;gap:30px;align-items:flex-start;z-index:2}
+.vc{display:flex;flex-direction:column;align-items:center;width:56px}
+.vc span{font-family:var(--f-brush);font-size:54px;line-height:1.9;color:var(--ink)}
+.vc.src{width:auto;margin-right:24px;align-self:flex-end;margin-bottom:-12px;
+  padding-left:6px}
+.vc.src span{font-family:var(--f-body);font-size:20px;line-height:1.8;color:#3d3931}
+.vc.src .rot{display:block;transform:rotate(90deg);line-height:1}
+
+/* ⑥ 左下角落款：中文竖排 + 朱砂点 + 印章（款识收尾钤印） */
+.colophon{position:absolute;left:210px;bottom:140px;z-index:3;
+  display:flex;flex-direction:column;align-items:flex-start}
+.vstack{display:flex;flex-direction:column;align-items:center}
+.vstack span{display:block;text-align:center}
+.vstack.cjk span{font-family:var(--f-brush);font-size:40px;line-height:1.44;color:var(--ink)}
+.vdot{width:10px;height:10px;border-radius:50%;background:var(--cinnabar);
+  margin:16px 0 14px 14px;flex:0 0 auto}
+.colophon-seal{height:70px;opacity:.95}
+
+/* ⑦ 品牌落款：底部居中 */
+.brand-block{position:absolute;left:960px;bottom:140px;transform:translateX(-50%);z-index:3;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.brand-en{font-size:33px;letter-spacing:9px;color:#26241f;text-transform:uppercase;
+  text-indent:16px}
+.brand-url{margin-top:13px;font-size:18px;letter-spacing:5px;color:#45423c;text-indent:5px}
+/* 品牌行中文版 = **唯一正确口径**（2026-10-04 用户拍板，两线统一）
+   ⭐ 依据：2026-10-02 品牌终局「方案① 中英分立」—— 中文产品落款只写
+      「第七境™ + www.theseventhrealm.com」，**不许出现 TANTSE**（TANTSE 只在英文站／海外）。
+      金句线当天已改；朝代线壁纸（shang-v9-std 等）漏跟进 → 本次 A/B 两线一并纠正。
+   字号 40px = 左下角竖排落款 .vstack.cjk span 字号，字体同走 --f-brush（马善政），
+      两处「第七境」品牌重量一致；字距 10px；text-indent 补偿末字后 letter-spacing 空隙。
+   ⚠️ .brand-en（拉丁 Georgia 33px）**保留不删**：英文站／海外物料仍要用。 */
+.brand-cn{font-size:40px;letter-spacing:10px;color:#26241f;line-height:1;
+  font-family:var(--f-brush);font-weight:400;
+  /* 水平：letter-spacing 在末字「境」后仍留 10px 空隙，居中会整体偏右
+     → 负值 margin-right 抵消。实测 -4px 时墨迹中心 x≈967.5，
+       与母版 TANTSE™ 的中心 x967.5 **完全一致**（注意母版本身就不是 960） */
+  margin-right:-10px;
+  /* 垂直：毛笔体墨迹占满 40px 行盒（拉丁大写只占 25px），底边会比母版低 7px
+     → 补 10px 使**墨迹底边 y899 与母版严格一致**（顶边因汉字更高而自然上探）
+     ⚠️ 必须用 padding 不能用 margin-bottom —— 相邻兄弟 .brand-url{margin-top:13px}
+        会与之**margin 折叠**取 max(7,13)=13，等于没写 */
+  padding-bottom:10px}
+
+/* ⑤ 年代与英文（贴近 Dock，与左下角品牌块同一水平线） */
+.era{position:absolute;left:960px;top:746px;transform:translateX(-50%);z-index:3;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.era .en{font-size:26px;letter-spacing:18px;color:#26241f;text-transform:uppercase}
+.era .years{margin-top:14px;font-size:19px;letter-spacing:8px;color:#45423c}
+
+/* ① 商品要素：系列小标 + 商标标识（原先由 gen-wallpaper-classic.py 注入，现并入本文件） */
+.series-tag{position:absolute;left:210px;top:66px;z-index:2;
+  font-family:var(--f-body);font-size:16px;letter-spacing:6px;color:#6b675f}
+/* ™ 标识（2026-10-04 放大）：原 15px 且未指定字体 → 继承 .brand-cn 的毛笔体链，
+   回退字形笔画极细，实测墨迹只有 10×6px（1920 档），缩到手机上看就是一团糊。
+   → ① 显式走拉丁衬线 Georgia（与 .brand-url 同族，™ 字形正规）
+     ② 字号 15→30px：™ 字形本身是扁宽的「小型大写」，Georgia 22px 时墨迹仅
+        19×8px 仍偏糊，30px 才到 27×11px（汉字「第七境」高 41px）
+     ③ 上标不用 vertical-align:super（上移量随父字号漂移）→ baseline + 相对位移，
+        实测 top:-12px 时 ™ 墨迹顶 y858，与汉字行顶 y857 齐平、底 y868
+     ④ .brand-cn 的 margin-right 随之由 -4px 收紧到 -10px，抵消 ™ 变宽后整块右移，
+        使整行墨迹中心保持 **x967.5**（＝母版 TANTSE™ 的中心，母版本身就不是 960）
+   实测（商/周/赵 × 1080 与 Mac 两档）：™ 27×11px、中心 967.5、顶与汉字齐平 */
+.tm{font-family:Georgia,'Times New Roman',serif;font-size:30px;letter-spacing:0;
+  margin-left:6px;vertical-align:baseline;position:relative;top:-12px;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <img class="texture" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/phoenix-full.png" style="object-position:center 35%">
+
+  <div class="series-tag">上 下 五 千 年 · 周</div>
+
+  <div class="title-box"><div class="triple-title">字 形 演 变 · 三 千 年</div>
+    <div class="triple-hint">右 起 展 卷 · 自 吉 金 至 今 文</div></div>
+
+  <!-- 屏幕自左向右：碑刻宋 | 毛笔 | 甲骨文 —— 展卷自右向左读即 甲骨文 → 毛笔 → 碑刻宋 -->
+  <div class="triple">
+    <div class="cell">
+      <div class="song-char">周</div>
+      <div class="cap">今文 · 碑刻宋</div>
+      <div class="sub">思源宋体</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cell">
+      <div class="brush-char">周</div>
+      <div class="cinnabar-dot"></div>
+      <div class="cap">今文 · 毛笔</div>
+      <div class="sub">马善政楷书</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cell">
+      <div class="oracle-box"><img class="oracle-glyph" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/古文字/jinwen-zhou-31_E60B.svg" style="width:274px;height:274px"></div>
+      <div class="cap">金文</div>
+      <div class="sub">西周 · 青铜器铭文</div>
+    </div></div>
+
+  <!-- 展卷最先看到：右起题跋（贴顶） -->
+  <div class="quote"><div class="vc src"><span class="rot">《</span><span>诗</span><span>经</span><span>·</span><span>大</span><span>雅</span><span>·</span><span>卷</span><span>阿</span><span class="rot">》</span></div>
+    <div class="vc"><span>于</span><span>彼</span><span>高</span><span>冈</span></div>
+    <div class="vc"><span>凤</span><span>凰</span><span>鸣</span><span>矣</span></div></div>
+
+  <!-- 展卷终章：左下角落款（中文名 + 钤印） -->
+  <div class="colophon">
+    <div class="vstack cjk"><span>第</span><span>七</span><span>境</span></div>
+    <div class="vdot"></div>
+    <img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal.png">
+  </div>
+
+  <!-- 品牌落款：底部居中（大写英文 + 小写网址） -->
+  <div class="brand-block"><div class="brand-cn">第七境<span class="tm">™</span></div>
+    <div class="brand-url">www.theseventhrealm.com</div></div>
+
+  <div class="era"><div class="en">ZHOU DYNASTY</div><div class="years">1046 – 256 BC</div></div>
+</div>
+</body>
+</html>

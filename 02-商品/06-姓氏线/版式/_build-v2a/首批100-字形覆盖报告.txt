@@ -1,0 +1,46 @@
+  cmap serif    7946 码点
+  cmap lishu   14963 码点
+  cmap xing     7015 码点
+  cmap cao      7015 码点
+
+审计 100 个单姓，其中 40 个存在缺字：
+  第  1位 赵  缺: lishu  lishu=notdef
+  第  2位 钱  缺: lishu  lishu=notdef
+  第  3位 孙  缺: lishu  lishu=notdef
+  第  6位 吴  缺: lishu  lishu=blank
+  第  7位 郑  缺: lishu  lishu=notdef
+  第  9位 冯  缺: lishu  lishu=notdef
+  第 10位 陈  缺: lishu  lishu=notdef
+  第 11位 褚  缺: lishu  lishu=blank
+  第 12位 卫  缺: lishu  lishu=notdef
+  第 15位 韩  缺: lishu  lishu=notdef
+  第 16位 杨  缺: lishu  lishu=notdef
+  第 20位 许  缺: lishu  lishu=notdef
+  第 22位 吕  缺: lishu  lishu=notdef
+  第 24位 张  缺: lishu  lishu=notdef
+  第 27位 严  缺: lishu  lishu=notdef
+  第 28位 华  缺: lishu  lishu=notdef
+  第 34位 谢  缺: lishu  lishu=notdef
+  第 35位 邹  缺: lishu  lishu=notdef
+  第 36位 喻  缺: lishu  lishu=notdef
+  第 39位 窦  缺: lishu  lishu=notdef
+  第 42位 苏  缺: lishu  lishu=notdef
+  第 49位 鲁  缺: lishu  lishu=notdef
+  第 50位 韦  缺: lishu  lishu=notdef
+  第 52位 马  缺: lishu  lishu=notdef
+  第 54位 凤  缺: lishu  lishu=notdef
+  第 57位 俞  缺: lishu  lishu=notdef
+  第 61位 酆  缺: lishu  lishu=notdef
+  第 62位 鲍  缺: lishu  lishu=notdef
+  第 65位 费  缺: lishu  lishu=notdef
+  第 70位 贺  缺: lishu  lishu=notdef
+  第 72位 汤  缺: lishu  lishu=notdef
+  第 75位 罗  缺: lishu  lishu=notdef
+  第 76位 毕  缺: lishu  lishu=notdef
+  第 77位 郝  缺: lishu  lishu=blank
+  第 78位 邬  缺: lishu  lishu=notdef
+  第 81位 乐  缺: lishu  lishu=notdef
+  第 83位 时  缺: lishu  lishu=notdef
+  第 87位 齐  缺: lishu  lishu=notdef
+  第 93位 顾  缺: lishu  lishu=notdef
+  第 99位 萧  缺: lishu  lishu=notdef

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!--
+════════════════════════════════════════════════════════════════════════════
+ 姓氏线（B 线）版式模板 v11 · 唯一权威文件
+   · 这个文件本身就是「赵」的成品 HTML —— 直接渲染即得 试版/赵-范式v11.png
+   · 除「字 / 底纹 / 拼音 / 繁体 / 源流 / 年份 / 出处」这些**数据**外，
+     所有**位置、字号、字距、颜色**都是写死的字面量，不在任何脚本里
+   · 生成器只做槽位替换（见文末「数据槽位清单」），不持有任何版式数值
+════════════════════════════════════════════════════════════════════════════
+
+【母版】商/周 v9 → 02-商品/05-承接站/样张/shang-v9-std.html
+  统治者原则：B 线只换「字 + 底纹」，其余逐像素照抄母版。
+  凡本文件里标了「母版值」的数，改之前先问：商周是不是也这样？
+
+【平齐规格表】判据一律「距画面上/下边缘 px」，不用 top/bottom 混着看
+  ① 左上角系列标       距上  66   距左 210     16px / 字距 6
+  ② 画心上方标题两行   距上 262   水平居中     20px/字距14 + 14px/字距7
+  ③ 右上题跋金句       距上  62   距右 150     54px / line-height 1.9 / 列宽 56
+     出处（金句左侧）  底部与金句盒底齐平       20px / line-height 2.1
+  ④ 画心四联字区       字区盒 390→690，**中心 540**（画面正中）
+     格间竖断线        height 178 / 下边距 42（母版 200/48 按字幅比 0.885 缩放）
+  ⑤ 字下「英文+年代」  距上 746   水平居中     26px/字距18 + 19px/字距8
+  ⑥ 左下角落款        距底 140   距左 210     竖排 40px/1.44 + 朱砂点 + 印高 70
+  ⑦ 正下中品牌行      距底 140   水平居中     40px/字距10 + 18px/字距5 + ™22px
+  ⑧ 人物底纹          右 0 / 底 0 / 高 1000 / opacity .215（整幅进画，不裁不渐隐）
+
+【Mac 版差异】见 模板-姓氏-v11-mac.html，只差 5 处（画幅高 1248）
+  画心标题 262→343｜四联字区 390→474｜字下行 746→830｜落款两区 距底 140→130
+  人物底纹高 1000→1156
+
+【渲染流程】（唯一一条不能写进 HTML 的，因为它发生在 HTML 之外）
+  1. 先按 2× 设备像素渲染（--force-device-scale-factor=2）→ 3840×2160
+  2. 再用 LANCZOS 缩回 1920×1080 —— 这样笔画粗细才与商周「4K 缩制」一致
+     ⚠️ 若直接 1× 渲 1920，笔画会比商周细一档（2026-10-03 实测）
+  3. 4K 档直接留第 1 步的 3840×2160；Mac 档同理留 3840×2496
+
+【数据槽位清单】生成器用注释对定位替换（写法见 body：左括号标记 S:xxx，右括号标记 E:xxx）
+  ⚠️⚠️ 本注释块里**不许**出现完整的 HTML 注释定界符字面量，否则大注释会被提前闭合、
+      残余文字被当成正文渲染 → 整幅下移（2026-10-03 踩过，症状是所有元素一起下移 46px）
+  tag    左上角系列标文字        姓 氏 源 流 · {姓}
+  title  画心上方标题两行        （整线固定，不随姓变）
+  verse  右上金句（逐字 <span>） {该姓所在四字句}
+  src    出处一列                 《百家姓》北宋·第{N}句
+  quat   画心四联字四格           字/字体/字号/竖向位移/标签（逐格光学归一化）
+  meta   字下两行                 拼音 + {简}/{繁} · 源流{朝代} · {年份}
+  .figure 的 src                 底纹人物图（file:// 绝对路径）
+
+════════════════════════════════════════════════════════════════════════════
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+/* ── 字体：全部本地文件，绝不依赖系统装没装 ──────────────────────────
+   ⚠️ 'serif' 这个名字被 @font-face 占用 = 思源宋体 Black（标签/出处小字用）
+      → 因此 --f-brush 链尾不能再写裸 serif，否则会被抢成 Black（曾踩坑） */
+@font-face{font-family:'serif';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/NotoSerifSC-Black.ttf')}
+@font-face{font-family:'lishu';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/aoyagireisyosimo_ttf_2_01.ttf')}
+@font-face{font-family:'lishu2';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/AlimamaDaoLiTi-Regular-简体.ttf')}
+@font-face{font-family:'xing';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/挚芒行.ttf')}
+@font-face{font-family:'cao';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/柳建毛草.ttf')}
+@font-face{font-family:'msz';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+/* 小字正文体：与母版同栈（Noto Serif SC → Georgia → 本机系统衬线兜底）
+   ⚠️ ① 不要把小字写成 'serif' —— 本项目 'serif' 被 @font-face 占成思源宋体 **Black**，
+         小字会比母版重一大档（2026-10-03 实测：出处像加粗）。
+   ⚠️ ② **故意不引外链 webfont**：母版成品 png 的小字就是「外链没加载成功」时的
+         系统衬线兜底字形（实测差异 mean 1.52 / >60 仅 18 像素），而外链时通时不通
+         → 同一份 HTML 两次出图小字不同，100 张批量必翻车。别加回来。 */
+:root{
+  --ink:#1a1a18; --ink2:#54504a; --cinnabar:#b03826;
+  --f-body:'Noto Serif SC',Georgia,serif;
+  /* ⭐ 落款/金句字体必须与母版同源：'msz'（马善政毛笔字体文件）排链首，
+       不依赖系统是否装过 'Ma Shan Zheng'。链尾的 serif 只是兜底。 */
+  --f-brush:'msz','Ma Shan Zheng Local','Ma Shan Zheng','KaiTi',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#ffffff}
+body{color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+
+/* ⑧ 人物底纹：整幅进画（不裁、不渐隐）—— 半身像，用户 2026-10-03 认可
+   ⭐ opacity 2026-10-04 由 .215 改为 **.32**，与 A 线 `.texture{opacity:.32}` 对齐。
+     依据（不是拍脑袋）：渲染「只显示底纹层」的纯底纹图实测墨深
+       A 线玄鸟/凤凰：中位 .075/.043  p90 .314/.322  最浓 .322（＝.32，印证 CSS 值）
+       B 线改前      ：中位 .125      p90 .196       最浓 .196（被 .215 锁死上限）
+     ⇒ .215 的物理上限是墨深 .196，**根本达不到 A 线的浓处**，这是「淡且闷」的根因。
+     改 .32 后最浓 .290、IQR .118→.188（A 线 .25），墨色节奏接近。
+   ⚠️ 不要单独调这个数：它与素材层的 `--density/--haze` 是一套标定，动了要重新标定。*/
+.figure{position:absolute;right:0;bottom:0;height:1000px;opacity:.32;z-index:2;
+  pointer-events:none}
+
+/* ① 左上角系列标（母版值：距上 66 / 距左 210 / 16px / 字距 6） */
+.series-tag{position:absolute;left:210px;top:66px;z-index:6;
+  font-family:var(--f-body);font-size:16px;letter-spacing:6px;color:#6b675f}
+
+/* ② 画心正上方标题两行（母版 .title-box：距上 262，水平居中）
+      第 1 行 20px/字距 14；第 2 行 14px/字距 7，行间 13 */
+.series{position:absolute;left:960px;top:262px;transform:translateX(-50%);z-index:6;
+  text-align:center;white-space:nowrap}
+.series .t{font-family:var(--f-body);font-size:20px;letter-spacing:14px;color:#24221d;
+  text-indent:14px}
+.series .h{margin-top:13px;font-family:var(--f-body);font-size:14px;letter-spacing:7px;
+  color:#4a463f;text-indent:7px}
+
+/* ③ 右上题跋：与母版 .quote 同构（right:150 / top:62 / 列宽 56 / 54px / lh 1.9）
+      ⚠️ 不用 writing-mode —— 母版是 flex 竖列（.vc > span），逐字一个 span。
+         用同构结构才能「盒子级」逐像素一致（不同字的墨迹顶本就不同，
+         所以对齐判据是**盒**不是墨迹）。 */
+.quote{position:absolute;right:150px;top:62px;display:flex;align-items:flex-start;
+  z-index:5}
+.vc{display:flex;flex-direction:column;align-items:center;width:56px}
+.vc span{font-family:var(--f-brush);font-size:54px;line-height:1.9;color:var(--ink)}
+/* 出处：金句左侧一列，右缘距金句盒左缘 55（＝母版 .vc.src 到金句组的间距）
+      底部与金句盒底齐平（母版金句盒底 472.4 → 出处 top = 472.4 − 382.8 ≈ 90） */
+.src{position:absolute;right:261px;top:90px;writing-mode:vertical-rl;
+  font-family:var(--f-body);font-size:20px;letter-spacing:16px;line-height:2.1;
+  color:#3d3931;z-index:5}
+
+/* ④ 画心四联字区：盒 390→690，中心 540（画面正中）
+      ⭐ 顺序：**右起展卷** —— 屏幕自左向右 = 碑刻 | 隶书 | 行书 | 草书，
+         展卷自右向左读 = 草书 → 行书 → 隶书 → 碑刻（用户 2026-10-03 定）
+      ⚠️ .ch 固定 height:232px 是「逐格光学归一化」的地基：行盒顶恒在 y=390，
+         字号变化只向下溢出，不推动下方标签。 */
+.quat{position:absolute;left:0;right:0;top:390px;z-index:5;
+  display:flex;justify-content:center;align-items:flex-end;gap:38px}
+.cell{text-align:center}
+.cell .ch{font-size:232px;line-height:1;color:#1a1a18;height:232px}
+.cell .lb{margin-top:26px;font-family:var(--f-body);font-size:14px;letter-spacing:6px;
+  color:#8c8578}
+.cell .lb b{display:block;font-weight:400;font-size:11px;letter-spacing:3px;
+  color:#b3aca0;margin-top:6px}
+/* 格间竖断线：母版 200px 高 / 下边距 48；按字幅比 232/262 = 0.885 缩放
+      → 178px 高 / 下边距 42（⚠️ 必须写成 margin:0 18px 42px 三值：
+         写 margin:0 18px 会把下边距冲成 0，线就掉到字区底边 —— 已踩过一次） */
+.divider{width:1px;height:178px;background:#ded7c9;margin:0 18px 42px;flex:0 0 auto}
+
+/* ⑤ 字下「英文 + 年代」：与母版 .era 同构两行（距上 746，底边 811）
+      ⚠️ 副行含中文，默认行高会比纯拉丁的 .years 高 6px → 锁 line-height:21px */
+.meta{position:absolute;left:960px;top:746px;transform:translateX(-50%);z-index:5;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.meta .en{font-size:26px;letter-spacing:18px;color:#26241f;text-transform:uppercase}
+.meta .sub{margin-top:14px;font-size:19px;letter-spacing:8px;color:#45423c;
+  font-family:var(--f-body);line-height:21px}
+
+/* ⑥ 左下角落款：竖排毛笔「第七境」+ 朱砂点 + 印章（母版 .colophon 逐像素）
+      ⚠️ 距底 140 是母版值 —— 曾下移到 100 试探，用户否掉，回到 140 */
+.colophon{position:absolute;left:210px;bottom:140px;z-index:6;
+  display:flex;flex-direction:column;align-items:flex-start}
+.vstack{display:flex;flex-direction:column;align-items:center}
+.vstack span{display:block;text-align:center}
+.vstack.cjk span{font-family:var(--f-brush);font-size:40px;line-height:1.44;
+  color:var(--ink)}
+.vdot{width:10px;height:10px;border-radius:50%;background:var(--cinnabar);
+  margin:16px 0 14px 14px;flex:0 0 auto}
+.colophon-seal{height:70px;opacity:.95}
+
+/* ⑦ 正下中品牌行（母版 .brand-block 逐像素）+ ™ 小字（商标未核准的法定标识） */
+.brand-block{position:absolute;left:960px;bottom:140px;transform:translateX(-50%);
+  z-index:6;text-align:center;font-family:Georgia,'Times New Roman',serif}
+.brand-en{font-size:33px;letter-spacing:9px;color:#26241f;text-transform:uppercase;
+  text-indent:16px}
+.brand-url{margin-top:13px;font-size:18px;letter-spacing:5px;color:#45423c;
+  text-indent:5px}
+/* ™ 标识（2026-10-04 放大）：原 15px 且未指定字体 → 继承 .brand-cn 的毛笔体链，
+   回退字形笔画极细，实测墨迹只有 10×6px（1920 档），缩到手机上看就是一团糊。
+   → ① 显式走拉丁衬线 Georgia（与 .brand-url 同族，™ 字形正规）
+     ② 字号 15→30px：™ 字形本身是扁宽的「小型大写」，Georgia 22px 时墨迹仅
+        19×8px 仍偏糊，30px 才到 27×11px（汉字「第七境」高 41px）
+     ③ 上标不用 vertical-align:super（上移量随父字号漂移）→ baseline + 相对位移，
+        实测 top:-12px 时 ™ 墨迹顶 y858，与汉字行顶 y857 齐平、底 y868
+     ④ .brand-cn 的 margin-right 随之由 -4px 收紧到 -10px，抵消 ™ 变宽后整块右移，
+        使整行墨迹中心保持 **x967.5**（＝母版 TANTSE™ 的中心，母版本身就不是 960）
+   实测（商/周/赵 × 1080 与 Mac 两档）：™ 27×11px、中心 967.5、顶与汉字齐平 */
+.tm{font-family:Georgia,'Times New Roman',serif;font-size:30px;letter-spacing:0;
+  margin-left:6px;vertical-align:baseline;position:relative;top:-12px;color:var(--ink)}
+
+/* ⑦-b 品牌行中文版（2026-10-04 启用，替代 .brand-en）
+   ⭐ 口径依据：2026-10-02 品牌终局「方案① 中英分立」——
+      中文产品落款只写「第七境™ + www.theseventhrealm.com」，**不许出现 TANTSE**；
+      TANTSE 只在英文站／海外物料（tantse.com）。金句线当天已改，朝代线漏跟进，
+      姓氏线照抄母版也跟着错 —— 本次 A/B 两线一并纠正。
+      证据：11-运营/data/risk-log.csv L46、02-商品/SKU梳理-2026-10-02.md L99-122、
+            11-运营/交接-2026-10-02-下一会话-A线朝代.md L139-140
+   字号 40px = 左下角竖排落款 .vstack.cjk span 的字号，字体同走 --f-brush（马善政），
+      使两处「第七境」品牌重量一致；字距 10px；text-indent 补偿 letter-spacing
+      在末字后多出的空隙，保证墨迹中心落在 x=960。
+   ⚠️ .brand-en（拉丁 Georgia 33px）**保留不删**：海外物料／英文站仍要用。 */
+.brand-cn{font-size:40px;letter-spacing:10px;color:#26241f;line-height:1;
+  font-family:var(--f-brush);font-weight:400;
+  /* 水平：letter-spacing 在末字「境」后仍留 10px 空隙，居中会整体偏右
+     → 负值 margin-right 抵消。实测 -4px 时墨迹中心 x≈967.5，
+       与母版 TANTSE™ 的中心 x967.5 **完全一致**（注意母版本身就不是 960） */
+  margin-right:-10px;
+  /* 垂直：毛笔体墨迹占满 40px 行盒（拉丁大写只占 25px），底边会比母版低 7px
+     → 补 10px 使**墨迹底边 y899 与母版严格一致**（顶边因汉字更高而自然上探）
+     ⚠️ 必须用 padding 不能用 margin-bottom —— 相邻兄弟 .brand-url{margin-top:13px}
+        会与之**margin 折叠**取 max(7,13)=13，等于没写 */
+  padding-bottom:10px}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <img class="figure" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/06-姓氏线/底纹-人物/figure-001-赵.png">
+
+  <div class="series-tag">姓 氏 源 流 · 皮</div>
+
+  <div class="series"><div class="t">一 姓 四 体 · 三 千 年</div>
+    <div class="h">右 起 展 卷 · 自 草 书 至 碑 刻</div></div>
+
+  <!-- 右上题跋：金句一列（右起展卷的第一列） -->
+  <div class="quote"><div class="vc"><span>皮</span><span>卞</span><span>齐</span><span>康</span></div></div>
+  <div class="src">《百家姓》北宋·第二十二句</div>
+
+  <!-- 画心四联字（屏幕左→右 = 碑刻|隶书|行书|草书） -->
+  <div class="quat"><div class="cell"><div class="ch" style="font-family:'serif'">皮</div><div class="lb">碑刻<b>Noto Serif</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'lishu'">皮</div><div class="lb">隶书<b>青柳隷書</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'xing'">皮</div><div class="lb">行书<b>挚芒行</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'cao'">皮</div><div class="lb">草书<b>柳建毛草</b></div></div></div>
+
+  <div class="meta"><div class="en">PI</div>
+    <div class="sub">皮 / 皮 · 源流 西周 · c. 950 BC</div></div>
+
+  <div class="colophon">
+    <div class="vstack cjk"><span>第</span><span>七</span><span>境</span></div>
+    <div class="vdot"></div>
+    <img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal.png">
+  </div>
+
+  <div class="brand-block"><div class="brand-cn">第七境<span class="tm">™</span></div>
+    <div class="brand-url">www.theseventhrealm.com</div></div>
+
+</div>
+</body>
+</html>

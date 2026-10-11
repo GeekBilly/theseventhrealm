@@ -1,0 +1,53 @@
+{
+ "result": {
+  "description": "",
+  "id": "dac5f134a6694b90b07fccd2b4c18a1f",
+  "kind": "zone",
+  "last_updated": "2026-10-05T11:57:44.890836Z",
+  "name": "default",
+  "phase": "http_request_firewall_custom",
+  "rules": [
+   {
+    "action": "skip",
+    "action_parameters": {
+     "ruleset": "current"
+    },
+    "description": "01 ALLOW search-engine crawlers (SEO)",
+    "enabled": true,
+    "expression": "(cf.client.bot) or (http.user_agent contains \"Baiduspider\") or (http.user_agent contains \"Googlebot\") or (http.user_agent contains \"bingbot\") or (http.user_agent contains \"Sogou\") or (http.user_agent contains \"360Spider\") or (http.user_agent contains \"YisouSpider\") or (http.user_agent contains \"Yandex\") or (http.request.uri.path eq \"/robots.txt\") or (http.request.uri.path contains \"sitemap\")",
+    "id": "f19aa39210214819a439f0c1c68ed695",
+    "last_updated": "2026-10-05T11:57:44.890836Z",
+    "logging": {
+     "enabled": true
+    },
+    "ref": "f19aa39210214819a439f0c1c68ed695",
+    "version": "1"
+   },
+   {
+    "action": "managed_challenge",
+    "description": "02 CHALLENGE scanner paths",
+    "enabled": true,
+    "expression": "(http.request.uri.path eq \"/wp-login.php\") or (http.request.uri.path eq \"/xmlrpc.php\") or (http.request.uri.path contains \"wlwmanifest\") or (http.request.uri.path eq \"/wp-cron.php\") or (http.request.uri.path contains \"/wp-admin/\") or (http.request.uri.path contains \"/wp-content/plugins/\") or (http.request.uri.path contains \"install.php\") or (http.request.uri.path eq \"/login\") or (http.request.uri.path eq \"/dashboard\") or (http.request.uri.path contains \"/.env\") or (http.request.uri.path contains \"/.git\") or (http.request.uri.path contains \"phpmyadmin\") or (http.request.uri.path contains \"/config.\") or (http.request.uri.path contains \"/admin.php\") or (http.request.uri.path contains \".sql\") or (http.request.uri.path eq \"/api/health\")",
+    "id": "4ef85297ddd34d119ac7372e48fbe3e9",
+    "last_updated": "2026-10-05T11:57:44.890836Z",
+    "ref": "4ef85297ddd34d119ac7372e48fbe3e9",
+    "version": "1"
+   },
+   {
+    "action": "block",
+    "description": "03 BLOCK script/scanner user-agents",
+    "enabled": true,
+    "expression": "(http.user_agent contains \"python-requests\") or (http.user_agent contains \"curl/\") or (http.user_agent contains \"Go-http-client\") or (http.user_agent contains \"masscan\") or (http.user_agent contains \"sqlmap\") or (http.user_agent contains \"Nikto\") or (http.user_agent contains \"Wget\") or (http.user_agent contains \"zgrab\") or (http.user_agent contains \"Nuclei\")",
+    "id": "fa23b0f4b44147868fc0707944e70f1f",
+    "last_updated": "2026-10-05T11:57:44.890836Z",
+    "ref": "fa23b0f4b44147868fc0707944e70f1f",
+    "version": "1"
+   }
+  ],
+  "source": "firewall_custom",
+  "version": "25"
+ },
+ "success": true,
+ "errors": [],
+ "messages": []
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><style>
+@font-face{font-family:'MSZ';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+@font-face{font-family:'NSSC';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/nssc-black.woff2') format('woff2');font-weight:900}
+:root{--white:#ffffff;--ink:#1a1a18;--ink2:#54504a;--cinnabar:#b03826;
+ --f-brush:'MSZ','Ma Shan Zheng','KaiTi',serif;
+ --f-song:'NSSC','Noto Serif SC','Songti SC',serif;
+ --f-georgia:Georgia,'Times New Roman',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:2400px;overflow:hidden;background:var(--white)}
+.stage{position:relative;width:1080px;height:2400px;overflow:hidden;background:var(--white)}
+.paper{position:absolute;left:0;top:0;right:0;bottom:0;background:
+ radial-gradient(ellipse 86% 46% at 50% 52%, rgba(26,26,24,.020), transparent 72%)}
+.series{position:absolute;left:50%;top:624px;transform:translateX(-50%);z-index:3;
+ font-family:var(--f-song);font-size:23px;letter-spacing:10px;color:#4a463f;
+ text-indent:10px;white-space:nowrap}
+.hero{position:absolute;left:50%;top:816px;transform:translate(-50%,-50%);z-index:3;
+ font-family:var(--f-brush);font-size:256px;line-height:1;color:var(--ink);white-space:nowrap}
+.cinnabar-dot{position:absolute;left:calc(50% + 151px);top:calc(816px - 125px);
+ width:18px;height:18px;border-radius:50%;background:var(--cinnabar);z-index:4}
+.era{position:absolute;left:50%;top:984px;transform:translateX(-50%);z-index:3;
+ text-align:center;font-family:var(--f-georgia);white-space:nowrap}
+.era .en{font-size:35px;letter-spacing:14px;color:#26241f;text-transform:uppercase;
+ text-indent:14px}
+.era .years{margin-top:14px;font-size:27px;letter-spacing:10px;color:#45423c;
+ text-indent:10px}
+.quote{position:absolute;left:50%;top:1104px;transform:translateX(-50%);z-index:3;
+ display:flex;align-items:flex-start;gap:45px}
+.vc{display:flex;flex-direction:column;align-items:center}
+.vc span{font-family:var(--f-brush);font-size:65px;line-height:1.8;color:var(--ink)}
+.vc.src{align-self:flex-end;padding-bottom:29px}
+.vc.src span{font-family:var(--f-song);font-size:22px;line-height:1.85;color:#3d3931}
+.vc.src .rot{display:block;transform:rotate(90deg);line-height:1}
+.colophon{position:absolute;left:50%;bottom:20%;transform:translateX(-50%);z-index:3;
+ display:flex;flex-direction:column;align-items:center}
+.cjk{font-family:var(--f-brush);font-size:39px;letter-spacing:9px;color:var(--ink);
+ text-indent:9px;line-height:1}
+.vdot{width:10px;height:10px;border-radius:50%;background:var(--cinnabar);margin:17px 0}
+.colophon-seal{height:86px;opacity:.95;display:block}
+.brand{position:absolute;left:50%;bottom:13.5%;transform:translateX(-50%);z-index:3;
+ text-align:center;font-family:var(--f-georgia);white-space:nowrap}
+.brand-en{font-size:45px;letter-spacing:6px;color:#26241f;text-transform:uppercase;
+ text-indent:6px}
+.brand-url{margin-top:17px;font-size:25px;letter-spacing:4px;color:#45423c;
+ text-indent:4px}
+.brand sup{font-size:.56em;letter-spacing:1px}
+.mountains{position:absolute;left:0;bottom:0;width:100%;height:312px;z-index:2}
+.mist{position:absolute;left:0;bottom:0;width:100%;height:432px;z-index:1}
+</style></head><body><div class="stage">
+  <div class="paper"></div>
+  <div class="series">上 下 五 千 年 · 汉</div>
+  <div class="hero">汉</div>
+  <div class="cinnabar-dot"></div>
+  <div class="era"><div class="en">HAN DYNASTY</div><div class="years">202 BC – AD 220</div></div>
+  <div class="quote"><div class="vc src"><span class="rot">《</span><span>汉</span><span>书</span><span>陈</span><span>汤</span><span>传</span><span class="rot">》</span></div><div class="vc "><span>虽</span><span>远</span><span>必</span><span>诛</span></div><div class="vc "><span>明</span><span>犯</span><span>强</span><span>汉</span><span>者</span></div></div>
+  <div class="colophon">
+    <div class="cjk">第七境</div>
+    <div class="vdot"></div>
+    <img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal-hi.png">
+  </div>
+  <div class="brand">
+    <!-- 2026-10-02 方案①：中文产品去掉英文品牌 TANTSE（它与域名 theseventhrealm.com 对不上，
+         中英分立应为：中文线＝第七境/theseventhrealm.com，英文线＝TANTSE/tantse.com）。
+         TANTSE 只在英文站与海外物料出现。 -->
+    <div class="brand-url">www.theseventhrealm.com</div>
+  </div>
+  <svg class="mist" viewBox="0 0 1200 260" preserveAspectRatio="none">
+    <path d="M0,260 L0,150 Q240,96 470,140 Q700,184 930,132 Q1160,80 1200,128 L1200,260 Z"
+          fill="rgba(26,26,24,.026)"/>
+  </svg>
+  <svg class="mountains" viewBox="0 0 1200 340" preserveAspectRatio="none">
+    <path d="M0,340 L0,238 Q160,180 320,214 Q420,232 520,196 Q650,150 760,196
+             Q880,244 1010,208 Q1150,168 1200,206 L1200,340 Z" fill="rgba(26,26,24,.045)"/>
+    <path d="M0,340 L0,282 Q220,246 380,268 Q540,290 700,262 Q860,236 1040,266
+             Q1150,296 1200,264 L1200,340 Z" fill="rgba(26,26,24,.085)"/>
+  </svg>
+</div></body></html>

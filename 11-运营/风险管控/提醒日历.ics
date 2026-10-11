@@ -1,0 +1,118 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//SeventhRealm//RiskCalendar//CN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:探赜 · 风险提醒
+BEGIN:VEVENT
+UID:domain-expiry-2027@theseventhrealm.com
+DTSTAMP:20260928T063000Z
+DTSTART:20270924T010000Z
+DURATION:PT30M
+SUMMARY:🔴 theseventhrealm.com 域名到期日
+DESCRIPTION:到期日 2027-09-25。GoDaddy/US Domain Center 注册。\n检查：①自动续费是否已开 ②是否已手动续多年。\n本项对应风险登记 R-12（不可挽回型）。
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:域名到期提前90天提醒
+TRIGGER:-P90D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:域名到期提前30天提醒
+TRIGGER:-P30D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:域名到期提前7天提醒
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:域名到期提前1天提醒
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:domain-expiry-tantse-2027@tantse.com
+DTSTAMP:20261002T030000Z
+DTSTART:20271001T010000Z
+DURATION:PT30M
+SUMMARY:🔴 tantse.com 域名到期日（品牌「探赜」主域）
+DESCRIPTION:到期日 2027-10-02（北京时间）＝ 2027-10-01T16:21:20Z。Cloudflare Registrar 注册。\n检查：①自动续费是否已开（默认开）②**付款卡是否仍在有效期**。\n⚠️ 付款卡 2028-05 到期，早于 2028-09 的第二次续费 → 见另一条「付款卡到期」提醒。\n本项对应风险登记 R-12 与「固定成本日历」§五 D-5。
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:tantse.com 到期提前90天提醒
+TRIGGER:-P90D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:tantse.com 到期提前30天提醒（自动续费扣款日约在此）
+TRIGGER:-P30D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:tantse.com 到期提前7天提醒
+TRIGGER:-P7D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:tantse.com 到期提前1天提醒
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:card-expiry-2028@theseventhrealm.com
+DTSTAMP:20261002T030000Z
+DTSTART:20280301T010000Z
+DURATION:PT30M
+SUMMARY:💳 付款卡换卡（Cloudflare 自动续费依赖它）
+DESCRIPTION:付款卡到期日 **2028-05**。tantse.com 的自动续费靠 Cloudflare 账户存档的这张卡扣款。\n时间线：2027-09-02 首次续费（卡有效 ✅）→ 2028-05 卡到期 → **2028-09-02 第二次续费会失败 ❌**\n⇒ 必须在 2028-05 前换卡，否则域名静默过期（与 R-12 同类，只是换了触发原因）。\n本项对应「固定成本日历」§五 D-5。
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:付款卡到期前 60 天换卡
+TRIGGER:-PT0S
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:trademark-watch-monthly@theseventhrealm.com
+DTSTAMP:20260928T063000Z
+DTSTART:20261001T020000Z
+DURATION:PT30M
+RRULE:FREQ=MONTHLY;BYMONTHDAY=1
+SUMMARY:🔍 商标公告监测（10 分钟）
+DESCRIPTION:中国商标网 sbj.cnipa.gov.cn → 商标近似查询。\n⭐ **2026-10-02 品牌已改名 —— 检索式必须加入「探赜」**（新名，被抢注风险最高，而 41 类经 43 件人工核查确认干净）。\n现行检索式（2026-10-02）：**探赜 / 探赜索隐** / 第七境 / 七境 / 第七境界 / 柒境 / 第7境 / SEVENTH REALM / 7TH REALM / TANTSE\n⚠️ 类别固定查 9 / 41 / 16 / 35。\n发现近似申请立即评估——异议窗口只有 3 个月，错过就没了。
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:本月商标监测
+TRIGGER:-PT0S
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:risk-checkup-quarterly@theseventhrealm.com
+DTSTAMP:20260928T063000Z
+DTSTART:20261001T030000Z
+DURATION:PT1H
+RRULE:FREQ=MONTHLY;INTERVAL=3;BYMONTH=1,4,7,10;BYMONTHDAY=1
+SUMMARY:🩺 季度风险体检 + 备份恢复演练
+DESCRIPTION:①跑一遍 11-运营/风险管控/风险健康体检盘.html 并导出归档到 11-运营/reports/\n②做一次真实备份恢复演练，记录日期\n③更新 IP资产台账 与 在先使用证据 打包\n④复核风险登记册每条的 L/I 评分
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:季度体检日
+TRIGGER:-PT0S
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:evidence-batch-quarterly@theseventhrealm.com
+DTSTAMP:20260928T063000Z
+DTSTART:20261201T020000Z
+DURATION:PT30M
+RRULE:FREQ=MONTHLY;INTERVAL=3;BYMONTH=3,6,9,12;BYMONTHDAY=1
+SUMMARY:📦 本季度创作存证打包 + 证书归档
+DESCRIPTION:把本季度新增源文件/成品打包为 zip，生成 manifest（含 SHA-256），申请可信时间戳，存入 11-运营/风险管控/商标证据/打包/。
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:存证打包
+TRIGGER:-PT0S
+END:VALARM
+END:VEVENT
+END:VCALENDAR

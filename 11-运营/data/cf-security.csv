@@ -1,0 +1,10 @@
+date,events,challenge,block,bypassed,managed_challenge,top_path,top_path_n,top_country,top_country_n,top_ua,top_ua_n,collected_at
+2026-10-01,21,0,21,0,0,/,19,IN,12,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,12,2026-10-04 21:10
+2026-10-02,29,0,29,0,0,/,8,US,23,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,6,2026-10-05 21:10
+2026-10-03,0,0,0,0,0,,0,,0,,0,2026-10-06 21:10
+2026-10-04,244,240,4,3,237,/wp-login.php,90,SG,107,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,93,2026-10-08 06:35
+2026-10-05,443,391,17,0,391,/wp-cron.php,90,SG,206,WordPress/7.1.2; https://theseventhrealm.com,90,2026-10-08 21:10
+2026-10-06,625,538,16,0,538,/wp-cron.php,157,SG,316,WordPress/7.1.2; https://theseventhrealm.com,151,2026-10-09 21:10
+2026-10-07,929,618,66,0,618,/wp-cron.php,158,SG,333,WordPress/7.1.3; https://theseventhrealm.com,156,2026-10-10 21:10
+2026-10-08,765,717,10,0,717,/wp-admin/install.php,89,PL,408,http://tantse.com/wp-admin/install.php?step=1,89,2026-10-10 21:10
+2026-10-09,657,484,43,0,484,/wp-login.php,116,ID,206,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l",206,2026-10-10 21:10

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+第七境 · 本地刷新服务（开机常驻）
+
+装载（在你自己的终端里跑，不要在沙箱里）：
+  cp 11-运营/scripts/com.theseventhrealm.refresh.plist ~/Library/LaunchAgents/
+  launchctl load -w ~/Library/LaunchAgents/com.theseventhrealm.refresh.plist
+  curl -s http://127.0.0.1:8787/ping        # 应返回 {"ok":true,...}
+
+卸载：
+  launchctl unload -w ~/Library/LaunchAgents/com.theseventhrealm.refresh.plist
+  rm ~/Library/LaunchAgents/com.theseventhrealm.refresh.plist
+
+说明：KeepAlive=true —— 进程掉了自动拉起；RunAtLoad=true —— 登录后即启动。
+本文件只是模板，未装载前不会生效。
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.theseventhrealm.refresh</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/billyhou/.workbuddy/binaries/python/versions/3.13.12/bin/python3</string>
+    <string>/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/11-运营/scripts/refresh-server.py</string>
+    <!-- 定时自动刷新：每 30 分钟跑一次，跑完同步云端（2026-10-09 用户确认开启）。
+         想只改本地、不同步，删掉下面 auto-upload 那个 string 即可。 -->
+    <string>--every</string>
+    <string>30</string>
+    <string>--auto-upload</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/billyhou/WorkBuddy/2026-09-25-15-56-17</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/tmp/qj-refresh-server.out</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/qj-refresh-server.err</string>
+</dict>
+</plist>

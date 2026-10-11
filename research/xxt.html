@@ -1,0 +1,317 @@
+<script>console.log('文字學, 資料庫')</script><!DOCTYPE HTML>
+<html lang="zh-TW">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140379090-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-140379090-1');
+    </script>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>小學堂文字學資料庫 | 數位文化中心典藏網</title>	
+	<meta name="keywords" content="數位文化中心典藏網,數位文化中心典藏,中央研究院,中研院,數位典藏,數典,典藏,數位文化中心,小學堂文字學資料庫,成果網站,">
+    <meta name="description" content="「小學堂文字學資料庫」是一個形、音、義綜合的文字學資料庫，可提供使用者根據文字的形、音等屬性先檢索出字頭，再透過字頭連接到個別的形、音、義資料庫或字書索引。本資料庫收錄的字形涵蓋甲骨文、金文、戰國文字、小篆及楷書，總數超過十八萬字；收錄的聲韻資料涵蓋上古、中古、近代及現代，總數超過一百萬筆...">
+    <!-- Open Graph -->
+    <meta property="og:title" content="小學堂文字學資料庫 | 數位文化中心典藏網" />
+    <meta property="og:url" content="https://ascdc.digitalarchives.tw/site_6071.html" />
+    <meta property="og:description" content="「小學堂文字學資料庫」是一個形、音、義綜合的文字學資料庫，可提供使用者根據文字的形、音等屬性先檢索出字頭，再透過字頭連接到個別的形、音、義資料庫或字書索引。本資料庫收錄的字形涵蓋甲骨文、金文、戰國文字、小篆及楷書，總數超過十八萬字；收錄的聲韻資料涵蓋上古、中古、近代及現代，總數超過一百萬筆..." />
+    <meta property="og:image" content="http://digitalarchives.tw/Images/site_detail/images/TC054.jpg" />
+	<meta property="og:type" content="article" />
+	<meta property="fb:app_id" content="273240709546983" />
+	<meta property="og:locale" content="zh_TW" />
+	<meta property="og:site_name" content="數位文化中心典藏網" />
+	<meta property="og:image:width" content="320"/><meta property="og:image:height" content="228"/>	
+	<meta name="distribution" content="Taiwan"/>
+	<meta name="distribution" content="global"/>
+	<meta name="rating" content="general"/>
+	<meta name="robots" content="all"/>
+    <!-- Style -->
+    <link rel="stylesheet" href="lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="lib/flickity/flickity.css" />
+    <link rel="stylesheet" href="lib/lightGallery/dist/css/lightgallery.min.css" />
+    <link rel="stylesheet" href="lib/tooltipster/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" href="lib/tooltipster/css/themes/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" href="lib/jssocials/jssocials.css" />
+    <link rel="stylesheet" href="lib/jssocials/jssocials-theme-minima.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/page.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <!-- Favicon -->
+    <link rel="icon" href="favicon/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon" />
+    <!-- Javascript -->
+    <script src="js/combine.js"></script>
+    <script src="js/script.js?t=1790931242"></script>
+    <script src="js/vue.js"></script>
+    <SCRIPT src="//char.iis.sinica.edu.tw/API/ics.js"></SCRIPT>
+    <script>
+        var data = {
+            tab: '',
+            nowpage:1,            count:0,            type:0,                                                                                                                                                                                                        };
+    </script>
+</head>
+<!--NOTE: body、導覽列、語言列、搜尋列、頁尾、手機版導覽列等設定請見 index.html -->
+<body id="site-read">
+    <!--Container-->
+    <div id="container">
+        
+<!--Header-->
+<!--NOTE: 各頁面 Header 內容均相同，可獨立出來便於管理-->
+<header id="header-wrapper" class="wrapper">
+    <div id="header-inner" class="inner">
+        <h1><a href="index.php">數位文化中心典藏網</a></h1>
+        <div class="search-button"><i class="far fa-search"></i></div>
+        <!--<div class="language-button">Language</div>-->
+        <div class="menu-button"></div>
+        <div id="nav-indicator"></div>
+    </div>
+</header>
+<!--Header-->
+<!--Navigator-->
+<!--NOTE: 各頁面 Navigator 內容均相同，可獨立出來便於管理-->
+<div id="nav-bg"></div>
+<nav id="nav-wrapper" class="wrapper">
+    <div id="nav-inner" class="inner">
+        <ul class="top-nav">
+            <li><a href="collection.php" data-target="collections" :class="tab == '藏品目錄' ? 'active' : ''">藏品目錄</a></li>
+            <li><a href="subject.php" data-target="articles" :class="tab == '文章選粹' ? 'active' : ''">文章選粹</a></li>
+            <li><a href="site.php" data-target="websites" :class="tab == '成果網站' ? 'active' : ''">成果網站</a></li>
+            <!--<li><a href="#" target="_blank" :class="tab == '創意應用' ? 'active' : ''">創意應用</a></li>-->
+        </ul>
+        <div class="nav-section" id="nav-collections">
+            <div class="set col-2">
+                <div class="nav-title">內容主題</div>
+                <ul><!--NOTE: 直接輸出全部分類項目，前端程式預設將會顯示前20項，點選展開按鈕後才顯示其餘分類項目-->
+<li><a href="collection.php?type=3664">人類學主題</a></li><li><a href="collection.php?type=3671">生物主題</a></li><li><a href="collection.php?type=3672">地圖與遙測主題</a></li><li><a href="collection.php?type=3666">考古主題</a></li><li><a href="collection.php?type=3667">拓片主題</a></li><li><a href="collection.php?type=3668">善本古籍主題</a></li><li><a href="collection.php?type=3663">新聞主題</a></li><li><a href="collection.php?type=3669">漢籍全文主題</a></li><li><a href="collection.php?type=3665">語言主題</a></li><li><a href="collection.php?type=3670">檔案主題</a></li>                </ul>
+            </div>
+            <div class="set col-2">
+                <div class="nav-title">典藏單位</div>
+                <ul><!--NOTE: 直接輸出全部分類項目，前端程式預設將會顯示前20項，點選展開按鈕後才顯示其餘分類項目-->
+<li><a href="collection.php?type=3794">歷史語言研究所</a></li><li><a href="collection.php?type=3788">民族學研究所</a></li><li><a href="collection.php?type=3789">近代史研究所</a></li><li><a href="collection.php?type=3793">臺灣史研究所</a></li><li><a href="collection.php?type=3792">語言學研究所</a></li><li><a href="collection.php?type=3786">人文社會科學研究中心</a></li><li><a href="collection.php?type=3787">生物多樣性研究中心</a></li><li><a href="collection.php?type=3791">資訊科學研究所</a></li><li><a href="collection.php?type=3790">計算中心（現資訊服務處）</a></li>                </ul>
+            </div>            
+            <div class="more">顯示所有內容主題<i class="fal fa-angle-down"></i></div>
+            <div class="less">顯示較少項目<i class="fal fa-angle-up"></i></div>
+        </div>
+        <div class="nav-section" id="nav-articles">
+            <div class="set col-2">
+                <div class="nav-title">文章類別</div>
+                <ul><!--NOTE: 直接輸出全部分類項目，前端程式預設將會顯示前10項，點選展開按鈕後才顯示其餘分類項目-->
+<li><a href="subject.php?type=3647">生活與文化</a></li><li><a href="subject.php?type=3648">地方與產業</a></li><li><a href="subject.php?type=3649">自然與生物</a></li><li><a href="subject.php?type=3654">休閒與運動</a></li><li><a href="subject.php?type=3655">建築與藝術</a></li><li><a href="subject.php?type=3650">原住民族</a></li><li><a href="subject.php?type=3651">數位技術</a></li><li><a href="subject.php?type=3652">器物與考古</a></li><li><a href="subject.php?type=3656">歷史與人物</a></li><li><a href="subject.php?type=3653">檔案與文獻</a></li><li><a href="subject.php?type=3646">文學創作</a></li>                </ul>
+            </div>
+            <div class="set col-2">
+                <div class="nav-title">主題專欄</div>
+                <ul><!--NOTE: 直接輸出全部分類項目，前端程式預設將會顯示前10項，點選展開按鈕後才顯示其餘分類項目-->
+<li><a href="subject.php?cat=3658">CCC創作集</a></li><li><a href="subject.php?cat=3659">貝類與人文多樣性系列</a></li><li><a href="subject.php?cat=3660">流轉年華—臺灣女性檔案百年特展</a></li><li><a href="subject.php?cat=3661">數位典藏照片詩文徵選</a></li>                </ul>
+            </div>
+            <div class="more">顯示所有分類與主題<i class="fal fa-angle-down"></i></div>
+            <div class="less">顯示較少項目<i class="fal fa-angle-up"></i></div>
+        </div>
+        <div class="nav-section" id="nav-websites">
+            <div class="set col-2">
+                <div class="nav-title">機構</div>
+                <ul><!--NOTE: 直接輸出全部分類項目，前端程式預設將會顯示前10項，點選展開按鈕後才顯示其餘分類項目-->
+<li><a href="site.php?org=3765">歷史語言研究所</a></li><li><a href="site.php?org=3766">民族學研究所</a></li><li><a href="site.php?org=3767">近代史研究所</a></li><li><a href="site.php?org=3771">臺灣史研究所</a></li><li><a href="site.php?org=3772">社會學研究所</a></li><li><a href="site.php?org=3773">語言學研究所</a></li><li><a href="site.php?org=3776">人文社會科學研究中心</a></li><li><a href="site.php?org=3764">生物多樣性研究中心</a></li><li><a href="site.php?org=3747">物理研究所</a></li><li><a href="site.php?org=3750">資訊科學研究所</a></li><li><a href="site.php?org=3756">資訊科技創新研究中心</a></li><li><a href="site.php?org=3777">數位文化中心</a></li><li><a href="site.php?org=3751">統計科學研究所</a></li><li><a href="site.php?org=3768">經濟研究所</a></li><li><a href="site.php?org=3770">中國文哲研究所</a></li><li><a href="site.php?org=3783">計算中心（現資訊服務處）</a></li>                    
+                </ul>
+            </div>
+            <div class="set col-2">
+                <div class="nav-title">主題</div>
+                <ul><!--NOTE: 直接輸出全部分類項目，前端程式預設將會顯示前10項，點選展開按鈕後才顯示其餘分類項目-->
+<li><a href="site.php?type=3729">人類學</a></li><li><a href="site.php?type=3730">文字學</a></li><li><a href="site.php?type=3728">考古學</a></li><li><a href="site.php?type=3734">地圖與GIS</a></li><li><a href="site.php?type=3738">技術工具</a></li><li><a href="site.php?type=3726">動物</a></li><li><a href="site.php?type=3739">專題與加值應用</a></li><li><a href="site.php?type=3727">植物</a></li><li><a href="site.php?type=3737">資料庫</a></li><li><a href="site.php?type=3731">語言學</a></li><li><a href="site.php?type=3741">數位典藏與數位人文計畫</a></li><li><a href="site.php?type=3740">數位學習</a></li><li><a href="site.php?type=3735">影像、影音</a></li><li><a href="site.php?type=3736">整合性資源、入口網站</a></li><li><a href="site.php?type=3732">檔案、圖書、文獻</a></li><li><a href="site.php?type=3733">簡牘、拓片</a></li>    
+                </ul>
+            </div>
+            <div class="more">顯示所有機構與主題<i class="fal fa-angle-down"></i></div>
+            <div class="less">顯示較少項目<i class="fal fa-angle-up"></i></div>
+        </div>
+    </div>
+</nav>
+<!--Navigator-->
+<!--Language-->
+<!--
+<div id="language-wrapper" class="wrapper">
+    <div id="language-inner" class="inner">
+        <ul>
+            <li><a href="#">中文</a></li>
+            <li><a href="#">English</a></li>
+        </ul>
+    </div>
+</div>
+-->
+<!--Language-->
+<!--Search-->
+<div id="search-wrapper" class="wrapper">
+    <div id="search-inner" class="inner">
+        <form id="nav-search-form" method="get" action="search.php">
+            <input type="text" name="q" placeholder="關鍵字" autocomplete="off" id="nav-search-term" />
+            <input type="submit" value="全站搜尋" />
+        </form>
+        <a href="search_advanced.php">進階搜尋</a>
+        <!--<a href="#" class="search-gis">藏品GIS檢索</a>-->
+    </div>
+</div>
+<!--Search-->
+<!--Breadcrumb-->
+<div id="breadcrumb-wrapper">
+    <div id="breadcrumb-inner" class="inner">
+        <a href="index.php">首頁</a>
+        <span class="seperater"><i class="fal fa-angle-right"></i></span>
+<a href="site.php" id="page-title">成果網站</a><span class="seperater"><i class="fal fa-angle-right"></i></span><a href="">小學堂文字學資料庫</a>        
+        
+    </div>
+</div>
+<!--Breadcrumb-->
+        <!--Main-->
+        <main id="main">
+            <div id="main-inner" class="inner border-rt">
+                <!--Content-->
+                <div id="main-content">
+                    <div id="main-content-inner">
+                        <!--Article-->
+                        <article class="main-article">
+                            <h1>小學堂文字學資料庫</h1>
+                            <dl class="meta-data">
+                                <dt>類型</dt><dd>合集</dd><dt>網站名稱</dt><dd>小學堂文字學資料庫</dd><dt>作者</dt><dd>資訊科學研究所、數位文化中心</dd><dt>主題</dt><dd>文字學, 資料庫</dd><dt>描述</dt><dd>「小學堂文字學資料庫」是一個形、音、義綜合的<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2631138&amp;oids=1552627,4836496,3993312,6546389,6394260" target="_blank" title="文字學">文字學</a>資料庫，可提供使用者根據文字的形、音等屬性先檢索出字頭，再透過字頭連接到個別的形、音、義資料庫或字書索引。本資料庫收錄的字形涵蓋<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2609218&amp;oids=3039873,3039893,3040014,3039993,3039913" target="_blank" title="甲骨文">甲骨文</a>、<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2583917&amp;oids=1197339,1372385,1826259,5101723,3334349" target="_blank" title="金文">金文</a>、戰國文字、小篆及楷書，總數超過十八萬字；收錄的聲韻資料涵蓋上古、中古、近代及現代，總數超過一百萬筆；收錄的字書索引資料則超過二十五萬筆。本資料庫主要由<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2584904&amp;oids=4495702,4573034,4495543,2640905,2649025" target="_blank" title="漢字">漢字</a>古今字資料庫及漢字古今音資料庫組成。漢字古今字資料庫由甲骨文、金文、楚系<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=752177&amp;oids=6313921,6313993,3978186,6408891,4846830" target="_blank" title="簡帛">簡帛</a>文字、小篆、<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2586217&amp;oids=5310160,6269792,4888544,6380576,6549464" target="_blank" title="異體字">異體字</a>表資料庫組成，而漢字古今音資料庫則由上古音、中古音、官話、晉語、吳語、徽語、贛語、湘語、閩語、<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2630857&amp;oids=5578666,4026376,6400683,6452545,5773727" target="_blank" title="粵語">粵語</a>、<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2592801&amp;oids=1654233,1654232,1654235,1654237,1654230" target="_blank" title="平話">平話</a>、客語、其他土話資料庫組成，各資料庫除可互相連結外，也可獨立使用。本資料庫也包含了形音以外的資料庫，例如甲骨文合集材料來源表資料庫；也提供了一些語文工具軟體的下載，例如<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=768602&amp;oids=6269966,1035871,6014667,6453994,5036262" target="_blank" title="吳守禮">吳守禮</a>台語注音字型及輸入法，小學堂增益集。本資料庫是一個整合型的資料庫，期望能以單一查詢界面，透過檢索出的字頭，銜接網際網路上不同的形、音、義資料庫。初期銜接的資料庫包括<a target="_blank" href="http://wiki.teldap.tw/index.php/%E6%95%B8%E4%BD%8D%E5%85%B8%E8%97%8F" title="數位典藏">數位典藏</a>的「國際電腦漢字及異體字知識庫」、<a target="_blank" href="http://wiki.teldap.tw/index.php/%E6%95%99%E8%82%B2%E9%83%A8" title="教育部">教育部</a>的異體字字典及重編國語辭典、原行政院主計處電子處理資料中心的「CNS11643中文標準交換碼全字庫」、中華開放古籍協會的「開放<a href="https://knowledge.digitalarchives.tw/list.jsp?kid=2589283&amp;oids=1202306,4571025,1212113,1203665,1208946" target="_blank" title="康熙字典">康熙字典</a>」。（本說明2013年1月由原計畫提供）</dd><dt>語言</dt><dd>中文</dd><dt>資源類型</dt><dd>文字</dd><dt>適用對象</dt><dd>所有對象</dd><dt>著作權</dt><dd>臺灣大學中國文學系、中央研究院歷史語言研究所、中央研究院資訊科學研究所</dd><dt>用途</dt><dd>學術研究, 教育學習, 創意加值</dd>                            </dl>
+                            <!--NOTE: 由新至舊輸出全部的紀錄，前端程式預設會顯示前3項，點選展開按鈕後才顯示其他項目 -->
+<div id="site-history"><h2>所屬計畫</h2><div class="custom-table"><div class="row"><div class="th">執行期間</div><div class="th">計畫名稱</div></div><div class="row"><div class="td">2005/1~2013/3</div><div class="td">中文字檢字及缺字處理技術</div></div><div class="more">顯示更多<i class="fal fa-angle-down"></i></div><div class="less">顯示較少<i class="fal fa-angle-up"></i></div></div>                            <!--
+                            <div id="site-history">
+                                <h2>所屬計畫</h2>
+                                <div class="custom-table">
+                                    <div class="row">
+                                        <div class="th">執行期間</div>
+                                        <div class="th">計畫名稱</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2015/1~2016/12</div>
+                                        <div class="td">史語所學術創新數位深耕計畫─新出青銅器銘文暨器影(2006-2013)匯入「殷周金文暨青銅器資料庫」計畫</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2013/1~2014/12</div>
+                                        <div class="td">語言典藏永續經營計畫─先秦甲骨金文簡牘詞彙庫</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2010/1~2010/12</div>
+                                        <div class="td">增補新收金文及影像處理計畫</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2007/1~2008/12</div>
+                                        <div class="td">利用數位典藏改善學術研究環境計畫─地理資訊系統對青銅器研究的輔助與應用</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2005/8~2006/8</div>
+                                        <div class="td">地理資訊系統對青銅器研究的輔助與應用</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2005/1~2006/12</div>
+                                        <div class="td">殷周有銘銅器器影資料庫</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">2001/7~2005/6</div>
+                                        <div class="td">青銅器影像及應用網路計畫</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="td">1999/8~2002/7</div>
+                                        <div class="td">金文研究與應用網路計畫</div>
+                                    </div>
+                                </div>
+                                <div class="more">顯示更多<i class="fal fa-angle-down"></i></div>
+                                <div class="less">顯示較少<i class="fal fa-angle-up"></i></div>
+                            </div>
+                            -->
+                        </article>
+                        <!--Article-->
+                    </div>
+                </div>
+                <!--Content-->
+                <!--Aside-->
+                <div id="main-aside">
+                    <div id="main-aside-inner">
+                        <div class="set share">
+                            <h3>分享本文</h3>
+                            <div class="sharer"></div>
+                        </div>
+                        <div class="set website">
+                            <div class="preview">
+                                <!--NOTE: 若有設定大圖連結，點選縮圖後會於 Lightbox 當中放大顯示 -->
+                                <a href="https://digitalarchives.tw/Images/site_detail/images/TC054.jpg" target="_blank">
+                                    <img src="https://digitalarchives.tw/Images/site_detail/images/TC054.jpg" />
+                                </a>
+                            </div>
+                            <h3>小學堂文字學資料庫</h3>
+                            <p style="display:none">畫面擷取時間 2018-07-01</p>
+<a href='http://xiaoxue.iis.sinica.edu.tw/' target='_blank' class='button'>前往網站</a>                        </div>
+                      
+                </div>
+                <!--Aside-->
+            </div>
+        </main>
+        <!--Main-->
+        <!--Footer-->
+<!--NOTE: 各頁面 Footer 內容均相同，可獨立出來便於管理-->
+<footer id="footer-wrapper" class="wrapper">
+    <div id="footer-inner" class="inner">
+        <ul id="footer-nav">
+            <li><a href="about.php">關於本站</a></li>
+            <li><a href="terms.php">著作權聲明</a></li>
+            <li><a href="doc/policy.pdf" target="_blank">使用者條款、資訊安全與隱私權政策</a></li>
+        </ul>
+        <div id="footer-social"></div>
+    </div>
+</footer>
+<!--Footer-->
+<!--Copyright-->
+<!--NOTE: 各頁面 Copyright 內容均相同，可獨立出來便於管理-->
+<div id="copyright-wrapper" class="wrapper">
+    <div id="copyright-inner" class="inner">
+        <div class="sinica"><a href="https://www.sinica.edu.tw" target="_blank">中央研究院  Academia Sinica</a></div>
+        <div class="digital-center" style="font-size:.92em">&copy; 2018 <a href="http://ascdc.sinica.edu.tw/" target="_blank">數位文化中心</a></div>
+        <div class="designer"><a href="http://dozencreation.com" target="_blank">Design by DozenCreation</a></div>
+    </div>
+</div>
+<!--Copyright-->    </div>
+    <!--Container-->
+<!-- Mobile Navigator -->
+<div id="mobile-nav-wrapper" class="wrapper mobile-element">
+    <div id="mobile-nav-inner" class="inner">
+        <ul>
+            <li><a href="collection.php">典藏目錄</a></li>
+            <li><a href="subject.php">文章選粹</a></li>
+            <li><a href="site.php">成果網站</a></li>
+        </ul>
+        <ul>
+            <li><a href="about.php">關於本站</a></li>
+            <li><a href="terms.php">著作權聲明</a></li>
+        </ul>
+        <ul class="lang">
+            <li><a href="#">ENGLISH</a></li>
+            <li><a href="#">中文</a></li>
+        </ul>
+        <div class="close"><i class="fal fa-times"></i></div>
+    </div>
+</div>
+<!--Mobile Navigator-->
+<!--Mobile Search-->
+<div id="mobile-search-wrapper" class="wrapper mobile-element">
+    <div id="mobile-search-inner" class="inner">
+        <div class="title">全站搜尋</div>
+        <form method="get" action="search.php">
+            <input type="text" name="q" placeholder="關鍵字" autocomplete="off" />
+            <button type="submit"><i class="far fa-search"></i></button>
+        </form>
+        <div class="advanced">
+            <p><a href="search_advanced.php">進階搜尋</a></p>
+            <p><a href="#" class="search-gis">藏品GIS檢索</a></p>
+        </div>
+    </div>
+    <div class="close"><i class="fal fa-times"></i></div>
+</div>
+<!--Mobile Search-->
+<!--Back to Top-->
+<div id="back-to-top"><i class="fal fa-long-arrow-up"></i><span>TOP</span></div>
+<!--Back to Top-->
+</body>
+
+</html>

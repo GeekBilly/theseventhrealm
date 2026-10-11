@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Access Restricted | ASCDC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --card-bg: rgba(255, 255, 255, 0.75);
+      --card-border: rgba(255, 255, 255, 0.5);
+      --blob-1: rgba(59, 130, 246, 0.4);
+      --blob-2: rgba(168, 85, 247, 0.3);
+      --blob-3: rgba(239, 68, 68, 0.2);
+      --alert-bg: rgba(239, 68, 68, 0.08);
+      --alert-text: #b91c1c;
+      --alert-border: rgba(239, 68, 68, 0.25);
+      --input-bg: rgba(255, 255, 255, 0.6);
+      --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+      --glass-strong: rgba(255, 255, 255, 0.9);
+    }
+
+    [data-theme='dark'] {
+      --bg-main: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --card-bg: rgba(30, 41, 59, 0.45);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --blob-1: rgba(37, 99, 235, 0.25);
+      --blob-2: rgba(147, 51, 234, 0.2);
+      --blob-3: rgba(220, 38, 38, 0.15);
+      --alert-bg: rgba(239, 68, 68, 0.12);
+      --alert-text: #fca5a5;
+      --alert-border: rgba(239, 68, 68, 0.3);
+      --input-bg: rgba(15, 23, 42, 0.5);
+      --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+      --glass-strong: rgba(30, 41, 59, 0.8);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
+      background: var(--bg-main);
+      color: var(--text-main);
+    }
+
+    .bg-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      background: var(--bg-main);
+    }
+
+    .shape {
+      position: absolute;
+      filter: blur(90px);
+      border-radius: 50%;
+      animation: float 25s infinite ease-in-out;
+      opacity: 0.7;
+      will-change: transform;
+    }
+
+    .shape-1 {
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: var(--blob-1);
+      animation-duration: 30s;
+    }
+
+    .shape-2 {
+      bottom: -20%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: var(--blob-2);
+      animation-duration: 25s;
+      animation-direction: reverse;
+    }
+
+    .shape-3 {
+      top: 20%;
+      left: 40%;
+      width: 45vw;
+      height: 45vw;
+      background: var(--blob-3);
+      animation-duration: 40s;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(8%, 12%) scale(1.05);
+      }
+
+      66% {
+        transform: translate(-8%, 5%) scale(0.95);
+      }
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .brand svg {
+      width: 28px;
+      height: 28px;
+      color: var(--text-main);
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    select,
+    button {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.875rem;
+    }
+
+    select:hover,
+    button:hover {
+      background: var(--glass-strong);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    button {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+    }
+
+    button svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    button:active svg {
+      transform: scale(0.85);
+    }
+
+    #moon-icon {
+      display: none;
+    }
+
+    #sun-icon {
+      display: block;
+    }
+
+    [data-theme='dark'] #moon-icon {
+      display: block;
+    }
+
+    [data-theme='dark'] #sun-icon {
+      display: none;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 3rem 4rem;
+      width: 100%;
+      max-width: 680px;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.5s ease, border-color 0.5s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme='dark'] .glass-card:hover {
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
+    }
+
+    .main-message {
+      text-align: center;
+    }
+
+    .icon-container {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+
+    .description {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .alert-box {
+      background: var(--alert-bg);
+      border: 1px solid var(--alert-border);
+      border-radius: 16px;
+      padding: 1.25rem 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      color: var(--alert-text);
+      font-weight: 500;
+      text-align: left;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .alert-box svg {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      color: var(--alert-text);
+    }
+
+    .contact-card h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .service-inquiry {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media(min-width: 600px) {
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contact-item.full-width {
+        grid-column: span 2;
+      }
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .contact-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-main);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .contact-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem 1.5rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .glass-card {
+        padding: 2.5rem 1.5rem;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+      }
+
+      .description {
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+        <path d="M2 17l10 5 10-5"></path>
+        <path d="M2 12l10 5 10-5"></path>
+      </svg>
+      <span data-i18n="nav_brand">ASCDC</span>
+    </div>
+    <div class="controls">
+      <select id="lang-select" aria-label="Language Selector">
+        <option value="en">English</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="zh-CN">简体中文</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="ru">Русский</option>
+        <option value="vi">Tiếng Việt</option>
+        <option value="th">ไทย</option>
+        <option value="id">Bahasa Indonesia</option>
+      </select>
+      <button id="theme-toggle" aria-label="Toggle Theme">
+        <svg id="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="glass-card main-message">
+      <div class="icon-container">
+        <svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="75" cy="75" r="70" stroke="var(--alert-border)" stroke-width="1.5" stroke-dasharray="12 12">
+            <animateTransform attributeName="transform" type="rotate" from="0 75 75" to="360 75 75" dur="35s"
+              repeatCount="indefinite" />
+          </circle>
+          <circle cx="75" cy="75" r="58" stroke="currentColor" stroke-width="1" stroke-dasharray="6 6" opacity="0.3">
+            <animateTransform attributeName="transform" type="rotate" from="360 75 75" to="0 75 75" dur="25s"
+              repeatCount="indefinite" />
+          </circle>
+          <circle cx="75" cy="75" r="62" fill="var(--alert-bg)">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <g transform="translate(51, 51)" color="var(--alert-text)">
+            <path
+              d="M24 0C10.745 0 0 10.745 0 24C0 37.255 10.745 48 24 48C37.255 48 48 37.255 48 24C48 10.745 37.255 0 24 0ZM24 43.2C13.396 43.2 4.8 34.604 4.8 24C4.8 13.396 13.396 4.8 24 4.8C34.604 4.8 43.2 13.396 43.2 24C43.2 34.604 34.604 43.2 24 43.2Z"
+              fill="currentColor" />
+            <path d="M12.8 33.6L35.2 11.2" stroke="currentColor" stroke-width="4.8" stroke-linecap="round" />
+            <path d="M11.2 12.8L33.6 35.2" stroke="currentColor" stroke-width="4.8" stroke-linecap="round" />
+          </g>
+        </svg>
+      </div>
+      <h1 data-i18n="title">Access Restricted</h1>
+      <p class="description" data-i18n="message">The current country or region is not yet open for access.</p>
+      <div class="alert-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <span data-i18n="suggestion">Try using a VPN from another country or region to change your IP address and access the service.</span>
+      </div>
+    </div>
+
+    <div class="glass-card contact-card">
+      <h2>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span data-i18n="contact_title">Contact Information</span>
+      </h2>
+      <p class="service-inquiry" data-i18n="service_inquiry">If you would like us to provide this website service,
+        please feel free to contact us for inquiries.</p>
+      <div class="contact-grid">
+        <div class="contact-item full-width">
+          <span class="contact-label" data-i18n="lbl_org">Organization</span>
+          <span class="contact-value">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 21v-4a2 2 0 012-2h2a2 2 0 012 2v4M9 7h6M9 11h6M9 15h6" />
+            </svg>
+            <span data-i18n="val_org">Academia Sinica Center for Digital Cultures</span>
+          </span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label" data-i18n="lbl_name">Name</span>
+          <span class="contact-value">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <span data-i18n="val_name">Hsiang-An WANG</span>
+          </span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label" data-i18n="lbl_position">Position</span>
+          <span class="contact-value">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+              <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+            </svg>
+            <span data-i18n="val_position">Associate Research Specialist & IT Director</span>
+          </span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label" data-i18n="lbl_phone">Phone</span>
+          <span class="contact-value">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+            </svg>
+            <span data-i18n="val_phone">+886-2-26521885 ext. 104</span>
+          </span>
+
+          <span class="phone-note" data-i18n="val_phone_note" style="font-size:0.82em;color:var(--text-muted);opacity:0.7;padding-left:1.75rem;">On Fridays, calls may be answered by a colleague as the contact person is attending class.</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label" data-i18n="lbl_email">Email</span>
+          <span class="contact-value">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <a id="email-link" href="#" style="color:inherit; text-decoration:none;"><span
+                data-i18n="val_email">sawang@gate.sinica.edu.tw</span></a>
+          </span>
+        </div>
+        <div class="contact-item full-width">
+          <span class="contact-label" data-i18n="lbl_profile">Personal Profile</span>
+          <span class="contact-value">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <a href="https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG" target="_blank" rel="noopener noreferrer"
+              style="color:inherit; text-decoration:none; word-break: break-all;">
+              <span data-i18n="val_profile">https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG</span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const translations = {
+      'zh-TW': {
+        nav_brand: '中央研究院 數位文化中心',
+        title: '服務限制存取',
+        message: '很抱歉，當前國家或是地區尚未開放存取本服務。',
+        suggestion: '建議嘗試使用其他國家或地區的 VPN 更換 IP 位址來存取本服務。',
+        contact_title: '聯絡資訊',
+        service_inquiry: '若希望我們提供這個網站服務，歡迎來信諮詢。',
+        lbl_org: '所屬單位', lbl_name: '聯絡人', lbl_position: '職稱', lbl_phone: '電話', lbl_email: '電子郵件', lbl_profile: '個人網頁',
+        val_org: '中央研究院 數位文化中心',
+        val_name: '王祥安 Hsiang-An WANG',
+        val_position: '研究副技師兼資訊室主任',
+        val_phone: '02-26521885#104',
+        val_phone_note: '每週五因上課，電話可能由同仁代接，敬請見諒。',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'zh-CN': {
+        nav_brand: '中央研究院 數位文化中心',
+        title: '服务限制访问',
+        message: '很抱歉，当前国家或地区尚未开放访问本服务。',
+        suggestion: '建议尝试使用其他国家或地区的 VPN 更换 IP 地址来访问本服务。',
+        contact_title: '联系信息',
+        service_inquiry: '若希望我们提供这个网站服务，欢迎来信咨询。',
+        lbl_org: '所属单位', lbl_name: '联系人', lbl_position: '职务', lbl_phone: '电话', lbl_email: '电子邮件', lbl_profile: '个人主页',
+        val_org: '中央研究院 數位文化中心',
+        val_name: '王祥安 Hsiang-An WANG',
+        val_position: '研究副技师兼信息室主任',
+        val_phone: '00-886-2-26521885 转 104',
+        val_phone_note: '每周五因上课，电话可能由同事代接，敬请谅解。',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'en': {
+        nav_brand: 'ASCDC',
+        title: 'Access Restricted',
+        message: 'We\'re sorry, but the current country or region is not yet open for access.',
+        suggestion: 'Try using a VPN from another country or region to change your IP address and access the service.',
+        contact_title: 'Contact Information',
+        service_inquiry: 'If you would like us to provide this website service, please feel free to contact us for inquiries.',
+        lbl_org: 'Organization', lbl_name: 'Name', lbl_position: 'Position', lbl_phone: 'Phone', lbl_email: 'Email', lbl_profile: 'Personal Profile',
+        val_org: 'Academia Sinica Center for Digital Cultures',
+        val_name: 'Hsiang-An WANG',
+        val_position: 'Associate Research Specialist & IT Director',
+        val_phone: '+886-2-26521885 ext. 104',
+        val_phone_note: 'On Fridays, calls may be answered by a colleague as the contact person is attending class.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'ja': {
+        nav_brand: '中央研究院 デジタル文化センター',
+        title: 'アクセス制限',
+        message: '申し訳ありませんが、現在の国または地域からはアクセスできません。',
+        suggestion: '他の国や地域の VPN を使用して IP アドレスを変更し、サービスにアクセスしてください。',
+        contact_title: 'お問い合わせ',
+        service_inquiry: 'このウェブサイトサービスの提供をご希望の場合は、お気軽にお問い合わせください。',
+        lbl_org: '所属', lbl_name: '担当者', lbl_position: '役職', lbl_phone: '電話番号', lbl_email: 'Eメール', lbl_profile: 'プロフィール',
+        val_org: '中央研究院 デジタル文化センター',
+        val_name: '王祥安 Hsiang-An WANG',
+        val_position: '研究副技師 兼 情報システム室主任',
+        val_phone: '010-886-2-26521885 内線 104',
+        val_phone_note: '毎週金曜日は授業のため、同僚が電話対応する場合がございます。ご了承ください。',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'ko': {
+        nav_brand: 'ASCDC',
+        title: '접근 제한',
+        message: '죄송합니다. 현재 국가 또는 지역에서는 접속할 수 없습니다.',
+        suggestion: '다른 국가 또는 지역의 VPN을 사용하여 IP 주소를 변경한 후 서비스에 접속해 주십시오.',
+        contact_title: '연락처 정보',
+        service_inquiry: '이 웹사이트 서비스 제공을 원하시면 편하게 문의해 주시기 바랍니다.',
+        lbl_org: '소속기관', lbl_name: '담당자', lbl_position: '직위', lbl_phone: '전화번호', lbl_email: '이메일', lbl_profile: '프로필',
+        val_org: '중앙연구원 디지털문화센터',
+        val_name: '왕샹안 Hsiang-An WANG',
+        val_position: '부연구기사 겸 정보실 주임',
+        val_phone: '001-886-2-26521885 내선 104',
+        val_phone_note: '매주 금요일은 수업 참석으로 인해 동료가 전화를 대신 받을 수 있습니다. 양해 부탁드립니다.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'es': {
+        nav_brand: 'ASCDC',
+        title: 'Acceso Restringido',
+        message: 'Lo sentimos, pero el país o región actual aún no está abierto para el acceso.',
+        suggestion: 'Intente usar una VPN de otro país o región para cambiar su dirección IP y acceder al servicio.',
+        contact_title: 'Información de Contacto',
+        service_inquiry: 'Si desea que proporcionemos este servicio de sitio web, no dude en contactarnos para consultas.',
+        lbl_org: 'Organización', lbl_name: 'Nombre', lbl_position: 'Cargo', lbl_phone: 'Teléfono', lbl_email: 'Correo', lbl_profile: 'Perfil',
+        val_org: 'Centro de Culturas Digitales, Academia Sinica',
+        val_name: 'Hsiang-An WANG',
+        val_position: 'Especialista Asociado de Investigación y Director de TI',
+        val_phone: '00-886-2-26521885 ext. 104',
+        val_phone_note: 'Los viernes, las llamadas pueden ser atendidas por un colega, ya que la persona de contacto asiste a clases.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'fr': {
+        nav_brand: 'ASCDC',
+        title: 'Accès Restreint',
+        message: 'Nous sommes désolés, mais le pays ou la région actuelle n\'est pas encore ouverte à l\'accès.',
+        suggestion: 'Essayez d\'utiliser un VPN d\'un autre pays ou région pour changer votre adresse IP et accéder au service.',
+        contact_title: 'Coordonnées',
+        service_inquiry: 'Si vous souhaitez que nous fournissions ce service de site Web, n\'hésitez pas à nous contacter pour toute demande.',
+        lbl_org: 'Organisation', lbl_name: 'Nom', lbl_position: 'Poste', lbl_phone: 'Téléphone', lbl_email: 'Email', lbl_profile: 'Profil',
+        val_org: 'Centre des Cultures Numériques, Academia Sinica',
+        val_name: 'Hsiang-An WANG',
+        val_position: 'Spécialiste de Recherche Associé & Directeur Informatique',
+        val_phone: '00-886-2-26521885 poste 104',
+        val_phone_note: 'Le vendredi, les appels peuvent être pris par un collègue, la personne de contact étant en cours.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'de': {
+        nav_brand: 'ASCDC',
+        title: 'Zugriff Beschränkt',
+        message: 'Es tut uns leid, aber der Zugriff aus Ihrem aktuellen Land oder Ihrer Region ist nicht möglich.',
+        suggestion: 'Versuchen Sie, ein VPN aus einem anderen Land oder einer anderen Region zu verwenden, um Ihre IP-Adresse zu ändern und auf den Dienst zuzugreifen.',
+        contact_title: 'Kontaktinformationen',
+        service_inquiry: 'Wenn Sie möchten, dass wir diesen Website-Service anbieten, können Sie uns gerne für Anfragen kontaktieren.',
+        lbl_org: 'Organisation', lbl_name: 'Name', lbl_position: 'Position', lbl_phone: 'Telefon', lbl_email: 'E-Mail', lbl_profile: 'Profil',
+        val_org: 'Zentrum für digitale Kulturen, Academia Sinica',
+        val_name: 'Hsiang-An WANG',
+        val_position: 'Associate Research Specialist & IT-Direktor',
+        val_phone: '00-886-2-26521885 App. 104',
+        val_phone_note: 'Freitags können Anrufe von einem Kollegen entgegengenommen werden, da die Kontaktperson im Unterricht ist.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'ru': {
+        nav_brand: 'ASCDC',
+        title: 'Доступ ограничен',
+        message: 'К сожалению, доступ из вашей текущей страны или региона пока закрыт.',
+        suggestion: 'Попробуйте использовать VPN другой страны или региона для смены IP-адреса и доступа к сервису.',
+        contact_title: 'Контактная информация',
+        service_inquiry: 'Если вы хотите, чтобы мы предоставили этот веб-сервис, пожалуйста, свяжитесь с нами для консультации.',
+        lbl_org: 'Организация', lbl_name: 'Имя', lbl_position: 'Должность', lbl_phone: 'Телефон', lbl_email: 'Почта', lbl_profile: 'Профиль',
+        val_org: 'Центр цифровых культур Академии Синики',
+        val_name: 'Сян-Ан ВАН Hsiang-An WANG',
+        val_position: 'Заместитель научного специалиста и директор ИТ',
+        val_phone: '8-10-886-2-26521885 доб. 104',
+        val_phone_note: 'По пятницам на звонки может ответить коллега, так как контактное лицо находится на занятиях.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'vi': {
+        nav_brand: 'ASCDC',
+        title: 'Truy Cập Bị Hạn Chế',
+        message: 'Rất tiếc, quốc gia hoặc khu vực hiện tại chưa được mở quyền truy cập.',
+        suggestion: 'Hãy thử sử dụng VPN từ quốc gia hoặc khu vực khác để thay đổi địa chỉ IP và truy cập dịch vụ.',
+        contact_title: 'Thông Tin Liên Hệ',
+        service_inquiry: 'Nếu bạn muốn chúng tôi cung cấp dịch vụ trang web này, vui lòng liên hệ với chúng tôi để được tư vấn.',
+        lbl_org: 'Tổ chức', lbl_name: 'Họ tên', lbl_position: 'Chức vụ', lbl_phone: 'Điện thoại', lbl_email: 'Email', lbl_profile: 'Hồ sơ',
+        val_org: 'Trung tâm Văn hóa Kỹ thuật số Viện Hàn lâm Sinica',
+        val_name: 'Vương Tường An Hsiang-An WANG',
+        val_position: 'Phó chuyên viên nghiên cứu kiêm Giám đốc CNTT',
+        val_phone: '00-886-2-26521885 máy lẻ 104',
+        val_phone_note: 'Vào thứ Sáu, cuộc gọi có thể được đồng nghiệp tiếp nhận do người liên hệ đang tham gia lớp học.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'th': {
+        nav_brand: 'ASCDC',
+        title: 'การเข้าถึงถูกจำกัด',
+        message: 'ขออภัย ประเทศหรือภูมิภาคปัจจุบันยังไม่เปิดให้เข้าถึงบริการนี้',
+        suggestion: 'ลองใช้ VPN จากประเทศหรือภูมิภาคอื่นเพื่อเปลี่ยนที่อยู่ IP และเข้าถึงบริการ',
+        contact_title: 'ข้อมูลการติดต่อ',
+        service_inquiry: 'หากคุณต้องการให้เราให้บริการเว็บไซต์นี้ โปรดติดต่อเราเพื่อสอบถามข้อมูล',
+        lbl_org: 'องค์กร', lbl_name: 'ชื่อ', lbl_position: 'ตำแหน่ง', lbl_phone: 'โทรศัพท์', lbl_email: 'อีเมล', lbl_profile: 'โปรไฟล์',
+        val_org: 'ศูนย์วัฒนธรรมดิจิทัล Academia Sinica',
+        val_name: 'หวังเซียงอัน Hsiang-An WANG',
+        val_position: 'ผู้เชี่ยวชาญด้านการวิจัยสมทบและผู้อำนวยการฝ่ายไอที',
+        val_phone: '001-886-2-26521885 ต่อ 104',
+        val_phone_note: 'ในวันศุกร์ สายอาจได้รับการตอบรับจากเพื่อนร่วมงาน เนื่องจากผู้ติดต่อไปเข้าชั้นเรียน',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      },
+      'id': {
+        nav_brand: 'ASCDC',
+        title: 'Akses Dibatasi',
+        message: 'Maaf, negara atau wilayah saat ini belum dibuka untuk akses layanan ini.',
+        suggestion: 'Coba gunakan VPN dari negara atau wilayah lain untuk mengubah alamat IP Anda dan mengakses layanan.',
+        contact_title: 'Informasi Kontak',
+        service_inquiry: 'Jika Anda ingin kami menyediakan layanan situs web ini, jangan ragu untuk menghubungi kami untuk pertanyaan.',
+        lbl_org: 'Organisasi', lbl_name: 'Nama', lbl_position: 'Jabatan', lbl_phone: 'Telepon', lbl_email: 'Email', lbl_profile: 'Profil',
+        val_org: 'Pusat Budaya Digital Academia Sinica',
+        val_name: 'Hsiang-An WANG',
+        val_position: 'Spesialis Riset Rekanan & Direktur TI',
+        val_phone: '001-886-2-26521885 ext. 104',
+        val_phone_note: 'Pada hari Jumat, panggilan mungkin dijawab oleh rekan kerja karena narahubung sedang menghadiri kelas.',
+        val_email: 'sawang@gate.sinica.edu.tw',
+        val_profile: 'https://www1.ihp.sinica.edu.tw/Fellows/Hsiang_An_WANG'
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+      if (!translations[lang]) lang = 'en';
+      currentLang = lang;
+      document.documentElement.lang = currentLang;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+          el.textContent = translations[currentLang][key];
+        }
+      });
+
+      document.getElementById('lang-select').value = currentLang;
+      document.title = translations[currentLang].title + " | ASCDC";
+    }
+
+    function initLang() {
+      const saved = localStorage.getItem('app_lang');
+      if (saved && translations[saved]) {
+        setLanguage(saved);
+        return;
+      }
+      const userLang = navigator.language || navigator.userLanguage;
+      const lower = userLang.toLowerCase();
+
+      if (lower.startsWith('zh')) {
+        if (lower.includes('tw') || lower.includes('hk') || lower.includes('hant') || lower.includes('mo')) {
+          setLanguage('zh-TW');
+        } else {
+          setLanguage('zh-CN');
+        }
+      } else {
+        const base = lower.split('-')[0];
+        setLanguage(translations[base] ? base : 'en');
+      }
+    }
+
+    document.getElementById('lang-select').addEventListener('change', (e) => {
+      const lang = e.target.value;
+      localStorage.setItem('app_lang', lang);
+      setLanguage(lang);
+    });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('app_theme', theme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    function initTheme() {
+      const saved = localStorage.getItem('app_theme');
+      if (saved) {
+        setTheme(saved);
+      } else {
+        const wantsDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(wantsDark ? 'dark' : 'light');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLang();
+      initTheme();
+
+      const emailLink = document.getElementById('email-link');
+      if (emailLink) {
+        const ccEmails = 'chen21019@as.edu.tw,as0210259@as.edu.tw,michaelsu@as.edu.tw';
+        const hostname = window.location.hostname || '網站';
+        const pageTitle = document.title || '';
+
+        function setMailto(clientIP) {
+          const ipTag = clientIP ? `[${clientIP}]` : '';
+          const subject = `[${hostname}]${ipTag} ${pageTitle}`;
+          emailLink.href = `mailto:sawang@gate.sinica.edu.tw?cc=${ccEmails}&subject=${encodeURIComponent(subject)}`;
+        }
+
+        // 方案1: HAProxy X-Client-IP response header (最可靠)
+        function getIPFromHeader() {
+          return new Promise(resolve => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('HEAD', window.location.href, true);
+            xhr.onload = () => resolve(xhr.getResponseHeader('X-Client-IP') || '');
+            xhr.onerror = () => resolve('');
+            xhr.timeout = 2000;
+            xhr.ontimeout = () => resolve('');
+            xhr.send();
+          });
+        }
+
+        // 方案2: 外部 API fallback
+        function getIPFromAPI() {
+          return fetch('https://api.ipify.org?format=text', { signal: AbortSignal.timeout(3000) })
+            .then(r => r.ok ? r.text() : '')
+            .catch(() => '');
+        }
+
+        // 依序嘗試: header → API → 無 IP
+        getIPFromHeader().then(ip => {
+          if (ip) { setMailto(ip); return; }
+          return getIPFromAPI().then(ip2 => setMailto(ip2));
+        }).catch(() => setMailto(''));
+
+        // 先設預設值（無 IP），非同步完成後覆寫
+        setMailto('');
+      }
+    });
+  </script>
+</body>
+
+</html>

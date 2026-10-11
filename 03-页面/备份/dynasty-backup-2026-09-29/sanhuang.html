@@ -1,0 +1,65 @@
+<style>
+section{padding:clamp(44px,6vw,60px) 24px}
+.hero{min-height:54vh}
+.verse{position:relative;padding:clamp(34px,5vw,54px) 24px}
+.vsrc{margin-top:22px;font-size:13px;letter-spacing:3px;color:rgba(26,26,24,.5)}
+.relic{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,3vw,30px);max-width:840px;margin:0 auto}
+.relic .card{border:1px solid rgba(26,26,24,.13);border-radius:3px;padding:20px 16px;background:rgba(255,255,255,.55)}
+.relic .card .k{font-family:var(--f-brush);font-size:clamp(20px,2.8vw,28px);color:var(--cinnabar);display:block;margin-bottom:8px}
+.relic .card .t{font-size:13px;letter-spacing:4px;color:var(--ink2);margin-bottom:8px}
+.relic .card .d{font-size:15.5px;letter-spacing:2px;line-height:1.85;color:var(--ink)}
+.era-nav{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:var(--f-brush);font-size:clamp(15px,2vw,18px);letter-spacing:3px}
+.era-nav a{color:var(--ink)}
+.era-nav a:hover{color:var(--cinnabar)}
+.era-nav .sep{color:rgba(26,26,24,.25)}
+.fineprint{max-width:660px;margin:26px auto 0;font-size:12.5px;letter-spacing:2px;
+  line-height:1.9;color:rgba(26,26,24,.45);text-align:center}
+@media(max-width:640px){.relic{grid-template-columns:1fr}}
+</style>
+
+<header class="hero">
+  <p class="zi-top">上下五千年 · 第一卷</p>
+  <h1>三皇五帝</h1>
+  <p class="subtitle">燧火初燃 · 文明肇始</p>
+  <div><span class="seal">传说时代</span></div>
+</header>
+
+<section class="verse reveal">
+  <div class="vpoem"><p>观乎人文，以化成天下</p></div>
+  <span class="ghost">源</span>
+  <p class="vsrc">—— 《周易 · 贲卦》</p>
+</section>
+
+<section>
+  <div class="prose">
+    <p>这是五千年长卷的第一段，也是最没有确切年份的一段。燧人钻木取火，伏羲画卦，神农尝百草，黄帝定衣裳、造舟车——后世把这些功劳归到几个名字下面，其实那是无数代人共同完成的事。传说里没有神迹，只有一只又一只把火种传下去的手。</p>
+    <h2>仓颉造字，是一个传说</h2>
+    <p>传说背后却是真事：文字从来不是一个人造出来的。从结绳记事到刻画记事，从贾湖的刻符到陶寺的朱书，汉字经历了上千年的缓慢生长，才在某一天被某个人整理成形。我们今天写下的每一个字，都是这段漫长积累的利息。</p>
+    <h2>炎黄合族</h2>
+    <p>涿鹿之战后，炎帝与黄帝的部族合流，「华夏」这同一个身份开始成形。它不是血缘上的同源，而是文化上的认同——一套共同的历法、共同的耕作方式、共同的字。此后五千年，这个认同被反复打破又反复重建，靠的从来不是神谕，是一代代人的选择。</p>
+    <p>这一卷没有确切纪年，也不需要。它只记录了一件事：文明的第一笔，是人写下的。</p>
+  </div>
+</section>
+
+<section>
+  <div class="relic reveal">
+      <div class="card"><span class="k">字</span><p class="t">刻符与陶文</p><p class="d">贾湖刻符、大地湾陶符，是汉字最远的伏笔。</p></div>
+      <div class="card"><span class="k">物</span><p class="t">火与耒</p><p class="d">取火与耕作，文明起步的两件工具。</p></div>
+      <div class="card"><span class="k">事</span><p class="t">炎黄合族</p><p class="d">涿鹿之后，华夏第一次成为一个共同体。</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="finale">
+    <p class="final-line">火是人点的，字是人刻的。</p>
+  </div>
+</section>
+
+<section>
+  <div class="era-nav">
+    <a href="/5000years/">← 长卷之首</a><span class="sep">☷</span><a href="/5000years/">总览</a><span class="sep">☷</span><a href="/5000years/xia/">夏 →</a>
+  </div>
+  <p class="fineprint">年代与字形取通行说法；先秦部分学者间存在不同意见，凡有争议处已在文中标明。若发现错漏，欢迎写信至 hello@theseventhrealm.com 指正，核实后即改。</p>
+  <p style="text-align:center;margin-top:22px"><a class="back-home" href="/5000years/">← 回到上下五千年</a></p>
+</section>

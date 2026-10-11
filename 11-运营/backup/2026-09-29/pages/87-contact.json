@@ -1,0 +1,15 @@
+{
+ "id": 87,
+ "modified": "2026-09-29T01:14:01",
+ "slug": "contact",
+ "status": "publish",
+ "link": "https://theseventhrealm.com/contact/",
+ "title": {
+  "rendered": "联络"
+ },
+ "content": {
+  "rendered": "<p><!-- 「联络」页面正文（v1 草稿）：横幅/导航/页脚由子主题模版统一输出，此处只放正文 --></p>\n<header class=\"hero\">\n<p class=\"zi-top\">有 话 直 说</p>\n<h1>联络</h1>\n<p class=\"subtitle\"><span>写信给我们</span><span>一定有人读</span></p>\n<div><span class=\"seal\">七境之印</span></div>\n<p>  <span class=\"scroll-hint\">展 卷</span><br />\n</header>\n<section class=\"verse reveal\">\n  <span class=\"trigram\">☰ ☱ ☲ ☳ ☴ ☵ ☶ ☷</span></p>\n<div class=\"vpoem\">\n<p>字是写给<em>千年后</em>的人看的。</p>\n</p></div>\n<p>  <span class=\"ghost\">信</span><br />\n</section>\n<section class=\"reveal\">\n<h2>写信</h2>\n<p>  <svg class=\"brush\" viewBox=\"0 0 200 14\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n    <path d=\"M3 8 C 26 5, 52 11, 84 8 C 126 4, 160 10, 197 7 C 168 12, 126 14, 92 11 C 58 9, 26 12, 3 8 Z\"/>\n  </svg></p>\n<div class=\"prose\">\n<p><strong>hello@theseventhrealm.com</strong></p>\n<p>这是本站唯一的官方联系方式。合作、授权、纠错、反馈，都请发到这里。</p>\n<p>第七境是一个人的项目，回信通常在三五个工作日内。如果只是为了确认我们还在，不必写信——我们一直都在。</p>\n</p></div>\n</section>\n<section class=\"reveal\">\n<h2>四类事</h2>\n<p>  <svg class=\"brush\" viewBox=\"0 0 200 14\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n    <path d=\"M3 8 C 26 5, 52 11, 84 8 C 126 4, 160 10, 197 7 C 168 12, 126 14, 92 11 C 58 9, 26 12, 3 8 Z\"/>\n  </svg></p>\n<div class=\"prose\">\n<p><strong>合作与授权</strong>　转载、商用、联名、影视与游戏改编，请说明用途、范围与期限，我们按件回复。</p>\n<p><strong>内容纠错</strong>　字形、年代、出处若有错，请指出并附来源。考据上的错，我们改得比谁都快。</p>\n<p><strong>版权与侵权</strong>　若你认为本站内容侵犯了你的权利，请提供权属证明与具体链接。核实后我们会在 48 小时内处理或下架。</p>\n<p><strong>单纯的来信</strong>　喜欢、不喜欢、觉得哪里不对——都欢迎。这类信我们会读，但不一定都回。</p>\n</p></div>\n</section>\n<section class=\"reveal\">\n<h2>我们不做的事</h2>\n<p>  <svg class=\"brush\" viewBox=\"0 0 200 14\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n    <path d=\"M3 8 C 26 5, 52 11, 84 8 C 126 4, 160 10, 197 7 C 168 12, 126 14, 92 11 C 58 9, 26 12, 3 8 Z\"/>\n  </svg></p>\n<div class=\"prose\">\n<p>不群发营销邮件，不出售或交换你的邮箱，不把你的来信内容用于任何公开场合（除非你明确同意）。</p>\n<p>本站不设投稿入口，也不收稿费之外的任何&#8221;合作费用&#8221;——凡是要你先付钱的&#8221;合作&#8221;，都不是我们。</p>\n</p></div>\n</section>\n<section class=\"reveal\">\n<div class=\"finale\">\n<div class=\"list\">\n      写完这一笔，<br />\n      就等你的信。\n    </div>\n<p class=\"final-line\">回见，<b>在下一卷</b>。</p>\n<p>    <a class=\"back\" href=\"/\">← 回到道境</a>\n  </div>\n</section>\n",
+  "protected": false
+ },
+ "parent": 0
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<style>@font-face{font-family:'serif';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/NotoSerifSC-Black.ttf')}
+@font-face{font-family:'lishu';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/aoyagireisyosimo_ttf_2_01.ttf')}
+@font-face{font-family:'xing';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/挚芒行.ttf')}
+@font-face{font-family:'cao';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/柳建毛草.ttf')}
+@font-face{font-family:'msz';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{background:#f7f5f0;color:#1a1a18;
+  font-family:'serif','Noto Serif SC',Georgia,serif;-webkit-font-smoothing:antialiased}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+.mountains{position:absolute;left:0;bottom:0;width:100%;height:300px;z-index:1}
+.ghost{position:absolute;left:-40px;bottom:-110px;font-family:'msz';font-size:560px;
+  color:rgba(26,26,24,.045);line-height:1;z-index:2;user-select:none}
+.mist{position:absolute;left:0;bottom:0;width:100%;height:300px;z-index:2;opacity:.55}
+.frame{position:absolute;left:64px;top:56px;right:64px;bottom:56px;
+  border:1px solid rgba(26,26,24,.10);z-index:3}
+.seal{position:absolute;right:96px;bottom:112px;width:104px;z-index:6}
+.brand{position:absolute;left:104px;bottom:118px;z-index:6;font-size:15px;
+  letter-spacing:4px;color:#4a463f;font-family:'serif'}
+.brand b{font-family:'msz';font-weight:400;font-size:23px;letter-spacing:7px;color:#1a1a18}
+.brand i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#b03826;
+  margin:0 10px;vertical-align:middle}
+.series{position:absolute;left:104px;top:104px;font-size:16px;letter-spacing:8px;
+  color:#4a463f;z-index:6;font-family:'serif'}
+.series em{font-family:'msz';font-style:normal;font-size:30px;letter-spacing:4px;color:#1a1a18}
+
+.quote{position:absolute;right:118px;top:300px;writing-mode:vertical-rl;
+  font-family:'msz';font-size:40px;letter-spacing:16px;color:#1a1a18;z-index:5;line-height:1.7}
+.src{position:absolute;right:176px;top:300px;writing-mode:vertical-rl;
+  font-size:13px;letter-spacing:5px;color:#8c8578;z-index:5;line-height:2.1;font-family:'serif'}
+
+.hero{position:absolute;left:50%;transform:translateX(-50%);top:250px;z-index:5;text-align:center}
+.hero .big{font-family:'msz';font-size:340px;line-height:1;color:#1a1a18}
+.hero .trad{margin-top:8px;font-size:52px;letter-spacing:22px;color:#8c8578;font-family:'serif'}
+.card{position:absolute;left:50%;transform:translateX(-50%);top:700px;width:1080px;z-index:5;
+  border-top:1px solid rgba(26,26,24,.18);border-bottom:1px solid rgba(26,26,24,.18)}
+.row{display:flex;align-items:baseline;padding:17px 8px;border-bottom:1px solid rgba(26,26,24,.07)}
+.row:last-child{border-bottom:0}
+.k{width:190px;flex:none;font-size:14px;letter-spacing:7px;color:#8c8578;font-family:'serif'}
+.v{font-size:21px;letter-spacing:5px;color:#1a1a18;font-family:'serif'}
+.v.num{font-family:'serif';font-weight:600;letter-spacing:6px}
+.lat{margin-left:auto;font-size:13px;letter-spacing:4px;color:#b3aca0;font-family:'serif'}
+</style></head><body><div class="stage">
+<svg class="mountains" viewBox="0 0 1200 340" preserveAspectRatio="none">
+  <path d="M0 300 C 90 250, 170 268, 250 214 C 330 160, 400 196, 470 168
+           C 545 138, 600 176, 668 150 C 745 120, 812 168, 880 132
+           C 950 96, 1030 150, 1105 116 C 1150 96, 1180 108, 1200 100
+           L1200 340 L0 340 Z" fill="rgba(26,26,24,.055)"/>
+  <path d="M0 322 C 120 292, 240 306, 360 278 C 480 250, 600 286, 720 262
+           C 840 238, 960 272, 1080 250 C 1140 240, 1180 246, 1200 240
+           L1200 340 L0 340 Z" fill="rgba(26,26,24,.04)"/>
+</svg>
+<div class="mist"></div>
+<div class="ghost">氏</div>
+<div class="frame"></div>
+<div class="series">姓 氏 源 流</div>
+<div class="quote">赵钱孙李</div>
+<div class="src">《百家姓》北宋<br>第 1 句</div>
+<div class="hero"><div class="big">赵</div><div class="trad">趙</div></div>
+<div class="card">
+  <div class="row"><span class="k">拼 音</span><span class="v num">ZHAO</span></div>
+  <div class="row"><span class="k">简 繁</span><span class="v">赵 · 趙</span></div>
+  <div class="row"><span class="k">源 流</span><span class="v">西周</span><span class="lat">c. 950 BC</span></div>
+  <div class="row"><span class="k">出 处</span><span class="v">《百家姓》第 1 句</span><span class="lat">THE HUNDRED SURNAMES · NORTHERN SONG</span></div>
+</div>
+<div class="brand"><b>第七境</b>™<i></i>www.theseventhrealm.com</div>
+<img class="seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal-hi.png">
+</div></body></html>

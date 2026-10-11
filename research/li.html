@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3NXT305ZEQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3NXT305ZEQ');
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>漢語多功能字庫</title>
+<link href="main.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href="css/lightbox.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.ez-plus.js"></script>
+<script type="text/javascript" src="js/lightbox.js"></script>
+<script type="text/javascript" src="yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script src = "js/cookie.js"></script>
+<script src = "js/phonetic.js"></script>
+<script src = "js/mandarin.js"></script>
+<script src = "js/main.js"></script>
+<link rel="stylesheet" type="text/css" href="yui/treeview/assets/tree.css">
+<script src = "yui/yahoo/yahoo-min.js"></script>
+<script src = "yui/event/event-min.js"></script>
+<script src = "yui/treeview/treeview-min.js"></script>
+<script src = "js/pieceTree.js"></script>
+<script type="text/javascript">
+    function usefulLinks(l) {
+        if (l) {
+            window.open(l,'useful','').focus();
+            document.getElementById('usefullinks').selectedIndex = 0;
+        }
+    }
+    document.title = "漢語多功能字庫 - 字頭 「李」";
+</script></head>
+<body onload="phonetic_init(); expandAllTree();">
+<div id="mouseoverlayer"><!----></div>
+<div id="globalWrapper">
+
+<!-- Top Bar -->
+<div class="mf-top" style="z-index:4">
+	<div class="mf-bar mf-brown mf-large">
+		<a href="javascript:void(0);" class="topnav-icons fa fa-bars mf-hide-large mf-left mf-bar-item mf-button" title="Menu" onclick="mf_open();"></a>
+		<a href="/" class="topnav-icons fa fa-home mf-left mf-bar-item mf-button" title="Home"></a>
+		<a href="javascript:void(0);" class="mf-bar-item mf-button mf-right" id="topnavbtn_cantonese_ph" onclick="mf_open_nav('cantonese_ph')" title="粵音音節">粵 <i class="fa fa-caret-down"></i><i class="fa fa-caret-up" style="display:none"></i></a>
+		<a href="javascript:void(0);" class="mf-bar-item mf-button mf-right" id="topnavbtn_mandarin_ph" onclick="mf_open_nav('mandarin_ph')" title="普通話音節">普 <i class="fa fa-caret-down"></i><i class="fa fa-caret-up" style="display:none"></i></a>
+		<a href="advanceSearch.php" class="topnav-icons fa fa-search-plus mf-right mf-bar-item mf-button" title="Advanced Search"></a>
+		<a href="javascript:void(0);" class="topnav-icons fa fa-search mf-right mf-bar-item mf-button" id="top_search_button" onclick="open_search(this)" title="Search"></a>
+		<div id="search_bar_panel">
+			<a href="javascript:void(0);" class="topnav-icons fa fa-times-circle mf-right mf-bar-item mf-button" id="top_search_close"  onclick="open_search(this)" title="Close"></a>
+			<a href="javascript:void(0);" class="topnav-icons fa fa-search mf-right mf-bar-item mf-button" onclick="document.getElementById('search_hc_search').submit()" title="Search"></a>
+			<div class="mf-right mf-bar-item mf-medium">
+			<form id="search_hc_search" name="search_hc_search" action="searchAll.php" method="get">
+				<input type="hidden" name="type" value="word"><input type="hidden" name="simple" value="1">
+				<input type="text" name="q" id="search_input" size="10" maxlength="">
+				<select name="freq">
+					<option value="-1">所有字</option>
+					<option value="0">常用字</option>
+				</select>
+			</form>
+			</div>
+		</div>
+	</div>
+	<div id="nav_mandarin_ph">
+		<table>
+			<tr>
+				<td colspan="3">
+				<form name="search_mandarin_ph_search" id="search_mandarin_ph_search">
+					<span id="search_mandarin_ph_dropdown_span"><span class="ph_initial">?</span><span class="ph_final">?</span><span class="ph_tone">?</span></span>
+					<input type="button" onclick="search_mandarin_ph_submit()" class="searchButton" value="搜索">
+				</form>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<table class="ph_initial">
+						<tr>
+							<th onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, '?')">聲母</th>
+						</tr>
+						<tr>
+							<th onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, '-')">-</th>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'b')">b</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'p')">p</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'm')">m</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'f')">f</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'd')">d</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 't')">t</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'n')">n</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'l')">l</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'g')">g</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'k')">k</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'h')">h</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'j')">j</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'q')">q</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'x')">x</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'zh')">zh</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'ch')">ch</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'sh')">sh</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'r')">r</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'z')">z</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'c')">c</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 's')">s</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'y')">y</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(1, 'w')">w</td>
+						</tr>
+					</table>
+				</td>
+				<td valign="top">
+					<table class="ph_final">
+						<tr>
+							<th colspan="3" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, '?')">韻母</th>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'a')">a</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'o')">o</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'e')">e</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'er')">er</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ai')">ai</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ei')">ei</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ao')">ao</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ou')">ou</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'an')">an</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'en')">en</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ang')">ang</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'eng')">eng</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ong')">ong</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'i')">i</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ia')">ia</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'iao')">iao</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ie')">ie</td>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'iu')">iou <span style="color:#666">(iu)</span></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ian')">ian</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'in')">in</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'iang')">iang</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ing')">ing</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'iong')">iong</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'u')">u</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ua')">ua</td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'uo')">uo</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'uai')">uai</td>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'ui')">uei <span style="color:#666">(ui)</span></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'uan')">uan</td>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'un')">uen <span style="color:#666">(un)</span></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'uang')">uang</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'U')">ü <span style="color:#666">(u)</span></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'Ue')">üe <span style="color:#666">(ue)</span></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'Uan')">üan <span style="color:#666">(uan)</span></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(2, 'Un')">ün <span style="color:#666">(un)</span></td>
+							<td></td>
+						</tr>
+					</table>
+				</td>
+				<td valign="top">
+					<table class="ph_tone">
+						<tr>
+							<th onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(3, '?')">聲調</th>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(3, '0')">&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(3, '1')"><img src="img/phonetic/pinyin1.gif" border="0" align="absmiddle"></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(3, '2')"><img src="img/phonetic/pinyin2.gif" border="0" align="absmiddle"></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(3, '3')"><img src="img/phonetic/pinyin3.gif" border="0" align="absmiddle"></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="mandarin_ph_pulldown_gen(3, '4')"><img src="img/phonetic/pinyin4.gif" border="0" align="absmiddle"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="nav_cantonese_ph">
+		<table>
+			<tr>
+				<td colspan="3">
+				<form name="search_ph_search" id="search_ph_search">
+					<span id="search_ph_dropdown_span"><span class="ph_initial">?</span><span class="ph_final">?</span><span class="ph_tone">?</span></span>
+					<input type="button" onclick="search_ph_submit()" class="searchButton" value="搜索">
+				</form>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<table class="ph_initial">
+						<tr>
+							<th onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, '?')">聲母</th>
+						</tr>
+						<tr>
+							<th onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, '-')">-</th>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'b')"><span id='phonetic_0'></span><script type="text/javascript">
+	phonetic_initial[0] = "b";
+	phonetic_final[0] = "";
+	phonetic_tone[0] = "";
+	phonetic_mode[0] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'p')"><span id='phonetic_1'></span><script type="text/javascript">
+	phonetic_initial[1] = "p";
+	phonetic_final[1] = "";
+	phonetic_tone[1] = "";
+	phonetic_mode[1] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'm')"><span id='phonetic_2'></span><script type="text/javascript">
+	phonetic_initial[2] = "m";
+	phonetic_final[2] = "";
+	phonetic_tone[2] = "";
+	phonetic_mode[2] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'f')"><span id='phonetic_3'></span><script type="text/javascript">
+	phonetic_initial[3] = "f";
+	phonetic_final[3] = "";
+	phonetic_tone[3] = "";
+	phonetic_mode[3] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'd')"><span id='phonetic_4'></span><script type="text/javascript">
+	phonetic_initial[4] = "d";
+	phonetic_final[4] = "";
+	phonetic_tone[4] = "";
+	phonetic_mode[4] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 't')"><span id='phonetic_5'></span><script type="text/javascript">
+	phonetic_initial[5] = "t";
+	phonetic_final[5] = "";
+	phonetic_tone[5] = "";
+	phonetic_mode[5] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'n')"><span id='phonetic_6'></span><script type="text/javascript">
+	phonetic_initial[6] = "n";
+	phonetic_final[6] = "";
+	phonetic_tone[6] = "";
+	phonetic_mode[6] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'l')"><span id='phonetic_7'></span><script type="text/javascript">
+	phonetic_initial[7] = "l";
+	phonetic_final[7] = "";
+	phonetic_tone[7] = "";
+	phonetic_mode[7] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'g')"><span id='phonetic_8'></span><script type="text/javascript">
+	phonetic_initial[8] = "g";
+	phonetic_final[8] = "";
+	phonetic_tone[8] = "";
+	phonetic_mode[8] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'k')"><span id='phonetic_9'></span><script type="text/javascript">
+	phonetic_initial[9] = "k";
+	phonetic_final[9] = "";
+	phonetic_tone[9] = "";
+	phonetic_mode[9] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'h')"><span id='phonetic_10'></span><script type="text/javascript">
+	phonetic_initial[10] = "h";
+	phonetic_final[10] = "";
+	phonetic_tone[10] = "";
+	phonetic_mode[10] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'ng')"><span id='phonetic_11'></span><script type="text/javascript">
+	phonetic_initial[11] = "ng";
+	phonetic_final[11] = "";
+	phonetic_tone[11] = "";
+	phonetic_mode[11] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'z')"><span id='phonetic_12'></span><script type="text/javascript">
+	phonetic_initial[12] = "z";
+	phonetic_final[12] = "";
+	phonetic_tone[12] = "";
+	phonetic_mode[12] = "1";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'c')"><span id='phonetic_13'></span><script type="text/javascript">
+	phonetic_initial[13] = "c";
+	phonetic_final[13] = "";
+	phonetic_tone[13] = "";
+	phonetic_mode[13] = "1";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 's')"><span id='phonetic_14'></span><script type="text/javascript">
+	phonetic_initial[14] = "s";
+	phonetic_final[14] = "";
+	phonetic_tone[14] = "";
+	phonetic_mode[14] = "1";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'gw')"><span id='phonetic_15'></span><script type="text/javascript">
+	phonetic_initial[15] = "gw";
+	phonetic_final[15] = "";
+	phonetic_tone[15] = "";
+	phonetic_mode[15] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'kw')"><span id='phonetic_16'></span><script type="text/javascript">
+	phonetic_initial[16] = "kw";
+	phonetic_final[16] = "";
+	phonetic_tone[16] = "";
+	phonetic_mode[16] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'j')"><span id='phonetic_17'></span><script type="text/javascript">
+	phonetic_initial[17] = "j";
+	phonetic_final[17] = "";
+	phonetic_tone[17] = "";
+	phonetic_mode[17] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(1, 'w')"><span id='phonetic_18'></span><script type="text/javascript">
+	phonetic_initial[18] = "w";
+	phonetic_final[18] = "";
+	phonetic_tone[18] = "";
+	phonetic_mode[18] = "0";
+</script></td>
+						</tr>
+					</table>
+				</td>
+				<td valign="top">
+					<table class="ph_final">
+						<tr>
+							<th colspan="3" onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, '?')">韻母</th>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aa')"><span id='phonetic_19'></span><script type="text/javascript">
+	phonetic_initial[19] = "";
+	phonetic_final[19] = "aa";
+	phonetic_tone[19] = "";
+	phonetic_mode[19] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aai')"><span id='phonetic_20'></span><script type="text/javascript">
+	phonetic_initial[20] = "";
+	phonetic_final[20] = "aai";
+	phonetic_tone[20] = "";
+	phonetic_mode[20] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aau')"><span id='phonetic_21'></span><script type="text/javascript">
+	phonetic_initial[21] = "";
+	phonetic_final[21] = "aau";
+	phonetic_tone[21] = "";
+	phonetic_mode[21] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aam')"><span id='phonetic_22'></span><script type="text/javascript">
+	phonetic_initial[22] = "";
+	phonetic_final[22] = "aam";
+	phonetic_tone[22] = "";
+	phonetic_mode[22] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aan')"><span id='phonetic_23'></span><script type="text/javascript">
+	phonetic_initial[23] = "";
+	phonetic_final[23] = "aan";
+	phonetic_tone[23] = "";
+	phonetic_mode[23] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aang')"><span id='phonetic_24'></span><script type="text/javascript">
+	phonetic_initial[24] = "";
+	phonetic_final[24] = "aang";
+	phonetic_tone[24] = "";
+	phonetic_mode[24] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aap')"><span id='phonetic_25'></span><script type="text/javascript">
+	phonetic_initial[25] = "";
+	phonetic_final[25] = "aap";
+	phonetic_tone[25] = "";
+	phonetic_mode[25] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aat')"><span id='phonetic_26'></span><script type="text/javascript">
+	phonetic_initial[26] = "";
+	phonetic_final[26] = "aat";
+	phonetic_tone[26] = "";
+	phonetic_mode[26] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'aak')"><span id='phonetic_27'></span><script type="text/javascript">
+	phonetic_initial[27] = "";
+	phonetic_final[27] = "aak";
+	phonetic_tone[27] = "";
+	phonetic_mode[27] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ai')"><span id='phonetic_28'></span><script type="text/javascript">
+	phonetic_initial[28] = "";
+	phonetic_final[28] = "ai";
+	phonetic_tone[28] = "";
+	phonetic_mode[28] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'au')"><span id='phonetic_29'></span><script type="text/javascript">
+	phonetic_initial[29] = "";
+	phonetic_final[29] = "au";
+	phonetic_tone[29] = "";
+	phonetic_mode[29] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'am')"><span id='phonetic_30'></span><script type="text/javascript">
+	phonetic_initial[30] = "";
+	phonetic_final[30] = "am";
+	phonetic_tone[30] = "";
+	phonetic_mode[30] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'an')"><span id='phonetic_31'></span><script type="text/javascript">
+	phonetic_initial[31] = "";
+	phonetic_final[31] = "an";
+	phonetic_tone[31] = "";
+	phonetic_mode[31] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ang')"><span id='phonetic_32'></span><script type="text/javascript">
+	phonetic_initial[32] = "";
+	phonetic_final[32] = "ang";
+	phonetic_tone[32] = "";
+	phonetic_mode[32] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ap')"><span id='phonetic_33'></span><script type="text/javascript">
+	phonetic_initial[33] = "";
+	phonetic_final[33] = "ap";
+	phonetic_tone[33] = "";
+	phonetic_mode[33] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'at')"><span id='phonetic_34'></span><script type="text/javascript">
+	phonetic_initial[34] = "";
+	phonetic_final[34] = "at";
+	phonetic_tone[34] = "";
+	phonetic_mode[34] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ak')"><span id='phonetic_35'></span><script type="text/javascript">
+	phonetic_initial[35] = "";
+	phonetic_final[35] = "ak";
+	phonetic_tone[35] = "";
+	phonetic_mode[35] = "0";
+</script></td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'e')"><span id='phonetic_36'></span><script type="text/javascript">
+	phonetic_initial[36] = "";
+	phonetic_final[36] = "e";
+	phonetic_tone[36] = "";
+	phonetic_mode[36] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ei')"><span id='phonetic_37'></span><script type="text/javascript">
+	phonetic_initial[37] = "";
+	phonetic_final[37] = "ei";
+	phonetic_tone[37] = "";
+	phonetic_mode[37] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'eu')"><span id='phonetic_38'></span><script type="text/javascript">
+	phonetic_initial[38] = "";
+	phonetic_final[38] = "eu";
+	phonetic_tone[38] = "";
+	phonetic_mode[38] = "1";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'em')"><span id='phonetic_39'></span><script type="text/javascript">
+	phonetic_initial[39] = "";
+	phonetic_final[39] = "em";
+	phonetic_tone[39] = "";
+	phonetic_mode[39] = "1";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'eng')"><span id='phonetic_40'></span><script type="text/javascript">
+	phonetic_initial[40] = "";
+	phonetic_final[40] = "eng";
+	phonetic_tone[40] = "";
+	phonetic_mode[40] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ep')"><span id='phonetic_41'></span><script type="text/javascript">
+	phonetic_initial[41] = "";
+	phonetic_final[41] = "ep";
+	phonetic_tone[41] = "";
+	phonetic_mode[41] = "1";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ek')"><span id='phonetic_42'></span><script type="text/javascript">
+	phonetic_initial[42] = "";
+	phonetic_final[42] = "ek";
+	phonetic_tone[42] = "";
+	phonetic_mode[42] = "0";
+</script></td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'i')"><span id='phonetic_43'></span><script type="text/javascript">
+	phonetic_initial[43] = "";
+	phonetic_final[43] = "i";
+	phonetic_tone[43] = "";
+	phonetic_mode[43] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'iu')"><span id='phonetic_44'></span><script type="text/javascript">
+	phonetic_initial[44] = "";
+	phonetic_final[44] = "iu";
+	phonetic_tone[44] = "";
+	phonetic_mode[44] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'im')"><span id='phonetic_45'></span><script type="text/javascript">
+	phonetic_initial[45] = "";
+	phonetic_final[45] = "im";
+	phonetic_tone[45] = "";
+	phonetic_mode[45] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'in')"><span id='phonetic_46'></span><script type="text/javascript">
+	phonetic_initial[46] = "";
+	phonetic_final[46] = "in";
+	phonetic_tone[46] = "";
+	phonetic_mode[46] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ing')"><span id='phonetic_47'></span><script type="text/javascript">
+	phonetic_initial[47] = "";
+	phonetic_final[47] = "ing";
+	phonetic_tone[47] = "";
+	phonetic_mode[47] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ip')"><span id='phonetic_48'></span><script type="text/javascript">
+	phonetic_initial[48] = "";
+	phonetic_final[48] = "ip";
+	phonetic_tone[48] = "";
+	phonetic_mode[48] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'it')"><span id='phonetic_49'></span><script type="text/javascript">
+	phonetic_initial[49] = "";
+	phonetic_final[49] = "it";
+	phonetic_tone[49] = "";
+	phonetic_mode[49] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ik')"><span id='phonetic_50'></span><script type="text/javascript">
+	phonetic_initial[50] = "";
+	phonetic_final[50] = "ik";
+	phonetic_tone[50] = "";
+	phonetic_mode[50] = "0";
+</script></td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'o')"><span id='phonetic_51'></span><script type="text/javascript">
+	phonetic_initial[51] = "";
+	phonetic_final[51] = "o";
+	phonetic_tone[51] = "";
+	phonetic_mode[51] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'oi')"><span id='phonetic_52'></span><script type="text/javascript">
+	phonetic_initial[52] = "";
+	phonetic_final[52] = "oi";
+	phonetic_tone[52] = "";
+	phonetic_mode[52] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ou')"><span id='phonetic_53'></span><script type="text/javascript">
+	phonetic_initial[53] = "";
+	phonetic_final[53] = "ou";
+	phonetic_tone[53] = "";
+	phonetic_mode[53] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'on')"><span id='phonetic_54'></span><script type="text/javascript">
+	phonetic_initial[54] = "";
+	phonetic_final[54] = "on";
+	phonetic_tone[54] = "";
+	phonetic_mode[54] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ong')"><span id='phonetic_55'></span><script type="text/javascript">
+	phonetic_initial[55] = "";
+	phonetic_final[55] = "ong";
+	phonetic_tone[55] = "";
+	phonetic_mode[55] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ot')"><span id='phonetic_56'></span><script type="text/javascript">
+	phonetic_initial[56] = "";
+	phonetic_final[56] = "ot";
+	phonetic_tone[56] = "";
+	phonetic_mode[56] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ok')"><span id='phonetic_57'></span><script type="text/javascript">
+	phonetic_initial[57] = "";
+	phonetic_final[57] = "ok";
+	phonetic_tone[57] = "";
+	phonetic_mode[57] = "0";
+</script></td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'u')"><span id='phonetic_58'></span><script type="text/javascript">
+	phonetic_initial[58] = "";
+	phonetic_final[58] = "u";
+	phonetic_tone[58] = "";
+	phonetic_mode[58] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ui')"><span id='phonetic_59'></span><script type="text/javascript">
+	phonetic_initial[59] = "";
+	phonetic_final[59] = "ui";
+	phonetic_tone[59] = "";
+	phonetic_mode[59] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'un')"><span id='phonetic_60'></span><script type="text/javascript">
+	phonetic_initial[60] = "";
+	phonetic_final[60] = "un";
+	phonetic_tone[60] = "";
+	phonetic_mode[60] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ung')"><span id='phonetic_61'></span><script type="text/javascript">
+	phonetic_initial[61] = "";
+	phonetic_final[61] = "ung";
+	phonetic_tone[61] = "";
+	phonetic_mode[61] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ut')"><span id='phonetic_62'></span><script type="text/javascript">
+	phonetic_initial[62] = "";
+	phonetic_final[62] = "ut";
+	phonetic_tone[62] = "";
+	phonetic_mode[62] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'uk')"><span id='phonetic_63'></span><script type="text/javascript">
+	phonetic_initial[63] = "";
+	phonetic_final[63] = "uk";
+	phonetic_tone[63] = "";
+	phonetic_mode[63] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'oe')"><span id='phonetic_64'></span><script type="text/javascript">
+	phonetic_initial[64] = "";
+	phonetic_final[64] = "oe";
+	phonetic_tone[64] = "";
+	phonetic_mode[64] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'oeng')"><span id='phonetic_65'></span><script type="text/javascript">
+	phonetic_initial[65] = "";
+	phonetic_final[65] = "oeng";
+	phonetic_tone[65] = "";
+	phonetic_mode[65] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'oek')"><span id='phonetic_66'></span><script type="text/javascript">
+	phonetic_initial[66] = "";
+	phonetic_final[66] = "oek";
+	phonetic_tone[66] = "";
+	phonetic_mode[66] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'eoi')"><span id='phonetic_67'></span><script type="text/javascript">
+	phonetic_initial[67] = "";
+	phonetic_final[67] = "eoi";
+	phonetic_tone[67] = "";
+	phonetic_mode[67] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'eon')"><span id='phonetic_68'></span><script type="text/javascript">
+	phonetic_initial[68] = "";
+	phonetic_final[68] = "eon";
+	phonetic_tone[68] = "";
+	phonetic_mode[68] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'eot')"><span id='phonetic_69'></span><script type="text/javascript">
+	phonetic_initial[69] = "";
+	phonetic_final[69] = "eot";
+	phonetic_tone[69] = "";
+	phonetic_mode[69] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'yu')"><span id='phonetic_70'></span><script type="text/javascript">
+	phonetic_initial[70] = "";
+	phonetic_final[70] = "yu";
+	phonetic_tone[70] = "";
+	phonetic_mode[70] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'yun')"><span id='phonetic_71'></span><script type="text/javascript">
+	phonetic_initial[71] = "";
+	phonetic_final[71] = "yun";
+	phonetic_tone[71] = "";
+	phonetic_mode[71] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'yut')"><span id='phonetic_72'></span><script type="text/javascript">
+	phonetic_initial[72] = "";
+	phonetic_final[72] = "yut";
+	phonetic_tone[72] = "";
+	phonetic_mode[72] = "0";
+</script></td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'm')"><span id='phonetic_73'></span><script type="text/javascript">
+	phonetic_initial[73] = "";
+	phonetic_final[73] = "m";
+	phonetic_tone[73] = "";
+	phonetic_mode[73] = "0";
+</script></td>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(2, 'ng')"><span id='phonetic_74'></span><script type="text/javascript">
+	phonetic_initial[74] = "";
+	phonetic_final[74] = "ng";
+	phonetic_tone[74] = "";
+	phonetic_mode[74] = "0";
+</script></td>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+				<td valign="top">
+					<table class="ph_tone">
+						<tr>
+							<th onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '?')">聲調</th>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '1')"><span id='phonetic_75'></span><script type="text/javascript">
+	phonetic_initial[75] = "";
+	phonetic_final[75] = "";
+	phonetic_tone[75] = "1";
+	phonetic_mode[75] = "1";
+</script>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '2')"><span id='phonetic_76'></span><script type="text/javascript">
+	phonetic_initial[76] = "";
+	phonetic_final[76] = "";
+	phonetic_tone[76] = "2";
+	phonetic_mode[76] = "0";
+</script>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '3')"><span id='phonetic_77'></span><script type="text/javascript">
+	phonetic_initial[77] = "";
+	phonetic_final[77] = "";
+	phonetic_tone[77] = "3";
+	phonetic_mode[77] = "1";
+</script>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '4')"><span id='phonetic_78'></span><script type="text/javascript">
+	phonetic_initial[78] = "";
+	phonetic_final[78] = "";
+	phonetic_tone[78] = "4";
+	phonetic_mode[78] = "0";
+</script>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '5')"><span id='phonetic_79'></span><script type="text/javascript">
+	phonetic_initial[79] = "";
+	phonetic_final[79] = "";
+	phonetic_tone[79] = "5";
+	phonetic_mode[79] = "0";
+</script>&nbsp;</td>
+						</tr>
+						<tr>
+							<td onmouseover="this.style.backgroundColor = 'yellow'" onmouseout="this.style.backgroundColor = 'white'" onclick="ph_pulldown_gen(3, '6')"><span id='phonetic_80'></span><script type="text/javascript">
+	phonetic_initial[80] = "";
+	phonetic_final[80] = "";
+	phonetic_tone[80] = "6";
+	phonetic_mode[80] = "1";
+</script>&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" style="text-align: left; font-size: 80%"><span id="search_ph_special_message"></span></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="mf-sidebar mf-collapse mf-light-gray mf-animate-left" id="column-one">
+
+	<div id="m-logo" class="menu">
+		<a style="background-image: url(img/leximflogo.png);" href="."></a>
+	</div>
+
+<!-- BEGIN 語言 //-->
+	<div id="m-lang" class="menu">
+		<div class="mBody">
+			<ul>				<li id="lang-chi" class="selected">中文</li>
+				<li id="lang-eng"><a href="javascript:void(0)" onclick="changeLang()">ENG</a></li>
+			</ul>
+		</div>
+	</div>
+<!-- END 語言 //-->
+
+<!-- BEGIN 字形 //-->
+	<div id="m-stroke" class="menu">
+		<h5>字形</h5>
+		<div class="mBody">
+			<ul>
+				<li><a href="radical.php">部首索引</a></li>
+				<li><a href="stroke.php">筆畫索引</a></li>
+				<li><a href="oraclePiece.php">甲骨部件表</a></li>
+				<li><a href="bronzePiece.php">金文部件表</a></li>
+				<li><a href="ancient.php">形義源流通解</a></li>
+			</ul>
+		</div>
+	</div>
+<!-- END 字形 //-->
+
+<!-- BEGIN 字音 //-->
+	<div id="m-phonetic" class="menu">
+		<h5>字音</h5>
+		<div class="mBody">
+			<ul>
+				<li><a href="syllables.php">粵語音節表</a></li>
+				<li><a href="initialTable.php">粵語聲母表</a></li>
+				<li><a href="finalTable.php">粵語韻母表</a></li>
+				<li>
+					粵語分類字表:<br/>
+					<form method="get" action="classified.php">
+						<select name="category">
+							<option value="1">總字表</option>
+							<option value="2">單讀音字</option>
+							<option value="3">破音字</option>
+							<option value="4">異讀字</option>
+							<option value="5">異讀破音字</option>
+							<option value="6">破音+異讀破音</option>
+						</select>
+						<input type="submit" value="瀏覽">
+					</form>
+				</li>
+				<li>粵語注音系統對照表<br/>[<a href="initials.php">聲母</a>|<a href="finals.php">韻母</a>|<a href="tones.php">聲調</a>]</li>
+				<li><a href="mandarin_syllables.php">普通話音節表</a></li>
+				<li><a href="dialect.php">其他方言讀音</a></li>
+			</ul>
+		</div>
+	</div>
+<!-- END 字音 //-->
+
+<!-- BEGIN 工具 //-->
+	<div id="m-tool" class="menu">
+		<h5>工具</h5>
+		<div class="mBody">
+			<ul>
+				<li><a href="shuowen.php">《說文》全文索引</a></li>
+				<li><a href="chinaPlaces.php">《讀史方輿紀要》</a></li>
+				<li><a href="idiom.php">成語彙輯</a></li>
+				<li><a href="stctable.php">繁簡對照表</a></li>
+<!-- 				<li><a href="hkword.php">香港字</a></li> //-->
+			</ul>
+		</div>
+	</div>
+<!-- END 工具 //-->
+
+<!-- BEGIN 設定 //-->
+	<div id="m-settings" class="menu">
+		<h5>設定</h5>
+		<div class="mBody">
+			<ul>
+				<li>冷僻字: </br>
+					<select id="ext2ImgTxtSelect" onchange="unicodeExt2Img_select( this );">
+						<option value="1" >圖形</option>
+						<option value="0" selected="selected">文字</option>
+					</select>
+				</li>
+				<li>粵音系統: </br>
+					<select id="option_phsys_dropdown" onChange="phonetic_gen(this.value)">
+						<!-- need in order -->
+						<option value="0">粵拼</option>
+						<option value="1">黃錫凌</option>
+						<option value="2">耶魯</option>
+						<option value="3">廣州</option>
+						<option value="4">IPA(調值)</option>
+						<option value="5">IPA(調型)</option>
+						<option value="6">教院</option>
+						<option value="7">劉錫祥</option>
+					</select>
+				</li>
+			</ul>
+		</div>
+	</div>
+<!-- END 設定 //-->
+
+</nav>	<!-- END column-one //-->
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="mf-overlay mf-hide-large mf-animate-opacity" onclick="mf_close_all_nav()" style="cursor:pointer" title="close side menu" id="column-overlay"></div>
+
+<div class="mf-main" id="content">
+	<a name="top" id="top"></a>
+	<div id="bodyContent">
+
+<!--BEGIN-->
+
+        <div id="char_main_table">
+            <div class="mf-col l4">
+                <table class="char_head_table">
+                    <td id="char_rsbox_col">
+                        <table id="char_rsbox">
+                            <tr>
+                                <td id="char_radical"><a href="radical.php?rad=75">木</a><br><span class="radical_index">75</span></td>
+                            </tr>
+                            <tr>
+                                <td id="char_stroke">3<br/>(7)</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td id="char_headchar_col"><div id="char_headchar">李</div></td>
+                    <td id="char_info1_col">
+                        <table id="char_type_table">
+                            <tr>
+                                <td align="right" colspan="2"><form><select name="links" id="usefullinks" onchange="usefulLinks(this.value)">
+                                            <option value="">"李"字連結:</option>
+                                            <option value="http://humanum.arts.cuhk.edu.hk/cgi-bin/agrep-lindict?query=%A7%F5&category=wholerecord">林語堂</option>
+                                            <option value="http://140.111.34.46/cgi-bin/newDict/dict.sh?idx=dict.idx&cond=%A7%F5&pieceLen=50&fld=1&cat=&imgFont=1">國語辭典</option>
+                                            <option value="http://zhongwen.com/d/167/x245.htm">中文字譜</option>
+                                            <option value="http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=U+674E">Unihan</option>
+                                                <option value="kangxi.php?hash=8f537e12913818aed6398e923995ce17">康熙字典</option>                                        </select></form></td>
+                            </tr>
+                            <tr>
+                                <td id="char_form_type"><span class="form_tc">繁</span> <span class="not_form_sc">簡</span> <span class="not_form_hk">港</span></td>
+                                <td id="char_can_type"><span class="phon_mono_label">單讀音字</span></td>
+                            </tr>
+                        </table>
+                        <table id="char_altform_table">
+                            <tr>
+                                <td>
+                                    <span class="head_tag">繁簡對應</span>
+                                    <table id="char_altform_inner_table">
+                                        <tr>
+                                            <th>繁</th>
+                                            <td>&nbsp;</td>
+                                            <th>簡</th>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </table>
+            </div>
+            <div class="mf-col l4 char_info2_col">
+                <table class="char_info_table">
+                    <tr>
+                        <th>UTF-8</th>
+                        <td> E6 9D 8E</td>
+                    </tr>
+                    <tr>
+                        <th>大五碼</th>
+                        <td>A7F5&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>倉頡碼</th>
+                        <td>木弓木&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>Matthews</th>
+                        <td>3852&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>漢語大字典</th>
+                        <td>
+                            （一版）1162；（二版）1245                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>康熙字典</th>
+                        <td>439&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mf-col l4 char_info2_col">
+                <table class="char_info_table">
+                    <tr>
+                        <th>Unicode</th>
+                        <td colspan="2">U+674E</td>
+                    </tr>
+                    <tr>
+                        <th>GB2312</th>
+                        <td colspan="2">3278&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>四角號碼</th>
+                        <td colspan="2">4040.7&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>頻序 A/B</th>
+                        <td width="15%">535&nbsp;</td>
+                        <td width="15%">1085&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>頻次 A/B</th>
+                        <td>4744&nbsp;</td>
+                        <td>657&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>普通話</th>
+                        <td colspan="2">
+                            <span class="ph_initial">l</span><span class="ph_final"><img src="img/phonetic/pinyin3i.gif" border="0" align="absmiddle"></span>&nbsp;&nbsp;                            &nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+                    <div id="char_anc_div">
+                <table class="char_anc_table mf-col l2">
+                    <tr>
+                        <th>小篆</th>
+                    </tr>
+                    <tr align="center">
+                        <!--小篆-->
+                        <td class="char_anc_table_td">
+                                                            <div class="wordImages">
+                                    <table>
+                                        <tr>
+                                            <td><img src='kangxiArchaic.php?hash=faa40803c0f28226dc050c4854ba7bf1' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '小篆(康熙圖)')"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td align="center" class="char_anc_table_td"><font color="gray">字例:</font> 1/1<br/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                                    </td>
+                    </tr>
+                </table>
+                <table class="char_anc_table mf-col l2">
+                    <tr>
+                        <th style="border-right-style: none;">金文</th>
+                    </tr>
+                    <tr align="center">
+                        <!--金文-->
+                        <td class="char_anc_table_td">
+                                                            <div class="wordImages">
+                                    <table>
+                                        <tr>
+                                            <td><img src='bronze.php?id=99863' onmouseover="mouseoverlayer(1, '散氏盤<font size=-1>[西周晚期]<br/>(CHANT:10176)</font>')" onmouseout="mouseoverlayer(0, '')"></td>                                        </tr>
+                                    </table>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td align="center" class="char_anc_table_td"><font color="gray">字例:</font> 1/2<br/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                                    </td>
+                    </tr>
+                </table>
+                <table class="char_anc_table mf-col l1">
+                    <tr>
+                        <th style="border-left-style: none; color: #888;">(部件樹)</th>
+                    </tr>
+                    <tr align="center">
+                        <!--金文部件-->
+                        <td class="char_anc_table_td" align="left">
+                            <div id="pieceTree62022868046900173a2e62ba55dedacfdfd7e7441"></div>
+<script type="text/javascript">
+var tree62022868046900173a2e62ba55dedacfdfd7e7441;
+function pieceTreeInit62022868046900173a2e62ba55dedacfdfd7e7441() {
+	var myObj;
+	tree62022868046900173a2e62ba55dedacfdfd7e7441 = new YAHOO.widget.TreeView("pieceTree62022868046900173a2e62ba55dedacfdfd7e7441");
+	myObj = {label: "<font color='black'>李</font>"}
+	var node46900173a2e62ba55dedacfdfd7e7441 = new YAHOO.widget.TextNode(myObj, tree62022868046900173a2e62ba55dedacfdfd7e7441.getRoot());
+	myObj = {label: "木", href: "bronzePiece.php?piece=%E6%9C%A8"}
+	var nodee0a5e08af3c1309c881b551516c282c5 = new YAHOO.widget.TextNode(myObj, node46900173a2e62ba55dedacfdfd7e7441);
+	myObj = {label: "子", href: "bronzePiece.php?piece=%E5%AD%90"}
+	var nodeff6ae520d1d960ea89f57008591b6999 = new YAHOO.widget.TextNode(myObj, node46900173a2e62ba55dedacfdfd7e7441);
+	tree62022868046900173a2e62ba55dedacfdfd7e7441.draw();
+}
+pieceTreeInit62022868046900173a2e62ba55dedacfdfd7e7441();
+if (typeof(allTreeObject) != 'undefined') { allTreeObject.push('tree62022868046900173a2e62ba55dedacfdfd7e7441'); }
+</script>
+                        </td>
+                    </tr>
+                </table>
+                <table class="char_anc_table mf-col l2">
+                    <tr>
+                        <th style="border-right-style: none;">甲骨</th>
+                    </tr>
+                    <tr align="center">
+                        <!--甲骨-->
+                        <td class="char_anc_table_td">
+                                                            <div class="wordImages">
+                                    <table>
+                                        <tr>
+                                            <td><img src='/Lexis/lexi-mf/oracle/674e-1324364101.jpg' onmouseover="mouseoverlayer(1, '甲骨文合集．19564')" onmouseout="mouseoverlayer(0, '')"></td>                                        </tr>
+                                    </table>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td align="center" class="char_anc_table_td"><font color="gray">字例:</font> 1/1</td>
+                                    </tr>
+                                </table>
+                                                    </td>
+                    </tr>
+                </table>
+                <table class="char_anc_table mf-col l1">
+                    <tr>
+                        <th style="border-left-style: none; color: #888;">(部件樹)</th>
+                    </tr>
+                    <tr align="center">
+                        <!--甲骨部件-->
+                        <td class="char_anc_table_td" align="left">
+                            <div id="pieceTree1767714046900173a2e62ba55dedacfdfd7e7441"></div>
+<script type="text/javascript">
+var tree1767714046900173a2e62ba55dedacfdfd7e7441;
+function pieceTreeInit1767714046900173a2e62ba55dedacfdfd7e7441() {
+	var myObj;
+	tree1767714046900173a2e62ba55dedacfdfd7e7441 = new YAHOO.widget.TreeView("pieceTree1767714046900173a2e62ba55dedacfdfd7e7441");
+	myObj = {label: "<font color='black'>李</font>"}
+	var node46900173a2e62ba55dedacfdfd7e7441 = new YAHOO.widget.TextNode(myObj, tree1767714046900173a2e62ba55dedacfdfd7e7441.getRoot());
+	myObj = {label: "來", href: "oraclePiece.php?piece=%E4%BE%86"}
+	var nodef1e0bd0861eb44c73fc7212beb48db41 = new YAHOO.widget.TextNode(myObj, node46900173a2e62ba55dedacfdfd7e7441);
+	myObj = {label: "子", href: "oraclePiece.php?piece=%E5%AD%90"}
+	var nodeff6ae520d1d960ea89f57008591b6999 = new YAHOO.widget.TextNode(myObj, node46900173a2e62ba55dedacfdfd7e7441);
+	tree1767714046900173a2e62ba55dedacfdfd7e7441.draw();
+}
+pieceTreeInit1767714046900173a2e62ba55dedacfdfd7e7441();
+if (typeof(allTreeObject) != 'undefined') { allTreeObject.push('tree1767714046900173a2e62ba55dedacfdfd7e7441'); }
+</script>
+                        </td>
+                    </tr>
+                </table>
+                <table class="char_anc_table mf-col l2">
+                    <tr>
+                        <th>簡帛文字</th>
+                    </tr>
+                    <tr align="center">
+                        <!--簡帛文字-->
+                        <td class="char_anc_table_td">
+                                                            <div class="wordImages">
+                                    <table>
+                                        <tr>
+                                            <td><img src='/Lexis/lexi-mf/silk/674e-1324286545.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '上博竹書二．容成氏．29')"></td><td><img src='/Lexis/lexi-mf/silk/674e-1324286889.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '上博竹書八．李頌．1背')"></td><td><img src='/Lexis/lexi-mf/silk/674e-1324286992.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '上博竹書八．李頌．2')"></td><td><img src='/Lexis/lexi-mf/silk/674e-1324366346.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '清華簡一．尹誥．3')"></td><td><img src='/Lexis/lexi-mf/silk/674e-1324366665.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '清華簡一．祭公．16')"></td><td><img src='/Lexis/lexi-mf/silk/674e-1324346209.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '包山楚簡．20')"></td><td><img src='/Lexis/lexi-mf/silk/674e-1324346296.jpg' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '包山楚簡．40')"></td><td><img src='silk.php?hash=f8c07cec6e348c5932cf669b338a93e9' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '睡虎地秦簡．日書甲種．145背')"></td><td><img src='silk.php?hash=e65f4f224d47418bc6facaf381a79b39' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '睡虎地秦簡．日書乙種．67')"></td><td><img src='silk.php?hash=13be701c3c94f502cec76e6a8c22097b' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '馬王堆．五十二病方．186')"></td><td><img src='silk.php?hash=cc8de273407ce29900a2fb7a1efdbca0' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '馬王堆．老子甲本卷後古佚書．366')"></td><td><img src='silk.php?hash=d301a416a249b30e853ab1d297b9980f' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '馬王堆．春秋事語．95')"></td><td><img src='silk.php?hash=31765ab47e2625765fd06581fbd9d186' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '馬王堆．戰國縱橫家書．11')"></td><td><img src='silk.php?hash=a3c01952c52ef8c39204c082969b8e3e' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '馬王堆．老子乙本卷前古佚書．41')"></td>                                        </tr>
+                                    </table>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td align="center" class="char_anc_table_td"><font color="gray">字例:</font> 14/14<br/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                                    </td>
+                    </tr>
+                </table>
+                <table class="char_anc_table mf-col l2">
+                    <tr>
+                        <th>其他</th>
+                    </tr>
+                    <tr align="center">
+                        <!--其他古文字-->
+                        <td class="char_anc_table_td">
+                                                            <div class="wordImages">
+                                    <table>
+                                        <tr>
+                                            <td><img src='kangxiArchaic.php?hash=d79225dbc54e1cae733e509bbc896265' onmouseout="mouseoverlayer(0, '')" onmouseover="mouseoverlayer(1, '說文古文(康熙圖)')"></td><td><img src='/Lexis/lexi-mf/archaic/674e-1324344857.jpg' onmouseover="mouseoverlayer(1, '古陶文彙編．3.1237')" onmouseout="mouseoverlayer(0, '')"></td><td><img src='/Lexis/lexi-mf/archaic/674e-1324344899.jpg' onmouseover="mouseoverlayer(1, '古陶文彙編．9.54')" onmouseout="mouseoverlayer(0, '')"></td><td><img src='/Lexis/lexi-mf/archaic/674e-1324345470.jpg' onmouseover="mouseoverlayer(1, '古璽彙編．2475')" onmouseout="mouseoverlayer(0, '')"></td>                                        </tr>
+                                    </table>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td align="center" class="char_anc_table_td"><font color="gray">字例:</font> 4/4<br/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                                    </td>
+                    </tr>
+                </table>
+            </div>
+                    <table id="shuoWenTable">
+                                    <tr>
+                        <th width="10%">《說文》</th>
+                        <th width="65%">解釋</th>
+                        <th width="5%">部居</th>
+                        <th width="20%">相關異體</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center; font-weight: bold;">
+                            李                        </td>
+                        <td>
+                            果也。从木，子聲。<span style='color: #666666'>〔良止切〕</span>杍，古文。                            <span style="color: black">(114 / 110)</span>
+                        </td>
+                        <td style="text-align:center;"><a
+                                href="shuowenRadical.php?rad=木">木</a>
+                        </td>
+                        <td>
+                                                                <a href="search.php?word=杍">杍</a>
+                                                        </td>
+                    </tr>
+                                            </table>
+                    <div id="guangyunDiv">
+                <table class="guangyunTable mf-col l4">
+                    <tr>
+                        <th width="10%">《廣韻》</th>
+                        <th>頁碼</th>
+                        <th>反切</th>
+                        <th>註解</th>
+                    </tr>
+                                        <tr>
+                        <td style="text-align:center; font-weight: bold;">李</td>
+                        <td style="text-align:center;">252</td>
+                        <td style="text-align:center;">良士</td>
+                        <td style="text-align:center;"
+                            title="李果名亦行李又姓風俗通云李伯陽之後出隴西趙郡頓丘渤海中山襄城江夏梓潼范陽廣漢梁國南陽十二望">
+                            <img src="img/redtri.gif" alt="" width="12" height="15" />
+                        </td>
+                    </tr>
+                                    </table>
+                <table class="guangyunTable mf-col l8">
+                    <tr>
+                        <td width="20" rowspan="2" align="center" valign="middle"
+                            style="background-color: #ffffdd; border: 1px solid #bfa760; border-left: 3px double #bfa760;">中<br />古<br />音
+                        </td>
+                        <th style="background-color: #ffffdd">聲母</th>
+                        <th style="background-color: #ffffdd">清濁</th>
+                        <th style="background-color: #ffffdd">部位</th>
+                        <th style="background-color: #ffffdd">聲調</th>
+                        <th style="background-color: #ffffdd">韻攝</th>
+                        <th style="background-color: #ffffdd">韻目</th>
+                        <th style="background-color: #ffffdd">開合</th>
+                        <th style="background-color: #ffffdd">等第</th>
+                    </tr>
+                                        <tr>
+                        <td style="text-align:center;"><a href="guangyun-rel.php?type=shengmu&val=%E4%BE%86">來</a></td>
+                        <td style="text-align:center;">次濁</td>
+                        <td style="text-align:center;">舌</td>
+                        <td style="text-align:center;">上</td>
+                        <td style="text-align:center;"><a href="guangyun-rel.php?type=yunshe&val=%E6%AD%A2">止</a></td>
+                        <td style="text-align:center;">
+                            <a href="guangyun-rel.php?type=yunmu&val=%E4%B9%8B">之</a>/<a href="guangyun-rel.php?type=yunmu&val=%E4%B9%8B%2F%E6%AD%A2&s=1">止</a>                        </td>
+                        <td style="text-align:center;">開</td>
+                        <td style="text-align:center;">三</td>
+                    </tr>
+                                    </table>
+            </div>
+                    <table id="explainShapeTable">
+                                    <tr class="greyTr">
+                        <th style="text-align:left;"><b>形義通解</b></th>
+                    </tr>
+                    <tr class="greyTr">
+                        <td>
+                            <div><span style='background:#c90;color:#fff'>&nbsp;略說:</span> 甲骨文從「<a href="search.php?word=%E5%AD%90">子</a>」從「<a href="search.php?word=%E4%BE%86">來</a>」，「<a href="search.php?word=%E6%9D%8E">李</a>」是一雙聲符字。因用為李樹的果實，「<a href="search.php?word=%E4%BE%86">來</a>」逐漸類化作「<a href="search.php?word=%E6%9C%A8">木</a>」(鄭剛、季旭昇)。本義疑為果名(許慎)。現多用作姓氏。<br />
+<div style="float:right; margin-right: 10px; color: #666666">69 字</div><br />
+<span style='background:#c90;color:#ffffff'>&nbsp;詳解:</span> 甲骨文「<a href="search.php?word=%E6%9D%8E">李</a>」字從「<a href="search.php?word=%E4%BE%86">來</a>」從「<a href="search.php?word=%E5%AD%90">子</a>」(季旭昇)，見《合集》19564。或有分開釋為「來子」二字，由於卜辭辭殘，無法考訂。另《合集》41605有從「<a href="search.php?word=%E6%9C%A8">木</a>」從「<a href="search.php?word=%E5%AD%90">子</a>」的「<a href="search.php?word=%E6%9D%8E">李</a>」字，字屬偽刻。<br />
+<br />
+　　「<a href="search.php?word=%E6%9D%8E">李</a>」以「<a href="search.php?word=%E5%AD%90">子</a>」、「<a href="search.php?word=%E4%BE%86">來</a>」為聲符，三字古音相近。因「<a href="search.php?word=%E6%9D%8E">李</a>」用作果名，所以改聲符「<a href="search.php?word=%E4%BE%86">來</a>」為「<a href="search.php?word=%E6%9C%A8">木</a>」。金文有從「<a href="search.php?word=%E6%9C%A8">木</a>」從「<a href="search.php?word=%E5%AD%90">子</a>」的「<a href="search.php?word=%E6%9D%8E">李</a>」，用作人名，見散氏盤。戰國陶文與璽印已進一步類化成「<a href="search.php?word=%E6%9C%A8">木</a>」。<br />
+<br />
+　　戰國竹簡繼承甲骨文從「<a href="search.php?word=%E4%BE%86">來</a>」從「<a href="search.php?word=%E5%AD%90">子</a>」的寫法，讀為「<a href="search.php?word=%E7%90%86">理</a>」，指法官。如《上博竹書一．容成氏》簡29：「乃立咎(皐)陶㠯(以)為李」，全句指於是命令皐陶作法官。另如《上博竹書八．李頌》簡2：「氏(是)古(故)聖人兼此，和勿(物)以李(理)人情。」「<a href="search.php?word=%E6%9D%8E">李</a>」亦通假為「<a href="search.php?word=%E7%90%86">理</a>」，指調理。全句指因此聖人兼有這些美德，協和事務以調理人情。<br />
+<br />
+　　《說文》：「李，果也。从木，子聲。杍，古文。」按「<a href="search.php?word=%E6%9D%8D">杍</a>」字從「<a href="search.php?word=%E6%9C%A8">木</a>」，「<a href="search.php?word=%E5%AD%90">子</a>」聲，並非「<a href="search.php?word=%E6%9D%8E">李</a>」字古文。王筠《說文句讀》：「不言古文李者，蓋本云古文梓。梓字爛脫，校者以形似而附此也。〈周書〉：『梓材』，馬融曰：『古作杍字。』」<div style="float:right; margin-right: 10px; color: #666666">447 字</div><br/></br/><b>相關漢字:</b> <a href="search.php?word=%E5%AD%90">子</a>,<a href="search.php?word=%E4%BE%86">來</a>,<a href="search.php?word=%E6%9C%A8">木</a>,<a href="search.php?word=%E7%90%86">理</a>,<a href="search.php?word=%E6%9D%8D">杍</a></div></td>
+                    </tr>
+                            </table>
+                    <div style="overflow-x:auto;">
+            <table id="char_can_table">
+                <tr>
+                    <th>粵語音節</th>
+                    <th colspan="2"><font color='gray' face='Wingdings'>&amp;</font> 根據</th>
+                    <th colspan="3">同音字</th>
+                    <th>詞例(<font color='maroon' size='-1'>解釋</font>) / <font color='forestgreen' size='-1'>備註</font></th>
+                </tr>
+                                <tr>
+                    <td class="char_can_head" rowspan="3"><span id='phonetic_81'></span><script type="text/javascript">
+	phonetic_initial[81] = "l";
+	phonetic_final[81] = "ei";
+	phonetic_tone[81] = "5";
+	phonetic_mode[81] = "0";
+</script><br/><a href="javascript:void(0)" onclick="_playSound( 'sound/lei5.Mp3' );"><img src="img/speaker.gif" border="0"></a></td>
+                    <td class="char_can_ref" style="border-bottom: none; border-right: none; white-space: nowrap;"><span class="char_ref_name_true">黃</span><span class="char_ref_p">p20</span></td>
+                    <td class="char_can_ref" style="border-bottom: none; border-left: none; white-space: nowrap;"><span class="char_ref_name_true">周</span><span class="char_ref_p">p74</span></td>
+                    <td class="char_can_phon" colspan="3" rowspan="2">
+                        <div style="overflow-y: auto; overflow-x: hidden; width: 180px; height: 40px">
+                            <a href="search.php?word=%E7%90%86" class="rad-linkbold">理</a> <a href="search.php?word=%E8%A3%8F" class="rad-linkWGbold">裏</a> <a href="search.php?word=%E8%A3%A1" class="rad-link">裡</a> <a href="search.php?word=%E9%87%8C" class="rad-linkWGbold">里</a> <a href="search.php?word=%E5%93%A9" class="rad-link">哩</a> <a href="search.php?word=%E5%B1%A5" class="rad-linkWGbold">履</a> <a href="search.php?word=%E9%AF%89" class="rad-linkbold">鯉</a> <a href="search.php?word=%E9%8B%B0" class="rad-link">鋰</a> <a href="search.php?word=%E6%B5%AC" class="rad-link">浬</a> <a href="search.php?word=%E6%82%9D" class="rad-linkbold">悝</a> <a href="search.php?word=%E4%BF%9A" class="rad-linkbold">俚</a> <a href="search.php?word=%E5%A8%8C" class="rad-link">娌</a> <a href="search.php?word=%E9%82%90" class="rad-linkWGbold">邐</a> <a href="search.php?word=%E5%B3%9B" class="rad-link">峛</a> <a href="search.php?word=%E5%A6%B3" class="rad-linkWG">妳</a> <a href="search.php?word=%E7%B2%B4" class="rad-link">粴</a> </div>
+                    </td>
+                    <td class="char_can_eg" rowspan="2">
+                        <div style="overflow-y: auto; overflow-x: hidden; width: 100%; height: 40px">
+                            李樹,桃李滿門,李白,李商隱                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="char_can_ref" style="border-bottom: none; border-top: none; border-right: none; white-space: nowrap;"><span class="char_ref_name_true">李</span><span class="char_ref_p">p157</span></td>
+                    <td class="char_can_ref" style="border-bottom: none; border-top: none; border-left: none; white-space: nowrap;"><span class="char_ref_name_true">何</span><span class="char_ref_p">p141</span></td>
+                </tr>
+                <tr>
+                    <!--td class="char_can_head" style="border-top:none; border-bottom:none;"></td-->
+                    <td class="char_can_ref" style="border-top: none; border-right: none; white-space: nowrap;">
+                        <span class="char_ref_name_false">HKLS</span>                    </td>
+                    <td class="char_can_ref" style="border-top: none; border-right: none; border-left: none; white-space: nowrap;">
+                        <span class="char_ref_name_false">人文</span>
+                        <!--span class="char_ref_name_false">張</span>
+                    <span class="char_ref_name_false">童</span>
+                    <span class="char_ref_name_false">范</span>
+                    <span class="char_ref_name_false">德</span>
+                    <span class="char_ref_name_false">人</span--></td>
+                    <td class="char_can_phon2"><a href="pho-rel.php?initial=l&final=ei" class="char_can_phon_a">同聲同韻</a></td>
+                    <td class="char_can_phon2"><a href="pho-rel.php?tone=5&final=ei" class="char_can_phon_b">同韻同調</a></td>
+                    <td class="char_can_phon2"><a href="pho-rel.php?initial=l&tone=5" class="char_can_phon_c">同聲同調</a></td>
+                    <td class="char_can_note"></td>
+                </tr>
+                            </table>
+            </div>
+            <span id="special_phonetic_message"></span>
+                    <table id="dialectTable">
+                <tr>
+                    <th colspan="2">其他方言讀音</th>
+                </tr>
+                <tr>
+                    <td width="85%">本字庫於「<font color="#FF0000">李</font>」字下錄有<font color="#FF0000">19</font>個方言點的讀音</td>
+                    <td width="15%"><a href="dialect.php?word=李">詳細資料</a></td>
+                </tr>
+            </table>
+                    <table id="char_map_table">
+                <tr>
+                    <th colspan="3">《讀史方輿紀要》地名</th>
+                </tr>
+                <tr>
+                    <td width="70%"><font color="#FF0000">李</font>陽巡司, <font color="#FF0000">李</font>市鎮巡司, <font color="#FF0000">李</font>廣鎮巡司</td>
+                    <td width="15%"> (3/3)</td>
+                    <td width="15%"><a href="chinaPlaces.php?word=李">詳細資料</a></td>
+                </tr>
+            </table>
+                    <table id="char_idiom_table">
+                <tr>
+                    <th colspan="3">成語彙輯</th>
+                </tr>
+                <tr>
+                    <td width="70%">張冠<font color="#FF0000">李</font>戴, 投桃報<font color="#FF0000">李</font>, <font color="#FF0000">李</font>代桃僵, 瓜田<font color="#FF0000">李</font>下, 桃<font color="#FF0000">李</font>不言，下自成蹊…</td>
+                    <td width="15%"> (5/125)</td>
+                    <td width="15%"><a href="idiom.php?word=李">詳細資料</a></td>
+                </tr>
+            </table>
+                    <table id="char_rel_table">
+                <tr>
+                    <th>配搭點:</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="search.php?word=%E5%84%A9">儩</a>, <a href="search.php?word=%E6%82%9D">悝</a>, <a href="search.php?word=%E7%93%9C">瓜</a>, <a href="search.php?word=%E5%A4%AD">夭</a>, <a href="search.php?word=%E7%A9%A0">穠</a>, <a href="search.php?word=%E8%A5%9B">襛</a>, <a href="search.php?word=%E6%A1%83">桃</a>, <a href="search.php?word=%E6%B9%94">湔</a>, <a href="search.php?word=%E5%BC%B5">張</a>, <a href="search.php?word=%E6%A0%AF">栯</a>                    </td>
+                </tr>
+            </table>
+                    <table id="char_eng_table">
+                <tr>
+                    <th>詞類</th>
+                    <th>英文意義</th>
+                </tr>
+                                    <tr>
+                        <td class="char_eng_pos">n.</td>
+                        <td class="char_eng_meaning"><a href="searchEnglish.php?word=plum">plum</a></td>
+                    </tr>
+                            </table>
+                <img src="qrcode/?word=%E6%9D%8E">
+                <table id="char_admin_table">
+            <tr>
+                <td id="char_admin_stats">瀏覽次數: 60835</td>
+                <!--td id="char_admin_panel">(<a href="admin/edit.php?new=Edit&q=%A6X">管理人員專用區</a>)</td-->
+            </tr>
+        </table>
+
+    
+<!--END-->
+
+		<div class="visualClear"></div>
+	</div>
+</div>
+
+<footer class="mf-main mf-container mf-padding-16" id="footer">
+	<div class="mf-col m3 mf-cell-middle mf-center">
+		<a href="http://www.cuhk.edu.hk" target="_top"><img src="img/cusmall.gif" width="69" height="48" border="0"></a>
+		<a href="http://humanum.arts.cuhk.edu.hk/" target="_top"><img src="img/rihlogo.gif" width="100" height="67" border="0"></a>
+	</div>
+	<div class="mf-col m6 mf-cell-middle mf-center">
+		<div id="footer_box">
+			<ul>
+				<li><a href="quick-start-7.pdf">新手入門</a></li>
+				<li><a href="guide.php">使用凡例</a></li>
+				<li><a href="stats.php">字庫統計</a></li>
+				<li><a href="search.php?rand=1">隨機漢字</a></li>
+				<li><a href="just.php">最近被搜索的漢字</a><br></li>
+
+				<li><a href="acknowledgments.php">鳴謝</a></li>
+				<li><a href="team.php">製作單位</a></li>
+				<li><a href="http://www.cuhk.edu.hk/chinese/privacy.html">私隱政策</a></li>
+				<li><a href="http://www.cuhk.edu.hk/chinese/disclaimer.html">免責聲明</a></li>
+				<li><a href="feedback.php">意見簿</a></li>
+			</ul>
+		</div>
+		<div id="admin">（<a href="admin/index.php?word=%E6%9D%8E">管理員</a>）</div>
+	</div>
+	<div class="mf-col m3">
+		<div class="mf-third mf-cell-middle mf-center"><a href="http://info.gov.hk/qef/" target="_top"><img src="img/qeflogo.gif" width="48" height="48" border="0"></a></div>
+		<div class="mf-twothird" id="sitestats_box">
+			<ul>
+				<li>在線人數： 2899</li>
+				<li>自 2014 年 7 月 8 日起</li>
+				<li>瀏覽人數： 88437324</li>
+				<li>使用次數： 309027785</li>
+			</ul>
+		</div>
+	</div>
+</footer>
+
+<div id="soundPlayer">
+	<script>
+		var context;
+		var buffer_map = {};
+		function playBuffer(buffer) {
+			if (buffer) {
+				const source = context.createBufferSource();
+				source.buffer = buffer;
+				source.connect(context.destination);
+				source.start();
+			} else {
+				alert('Invalid audio buffer');
+			}
+		}
+		function _playSound( url ) {
+			try {
+				if (context) context.close();
+				context = new (window.AudioContext || window.webkitAudioContext)();
+				if (buffer_map[url]) {
+					playBuffer(buffer_map[url]);
+				} else {
+					const request = new XMLHttpRequest();
+					request.open("GET",url,true);
+					request.responseType = "arraybuffer";
+					request.onload = function() {
+						context.decodeAudioData(request.response, function(buffer) {
+							buffer_map[url] = buffer;
+							playBuffer(buffer_map[url]);
+						});
+					};
+					request.send();
+				}
+			} catch(e) {
+				alert('web audio api not supported');
+			}
+		}
+	</script>
+</div>
+
+</div>	<!-- END globalWrapper //-->
+
+</body></html>

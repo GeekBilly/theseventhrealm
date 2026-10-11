@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<style>@font-face{font-family:'serif';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/NotoSerifSC-Black.ttf')}
+@font-face{font-family:'lishu';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/aoyagireisyosimo_ttf_2_01.ttf')}
+@font-face{font-family:'xing';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/挚芒行.ttf')}
+@font-face{font-family:'cao';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/柳建毛草.ttf')}
+@font-face{font-family:'msz';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{background:#f7f5f0;color:#1a1a18;
+  font-family:'serif','Noto Serif SC',Georgia,serif;-webkit-font-smoothing:antialiased}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+.mountains{position:absolute;left:0;bottom:0;width:100%;height:300px;z-index:1}
+.ghost{position:absolute;left:-40px;bottom:-110px;font-family:'msz';font-size:560px;
+  color:rgba(26,26,24,.045);line-height:1;z-index:2;user-select:none}
+.mist{position:absolute;left:0;bottom:0;width:100%;height:300px;z-index:2;opacity:.55}
+.frame{position:absolute;left:64px;top:56px;right:64px;bottom:56px;
+  border:1px solid rgba(26,26,24,.10);z-index:3}
+.seal{position:absolute;right:96px;bottom:112px;width:104px;z-index:6}
+.brand{position:absolute;left:104px;bottom:118px;z-index:6;font-size:15px;
+  letter-spacing:4px;color:#4a463f;font-family:'serif'}
+.brand b{font-family:'msz';font-weight:400;font-size:23px;letter-spacing:7px;color:#1a1a18}
+.brand i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#b03826;
+  margin:0 10px;vertical-align:middle}
+/* ⭐ 作品标题（画心正上方）：照抄商/周 v9 `.title-box` —— 两行居中
+   第 1 行 = 主题（20px / 字距 14，对应「字 形 演 变 · 三 千 年」）
+   第 2 行 = 体例提示（14px / 字距 7，对应「右 起 展 卷 · 自 卜 辞 至 今 文」）
+   ⚠️ 2026-10-03 用户纠正：「姓氏源流」应回到**左上角**（那是商周放「上下五千年」的位置），
+      画心上方另写标题 —— 此前 v5 把两者混为一处，是理解错了。 */
+.series{position:absolute;left:960px;top:296px;transform:translateX(-50%);z-index:6;
+  text-align:center;white-space:nowrap}
+.series .t{font-family:'serif';font-size:20px;letter-spacing:14px;color:#24221d;text-indent:14px}
+.series .h{margin-top:13px;font-family:'serif';font-size:14px;letter-spacing:7px;
+  color:#4a463f;text-indent:7px}
+/* ⭐ 左上角系列标：照抄商品化补丁 `.series-tag`（`gen-wallpaper-classic.py`）
+   —— 对应商/周成品左上角的「上 下 五 千 年 · 商」 */
+.series-tag{position:absolute;left:210px;top:66px;z-index:6;
+  font-family:'serif';font-size:16px;letter-spacing:6px;color:#6b675f}
+/* ⭐ 落款/金句字体与母版同源（2026-10-03 查明）：
+   用户指出「赵钱孙李和商周金句字体不是一个」—— 根因确认：
+   · 商/周 v9 `--f-brush:'Ma Shan Zheng Local','Ma Shan Zheng','KaiTi',serif`
+     这三个字体**本机一个都没装** → 实际回退到**系统衬线（Songti SC）**，成品图上就是宋体；
+   · B 线一直用字体**文件** 'msz'(MaShanZheng.ttf) → 真毛笔，两者字形根本不同。
+   ⚠️ 另一个坑：B 线 `@font-face` 把 **'serif' 这个通用族名**定义成了 NotoSerifSC-Black，
+     于是 `var(--f-brush)` 链尾的 serif 也被抢占 → 回退成 Noto 黑（比母版粗一倍）。
+   ⚠️ 实测结论：**商周成品落款/金句的字形＝马善政毛笔**（与项目字体文件骨架重合度 1.000），
+     说明生成商周时那台环境**装过** 'Ma Shan Zheng Local'；而**本机现在没装**，
+     所以同样的链在 B 线里会一路回退到 Noto 黑/宋体，反而不像母版。
+   修法＝**把项目字体文件 'msz' 放在链首**：既复现母版字形，又不依赖系统装没装字体。 */
+:root{--f-brush:'msz','Ma Shan Zheng Local','Ma Shan Zheng','KaiTi',serif}
+
+.quat{position:absolute;left:0;right:0;top:352px;z-index:5;
+  display:flex;justify-content:center;align-items:flex-end;gap:104px}
+.cell{text-align:center}
+/* ⚠️ 固定 height:232px 是「逐格光学归一化」的地基：四格行盒顶边恒定在 y=352，
+   字号变大只让字向下溢出（overflow 可见）、不推动下方标签，
+   于是「墨迹底 = 352 + c·字号/232」成为可精确求解的线性关系。 */
+.cell .ch{font-size:232px;line-height:1;color:#1a1a18;height:232px}
+.cell .lb{margin-top:26px;font-size:14px;letter-spacing:6px;color:#8c8578;font-family:'serif'}
+.cell .lb b{display:block;font-weight:400;font-size:11px;letter-spacing:3px;color:#b3aca0;margin-top:6px}
+/* ⭐ 四格之间的极细竖断线（2026-10-03 用户要求「把三联字中间的竖线加一下」）
+   照抄商/周 v9 `.divider{width:1px;height:200px;background:#ded7c9;margin-bottom:48px}`，
+   按字幅比 232/262 = 0.886 缩放 → 高 178px、下边距 27px（底边落在字下标签区内）。 */
+.divider{width:1px;height:178px;background:#ded7c9;margin-bottom:27px;flex:0 0 auto}
+.rule{position:absolute;left:50%;transform:translateX(-50%);top:700px;width:900px;height:1px;
+  background:rgba(26,26,24,.14);z-index:5}
+/* ⭐ 字下「英文 + 年代」行：照抄商/周 v9 `.era` 的**两行结构**（2026-10-03）
+   旧版是单行 flex（17px + 30px 混排），与 A 线 `.era`（en 26px + years 19px，margin-top 14）
+   既不同构也不同底边（A 底 811 / B 底 790，差 21px）。改为同构两行后底边也对齐 811。 */
+.meta{position:absolute;left:50%;transform:translateX(-50%);top:746px;z-index:5;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.meta .en{font-size:26px;letter-spacing:18px;color:#26241f;text-transform:uppercase}
+/* ⚠️ 副行含中文，默认行高会比 A 线纯拉丁的 `.years` 高 6px（底边 817 vs 811）
+   → 锁 line-height:21px，与 A 线 `.years` 同高，底边才能对齐 811 */
+.meta .sub{margin-top:14px;font-size:19px;letter-spacing:8px;color:#45423c;font-family:'serif';
+  line-height:21px}
+.quote{position:absolute;right:118px;top:300px;writing-mode:vertical-rl;
+  font-family:var(--f-brush);font-size:40px;letter-spacing:16px;color:#1a1a18;z-index:5;line-height:1.7}
+.src{position:absolute;right:176px;top:300px;writing-mode:vertical-rl;
+  font-size:13px;letter-spacing:5px;color:#8c8578;z-index:5;line-height:2.1;font-family:'serif'}
+
+/* ── 人物底纹层（v3 实验）─────────────────────────────
+   素材是**带 alpha 的墨迹层**（底色全透明），所以不需要任何混合模式：
+   直接叠加即无缝，深浅只由 opacity 控制。 */
+.figure{position:absolute;z-index:2;pointer-events:none}
+
+/* ① 底纹永远在右侧：整幅进画（right:0 / bottom:0），人物主体压中线右侧 */
+.figure{right:0;bottom:0;height:1000px;opacity:.215}
+/* ⭐ 灰线全部去掉（2026-10-03 用户指令）：
+   `.rule`＝四联字下那条横线；`.frame`＝left/top/right/bottom 各 56–64px 的 1px 细边框
+   （用户说的"左右两条灰线"就是它的左右边）。
+   ⚠️ 根因：**商/周 v9 母版里根本没有这两个元素**（已 grep 确认：frame 0 命中、rule 0 命中），
+   是 B 线模板自带的多余装饰 → 按「只换字＋底纹」原则必须去掉，不是调位置。 */
+.rule{display:none}
+.frame{display:none}
+/* ② 右上角金句/出处：字号照抄商/周 v9（金句 54px / 出处 20px）
+   —— 旧值 40/13 比母版小一大截，用户指出"明显比商周小"；
+      竖排靠 letter-spacing 复刻母版的 line-height（54×1.9≈103 中心距 → 间距 46）
+   ⭐ 顶到最上头：商/周 v9 金句**墨迹顶 y=88**（DOM top:62 + 字体基线偏移 26）；
+      B 线 writing-mode 竖排的墨迹顶 = top + 7，原 top:104 → 墨迹顶 111，**差 23px**。
+      故 top = 88 − 7 = **81**。 */
+.quote{top:76px;font-size:54px;letter-spacing:46px}   /* 墨迹顶 83（母版 88，用户要"稍偏上一点点"）*/
+/* ⚠️ 出处必须在金句**左侧**（更靠画面内侧）且留足间隙：
+   金句元素 x1710–1802（line-height 1.7 让盒子比字宽），出处 right:176 时 x1660–1744
+   → **两列水平重叠 33.8px**（用户 2026-10-03 指出"落款和字重叠"）。
+   改 right:240 → 出处 x1596–1680，与金句间隙 30px、与第四格字（右缘 ≈1523）间隙 73px。 */
+/* ⭐ 出处**底部对齐**金句（照抄商/周 v9 的排法：A 线 `.src` 贴 `.quote` 底边，
+   实测 A 线金句 b472 / 出处 b484）。金句 top 104→81 后底边 = 81+400 = 481
+   ⭐ 出处改**一列**（2026-10-03 用户指令）：竖排下 `<br>` 会另起一列，看着散；
+      改为 `《百家姓》北宋·第一句` 同一列、圆点隔开。金句 top 76 → 底 = 76+400 = 476，
+      实测一列 9 字高 **383**（不是估的 324）→ 出处 top = 476 − 383 = **93**（底部与金句齐，整体上移）*/
+.src{top:93px;font-size:20px;letter-spacing:16px;right:240px}
+/* ⭐ ① 系列标从左上角移到**主体字正上方居中**（照抄商/周 v9 `.title-box`：
+   left:960 居中、top 在画心上方；A 线 title top:262 / 字 top:371 → 间距 48。
+   B 线字顶 352 → 标题 top ≈ 250）。字号照抄 A 线 20px / letter-spacing 14px */
+/* ⭐ ③ 主体字：按**墨迹底边到画面底的距离**对齐商/周 v9（用户口径："四字距离最底下的
+   距离一致"）。实测商 v9 三联字墨迹底 y=642 → **距底 438px**；B 线原 y623 → 距底 457。
+   故字区下移 19px：top 386 → **405**；系列标 / 细线 / 元数据按母版间距跟随。 */
+/* ⭐ 字区**垂直居中**（2026-10-03 用户口径）：上「一姓四体」距上边缘、下「英文+年代」
+   距下边缘都与商/周一致，字区在两者之间居中 —— 相当于把三联字换成四联字后，
+   以画心为中心整体缩放。母版字块中心 ≈ 画面中心 540 → quat top = 540 − 字块高/2。 */
+/* ⚠️ 字格间距必须**同比收窄**：原 gap:104px 是四格独立设计留下的，
+   实测墨迹间隙 227px，而商/周三联只有 149–197px（avg 173）→ B 线字区总宽 1488px，
+   右缘 x1718 **压到右上出处列（x1638–1680）**。商周字区仅 915px 所以不冲突。
+   按字幅比收窄：gap 104 → 38，并给竖断线各留 18px 边距（复刻商周"竖线两侧留白"观感）。
+   收窄后字区 ≈1267px，右缘 ≈1594，与出处列留 44px 间隙。 */
+.quat{top:390px;gap:38px}
+.divider{margin:0 18px}
+.rule{top:716px}
+.meta{top:746px}          /* 对齐商/周 v9 的 .era top:746（距底 269）*/
+/* ⭐ 字下行改成与 A 线 `.era` 同构的两行（en 26px/18 + sub 19px/8，margin-top 14）
+   → 底边也对齐 A 线的 811。结构在 v2A 模板里改，这里只锁 top。 */
+/* ⭐ 作品标题与左上角系列标：定义已移到 v2A 基础 CSS（照抄商/周 `.title-box` 两行结构
+   + `.series-tag` 左上角），范式版不再单独覆盖。
+   2026-10-03 用户纠正：「姓氏源流」回左上角，画心上方另写标题。 */
+/* ⭐ 画心上方标题回到**母版距上边缘 262**（商/周 v9 `.title-box top:262`）。
+   v2A 基础值 296 是按旧字区推的，用户要求「上边距离和商周保持一致」→ 覆盖为 262 */
+.series{top:262px}
+/* 纸底：米色 #f7f5f0 显黄 → 改纯白（商/周 v9 的 --white:#ffffff） */
+body{background:#ffffff}
+/* 底部山水整套去掉（用户 2026-10-03 指令）：远山 + 山雾都不要 */
+.mountains{display:none}
+.mist{display:none}
+/* ⑤ 左下角落款：竖排毛笔「第七境」+ 朱砂点 + 印章 —— 照抄商/周 v9 .colophon
+   ⭐ 用户 2026-10-03 最终口径：**印章底边离画面底部的间距与商周一致 = 140px**
+   （曾下移到 bottom:100 试探，用户否掉 → 回到母版值 140） */
+.seal{display:none}                 /* 旧右下角大印作废：落款改用商周同款小印 */
+.brand{display:none}                /* 旧横排「第七境™」作废 */
+.colophon{position:absolute;left:210px;bottom:140px;z-index:6;
+  display:flex;flex-direction:column;align-items:flex-start}
+.vstack{display:flex;flex-direction:column;align-items:center}
+.vstack span{display:block;text-align:center}
+.vstack.cjk span{font-family:var(--f-brush);font-size:40px;line-height:1.44;color:#1a1a18}
+.vdot{width:10px;height:10px;border-radius:50%;background:#b03826;
+  margin:16px 0 14px 14px;flex:0 0 auto}
+.colophon-seal{height:70px;opacity:.95}
+/* ⑥ 正下方中间：品牌行 + 网址行 —— 照抄商/周 v9 .brand-block */
+.brand-block{position:absolute;left:960px;bottom:140px;transform:translateX(-50%);z-index:6;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.brand-en{font-size:33px;letter-spacing:9px;color:#26241f;text-transform:uppercase;
+  text-indent:16px}
+.brand-url{margin-top:13px;font-size:18px;letter-spacing:5px;color:#45423c;text-indent:5px}
+/* ⭐ ™ 小字：照抄商品化补丁（`gen-wallpaper-classic.py` L33），商/周成品有、B 线漏了 */
+.tm{font-size:15px;vertical-align:super;letter-spacing:0;margin-left:4px;color:#1a1a18}
+</style></head><body><div class="stage">
+<svg class="mountains" viewBox="0 0 1200 340" preserveAspectRatio="none">
+  <path d="M0 300 C 90 250, 170 268, 250 214 C 330 160, 400 196, 470 168
+           C 545 138, 600 176, 668 150 C 745 120, 812 168, 880 132
+           C 950 96, 1030 150, 1105 116 C 1150 96, 1180 108, 1200 100
+           L1200 340 L0 340 Z" fill="rgba(26,26,24,.055)"/>
+  <path d="M0 322 C 120 292, 240 306, 360 278 C 480 250, 600 286, 720 262
+           C 840 238, 960 272, 1080 250 C 1140 240, 1180 246, 1200 240
+           L1200 340 L0 340 Z" fill="rgba(26,26,24,.04)"/>
+</svg>
+<div class="mist"></div>
+<img class="figure" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/06-姓氏线/底纹-人物/figure-001-赵.png">
+<div class="frame"></div>
+<div class="series-tag">姓 氏 源 流 · 赵</div>
+<div class="series"><div class="t">一 姓 四 体 · 三 千 年</div>
+  <div class="h">右 起 展 卷 · 自 碑 刻 至 草 书</div></div>
+<div class="quote">赵钱孙李</div>
+<div class="src">《百家姓》北宋·第一句</div>
+<div class="quat"><div class="cell"><div class="ch" style="font-family:'cao';font-size:204px;transform:translateY(26px)">赵</div><div class="lb">草书<b>柳建毛草</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'xing';font-size:264px;transform:translateY(10px)">赵</div><div class="lb">行书<b>挚芒行</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'lishu';font-size:243px;transform:translateY(14px)">趙</div><div class="lb">隶书 · 趙<b>青柳隷書</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'serif';font-size:212px;transform:translateY(20px)">赵</div><div class="lb">碑刻<b>Noto Serif</b></div></div></div>
+<div class="rule"></div>
+<div class="meta"><div class="en">ZHAO</div>
+  <div class="sub">赵 / 趙 · 源流 西周 · c. 950 BC</div></div>
+<div class="colophon"><div class="vstack cjk"><span>第</span><span>七</span><span>境</span></div><div class="vdot"></div><img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal.png"></div>
+<img class="seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal-hi.png">
+<div class="brand-block"><div class="brand-en">TANTSE<span class="tm">™</span></div><div class="brand-url">www.theseventhrealm.com</div></div>
+</div></body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<style>@font-face{font-family:'serif';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/NotoSerifSC-Black.ttf')}
+@font-face{font-family:'lishu';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/aoyagireisyosimo_ttf_2_01.ttf')}
+@font-face{font-family:'xing';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/挚芒行.ttf')}
+@font-face{font-family:'cao';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/柳建毛草.ttf')}
+@font-face{font-family:'msz';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{background:#f7f5f0;color:#1a1a18;
+  font-family:'serif','Noto Serif SC',Georgia,serif;-webkit-font-smoothing:antialiased}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+.mountains{position:absolute;left:0;bottom:-2%;width:104%;margin-left:-2%;height:auto;transform:scale(2.6);transform-origin:bottom center;z-index:1;opacity:.9;mask-image:linear-gradient(180deg,transparent 0%,#000 42%,#000 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%,#000 100%)}
+.ghost{position:absolute;left:-40px;bottom:-110px;font-family:'msz';font-size:560px;
+  color:rgba(26,26,24,.045);line-height:1;z-index:2;user-select:none}
+.mist{position:absolute;left:0;bottom:0;width:100%;height:300px;z-index:2;opacity:.55}
+.frame{position:absolute;left:64px;top:56px;right:64px;bottom:56px;
+  border:1px solid rgba(26,26,24,.10);z-index:3}
+.seal{position:absolute;right:96px;bottom:112px;width:104px;z-index:6}
+.brand{position:absolute;left:104px;bottom:118px;z-index:6;font-size:15px;
+  letter-spacing:4px;color:#4a463f;font-family:'serif'}
+.brand b{font-family:'msz';font-weight:400;font-size:23px;letter-spacing:7px;color:#1a1a18}
+.brand i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#b03826;
+  margin:0 10px;vertical-align:middle}
+.series{position:absolute;left:104px;top:104px;font-size:16px;letter-spacing:8px;
+  color:#4a463f;z-index:6;font-family:'serif'}
+.series em{font-family:'msz';font-style:normal;font-size:30px;letter-spacing:4px;color:#1a1a18}
+
+.quat{position:absolute;left:0;right:0;top:352px;z-index:5;
+  display:flex;justify-content:center;align-items:flex-end;gap:104px}
+.cell{text-align:center}
+/* ⚠️ 固定 height:232px 是「逐格光学归一化」的地基：四格行盒顶边恒定在 y=352，
+   字号变大只让字向下溢出（overflow 可见）、不推动下方标签，
+   于是「墨迹底 = 352 + c·字号/232」成为可精确求解的线性关系。 */
+.cell .ch{font-size:232px;line-height:1;color:#1a1a18;height:232px}
+.cell .lb{margin-top:26px;font-size:14px;letter-spacing:6px;color:#8c8578;font-family:'serif'}
+.cell .lb b{display:block;font-weight:400;font-size:11px;letter-spacing:3px;color:#b3aca0;margin-top:6px}
+.rule{position:absolute;left:50%;transform:translateX(-50%);top:700px;width:900px;height:1px;
+  background:rgba(26,26,24,.14);z-index:5}
+.meta{position:absolute;left:50%;transform:translateX(-50%);top:740px;z-index:5;
+  display:flex;align-items:center;gap:34px;font-size:17px;letter-spacing:5px;color:#4a463f;font-family:'serif'}
+.meta .num{font-family:'serif';font-weight:600;font-size:30px;letter-spacing:9px;color:#1a1a18}
+.meta .dot{width:5px;height:5px;border-radius:50%;background:#b03826}
+.quote{position:absolute;right:118px;top:300px;writing-mode:vertical-rl;
+  font-family:'msz';font-size:40px;letter-spacing:16px;color:#1a1a18;z-index:5;line-height:1.7}
+.src{position:absolute;right:176px;top:300px;writing-mode:vertical-rl;
+  font-size:13px;letter-spacing:5px;color:#8c8578;z-index:5;line-height:2.1;font-family:'serif'}
+</style></head><body><div class="stage">
+<img class="mountains" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/09-上架素材/品牌/_山水图-纯净.png">
+<div class="mist"></div>
+<div class="ghost">氏</div>
+<div class="frame"></div>
+<div class="series">姓 氏 源 流 · <em>赵</em></div>
+<div class="quote">赵钱孙李</div>
+<div class="src">《百家姓》北宋<br>第 1 句</div>
+<div class="quat"><div class="cell"><div class="ch" style="font-family:'serif';font-size:212px;transform:translateY(20px)">赵</div><div class="lb">碑刻<b>Noto Serif</b></div></div><div class="cell"><div class="ch" style="font-family:'lishu';font-size:243px;transform:translateY(14px)">趙</div><div class="lb">隶书 · 趙<b>青柳隷書</b></div></div><div class="cell"><div class="ch" style="font-family:'xing';font-size:264px;transform:translateY(10px)">赵</div><div class="lb">行书<b>挚芒行</b></div></div><div class="cell"><div class="ch" style="font-family:'cao';font-size:204px;transform:translateY(26px)">赵</div><div class="lb">草书<b>柳建毛草</b></div></div></div>
+<div class="rule"></div>
+<div class="meta"><span class="num">ZHAO</span><span class="dot"></span>
+  <span>赵 / 趙</span><span class="dot"></span>
+  <span>源流 西周 · c. 950 BC</span></div>
+<div class="brand"><b>第七境</b>™<i></i>www.theseventhrealm.com</div>
+<img class="seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal-hi.png">
+</div></body></html>

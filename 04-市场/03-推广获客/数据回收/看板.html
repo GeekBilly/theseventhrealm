@@ -1,0 +1,83 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第七境 · S1 冷启动看板</title><style>
+:root{--bg:#faf9f7;--card:#fff;--ink:#20201e;--sub:#6b6b66;--line:#e6e3dd;--gold:#8a6d3b;}
+*{box-sizing:border-box}
+body{margin:0;padding:28px 20px 48px;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,"PingFang SC","Noto Sans CJK SC",sans-serif;}
+.wrap{max-width:880px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px} .lead{color:var(--sub);font-size:13px;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+.kpi .big{font-size:38px;font-weight:600;letter-spacing:-1px}
+.kpi .big small{font-size:15px;color:var(--sub);font-weight:400}
+.meta{color:var(--sub);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.chead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.chead h3{margin:0;font-size:15px}
+.tag{font-size:12px;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.kvs .kv{display:flex;justify-content:space-between;padding:5px 0;border-top:1px dashed var(--line);font-size:13px}
+.kvs .kv:first-child{border-top:0} .kvs span{color:var(--sub)}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:18px}
+.chart h3{margin:0 0 14px;font-size:15px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:130px}
+.barcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:130px}
+.bar{width:34px;background:linear-gradient(180deg,#b08d57,#8a6d3b);border-radius:4px 4px 0 0}
+.barv{font-size:11px;color:var(--sub);margin-top:4px} .barl{font-size:10px;color:#9a978f}
+.empty{color:var(--sub);font-size:13px;padding:20px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);
+ border:1px solid var(--line);border-radius:14px;overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:#f4f1eb;font-weight:600;font-size:12px;color:var(--sub)}
+tr:last-child td{border-bottom:0}
+.note{color:var(--sub);font-size:12px} .num{text-align:right;font-variant-numeric:tabular-nums}
+.week{background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);
+ border-radius:8px;padding:12px 16px;font-size:13px;margin-top:18px}
+.badbox{background:#fdf3f1;border:1px solid #f0d9d3;border-left:3px solid #b3592b;
+ border-radius:8px;padding:12px 16px;font-size:13px;margin-bottom:18px}
+code{background:#f0ede7;padding:1px 5px;border-radius:4px;font-size:12px}
+</style></head><body><div class="wrap">
+<h1>第七境 · S1 冷启动看板</h1>
+<div class="lead">还没有任何发布数据。第一条发出后回填，这里才有意义。　·　生成于 2026-10-11　·　未开始</div>
+
+<div class="kpi">
+  <div class="big">0 <small>累计曝光</small></div>
+  <div class="meta">已发 <b>0</b> 条　·　累计邮箱 0</div>
+</div>
+
+<div class="badbox"><b>⚠️ 别用这个看板判断「推广有没有效果」</b><br>
+小红书不允许往站外导流（笔记、简介都不能放可点链接），所以无论我们在小红书做得多好，
+都不会体现为站点访次的增长。看站点流量请用 <code>站点分析/站点看板.html</code>，
+但那衡量的是 <b>SEO 与直接访问</b>，不是社交平台推广。<br>
+<span class="note">本阶段唯一有意义的社交侧指标，是上面三张卡里的平台内数据。</span></div>
+
+<div class="grid">
+  <div class="card">
+      <div class="chead"><h3>小红书（主）</h3>
+      <span class="tag" style="background:#8b8b8b1a;color:#8b8b8b">⬜ 未发布</span></div>
+      <div class="kvs"><div class='kv'><span>曝光</span><b>0</b></div><div class='kv'><span>赞</span><b>0</b></div><div class='kv'><span>收藏</span><b>0</b></div><div class='kv'><span>评论</span><b>0</b></div><div class='kv'><span>收藏率</span><b>0.0%</b></div><div class='kv'><span>已发</span><b>0</b></div></div></div><div class="card">
+      <div class="chead"><h3>抖音（同步）</h3>
+      <span class="tag" style="background:#8b8b8b1a;color:#8b8b8b">⬜ 未发布</span></div>
+      <div class="kvs"><div class='kv'><span>播放</span><b>0</b></div><div class='kv'><span>赞</span><b>0</b></div><div class='kv'><span>收藏</span><b>0</b></div><div class='kv'><span>评论</span><b>0</b></div><div class='kv'><span>收藏率</span><b>0.0%</b></div><div class='kv'><span>已发</span><b>0</b></div></div></div><div class="card">
+      <div class="chead"><h3>B站（中视频）</h3>
+      <span class="tag" style="background:#8b8b8b1a;color:#8b8b8b">⬜ 未发布</span></div>
+      <div class="kvs"><div class='kv'><span>播放</span><b>0</b></div><div class='kv'><span>赞</span><b>0</b></div><div class='kv'><span>收藏</span><b>0</b></div><div class='kv'><span>评论</span><b>0</b></div><div class='kv'><span>收藏率</span><b>0.0%</b></div><div class='kv'><span>已发</span><b>0</b></div></div></div>
+</div>
+
+<div class="chart"><h3>每日曝光</h3><div class="bars"><div class="empty">还没有数据 —— 发完就回来记一笔：./log.sh -p 小红书 -a 商-字形演变 -i 320 -l 18 -s 12 -c 2</div></div></div>
+
+<h3 style="font-size:15px;margin:22px 0 10px">发布明细（0 条）</h3>
+<table><tr><th>日期</th><th>平台</th><th>内容</th><th class="num">曝光</th><th class="num">赞</th>
+<th class="num">藏</th><th class="num">评</th><th class="num">外链</th><th class="num">邮箱</th><th>备注</th></tr>
+<tr><td colspan='10' class='note'>暂无 —— 发出第一条后回填</td></tr>
+</table>
+
+
+<div class="week"><b>记一笔</b>（App 里的数字，30 秒）：<br>
+<code>./log.sh -p 小红书 -a 商-字形演变 -i 320 -l 18 -s 12 -c 2</code><br>
+<code>./log.sh -p 抖音 -a 商-字形演变 -i 500 -l 20 -s 5 -c 1</code><br>
+然后 <code>python3 build-dashboard.py</code> 刷新本页。<br>
+<span class="note">判据阈值在脚本顶部 &#40;<code>IMPRESSIONS_FLOOR</code> / <code>SAVE_RATE_LINE</code>&#41;，
+前 4 条拿到真实数据后回头校准。</span></div>
+
+</div></body></html>

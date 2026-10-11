@@ -1,0 +1,122 @@
+{
+ "趙": {
+  "jiagu": "6/6",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "6/6",
+  "resolved": true,
+  "bytes": 83710
+ },
+ "錢": {
+  "jiagu": "19/19",
+  "jinwen": "19/19",
+  "xiaozhuan": "1/1",
+  "jianbo": "19/19",
+  "resolved": true,
+  "bytes": 87638
+ },
+ "孫": {
+  "jiagu": "1/1",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "19/19",
+  "resolved": true,
+  "bytes": 94361
+ },
+ "李": {
+  "jiagu": "1/1",
+  "jinwen": "1/2",
+  "xiaozhuan": "1/1",
+  "jianbo": "14/14",
+  "resolved": true,
+  "bytes": 84997
+ },
+ "周": {
+  "jiagu": "2/2",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "17/17",
+  "resolved": true,
+  "bytes": 92120
+ },
+ "吳": {
+  "jiagu": "24/24",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "24/24",
+  "resolved": true,
+  "bytes": 93900
+ },
+ "鄭": {
+  "jiagu": "5/5",
+  "jinwen": "2/3",
+  "xiaozhuan": "1/1",
+  "jianbo": "5/5",
+  "resolved": true,
+  "bytes": 80140
+ },
+ "王": {
+  "jiagu": null,
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "45/45",
+  "resolved": true,
+  "bytes": 100921
+ },
+ "馮": {
+  "jiagu": "1/1",
+  "jinwen": "1/1",
+  "xiaozhuan": "1/1",
+  "jianbo": "1/1",
+  "resolved": true,
+  "bytes": 83404
+ },
+ "陳": {
+  "jiagu": "17/17",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "17/17",
+  "resolved": true,
+  "bytes": 96068
+ },
+ "張": {
+  "jiagu": "13/13",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "13/13",
+  "resolved": true,
+  "bytes": 91806
+ },
+ "劉": {
+  "jiagu": "2/2",
+  "jinwen": "2/2",
+  "xiaozhuan": "2/2",
+  "jianbo": "2/2",
+  "resolved": true,
+  "bytes": 77854
+ },
+ "楊": {
+  "jiagu": "3/3",
+  "jinwen": "4/5",
+  "xiaozhuan": "1/1",
+  "jianbo": "3/3",
+  "resolved": true,
+  "bytes": 84347
+ },
+ "黃": {
+  "jiagu": "2/2",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "12/12",
+  "resolved": true,
+  "bytes": 93994
+ },
+ "林": {
+  "jiagu": "1/1",
+  "jinwen": null,
+  "xiaozhuan": "1/1",
+  "jianbo": "7/7",
+  "resolved": true,
+  "bytes": 84086
+ }
+}

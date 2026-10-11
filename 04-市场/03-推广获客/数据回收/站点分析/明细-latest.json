@@ -1,0 +1,221 @@
+{
+  "collected_at": "2026-10-11 10:08",
+  "clean_pages": [
+    {
+      "path": "/",
+      "visits": 789
+    },
+    {
+      "path": "/5000years/",
+      "visits": 115
+    },
+    {
+      "path": "/5000years/shang/",
+      "visits": 49
+    },
+    {
+      "path": "/faq/",
+      "visits": 15
+    },
+    {
+      "path": "/collection/dynasty/sanhuang/",
+      "visits": 12
+    },
+    {
+      "path": "/privacy/",
+      "visits": 12
+    },
+    {
+      "path": "/5000years/xia/",
+      "visits": 12
+    },
+    {
+      "path": "/5000years/ming/",
+      "visits": 11
+    },
+    {
+      "path": "/5000years/zhou/",
+      "visits": 11
+    },
+    {
+      "path": "/5000years/han/",
+      "visits": 11
+    },
+    {
+      "path": "/5000years/qing/",
+      "visits": 11
+    },
+    {
+      "path": "/readme.html",
+      "visits": 11
+    },
+    {
+      "path": "/@fs/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+      "visits": 10
+    },
+    {
+      "path": "/en/",
+      "visits": 10
+    },
+    {
+      "path": "/5000years/sanguo/",
+      "visits": 10
+    },
+    {
+      "path": "/collection/",
+      "visits": 10
+    },
+    {
+      "path": "/5000years/sanhuang/",
+      "visits": 10
+    },
+    {
+      "path": "/5000years/tang/",
+      "visits": 9
+    },
+    {
+      "path": "/5000years/qin/",
+      "visits": 9
+    },
+    {
+      "path": "/5000years/yuan/",
+      "visits": 9
+    },
+    {
+      "path": "/.ssh/known_hosts",
+      "visits": 8
+    },
+    {
+      "path": "/.ssh/authorized_keys",
+      "visits": 8
+    },
+    {
+      "path": "/.boto",
+      "visits": 8
+    },
+    {
+      "path": "/.profile",
+      "visits": 8
+    },
+    {
+      "path": "/%2Fsettings",
+      "visits": 8
+    },
+    {
+      "path": "/values.yaml",
+      "visits": 8
+    },
+    {
+      "path": "/collection/dynasty/sui/",
+      "visits": 8
+    },
+    {
+      "path": "/5000years/juexing/",
+      "visits": 8
+    },
+    {
+      "path": "/contact/",
+      "visits": 8
+    },
+    {
+      "path": "/5000years/sui/",
+      "visits": 8
+    }
+  ],
+  "bot_pages": [
+    {
+      "path": "/wp-cron.php",
+      "visits": 83
+    },
+    {
+      "path": "/robots.txt",
+      "visits": 40
+    },
+    {
+      "path": "/sitemap.xml",
+      "visits": 35
+    },
+    {
+      "path": "/sd.php",
+      "visits": 14
+    },
+    {
+      "path": "/favicon.ico",
+      "visits": 14
+    },
+    {
+      "path": "/secrets.json",
+      "visits": 10
+    },
+    {
+      "path": "/service_account.json",
+      "visits": 10
+    },
+    {
+      "path": "/this_is_a_new_hello_world.php",
+      "visits": 10
+    },
+    {
+      "path": "/wp-filemannger4h.php",
+      "visits": 9
+    },
+    {
+      "path": "/i.php",
+      "visits": 9
+    },
+    {
+      "path": "/b8.php",
+      "visits": 8
+    },
+    {
+      "path": "/zv.php",
+      "visits": 8
+    },
+    {
+      "path": "/Components.php",
+      "visits": 8
+    },
+    {
+      "path": "/acme-salvation.php",
+      "visits": 8
+    },
+    {
+      "path": "/cae.php",
+      "visits": 8
+    }
+  ],
+  "countries": [
+    [
+      "CN",
+      633
+    ],
+    [
+      "US",
+      408
+    ],
+    [
+      "HK",
+      271
+    ],
+    [
+      "AU",
+      181
+    ],
+    [
+      "SG",
+      169
+    ]
+  ],
+  "devices": {
+    "desktop": 2009,
+    "mobile": 245,
+    "tablet": 35
+  },
+  "devices_pct": {
+    "desktop": 87.8,
+    "mobile": 10.7,
+    "tablet": 1.5
+  },
+  "visits_clean_total": 1486,
+  "visits_bot_total": 803
+}

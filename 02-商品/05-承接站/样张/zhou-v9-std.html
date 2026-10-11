@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face{
+  font-family:'Noto Serif SC Black Local';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/nssc-black.woff2') format('woff2');
+  font-weight:900;
+}
+@font-face{
+  font-family:'Ma Shan Zheng Local';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf') format('truetype');
+  font-weight:400;
+}
+@import url('https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600&display=swap');
+:root{
+  --white:#ffffff; --ink:#1a1a18; --ink2:#54504a;
+  --cinnabar:#b03826;
+  --f-brush:'Ma Shan Zheng Local','Ma Shan Zheng','KaiTi',serif;
+  --f-body:'Noto Serif SC',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--white)}
+.stage{position:relative;width:1920px;height:1080px;background:#fff;overflow:hidden}
+
+
+/* ===== 题头（三联正上方，无底衬，靠加深字色保证可读） ===== */
+.title-box{position:absolute;left:960px;top:262px;transform:translateX(-50%);z-index:2;
+  text-align:center;white-space:nowrap}
+.triple-title{font-family:var(--f-body);font-size:20px;letter-spacing:14px;color:#24221d;
+  text-indent:14px}
+.triple-hint{margin-top:13px;font-family:var(--f-body);font-size:14px;
+  letter-spacing:7px;color:#4a463f;text-indent:7px}
+
+/* ===== 画心：字形演变三联（真居中，画面正中） ===== */
+.triple{position:absolute;left:960px;top:371px;transform:translateX(-50%);
+  display:flex;align-items:flex-end;gap:40px}
+.cell{width:290px;text-align:center;position:relative}
+
+/* 甲骨文（展卷最先看到，居右） */
+.oracle-box{height:266px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.oracle-glyph{width:274px;height:274px;display:block}
+/* 中间：马善政毛笔 */
+.brush-char{font-family:var(--f-brush);font-size:262px;line-height:1;color:var(--ink);margin-top:4px}
+/* 展卷末尾（居左）：思源宋体 Black 碑刻 */
+.song-char{font-family:'Noto Serif SC Black Local','Songti SC',serif;font-weight:900;
+  font-size:262px;line-height:1;color:var(--ink);margin-top:4px}
+
+.cell .cap{margin-top:22px;font-family:var(--f-body);font-size:17px;
+  letter-spacing:9px;color:#3d3931;text-indent:9px}
+.cell .sub{margin-top:9px;font-family:var(--f-body);font-size:13px;
+  letter-spacing:5px;color:#6b675f;text-indent:5px}
+
+/* 分隔：两道极细竖向断线 */
+.divider{width:1px;height:200px;background:#ded7c9;margin-bottom:48px}
+
+/* 朱砂点睛：落在画心正中（毛笔今文） */
+.cinnabar-dot{position:absolute;right:26px;top:2px;
+  width:17px;height:17px;border-radius:50%;background:var(--cinnabar);
+  box-shadow:22px 26px 0 -8px rgba(176,56,38,.35)}
+
+/* ===== 右起题跋：竖排金句（贴顶部菜单栏下沿，作为展卷起点） ===== */
+.quote{position:absolute;right:150px;top:62px;
+  display:flex;gap:30px;align-items:flex-start;z-index:2}
+.vc{display:flex;flex-direction:column;align-items:center;width:56px}
+.vc span{font-family:var(--f-brush);font-size:54px;line-height:1.9;color:var(--ink)}
+.vc.src{width:auto;margin-right:24px;align-self:flex-end;margin-bottom:-12px;
+  padding-left:6px}
+.vc.src span{font-family:var(--f-body);font-size:20px;line-height:1.8;color:#3d3931}
+.vc.src .rot{display:block;transform:rotate(90deg);line-height:1}
+
+/* ===== 左下角落款：中文竖排 + 朱砂点 + 印章（款识收尾钤印） ===== */
+.colophon{position:absolute;left:210px;bottom:140px;z-index:3;
+  display:flex;flex-direction:column;align-items:flex-start}
+.vstack{display:flex;flex-direction:column;align-items:center}
+.vstack span{display:block;text-align:center}
+.vstack.cjk span{font-family:var(--f-brush);font-size:40px;line-height:1.44;color:var(--ink)}
+.vdot{width:10px;height:10px;border-radius:50%;background:var(--cinnabar);
+  margin:16px 0 14px 14px;flex:0 0 auto}
+.colophon-seal{height:70px;opacity:.95}
+
+/* ===== 品牌落款：大写英文在上，小写在下，底部居中（接替年代原位置） ===== */
+.brand-block{position:absolute;left:960px;bottom:140px;transform:translateX(-50%);z-index:3;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.brand-en{font-size:33px;letter-spacing:9px;color:#26241f;text-transform:uppercase;
+  text-indent:16px}
+.brand-url{margin-top:13px;font-size:18px;letter-spacing:5px;color:#45423c;text-indent:5px}
+
+/* ===== 年代与英文（贴近 Dock，与左下角品牌块同一水平线） ===== */
+.era{position:absolute;left:960px;top:746px;transform:translateX(-50%);z-index:3;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.era .en{font-size:26px;letter-spacing:18px;color:#26241f;text-transform:uppercase}
+.era .years{margin-top:14px;font-size:19px;letter-spacing:8px;color:#45423c}
+
+/* ===== 凤凰水墨底纹（与商稿玄鸟成对：玄鸟生商 → 凤凰鸣于岐山） ===== */
+.phoenix{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.32;pointer-events:none;
+  filter:grayscale(100%) contrast(.96);
+  -webkit-mask-image:radial-gradient(ellipse 78% 72% at 52% 46%, #000 55%, transparent 100%);
+  mask-image:radial-gradient(ellipse 78% 72% at 52% 46%, #000 55%, transparent 100%)}
+
+/* ===== 商品要素：系列小标 + 商标标识 ===== */
+.series-tag{position:absolute;left:210px;top:66px;z-index:2;
+  font-family:var(--f-body);font-size:16px;letter-spacing:6px;color:#6b675f}
+.tm{font-size:15px;vertical-align:super;letter-spacing:0;margin-left:4px;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <img class="phoenix" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/phoenix-full.png">
+  <div class="title-box">
+    <div class="triple-title">字 形 演 变 · 三 千 年</div>
+    <div class="triple-hint">右 起 展 卷 · 自 吉 金 至 今 文</div>
+  </div>
+
+  <!-- 屏幕自左向右：碑刻宋 | 毛笔 | 甲骨文 —— 展卷自右向左读即 金文 → 毛笔 → 碑刻宋 -->
+  <div class="triple">
+    <div class="cell">
+      <div class="song-char">周</div>
+      <div class="cap">今文 · 碑刻宋</div>
+      <div class="sub">思源宋体</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cell">
+      <div class="brush-char">周</div>
+      <div class="cinnabar-dot"></div>
+      <div class="cap">今文 · 毛笔</div>
+      <div class="sub">马善政楷书</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cell">
+      <div class="oracle-box"><img class="oracle-glyph" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/古文字/jinwen-zhou-31_E60B.svg"></div>
+      <div class="cap">金文</div>
+      <div class="sub">西周 · 青铜器铭文</div>
+    </div>
+  </div>
+
+  <!-- 系列小标（商品要素） -->
+  <div class="series-tag">上 下 五 千 年 · 周</div>
+
+  <!-- 展卷最先看到：右起题跋（贴顶） -->
+  <div class="quote">
+    <div class="vc src"><span class="rot">《</span><span>诗</span><span>经</span><span>·</span><span>大</span><span>雅</span><span>·</span><span>卷</span><span>阿</span><span class="rot">》</span></div>
+    <div class="vc"><span>于</span><span>彼</span><span>高</span><span>冈</span></div>
+    <div class="vc"><span>凤</span><span>凰</span><span>鸣</span><span>矣</span></div>
+  </div>
+
+  <!-- 展卷终章：左下角落款（中文名 + 钤印） -->
+  <div class="colophon">
+    <div class="vstack cjk"><span>第</span><span>七</span><span>境</span></div>
+    <div class="vdot"></div>
+    <img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal.png">
+  </div>
+
+  <!-- 品牌落款：底部居中（大写英文 + 小写网址） -->
+  <div class="brand-block">
+    <div class="brand-en">TANTSE<span class="tm">™</span></div>
+    <div class="brand-url">www.theseventhrealm.com</div>
+  </div>
+
+  <div class="era"><div class="en">ZHOU DYNASTY</div><div class="years">1046 – 256 BC</div></div>
+</div>
+</body>
+</html>

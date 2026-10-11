@@ -1,0 +1,65 @@
+<style>
+section{padding:clamp(44px,6vw,60px) 24px}
+.hero{min-height:54vh}
+.verse{position:relative;padding:clamp(34px,5vw,54px) 24px}
+.vsrc{margin-top:22px;font-size:13px;letter-spacing:3px;color:rgba(26,26,24,.5)}
+.relic{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,3vw,30px);max-width:840px;margin:0 auto}
+.relic .card{border:1px solid rgba(26,26,24,.13);border-radius:3px;padding:20px 16px;background:rgba(255,255,255,.55)}
+.relic .card .k{font-family:var(--f-brush);font-size:clamp(20px,2.8vw,28px);color:var(--cinnabar);display:block;margin-bottom:8px}
+.relic .card .t{font-size:13px;letter-spacing:4px;color:var(--ink2);margin-bottom:8px}
+.relic .card .d{font-size:15.5px;letter-spacing:2px;line-height:1.85;color:var(--ink)}
+.era-nav{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:var(--f-brush);font-size:clamp(15px,2vw,18px);letter-spacing:3px}
+.era-nav a{color:var(--ink)}
+.era-nav a:hover{color:var(--cinnabar)}
+.era-nav .sep{color:rgba(26,26,24,.25)}
+.fineprint{max-width:660px;margin:26px auto 0;font-size:12.5px;letter-spacing:2px;
+  line-height:1.9;color:rgba(26,26,24,.45);text-align:center}
+@media(max-width:640px){.relic{grid-template-columns:1fr}}
+</style>
+
+<header class="hero">
+  <p class="zi-top">上下五千年 · 第七卷</p>
+  <h1>三国</h1>
+  <p class="subtitle">鼎足三分 · 英雄逐鹿</p>
+  <div><span class="seal">220 — 280</span></div>
+</header>
+
+<section class="verse reveal">
+  <div class="vpoem"><p>滚滚长江东逝水，浪花淘尽英雄</p></div>
+  <span class="ghost">争</span>
+  <p class="vsrc">—— 杨慎《临江仙》（明）</p>
+</section>
+
+<section>
+  <div class="prose">
+    <p>六十年的分裂，被一部小说写成了中国人最熟悉的英雄时代。真实的三国远比演义冷峻：人口自东汉高峰锐减，官渡、赤壁、夷陵三场大战，定下了南北分立的格局。</p>
+    <h2>建安风骨</h2>
+    <p>曹操「对酒当歌，人生几何」，曹植七步成诗，蔡琰写《悲愤诗》。这是政治上最乱、文学上最硬的时代——文章里没有神仙，只有白骨与抱负。</p>
+    <h2>诸葛亮与《出师表》</h2>
+    <p>治蜀十余年，事无巨细皆出于其手。他留下的《出师表》不是兵书，是一封写给年轻君主的信。「鞠躬尽瘁，死而后已」八个字，后来成了中国人对「尽职」的最高定义。</p>
+    <p>英雄会退场，青山不会。</p>
+  </div>
+</section>
+
+<section>
+  <div class="relic reveal">
+      <div class="card"><span class="k">字</span><p class="t">章草与楷书萌芽</p><p class="d">乱世里，书写仍在提速。</p></div>
+      <div class="card"><span class="k">物</span><p class="t">《出师表》</p><p class="d">一封奏疏，成了千古文本。</p></div>
+      <div class="card"><span class="k">事</span><p class="t">赤壁之战</p><p class="d">南北分立的定型之战。</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="finale">
+    <p class="final-line">青山依旧在，几度夕阳红。</p>
+  </div>
+</section>
+
+<section>
+  <div class="era-nav">
+    <a href="/5000years/han/">← 汉</a><span class="sep">☷</span><a href="/5000years/">总览</a><span class="sep">☷</span><a href="/5000years/jin/">两晋南北朝 →</a>
+  </div>
+  <p class="fineprint">年代与字形取通行说法；先秦部分学者间存在不同意见，凡有争议处已在文中标明。若发现错漏，欢迎写信至 hello@theseventhrealm.com 指正，核实后即改。</p>
+  <p style="text-align:center;margin-top:22px"><a class="back-home" href="/5000years/">← 回到上下五千年</a></p>
+</section>

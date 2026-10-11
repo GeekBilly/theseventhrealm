@@ -1,0 +1,144 @@
+# 域名 whois 存证 · tantse.com
+#
+# 采集时间：2026-10-02 10:42 CST
+# 采集命令：whois tantse.com
+# 证据强度：★★★（第三方注册局记录，不可单方篡改）
+# 用途：《商标法》第 32 条 —— 证明「探赜 / TANTSE」标识的最早使用时间锚点
+#
+# ── 关键事实 ──────────────────────────────────────────────
+#  创建日期 Creation Date       2026-10-01T16:21:20Z
+#                               ＝ 北京时间 2026-10-02 00:21
+#  到期日   Registry Expiry     2027-10-01T16:21:20Z
+#                               ＝ 北京时间 2027-10-02 00:21
+#  注册商   Registrar           Cloudflare, Inc.（IANA ID 1910）
+#  域名状态 Domain Status        clientTransferProhibited（转移锁已开）+ addperiod
+#  命名服务器                    alan.ns.cloudflare.com / braelyn.ns.cloudflare.com
+#
+# ── 隐私遮蔽核查（2026-10-02 逐项确认）────────────────────
+#  ✅ Registrant Name        = DATA REDACTED
+#  ✅ Registrant Street      = DATA REDACTED
+#  ✅ Registrant City        = DATA REDACTED
+#  ✅ Registrant Postal Code = DATA REDACTED
+#  ✅ Registrant Email       = （空）
+#  ✅ Registrant Phone       = +1.4153197517 ← Cloudflare 的遮蔽代理号，非注册人真实号码
+#  ⚠️ Registrant State/Province = 辽宁 · Country = CN
+#     —— ICANN 强制要求至少披露国别与省州（用于管辖判定），无法遮蔽。
+#     与 theseventhrealm.com 的注册地一致 → 两个域名在地理上可被关联（粗粒度，风险低）。
+#
+# ── PII 扫描（落盘前执行，全部为 0 命中）─────────────────
+#  姓名 / 手机号 / 详细地址 / 个人邮箱前缀 / Apple relay 地址 … 共 9 类标识 → **全部 0 命中**
+#  ⇒ 本文件不含个人信息，**无需打码即可归档**（与后台截图不同）
+#
+# ──────────────── 以下为原始 whois 输出（未删改）────────────────
+
+% IANA WHOIS server
+% for more information on IANA, visit http://www.iana.org
+% This query returned 1 object
+
+refer:        whois.verisign-grs.com
+
+domain:       COM
+
+organisation: VeriSign Global Registry Services
+address:      12061 Bluemont Way
+address:      Reston VA 20190
+address:      United States of America (the)
+
+contact:      administrative
+name:         Registry Customer Service
+organisation: VeriSign Global Registry Services
+address:      12061 Bluemont Way
+address:      Reston VA 20190
+address:      United States of America (the)
+phone:        +1 703 925-6999
+fax-no:       +1 703 948 3978
+e-mail:       info@verisign-grs.com
+
+contact:      technical
+name:         Registry Customer Service
+organisation: VeriSign Global Registry Services
+address:      12061 Bluemont Way
+address:      Reston VA 20190
+address:      United States of America (the)
+phone:        +1 703 925-6999
+fax-no:       +1 703 948 3978
+e-mail:       info@verisign-grs.com
+
+nserver:      A.GTLD-SERVERS.NET 192.5.6.30 2001:503:a83e:0:0:0:2:30
+nserver:      B.GTLD-SERVERS.NET 192.33.14.30 2001:503:231d:0:0:0:2:30
+nserver:      C.GTLD-SERVERS.NET 192.26.92.30 2001:503:83eb:0:0:0:0:30
+nserver:      D.GTLD-SERVERS.NET 192.31.80.30 2001:500:856e:0:0:0:0:30
+nserver:      E.GTLD-SERVERS.NET 192.12.94.30 2001:502:1ca1:0:0:0:0:30
+nserver:      F.GTLD-SERVERS.NET 192.35.51.30 2001:503:d414:0:0:0:0:30
+nserver:      G.GTLD-SERVERS.NET 192.42.93.30 2001:503:eea3:0:0:0:0:30
+nserver:      H.GTLD-SERVERS.NET 192.54.112.30 2001:502:8cc:0:0:0:0:30
+nserver:      I.GTLD-SERVERS.NET 192.43.172.30 2001:503:39c1:0:0:0:0:30
+nserver:      J.GTLD-SERVERS.NET 192.48.79.30 2001:502:7094:0:0:0:0:30
+nserver:      K.GTLD-SERVERS.NET 192.52.178.30 2001:503:d2d:0:0:0:0:30
+nserver:      L.GTLD-SERVERS.NET 192.41.162.30 2001:500:d937:0:0:0:0:30
+nserver:      M.GTLD-SERVERS.NET 192.55.83.30 2001:501:b1f9:0:0:0:0:30
+ds-rdata:     19718 13 2 8acbb0cd28f41250a80a491389424d341522d946b0da0c0291f2d3d771d7805a
+
+whois:        whois.verisign-grs.com
+
+status:       ACTIVE
+remarks:      Registration information: http://www.verisigninc.com
+
+created:      1985-01-01
+changed:      2026-03-10
+source:       IANA
+
+# whois.verisign-grs.com
+
+   Domain Name: TANTSE.COM
+   Registry Domain ID: 3148569910_DOMAIN_COM-VRSN
+   Registrar WHOIS Server: whois.cloudflare.com
+   Registrar URL: http://www.cloudflare.com
+   Updated Date: 2026-10-01T16:21:21Z
+   Creation Date: 2026-10-01T16:21:20Z
+   Registry Expiry Date: 2027-10-01T16:21:20Z
+   Registrar: Cloudflare, Inc.
+   Registrar IANA ID: 1910
+   Registrar Abuse Contact Email: registrar-abuse@cloudflare.com
+   Registrar Abuse Contact Phone: +1.6503198930
+   Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+   Name Server: ALAN.NS.CLOUDFLARE.COM
+   Name Server: BRAELYN.NS.CLOUDFLARE.COM
+   DNSSEC: unsigned
+   URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+>>> Last update of whois database: 2026-10-02T02:42:13Z <<<
+
+# whois.cloudflare.com
+
+Domain Name: TANTSE.COM
+Registry Domain ID: 3148569910_DOMAIN_COM-VRSN
+Registrar WHOIS Server: whois.cloudflare.com
+Registrar URL: https://www.cloudflare.com
+Updated Date: 2026-10-01T16:21:21Z
+Creation Date: 2026-10-01T16:21:20Z
+Registrar Registration Expiration Date: 2027-10-01T16:21:20Z
+Registrar: Cloudflare, Inc.
+Registrar IANA ID: 1910
+Domain Status: clienttransferprohibited https://icann.org/epp#clienttransferprohibited
+Domain Status: addperiod https://icann.org/epp#addperiod
+Registry Registrant ID:
+Registrant Name: DATA REDACTED
+Registrant Organization: 
+Registrant Street: DATA REDACTED
+Registrant City: DATA REDACTED
+Registrant State/Province: 辽宁
+Registrant Postal Code: DATA REDACTED
+Registrant Country: CN
+Registrant Phone: +1.4153197517
+Registrant Phone Ext: 
+Registrant Fax: 
+Registrant Fax Ext: 
+Registrant Email: 
+Name Server: alan.ns.cloudflare.com
+Name Server: braelyn.ns.cloudflare.com
+DNSSEC: unsigned
+Registrar Abuse Contact Email: registrar-abuse@cloudflare.com
+Registrar Abuse Contact Phone: +1.4153197517
+URL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/
+>>> Last update of WHOIS database: 2026-10-02T02:42:28Z <<<
+

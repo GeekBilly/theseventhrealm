@@ -1,0 +1,65 @@
+<style>
+section{padding:clamp(44px,6vw,60px) 24px}
+.hero{min-height:54vh}
+.verse{position:relative;padding:clamp(34px,5vw,54px) 24px}
+.vsrc{margin-top:22px;font-size:13px;letter-spacing:3px;color:rgba(26,26,24,.5)}
+.relic{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,3vw,30px);max-width:840px;margin:0 auto}
+.relic .card{border:1px solid rgba(26,26,24,.13);border-radius:3px;padding:20px 16px;background:rgba(255,255,255,.55)}
+.relic .card .k{font-family:var(--f-brush);font-size:clamp(20px,2.8vw,28px);color:var(--cinnabar);display:block;margin-bottom:8px}
+.relic .card .t{font-size:13px;letter-spacing:4px;color:var(--ink2);margin-bottom:8px}
+.relic .card .d{font-size:15.5px;letter-spacing:2px;line-height:1.85;color:var(--ink)}
+.era-nav{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:var(--f-brush);font-size:clamp(15px,2vw,18px);letter-spacing:3px}
+.era-nav a{color:var(--ink)}
+.era-nav a:hover{color:var(--cinnabar)}
+.era-nav .sep{color:rgba(26,26,24,.25)}
+.fineprint{max-width:660px;margin:26px auto 0;font-size:12.5px;letter-spacing:2px;
+  line-height:1.9;color:rgba(26,26,24,.45);text-align:center}
+@media(max-width:640px){.relic{grid-template-columns:1fr}}
+</style>
+
+<header class="hero">
+  <p class="zi-top">上下五千年 · 第五卷</p>
+  <h1>秦</h1>
+  <p class="subtitle">六合一统 · 书同文车同轨</p>
+  <div><span class="seal">前 221 — 前 207</span></div>
+</header>
+
+<section class="verse reveal">
+  <div class="vpoem"><p>六王毕，四海一</p></div>
+  <span class="ghost">一</span>
+  <p class="vsrc">—— 杜牧《阿房宫赋》</p>
+</section>
+
+<section>
+  <div class="prose">
+    <p>秦只存在十五年，却把「统一」两个字刻进了此后每一代人的骨血。郡县、驰道、度量衡、文字——这套标准此后沿用了两千年。</p>
+    <h2>书同文：第一次字体规范</h2>
+    <p>六国文字各异，同一个字常有几种写法。李斯以秦篆为基础整理出小篆，颁行天下。这是中国历史上第一次全国性的字体规范，也是汉字能跨方言存续至今的技术原因——字是统一的，读音可以各说各的。</p>
+    <h2>统一的代价</h2>
+    <p>统一是有代价的：严刑峻法、徭役无度、焚书坑儒，十五年而亡。贾谊《过秦论》断它「仁义不施而攻守之势异也」。我们不做翻案：秦的伟大与秦的暴虐，是同一件事的两面。</p>
+    <p>秦之后的每一个朝代，都在用秦定下的尺子量天下。</p>
+  </div>
+</section>
+
+<section>
+  <div class="relic reveal">
+      <div class="card"><span class="k">字</span><p class="t">小篆</p><p class="d">第一次全国性的字体规范。</p></div>
+      <div class="card"><span class="k">物</span><p class="t">权量与诏版</p><p class="d">刻着皇帝诏书的度量衡标准器，标准被铸进了日常器物。</p></div>
+      <div class="card"><span class="k">事</span><p class="t">郡县制</p><p class="d">天下不再分封，政令直达地方。</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="finale">
+    <p class="final-line">十五年而亡，两千年不散。</p>
+  </div>
+</section>
+
+<section>
+  <div class="era-nav">
+    <a href="/5000years/zhou/">← 周</a><span class="sep">☷</span><a href="/5000years/">总览</a><span class="sep">☷</span><a href="/5000years/han/">汉 →</a>
+  </div>
+  <p class="fineprint">年代与字形取通行说法；先秦部分学者间存在不同意见，凡有争议处已在文中标明。若发现错漏，欢迎写信至 hello@theseventhrealm.com 指正，核实后即改。</p>
+  <p style="text-align:center;margin-top:22px"><a class="back-home" href="/5000years/">← 回到上下五千年</a></p>
+</section>

@@ -1,0 +1,67 @@
+<style>
+section{padding:clamp(44px,6vw,60px) 24px}
+.hero{min-height:54vh}
+.verse{position:relative;padding:clamp(34px,5vw,54px) 24px}
+.vsrc{margin-top:22px;font-size:13px;letter-spacing:3px;color:rgba(26,26,24,.5)}
+.relic{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,3vw,30px);max-width:840px;margin:0 auto}
+.relic .card{border:1px solid rgba(26,26,24,.13);border-radius:3px;padding:20px 16px;background:rgba(255,255,255,.55)}
+.relic .card .k{font-family:var(--f-brush);font-size:clamp(20px,2.8vw,28px);color:var(--cinnabar);display:block;margin-bottom:8px}
+.relic .card .t{font-size:13px;letter-spacing:4px;color:var(--ink2);margin-bottom:8px}
+.relic .card .d{font-size:15.5px;letter-spacing:2px;line-height:1.85;color:var(--ink)}
+.era-nav{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:var(--f-brush);font-size:clamp(15px,2vw,18px);letter-spacing:3px}
+.era-nav a{color:var(--ink)}
+.era-nav a:hover{color:var(--cinnabar)}
+.era-nav .sep{color:rgba(26,26,24,.25)}
+.fineprint{max-width:660px;margin:26px auto 0;font-size:12.5px;letter-spacing:2px;
+  line-height:1.9;color:rgba(26,26,24,.45);text-align:center}
+@media(max-width:640px){.relic{grid-template-columns:1fr}}
+</style>
+
+<header class="hero">
+  <p class="zi-top">上下五千年 · 第十二卷</p>
+  <h1>宋</h1>
+  <p class="subtitle">市井繁华 · 格物穷理</p>
+  <div><span class="seal">960 — 1279</span></div>
+</header>
+
+<section class="verse reveal">
+  <div class="vpoem"><p>为往圣继绝学，为万世开太平</p><p>为天地立心，为生民立命</p></div>
+  <span class="ghost">理</span>
+  <p class="vsrc">—— 张载（横渠四句）</p>
+</section>
+
+<section>
+  <div class="prose">
+    <p>清明上河图里的烟火气、活字印刷的墨迹、指南针指着的远方——文人的时代，把「理」字讲到了极致，也把日子过成了技艺。</p>
+    <h2>市井：最像「近代」的一朝</h2>
+    <p>宋打破坊市界限，夜市通宵，世界上最早的纸币「交子」出现于四川。商业税一度超过农业税，这是中国古代商业最发达的一段。</p>
+    <h2>格物：技术的手与思辨的脑</h2>
+    <p>毕昇发明活字印刷，指南针用于航海，火药进入战争。沈括《梦溪笔谈》记录下这些技术；朱熹把「理」讲成一套解释世界的体系。动手的人与动脑的人，第一次同时活跃。</p>
+    <h2>崖山</h2>
+    <p>一二七九年，宋亡于崖山。陆秀夫负幼帝投海，十万军民相随。这一卷的结尾是硬的：一个把文明做到极致的时代，被武力终结。</p>
+    <p>格物的人，最后败给了铁骑。</p>
+  </div>
+</section>
+
+<section>
+  <div class="relic reveal">
+      <div class="card"><span class="k">字</span><p class="t">印刷体前身</p><p class="d">印刷把字形推向标准化。</p></div>
+      <div class="card"><span class="k">物</span><p class="t">交子</p><p class="d">世界上最早的纸币。</p></div>
+      <div class="card"><span class="k">事</span><p class="t">活字印刷</p><p class="d">毕昇，字的复制革命。</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="finale">
+    <p class="final-line">格物的人，最后败给了铁骑。</p>
+  </div>
+</section>
+
+<section>
+  <div class="era-nav">
+    <a href="/5000years/wudai/">← 五代十国</a><span class="sep">☷</span><a href="/5000years/">总览</a><span class="sep">☷</span><a href="/5000years/yuan/">元 →</a>
+  </div>
+  <p class="fineprint">年代与字形取通行说法；先秦部分学者间存在不同意见，凡有争议处已在文中标明。若发现错漏，欢迎写信至 hello@theseventhrealm.com 指正，核实后即改。</p>
+  <p style="text-align:center;margin-top:22px"><a class="back-home" href="/5000years/">← 回到上下五千年</a></p>
+</section>

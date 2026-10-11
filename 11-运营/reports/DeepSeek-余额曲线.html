@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DeepSeek 余额曲线</title><style>
+:root{--ink:#2b2b2b;--sub:#6b6b6b;--line:#e3ded6;--paper:#fbfaf7;--red:#b23a2e;--green:#2f7a4f;--blue:#3b6ea5}
+*{box-sizing:border-box}
+body{margin:0;padding:28px;background:var(--paper);color:var(--ink);
+ font:14px/1.6 -apple-system,"PingFang SC","Helvetica Neue",sans-serif}
+h1{margin:0 0 4px;font-size:20px;font-weight:600;letter-spacing:.5px}
+.meta{color:var(--sub);font-size:12px;margin-bottom:20px}
+.kpis{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 18px;min-width:132px}
+.kpi .k{font-size:12px;color:var(--sub)}
+.kpi .v{font-size:22px;font-weight:600;margin-top:4px}
+.kpi .v.warn{color:var(--red)}
+h2{font-size:15px;font-weight:600;margin:26px 0 10px;padding-left:9px;border-left:3px solid var(--red)}
+.chart{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+.grid{stroke:var(--line);stroke-width:1}
+.axis{stroke:#c9c2b6;stroke-width:1}
+.line{fill:none;stroke:var(--blue);stroke-width:2.2;stroke-linejoin:round}
+.dot{fill:var(--blue)}
+.bar-down{fill:var(--green)} .bar-up{fill:var(--red)} .bar-flat{fill:#c9c2b6}
+text{font-size:11px;fill:var(--sub)}
+.ytick{text-anchor:end} .xtick{text-anchor:middle}
+.vlabel{text-anchor:middle;fill:var(--ink);font-size:12px;font-weight:600}
+.vlabel.sm{font-size:10px;font-weight:500}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
+th{background:#f4f1ec;font-weight:600} tr:last-child td{border-bottom:none}
+.empty{color:var(--sub);padding:16px;background:#fff;border:1px solid var(--line);border-radius:8px}
+.foot{color:var(--sub);font-size:12px;margin-top:18px}
+</style></head>
+<body>
+<h1>DeepSeek 余额曲线</h1>
+<div class="meta">更新于 2026-10-10 21:00 · 共 34 条记录 · 数据源 11-运营/data/deepseek-balance.csv</div>
+
+<div class="kpis"><div class="kpi"><div class="k">当前余额</div><div class="v">¥25.25</div></div><div class="kpi"><div class="k">较上一天</div><div class="v">-¥3.42</div></div><div class="kpi"><div class="k">充值余额</div><div class="v">¥25.25</div></div><div class="kpi"><div class="k">赠送余额</div><div class="v">¥0</div></div><div class="kpi"><div class="k">记账天数</div><div class="v">12 天</div></div></div>
+
+<h2>余额走势</h2><svg viewBox="0 0 880 300" class="chart" role="img"><line x1="60" y1="254.0" x2="856" y2="254.0" class="grid"/><text x="52" y="258.0" class="ytick">14.6</text><line x1="60" y1="197.5" x2="856" y2="197.5" class="grid"/><text x="52" y="201.5" class="ytick">37.7</text><line x1="60" y1="141.0" x2="856" y2="141.0" class="grid"/><text x="52" y="145.0" class="ytick">60.7</text><line x1="60" y1="84.5" x2="856" y2="84.5" class="grid"/><text x="52" y="88.5" class="ytick">83.7</text><line x1="60" y1="28.0" x2="856" y2="28.0" class="grid"/><text x="52" y="32.0" class="ytick">106.8</text><line x1="60" y1="28" x2="60" y2="254" class="axis"/><line x1="60" y1="254" x2="856" y2="254" class="axis"/><polyline points="60.0,54.1 132.4,88.8 204.7,90.6 277.1,158.2 349.5,186.1 421.8,199.7 494.2,205.1 566.5,216.5 638.9,216.5 711.3,218.5 783.6,219.5 856.0,227.9" class="line"/><circle cx="60.0" cy="54.1" r="4.5" class="dot"/><circle cx="132.4" cy="88.8" r="4.5" class="dot"/><circle cx="204.7" cy="90.6" r="4.5" class="dot"/><circle cx="277.1" cy="158.2" r="4.5" class="dot"/><circle cx="349.5" cy="186.1" r="4.5" class="dot"/><circle cx="421.8" cy="199.7" r="4.5" class="dot"/><circle cx="494.2" cy="205.1" r="4.5" class="dot"/><circle cx="566.5" cy="216.5" r="4.5" class="dot"/><circle cx="638.9" cy="216.5" r="4.5" class="dot"/><circle cx="711.3" cy="218.5" r="4.5" class="dot"/><circle cx="783.6" cy="219.5" r="4.5" class="dot"/><circle cx="856.0" cy="227.9" r="4.5" class="dot"/><text x="60.0" y="42.1" class="vlabel">¥96.12</text><text x="856.0" y="215.9" class="vlabel">¥25.25</text><text x="60.0" y="274" class="xtick">09-29</text><text x="204.7" y="274" class="xtick">10-01</text><text x="349.5" y="274" class="xtick">10-03</text><text x="494.2" y="274" class="xtick">10-05</text><text x="638.9" y="274" class="xtick">10-07</text><text x="783.6" y="274" class="xtick">10-09</text><text x="856.0" y="274" class="xtick">10-10</text></svg>
+<h2>每日变化</h2><svg viewBox="0 0 880 300" class="chart" role="img"><line x1="60" y1="141.0" x2="856" y2="141.0" class="axis"/><rect x="78.1" y="141.0" width="36.2" height="52.9" class="bar-down"/><text x="96.2" y="207.9" class="vlabel sm">-14.16</text><text x="96.2" y="274" class="xtick">09-30</text><rect x="150.5" y="141.0" width="36.2" height="2.7" class="bar-down"/><text x="168.5" y="157.7" class="vlabel sm">-0.71</text><text x="168.5" y="274" class="xtick">10-01</text><rect x="222.8" y="141.0" width="36.2" height="103.0" class="bar-down"/><text x="240.9" y="258.0" class="vlabel sm">-27.57</text><text x="240.9" y="274" class="xtick">10-02</text><rect x="295.2" y="141.0" width="36.2" height="42.6" class="bar-down"/><text x="313.3" y="197.6" class="vlabel sm">-11.39</text><text x="313.3" y="274" class="xtick">10-03</text><rect x="367.5" y="141.0" width="36.2" height="20.7" class="bar-down"/><text x="385.6" y="175.7" class="vlabel sm">-5.54</text><text x="385.6" y="274" class="xtick">10-04</text><rect x="439.9" y="141.0" width="36.2" height="8.1" class="bar-down"/><text x="458.0" y="163.1" class="vlabel sm">-2.18</text><text x="458.0" y="274" class="xtick">10-05</text><rect x="512.3" y="141.0" width="36.2" height="17.4" class="bar-down"/><text x="530.4" y="172.4" class="vlabel sm">-4.67</text><text x="530.4" y="274" class="xtick">10-06</text><rect x="584.6" y="139.0" width="36.2" height="2" class="bar-flat"/><text x="602.7" y="274" class="xtick">10-07</text><rect x="657.0" y="141.0" width="36.2" height="3.0" class="bar-down"/><text x="675.1" y="158.0" class="vlabel sm">-0.8</text><text x="675.1" y="274" class="xtick">10-08</text><rect x="729.4" y="141.0" width="36.2" height="1.6" class="bar-down"/><text x="747.5" y="156.6" class="vlabel sm">-0.43</text><text x="747.5" y="274" class="xtick">10-09</text><rect x="801.7" y="141.0" width="36.2" height="12.8" class="bar-down"/><text x="819.8" y="167.8" class="vlabel sm">-3.42</text><text x="819.8" y="274" class="xtick">10-10</text></svg>
+<h2>最近记录</h2>
+<table><thead><tr><th>时间</th><th>余额</th><th>赠送</th><th>可用</th></tr></thead><tbody><tr><td>2026-10-10 21:00</td><td>¥25.25</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-09 21:00</td><td>¥28.67</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-08 21:00</td><td>¥29.1</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-07 21:00</td><td>¥29.9</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-06 21:00</td><td>¥29.9</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-05 21:00</td><td>¥34.57</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-04 21:00</td><td>¥36.75</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-04 12:28</td><td>¥41.57</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-04 12:27</td><td>¥41.57</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-03 21:00</td><td>¥42.29</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-03 15:07</td><td>¥42.76</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-02 23:40</td><td>¥53.68</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-02 23:13</td><td>¥54.53</td><td>¥0</td><td>True</td></tr><tr><td>2026-10-02 21:02</td><td>¥56.01</td><td>¥0</td><td>True</td></tr></tbody></table>
+<div class="foot">每天 21:00 由系统定时任务自动记账并刷新本页，不消耗 AI 积分。</div>
+</body></html>

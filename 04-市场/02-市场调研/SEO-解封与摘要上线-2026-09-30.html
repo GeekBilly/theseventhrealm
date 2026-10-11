@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第七境 · SEO 解封与摘要上线验收 2026-09-30</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --ink2:#4a4a4a; --ink3:#8a8a8a;
+    --paper:#faf9f6; --paper2:#ffffff; --line:#e3e0d8;
+    --red:#b23b3b; --amber:#b8860b; --green:#4a7c59; --seal:#a8342f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 28px 80px}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:8px}
+  .kicker{font-size:12px;letter-spacing:.32em;color:var(--ink3);margin-bottom:14px}
+  h1{font-size:30px;margin:0 0 10px;font-weight:600;letter-spacing:.02em}
+  .sub{font-size:14px;color:var(--ink2)}
+
+  .verdict{margin:28px 0 40px;padding:24px 26px;background:var(--paper2);
+    border:1px solid var(--line);border-left:4px solid var(--green);border-radius:3px}
+  .verdict .lead{font-size:19px;font-weight:600;line-height:1.7;margin-bottom:14px}
+  .verdict p{margin:8px 0;font-size:14.5px;color:var(--ink2)}
+  .verdict strong{color:var(--ink)}
+
+  h2{font-size:19px;margin:44px 0 6px;padding-bottom:10px;
+    border-bottom:1px solid var(--line);font-weight:600}
+  h2 .n{color:var(--seal);font-size:13px;margin-right:10px;letter-spacing:.1em}
+  .note{font-size:13px;color:var(--ink3);margin:0 0 20px}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px;background:var(--paper2)}
+  th,td{border:1px solid var(--line);padding:10px 14px;text-align:left;vertical-align:top}
+  th{background:#f5f3ee;font-weight:600;font-size:13px}
+  td code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+  .ok{color:var(--green);font-weight:600;white-space:nowrap}
+  .no{color:var(--red);font-weight:600;white-space:nowrap}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+  .card{background:var(--paper2);border:1px solid var(--line);border-radius:3px;
+    padding:18px 20px}
+  .card h3{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--ink2)}
+  .card .big{font-size:26px;font-weight:600;letter-spacing:.02em;margin:2px 0 4px}
+  .card .cap{font-size:12.5px;color:var(--ink3)}
+
+  .bar{height:8px;background:#eeebe4;border-radius:4px;overflow:hidden;margin:10px 0 6px}
+  .bar i{display:block;height:100%;background:var(--green)}
+
+  .quote{background:var(--paper2);border:1px solid var(--line);border-left:3px solid var(--ink3);
+    padding:14px 18px;margin:12px 0;font-size:13.5px;color:var(--ink2);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.7;
+    word-break:break-all}
+  .quote .lab{font-family:inherit;display:block;color:var(--ink3);font-size:11.5px;
+    letter-spacing:.1em;margin-bottom:6px}
+
+  .tl{margin:18px 0;padding-left:22px;border-left:2px solid var(--line)}
+  .tl .item{position:relative;padding:0 0 22px 6px}
+  .tl .item::before{content:"";position:absolute;left:-29px;top:9px;width:9px;height:9px;
+    border-radius:50%;background:var(--paper);border:2px solid var(--ink3)}
+  .tl .item.now::before{background:var(--green);border-color:var(--green)}
+  .tl .when{font-size:12px;color:var(--seal);letter-spacing:.08em;font-weight:600}
+  .tl .what{font-size:15px;font-weight:600;margin:2px 0 4px}
+  .tl .desc{font-size:13.5px;color:var(--ink2)}
+
+  .next{margin:24px 0 0;padding:20px 24px;background:var(--paper2);
+    border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:3px}
+  .next h3{margin:0 0 8px;font-size:16px}
+  .next p{margin:6px 0;font-size:14px;color:var(--ink2)}
+
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">T H E &nbsp; S E V E N T H &nbsp; R E A L M</div>
+  <h1>SEO 解封与摘要上线 · 验收</h1>
+  <div class="sub">2026-09-30 11:40 · 两件事都已落地并通过端到端复核</div>
+</header>
+
+<div class="verdict">
+  <div class="lead">百度现在进得来了，而且进来看见的是我们想让它看见的话。</div>
+  <p><strong>解封</strong>：Cloudflare 两层封锁全部解除，8 个爬虫 UA 全 200，robots.txt 里再没有 <code>Disallow: /</code>。</p>
+  <p><strong>摘要</strong>：17 个页面写入摘要，meta / og: / twitter: 三处 description <strong>同步生效，零主题改动</strong>。</p>
+  <p>两件事成本都很低：解封你点了 3 分钟，摘要是我改字段。真正贵的还在后面——<strong>等它收录</strong>。</p>
+</div>
+
+<h2><span class="n">壹</span>第一层 · 边缘 WAF</h2>
+<p class="note">此前只有裸 <code>Baiduspider</code> 被 403（Cloudflare 把它错分进了「训练类」）。现在全通。</p>
+<table>
+  <tr><th style="width:34%">爬虫 UA</th><th style="width:16%">改前</th><th style="width:16%">改后</th><th>说明</th></tr>
+  <tr><td><code>Baiduspider</code></td><td class="no">403</td><td class="ok">200 ✅</td><td>唯一被拦的那个，已解</td></tr>
+  <tr><td><code>Baiduspider-image</code></td><td class="ok">200</td><td class="ok">200 ✅</td><td>本来就没问题</td></tr>
+  <tr><td><code>Baiduspider-mobile</code></td><td class="ok">200</td><td class="ok">200 ✅</td><td>同上</td></tr>
+  <tr><td><code>Baiduspider-render</code></td><td class="ok">200</td><td class="ok">200 ✅</td><td>同上</td></tr>
+  <tr><td><code>Googlebot</code> / <code>bingbot</code></td><td class="ok">200</td><td class="ok">200 ✅</td><td>海外线留着口子</td></tr>
+  <tr><td><code>Sogou</code> / <code>360Spider</code></td><td class="ok">200</td><td class="ok">200 ✅</td><td>同上</td></tr>
+</table>
+
+<h2><span class="n">贰</span>第二层 · robots.txt</h2>
+<table>
+  <tr><th style="width:34%">项</th><th style="width:16%">改前</th><th style="width:16%">改后</th><th>说明</th></tr>
+  <tr><td>托管段 <code>User-agent: Baiduspider</code></td><td class="no">Disallow: /</td><td class="ok">已消失 ✅</td><td>「Enable Bot Preference Sync」关掉后，Cloudflare 不再把配置前置进 robots.txt</td></tr>
+</table>
+<p class="note">复核：<code>python3 11-运营/scripts/check-crawler-access.py</code> —— 两层全绿。</p>
+
+<h2><span class="n">叁</span>17 页摘要 · 一次写入，三处生效</h2>
+<div class="grid3">
+  <div class="card">
+    <h3>写入 / 校验</h3>
+    <div class="big">17 / 17</div>
+    <div class="cap">复读校验 0 处不符</div>
+  </div>
+  <div class="card">
+    <h3>写入前摘要长度</h3>
+    <div class="big">0 字</div>
+    <div class="cap">证据不是脚本读数而是体检报告：改前 meta 是正文前 110 字截断＝「本卷目录 一、商从哪来 二、殷墟…」</div>
+  </div>
+  <div class="card">
+    <h3>现在摘要长度</h3>
+    <div class="big">71–90 字</div>
+    <div class="cap">前 30 字埋搜索词，尾段落到专业价值</div>
+  </div>
+</div>
+<div class="bar"><i style="width:100%"></i></div>
+<div class="cap" style="font-size:12.5px;color:var(--ink3)">总览 1 页 + 16 个朝代页，全部命中目标 slug（先核对映射再写入，未写错页）</div>
+
+<h2><span class="n">肆</span>端到端抽查 · 线上真实返回的 meta</h2>
+<p class="note">不看 API 返回值，直接抓 HTML —— API 说改了 ≠ 前端真的变了。</p>
+
+<div class="quote">
+  <span class="lab">/5000years/ · meta description</span>
+上下五千年完整时间线：从三皇五帝到觉醒年代，十六卷长文一站式索引。每卷配一手典籍引注与年表，总计 9.5 万字原创，不戏说、不附会，可读可查。
+</div>
+<div class="quote">
+  <span class="lab">/5000years/shang/ · meta description</span>
+商朝历史（前 1600 — 前 1046）：为什么商又叫“殷”？甲骨文里记录的占卜如何运作？本卷从殷墟发掘讲起，还原一个由甲骨刻辞与青铜礼器支撑的王朝，含问神者与写字者的分工。
+</div>
+<div class="quote">
+  <span class="lab">/5000years/qin/ · meta description</span>
+秦朝统一六国靠的不是一场战争：百年积累加一次水渠事故。本卷讲清楚十年灭六国的节奏，以及书同文、车同轨这套标准为何比打仗更深远——前 221 — 前 207，十五年而亡，影响两千年。
+</div>
+<p class="note">og:description 与 twitter:description 逐字相同 —— 一处改动、三处生效，主题一行没动。</p>
+
+<h2><span class="n">伍</span>接下来只能等，但等的姿势要对</h2>
+<div class="tl">
+  <div class="item now">
+    <div class="when">今天</div>
+    <div class="what">解封 + 摘要上线</div>
+    <div class="desc">已完成。百度爬虫缓存 robots.txt 约 24 小时到数天，不会立刻见效。</div>
+  </div>
+  <div class="item">
+    <div class="when">1–7 天</div>
+    <div class="what">看百度有没有来抓</div>
+    <div class="desc">跑一次爬虫可达性脚本 + 查 <code>site:</code> 收录。来没来是信号，收不收是另一回事。</div>
+  </div>
+  <div class="item">
+    <div class="when">2–4 周</div>
+    <div class="what">第一次验证搜索词</div>
+    <div class="desc">看百度实际把哪些词导进来。<strong>过早看没有数据，别提前改文案。</strong></div>
+  </div>
+  <div class="item">
+    <div class="when">2–6 个月</div>
+    <div class="what">收录进入常态</div>
+    <div class="desc">新站正常速度。正因为它慢，现在开始最划算；也因为慢，它是唯一一种「你睡觉时它还在长」的渠道。</div>
+  </div>
+</div>
+
+<div class="next">
+  <h3>还能加速的只剩一件事</h3>
+  <p>解封解决「进得来」，不解决「它会来」。主动把 sitemap 递过去，是解封之后唯一还能缩短等待的动作。</p>
+  <p>申请单已出：<code>11-运营/REQ-2026-09-30-03-百度站长平台接入-执行申请单.md</code> —— <strong>待你批准</strong>，约 8 分钟，一次性。</p>
+  <p>顺带发现 <code>wp-sitemap-users-1.xml</code> 会公开作者用户名，已并入 C 档主题包一起处理，不单独立单。</p>
+</div>
+
+<footer>
+  验收脚本：<code>11-运营/scripts/check-crawler-access.py</code> · <code>11-运营/scripts/set-seo-excerpts.py</code><br>
+  备份：<code>11-运营/backup/seo-excerpts-before-2026-09-30-113655.json</code><br>
+  方案全文：<code>04-市场/02-市场调研/SEO诊断与引流方案-2026-09-30.md</code>
+</footer>
+
+</div>
+</body>
+</html>

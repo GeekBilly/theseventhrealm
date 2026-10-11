@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><style>
+@font-face{font-family:'MSZ';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+@font-face{font-family:'NSSC';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/NotoSerifSC-Black.ttf')}
+@import url('https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap');
+:root{--white:#fdfcf9;--ink:#1a1a18;--ink2:#6b675f;--cinnabar:#b03826;
+ --f-brush:'MSZ','Ma Shan Zheng','Xingkai SC','STXingkai',serif;
+ --f-body:'NSSC','Noto Serif SC',Georgia,serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--white)}
+.stage{position:relative;width:1920px;height:1080px;background:
+ radial-gradient(ellipse 1400px 700px at 50% 40%, rgba(26,26,24,.022), transparent 70%),var(--white)}
+/* 淡墨水印：一个「氏」字押角 */
+.ghost{position:absolute;left:14%;top:74%;transform:translate(-50%,-50%);
+ font-family:var(--f-brush);font-size:300px;line-height:1;
+ color:rgba(26,26,24,.055);user-select:none}
+.hero-char{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);
+ font-family:var(--f-brush);font-size:430px;line-height:1;color:var(--ink);white-space:nowrap}
+.quote{position:absolute;right:168px;top:46%;transform:translateY(-50%);
+ writing-mode:vertical-rl;font-family:var(--f-brush);font-size:54px;
+ letter-spacing:22px;line-height:2.0;color:var(--ink)}
+.src{position:absolute;right:108px;top:46%;transform:translateY(-50%);
+ writing-mode:vertical-rl;font-family:var(--f-body);font-size:22px;
+ letter-spacing:6px;color:var(--ink2)}
+.seal{position:absolute;right:88px;top:70%;width:104px;height:104px}
+.sub{position:absolute;left:50%;top:67%;transform:translateX(-50%);
+ font-family:var(--f-body);font-size:24px;letter-spacing:14px;color:var(--ink2);z-index:3}
+/* 2026-10-02 用户定案：参考朝代字形线的版面 ——
+   左上角放中文系列标记（对应朝代的「上下五千年 · 商」），
+   英文拼音放在主字下边（像三联每格下方的标注）。 */
+.series{position:absolute;left:64px;top:52px;z-index:3;
+ font-family:var(--f-body);font-size:22px;letter-spacing:6px;color:var(--ink2)}
+.caption{position:absolute;left:50%;top:21%;transform:translateX(-50%);z-index:3;
+ font-family:var(--f-body);font-size:23px;letter-spacing:10px;color:var(--ink2)}
+.pinyin{position:absolute;left:50%;top:67%;transform:translateX(-50%);z-index:3;
+ font-family:Georgia,'Times New Roman',serif;font-size:26px;letter-spacing:12px;color:var(--ink2)}
+.era{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);z-index:3;
+ text-align:center;font-family:Georgia,'Times New Roman',serif}
+.era .en{font-size:24px;letter-spacing:12px;color:var(--ink);text-transform:uppercase}
+.era .years{margin-top:13px;font-size:19px;letter-spacing:5px;color:var(--ink2)}
+.mountains{position:absolute;left:0;bottom:0;width:100%;height:330px;z-index:2}
+.mist{position:absolute;left:0;bottom:0;width:100%;height:250px;z-index:1}
+.brand{position:absolute;left:64px;bottom:46px;z-index:3;font-family:var(--f-body);
+ font-size:17px;letter-spacing:6px;color:var(--ink2)}
+.brand b{font-family:var(--f-brush);font-weight:400;font-size:22px;letter-spacing:7px;color:var(--ink)}
+.brand .dot{display:inline-block;width:9px;height:9px;border-radius:50%;
+ background:var(--cinnabar);margin:0 12px 1px;vertical-align:middle}
+.brand sup{font-size:.62em;letter-spacing:1px}
+.cinnabar-dot{position:absolute;left:calc(50% + 168px);top:calc(43% - 172px);
+ width:17px;height:17px;border-radius:50%;background:var(--cinnabar);
+ box-shadow:20px 24px 0 -7px rgba(176,56,38,.32)}
+</style></head><body><div class="stage">
+  <div class="ghost">氏</div>
+  <div class="series">姓氏源流 · 钱</div>
+  <div class="caption">《百家姓》第 1 句</div>
+  <div class="hero-char">钱</div>
+  <div class="cinnabar-dot"></div>
+  <div class="pinyin">QIAN</div>
+  <div class="quote">赵钱孙李</div>
+  <div class="src">《百家姓》北宋</div>
+  <img class="seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal-hi.png">
+  <div class="era"><div class="en">WESTERN ZHOU</div><div class="years">c. 950 BC</div></div>
+  <svg class="mountains" viewBox="0 0 1200 340" preserveAspectRatio="none">
+    <path d="M0,340 L0,238 Q160,180 320,214 Q420,232 520,196 Q650,150 760,196
+             Q880,244 1010,208 Q1150,168 1200,206 L1200,340 Z" fill="rgba(26,26,24,.05)"/>
+    <path d="M0,340 L0,282 Q220,246 380,268 Q540,290 700,262 Q860,236 1040,266
+             Q1150,296 1200,264 L1200,340 Z" fill="rgba(26,26,24,.10)"/>
+  </svg>
+  <svg class="mist" viewBox="0 0 1200 260" preserveAspectRatio="none">
+    <path d="M0,260 L0,150 Q240,96 470,140 Q700,184 930,132 Q1160,80 1200,128 L1200,260 Z"
+          fill="rgba(26,26,24,.028)"/>
+  </svg>
+  <div class="brand"><b>第七境</b><sup class="tm">TM</sup><span class="dot"></span>www.theseventhrealm.com</div>
+</div></body></html>

@@ -1,0 +1,565 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>/* ============================================================
+   第七境 · 全站设计样式（由子主题统一加载，页面内容无需再带 CSS）
+   纯白 · 无框 · 居中 · 毛笔字 + 宋体 · 朱砂点睛
+   ============================================================ */
+:root{
+  --white:#ffffff;
+  --ink:#1a1a18;
+  --ink2:#6b675f;
+  --ink-light:rgba(26,26,24,.05);
+  --cinnabar:#b03826;
+  --f-brush:'Ma Shan Zheng','Xingkai SC','STXingkai','KaiTi','STKaiti',serif;
+  --f-body:'Noto Serif SC','Songti SC','STSong','KaiTi','STKaiti',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--white)!important;
+  color:var(--ink);
+  font-family:var(--f-body)!important;
+  overflow-x:hidden;
+  line-height:1.95;
+  text-align:center;
+}
+::selection{background:var(--ink);color:#fff}
+a{color:inherit;text-decoration:none}
+
+/* ===== WordPress 主题间距/限宽修正 ===== */
+/* 父主题（Twenty Twenty-Five）会给 <body> 加根内边距（约 50px），
+   导致品牌横幅内缩、导航用 100vw 硬撑而多出约 8px 横向溢出。
+   这两条一并解决：取消 body 根内边距 + 横幅与导航回归自然通栏。 */
+body{padding-left:0!important;padding-right:0!important}
+.brand,nav{margin-left:0!important;margin-right:0!important;width:auto!important;max-width:none!important}
+
+.wp-site-blocks{padding:0!important}
+.wp-site-blocks > *{margin-top:0!important;margin-bottom:0!important}
+main.wp-block-group{margin-top:0!important;padding-top:0!important}
+.entry-content,.wp-block-post-content{margin-top:0!important}
+.wp-block-post-content{max-width:none!important;width:100%}
+.entry-content.alignfull,.wp-block-post-content.alignfull{padding-left:0!important;padding-right:0!important}
+.brand{margin-top:0!important}
+nav{margin-top:0!important}
+
+/* ---------- 墨尘（极淡） ---------- */
+.dust{position:fixed;z-index:-1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, rgba(26,26,24,.16), transparent 70%);
+  animation:drift linear infinite;opacity:0}
+@keyframes drift{
+  0%{transform:translate(0,0);opacity:0}
+  15%{opacity:.35}
+  100%{transform:translate(30px,-108vh) scale(.4);opacity:0}
+}
+
+/* ---------- 通用 ---------- */
+/* 商标上标：未注册商标用 ™，注册核准后改为 ®（只需改 HTML 里的字符） */
+.tm{font-size:.5em;vertical-align:super;letter-spacing:0;opacity:.55;margin-left:1px}
+/* 空段落守卫：WP 编辑器常残留空白 <p>，它是 flex 容器的合法子项，
+   会白吃一个 gap（此处 100px）把整组内容推向一侧。
+   CSS :empty 只认「完全无子节点」，含换行文本节点的 <p>\n</p> 匹配不到，
+   因此由 functions.php 的 sr_clean_empty_p() 用 JS 兜底移除。 */
+.sanshi > p:empty,.vpoem > p:empty,.finale > p:empty{display:none!important}
+.wrap{max-width:840px;margin:0 auto;padding:0 24px}
+section{padding:clamp(56px,7vw,68px) 24px;position:relative}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1.2s ease,transform 1.2s ease}
+.reveal.in{opacity:1;transform:none}
+
+.brush{width:min(200px,48%);height:14px;margin:12px auto 28px;display:block}
+.brush path{fill:var(--ink)}
+.trigram{font-size:13px;letter-spacing:15px;padding-left:15px;
+  color:rgba(26,26,24,.3);display:block;margin-bottom:24px}
+h2{font-family:var(--f-brush);font-weight:400;font-size:clamp(27px,3.6vw,34px);letter-spacing:12px;color:var(--ink)}
+
+/* ---------- 品牌 Logo 区 ---------- */
+.brand{padding:0 0 14px;text-align:center}
+.brand a{
+  display:block;width:100%;max-width:none;margin:0 auto
+}
+.brand .logo-img{display:block;width:100%;height:auto}
+
+/* ---------- 顶部导航（粘性固定 · 嵌套二级菜单） ---------- */
+nav{
+  position:sticky;top:var(--wp-admin--admin-bar--height,0);z-index:50;
+  width:100%;max-width:none;
+  padding:13px 16px 11px;text-align:center;
+  background:rgba(255,255,255,.94);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(26,26,24,.16);
+  border-top:1px solid rgba(26,26,24,.16)
+}
+.nav-root{list-style:none;display:flex;justify-content:center;align-items:center;
+  flex-wrap:wrap;gap:clamp(4px,1.5vw,14px)}
+.nav-root > li{position:relative}
+.nav-root > li > a{
+  display:inline-block;font-family:var(--f-brush);
+  font-size:clamp(16px,2.2vw,19px);letter-spacing:5px;
+  padding:2px 3px 6px;border-bottom:2px solid transparent;
+  transition:color .3s,border-color .3s
+}
+.nav-root > li > a:hover{color:var(--cinnabar)}
+.nav-root > li > a.here{color:var(--cinnabar);border-bottom-color:var(--cinnabar)}
+.nav-root > li > a.todo{color:rgba(26,26,24,.38)}
+.nav-root > li > a.todo:hover{color:var(--ink2)}
+.nav-root > li > a.todo::after{content:"未启";font-size:10px;letter-spacing:1px;color:var(--cinnabar);
+  vertical-align:super;margin-left:2px;font-family:var(--f-body)}
+
+/* 时期名：桌面全称，手机简称（全称太长会把一级导航挤成三行） */
+.nav-root .nsh{display:none}
+
+/* 下拉指示箭头（纯 CSS 折角） */
+.nav-root .cv{display:inline-block;width:6px;height:6px;margin-left:8px;
+  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);transition:transform .3s}
+.nav-root > li:hover .cv,.nav-root > li:focus-within .cv{transform:translateY(1px) rotate(225deg)}
+
+/* 二级面板（桌面：hover / 键盘 focus-within 展开，不依赖 JS） */
+.nav-root .sub{
+  position:absolute;left:50%;top:100%;
+  transform:translateX(-50%) translateY(-6px);
+  min-width:212px;padding:14px 16px 16px;
+  background:#fff;border:1px solid rgba(26,26,24,.14);
+  box-shadow:0 18px 40px -22px rgba(26,26,24,.45);
+  opacity:0;visibility:hidden;z-index:60;text-align:left;
+  transition:opacity .26s ease,transform .26s ease,visibility .26s
+}
+/* 面板与导航之间的不可见「防抖桥」：鼠标移向面板时不会误关 */
+.nav-root .sub::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
+.nav-root > li:hover .sub,
+.nav-root > li:focus-within .sub{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+/* 二级菜单：与一级同为毛笔字（用户要求），字号略小、字距收窄保证可读 */
+.nav-root .sub a{
+  display:block;font-family:var(--f-brush)!important;
+  font-size:16px;letter-spacing:3px;line-height:1.45;
+  padding:7px 10px;color:var(--ink2);
+  transition:color .25s,background .25s
+}
+.nav-root .sub a:hover{color:var(--cinnabar);background:rgba(176,56,38,.055)}
+.nav-root .sub a.here{color:var(--cinnabar)}
+/* 面板首行「总览」 */
+.nav-root .sub-top{
+  font-family:var(--f-brush)!important;font-size:15px!important;letter-spacing:4px;
+  color:var(--ink)!important;margin-bottom:6px;padding-bottom:9px!important;
+  border-bottom:1px solid rgba(26,26,24,.1)
+}
+/* 上下五千年：四列 mega 面板 */
+.nav-root .sub-wide{min-width:min(640px,88vw);padding:16px 18px 18px}
+.nav-root .sub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px 10px}
+.nav-root .sub-g{
+  font-family:var(--f-body)!important;
+  font-size:11.5px;letter-spacing:1.5px;color:rgba(26,26,24,.42);
+  padding:10px 9px 4px;margin-top:2px;border-top:1px solid rgba(26,26,24,.08)
+}
+.nav-root .sub-col:first-child .sub-g{border-top:0;margin-top:0}
+/* 四大时期：单列面板（4 个朝代） */
+.nav-root .sub-list{min-width:186px;padding:13px 14px 15px;text-align:center}
+.nav-root .sub-list a{padding:8px 10px}
+/* 关于我们：两列面板 */
+.nav-root .sub-pair{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;min-width:340px}
+.nav-root .sub .soon{color:rgba(26,26,24,.4)}
+.nav-root .sub .soon::after{
+  content:"待建";font-size:9.5px;letter-spacing:1px;color:var(--cinnabar);
+  vertical-align:super;margin-left:5px;font-family:var(--f-body)
+}
+/* 手风琴开关：桌面隐藏，移动端启用（纯 CSS，无 JS） */
+.ns-toggle{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.ns-btn{display:none}
+/* 锚点跳转时避开吸附导航 */
+.era{scroll-margin-top:96px}
+
+/* 移动端（≤640px）：一级仍是一行；点右侧小箭头，二级面板满宽覆盖在导航下方。
+   要点：li 改 position:static，让 .sub 以吸附导航 nav 为参照系，从而 left/right:0 满宽。 */
+@media(max-width:640px){
+  nav{padding:9px 12px}
+  .nav-root{flex-wrap:wrap;gap:0 3px;justify-content:center}
+  .nav-root > li{position:static}
+  .nav-root > li > a{display:inline-block;padding:7px 5px;font-size:16px;letter-spacing:1px}
+  .nav-root .nf{display:none}
+  .nav-root .nsh{display:inline}
+  .nav-root .cv{display:none}
+  .ns-btn{display:inline-block;position:static;width:26px;height:34px;
+    vertical-align:middle;cursor:pointer}
+  .ns-btn::after{
+    content:"";display:block;width:7px;height:7px;margin:12px auto 0;
+    border-right:1.6px solid var(--ink2);border-bottom:1.6px solid var(--ink2);
+    transform:rotate(45deg);transition:transform .3s
+  }
+  .nav-root .sub{
+    position:absolute;left:0;right:0;top:100%;
+    transform:none;opacity:1;visibility:visible;display:none;
+    width:auto;padding:8px 14px 14px;
+    border:0;border-top:1px dashed rgba(26,26,24,.14);
+    box-shadow:0 16px 30px -20px rgba(26,26,24,.45);text-align:center
+  }
+  /* 只收敛宽度，不能把内层网格也隐藏掉 */
+  .nav-root .sub-wide,.nav-root .sub-pair,.nav-root .sub-list{min-width:0}
+  .nav-root .sub-wide{padding:8px 14px 14px}
+  .nav-root .sub-pair{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
+  .nav-root .sub::before{display:none}
+  .nav-root > li:hover .sub,
+  .nav-root > li:focus-within .sub{transform:none;opacity:1;visibility:visible}
+  .nav-root .sub-top{margin:4px 0 6px;padding-bottom:8px!important}
+  .nav-root .sub-grid{grid-template-columns:1fr 1fr;gap:0 8px;text-align:left}
+  .nav-root .sub-pair{grid-template-columns:1fr 1fr}
+  .nav-root .sub a{padding:8px 6px;font-size:15px;letter-spacing:2px}
+  .nav-root .ns-toggle:checked ~ .sub{display:block}
+  /* 时期组面板展开时排两列（特异性更高 + 位置更后，才不会被 display:none 压住） */
+  .nav-root .ns-toggle:checked ~ .sub-list{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
+  .nav-root .ns-toggle:checked ~ .ns-btn::after{transform:rotate(225deg);margin-top:15px}
+}
+
+/* ---------- 主视觉 ---------- */
+.hero{min-height:82vh;display:flex;flex-direction:column;justify-content:center;padding:40px 24px}
+.hero .zi-top{font-size:clamp(14px,2vw,17px);letter-spacing:9px;padding-left:9px;color:var(--ink2);margin-bottom:8px}
+.hero h1{
+  font-family:var(--f-brush);font-weight:400;
+  font-size:clamp(54px,9vw,92px);line-height:1.25;
+  letter-spacing:.08em;text-indent:.08em;color:var(--ink);
+}
+.hero .subtitle{margin-top:14px;font-size:clamp(16px,2.3vw,20px);letter-spacing:10px;color:var(--ink2)}
+.hero .subtitle span{margin:0 10px;opacity:0;animation:fadeUp 1.1s ease forwards}
+.hero .subtitle span:nth-child(1){animation-delay:.4s}
+.hero .subtitle span:nth-child(2){animation-delay:.9s}
+.hero .seal{
+  margin-top:30px;display:inline-block;
+  background:var(--cinnabar);color:#fff;
+  font-family:var(--f-brush);
+  padding:7px 14px;font-size:14px;letter-spacing:6px;border-radius:2px;
+  box-shadow:0 4px 14px rgba(176,56,38,.28);
+  animation:fadeUp 1.1s ease 1.5s forwards;opacity:0
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.scroll-hint{
+  display:block;margin-top:40px;
+  font-size:12px;letter-spacing:6px;color:rgba(26,26,24,.35);
+  animation:bob 2.2s ease-in-out infinite
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ---------- 诗篇 ---------- */
+.vpoem{display:flex;justify-content:center;align-items:flex-start;gap:clamp(20px,4vw,42px)}
+.vpoem p{
+  writing-mode:vertical-rl;
+  font-family:var(--f-brush);
+  font-size:clamp(19px,2.8vw,25px);letter-spacing:12px;
+  color:var(--ink);line-height:1
+}
+.vpoem p em{font-style:normal;color:var(--cinnabar)}
+.verse .ghost{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-brush);
+  font-size:clamp(150px,24vw,280px);color:var(--ink-light);
+  pointer-events:none;user-select:none;z-index:-1
+}
+.book-tag{
+  display:inline-block;margin-bottom:24px;
+  font-family:var(--f-brush);
+  font-size:clamp(22px,3vw,28px);letter-spacing:12px;padding-left:12px;color:var(--ink)
+}
+
+@media(max-width:640px){
+  .vpoem{flex-direction:column;align-items:center;gap:4px}
+  .vpoem p{writing-mode:horizontal-tb;letter-spacing:6px;line-height:2.1}
+}
+
+/* ---------- 三释 ---------- */
+/* 用「相邻兄弟 margin」代替 gap：容器里的空白 <p> 是 flex 合法子项，
+   用 gap 会被它白吃一份（100px）把整组推偏；margin 只加在 .col 与 .col 之间，
+   空白元素骗不到间距。跨浏览器一致、不依赖 :empty、无 JS 无跳动。 */
+.sanshi{display:flex;justify-content:center;align-items:flex-start;margin-top:20px}
+.sanshi > .col + .col{margin-left:clamp(36px,9vw,100px)}
+.sanshi .col{display:flex;flex-direction:column;align-items:center;gap:18px}
+.sanshi .zi{
+  width:72px;height:72px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-brush);font-size:42px;color:#fff;
+  background:var(--ink);border-radius:4px;
+  box-shadow:0 8px 22px rgba(26,26,24,.22)
+}
+.sanshi .col.red .zi{background:var(--cinnabar);box-shadow:0 8px 22px rgba(176,56,38,.26)}
+.sanshi .desc{font-size:clamp(17px,2.3vw,20px);letter-spacing:6px;color:var(--ink)}
+.sanshi .en{font-size:12px;letter-spacing:2px;color:var(--ink2)}
+@media(max-width:640px){
+  .sanshi{flex-direction:column;align-items:center}
+  .sanshi > .col + .col{margin-left:0;margin-top:40px}
+}
+
+/* ---------- 独句 ---------- */
+.lone{font-family:var(--f-brush);font-size:clamp(26px,3.8vw,36px);letter-spacing:10px;line-height:2}
+.lone em{font-style:normal;color:var(--cinnabar)}
+
+/* ---------- 宏文 ---------- */
+.prose{max-width:680px;margin:0 auto}
+.prose p{font-size:clamp(17px,2.4vw,20px);letter-spacing:3px;line-height:1.95;margin:14px 0;color:var(--ink)}
+.prose strong{color:var(--cinnabar);font-weight:600}
+
+/* ---------- 终章 ---------- */
+.finale{padding:16px 0 6px}
+.finale .list{font-size:clamp(17px,2.5vw,21px);letter-spacing:4px;line-height:2.25}
+.finale .money{margin-top:14px;color:var(--ink2);font-size:clamp(15px,2.2vw,18px);letter-spacing:4px}
+.final-line{
+  margin-top:22px;font-family:var(--f-brush);
+  font-size:clamp(28px,4.5vw,42px);letter-spacing:10px;color:var(--ink)
+}
+.final-line b{font-weight:400;color:var(--cinnabar)}
+
+/* ---------- 分支导航 ---------- */
+.branches{display:flex;justify-content:center;align-items:stretch;gap:clamp(18px,4vw,44px);flex-wrap:wrap}
+.branches a{
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  font-family:var(--f-brush);font-size:clamp(20px,2.8vw,25px);letter-spacing:6px;
+  color:var(--ink);transition:color .3s,transform .4s
+}
+.branches a .axis{
+  writing-mode:vertical-rl;
+  letter-spacing:10px;line-height:1.2;
+  padding:22px 10px;
+  background:linear-gradient(180deg, rgba(26,26,24,.045), rgba(26,26,24,.11));
+  border-radius:3px;min-height:170px;display:flex;align-items:center;
+  transition:transform .4s ease, box-shadow .4s ease
+}
+.branches a:hover{color:var(--cinnabar);transform:translateY(-6px)}
+.branches a:hover .axis{box-shadow:0 16px 34px -16px rgba(26,26,24,.4)}
+.branches a.todo{color:rgba(26,26,24,.4)}
+.branches a.todo:hover{transform:none;color:rgba(26,26,24,.4)}
+.branches a.todo .axis{background:rgba(26,26,24,.035)}
+.branches a .tag{
+  font-family:var(--f-body);font-size:12px;letter-spacing:3px;color:var(--ink2)
+}
+.branches a.todo .tag{color:rgba(26,26,24,.4)}
+@media(max-width:640px){
+  .branches{gap:14px}
+  .branches a .axis{min-height:120px;padding:16px 8px}
+}
+
+/* ---------- 时间长卷 ---------- */
+.timeline{position:relative;max-width:760px;margin:0 auto;padding:30px 0 10px}
+.timeline::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg, transparent, rgba(26,26,24,.28) 6%, rgba(26,26,24,.28) 94%, transparent)
+}
+.era{position:relative;padding:34px 0 46px}
+.era::before{
+  content:"";position:absolute;left:50%;top:64px;transform:translateX(-50%);
+  width:11px;height:11px;border-radius:50%;background:var(--ink);
+  box-shadow:0 0 0 5px rgba(26,26,24,.08)
+}
+.era.red::before{background:var(--cinnabar);box-shadow:0 0 0 5px rgba(176,56,38,.12)}
+/* 时间线每段末尾的「展卷」入口（由模板脚本注入） */
+.era .more{display:inline-block;margin-top:12px;font-family:var(--f-brush);
+  font-size:14px;letter-spacing:3px;color:var(--cinnabar);opacity:.82;transition:opacity .3s}
+.era .more:hover{opacity:1}
+.era .years{
+  font-size:clamp(12px,1.8vw,14px);letter-spacing:4px;color:var(--ink2);
+  margin-bottom:2px
+}
+.era h3{
+  font-family:var(--f-brush);font-weight:400;
+  font-size:clamp(30px,4.6vw,44px);letter-spacing:14px;padding-left:14px;
+  color:var(--ink);line-height:1.5
+}
+.era h3 em{font-style:normal;color:var(--cinnabar)}
+.era .word{
+  font-size:clamp(15px,2.2vw,18px);letter-spacing:5px;color:var(--ink2);margin-top:6px
+}
+.era .note{
+  max-width:560px;margin:10px auto 0;
+  font-size:clamp(14px,2vw,16px);letter-spacing:2px;color:var(--ink2);
+  text-align:justify;text-align-last:center
+}
+.era .ghost{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-family:var(--f-brush);font-size:clamp(110px,18vw,190px);
+  color:var(--ink-light);pointer-events:none;user-select:none;z-index:-1;white-space:nowrap
+}
+
+/* ---------- 卷尾回链 ---------- */
+.back-home{
+  display:inline-block;margin-top:36px;
+  font-family:var(--f-brush);
+  font-size:clamp(17px,2.4vw,20px);letter-spacing:6px;color:var(--ink);
+  padding-bottom:4px;border-bottom:2px solid rgba(26,26,24,.35);
+  transition:color .3s,border-color .3s
+}
+.back-home:hover{color:var(--cinnabar);border-bottom-color:var(--cinnabar)}
+
+/* ---------- 页脚 ---------- */
+footer{padding:70px 24px 60px;text-align:center;font-size:13px;letter-spacing:4px;color:var(--ink2)}
+footer .tg{letter-spacing:14px;display:block;margin-bottom:12px;color:rgba(26,26,24,.35)}
+footer .f-links{margin-top:24px;display:flex;justify-content:center;align-items:center;
+  flex-wrap:wrap;gap:12px 20px;
+  font-family:var(--f-brush);font-size:15px;letter-spacing:3px}
+@media(max-width:640px){
+  footer{padding:56px 20px 48px}
+  footer .f-links{font-size:14px;gap:10px 14px}
+}
+footer .f-links a{color:var(--ink2);transition:color .3s}
+footer .f-links a:hover{color:var(--cinnabar)}
+footer .f-links .sep{font-size:9px;color:rgba(26,26,24,.25)}
+footer .cp{margin-top:16px;font-size:11px;letter-spacing:2.5px;color:rgba(26,26,24,.38)}
+footer .legal{margin-top:8px;font-size:10.5px;letter-spacing:1.5px;color:rgba(26,26,24,.32);line-height:2}
+footer .legal a{color:rgba(26,26,24,.45);text-decoration:underline;text-underline-offset:3px}
+footer .legal a:hover{color:var(--cinnabar)}
+
+/* ---------- 页内返回链接（关于/联络/隐私页脚） ---------- */
+.back{display:inline-block;margin-top:34px;font-size:14px;letter-spacing:3px;
+  color:var(--ink2);border-bottom:1px solid rgba(26,26,24,.18);padding-bottom:3px}
+.back:hover{color:var(--cinnabar);border-color:var(--cinnabar)}
+
+/* ---------- 手机端汉堡菜单（≤640px 收起一级导航，纯 CSS checkbox，无 JS 依赖） ----------
+   开关必须写在 .nav-root 之前，兄弟选择器 ~ 才能生效；与二级菜单的 radio 方案同构。 */
+.nav-burger-toggle{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.nav-burger{display:none}
+@media(max-width:640px){
+  nav{padding:9px 12px 8px}
+  .nav-burger{display:block;position:relative;width:38px;height:28px;margin:0 auto;cursor:pointer}
+  .nav-burger i{position:absolute;left:6px;right:6px;height:1.6px;background:var(--ink);
+    transition:top .3s ease,transform .3s ease,opacity .2s ease}
+  .nav-burger i:nth-child(1){top:9px}
+  .nav-burger i:nth-child(2){top:14px}
+  .nav-burger i:nth-child(3){top:19px}
+  .nav-burger-toggle:focus-visible ~ .nav-burger{outline:2px solid var(--cinnabar);outline-offset:3px}
+  .nav-burger-toggle:checked ~ .nav-burger i:nth-child(1){top:14px;transform:rotate(45deg)}
+  .nav-burger-toggle:checked ~ .nav-burger i:nth-child(2){opacity:0}
+  .nav-burger-toggle:checked ~ .nav-burger i:nth-child(3){top:14px;transform:rotate(-45deg)}
+  .nav-root{display:none}
+  /* 展开面板：结构化两列 —— 道境/上下五千年/藏品/关于我们通栏，四个大时期收成 2×2，
+     面板总高约 300px 一屏放下；时期名与 ∨ 按钮保持 inline 同行（勿改 a 为 display:block，
+     否则 ns-btn 会被挤到下一行、每项高度翻倍 —— 2026-10-01 实测教训） */
+  .nav-burger-toggle:checked ~ .nav-root{
+    display:grid;grid-template-columns:1fr 1fr;gap:0 6px;
+    width:100%;margin-top:6px;padding:8px 10px 14px;
+    border-top:1px solid rgba(26,26,24,.12)}
+  .nav-burger-toggle:checked ~ .nav-root > li{width:auto;text-align:center;padding:0}
+  .nav-burger-toggle:checked ~ .nav-root > li:nth-child(-n+2),
+  .nav-burger-toggle:checked ~ .nav-root > li:nth-child(n+7){grid-column:1/-1}
+  .nav-burger-toggle:checked ~ .nav-root > li > a{
+    display:inline-block;padding:10px 4px;font-size:16px;letter-spacing:1px}
+}
+/* ===== 未启分支：一律隐藏（保险丝）=====
+   2026-10-02：导航与「七境之门」里那些未上线的分支（周边/小说/动漫/电影/游戏）
+   已从模板中**删除**，原因不是"看不见"，而是**它们是真的 404**：
+   区块模板会剥掉 HTML 注释，所以"注释掉"等于没注释，链接照旧渲染、照旧被爬。
+   隐藏只能让用户看不见，**抓取预算照样浪费** —— 所以选择删除。
+   这条 CSS 是**保险丝**：万一以后又有人加回 .todo 元素，也不会漏到用户面前。
+   要正式上线某个分支：模板里把该项加回、并**去掉它的 todo 类**即可。 */
+.sr-hide-todo, .nav-root > li > a.todo, .branches a.todo { display: none !important }
+</style>
+<style>body{margin:0;font-family:'Noto Serif SC',serif;text-align:center}
+#box1,#box2{width:390px;margin:0 auto;overflow:visible}</style>
+</head><body>
+<style>.sr-collection{max-width:1000px;margin:0 auto;padding:8px 0 40px;color:#1f1d1a;
+ font-family:Georgia,"Times New Roman","Songti SC","Noto Serif SC",serif;line-height:1.85}
+.sr-collection h1{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:34px;
+ letter-spacing:4px;margin:0 0 8px;font-weight:400}
+.sr-collection .sub{color:#5a554c;margin:0 0 6px;font-size:15px}
+.sr-collection .rule{height:1px;background:#e3ddd0;margin:24px 0 30px}
+.sr-collection .lead{background:#fff;border:1px solid #e3ddd0;border-left:3px solid #9e2b25;
+ border-radius:6px;padding:16px 20px;margin:0 0 36px;font-size:15.5px}
+.sr-collection .lead b{color:#9e2b25}
+.sr-collection h2{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:23px;font-weight:400;
+ letter-spacing:2px;margin:40px 0 6px}
+.sr-collection h2+.price{color:#9e2b25;font-size:14px;margin:0 0 14px;letter-spacing:1px}
+.sr-collection p{margin:0 0 14px;font-size:15.5px}
+.sr-collection .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:14px;margin:18px 0 6px;list-style:none;padding:0;justify-content:center}
+.sr-collection .shots li{margin:0}
+.sr-collection .shots.one{grid-template-columns:minmax(0,320px);justify-content:center}
+.sr-collection .shots img{width:100%;display:block;border:1px solid #e3ddd0;border-radius:4px}
+.sr-collection .shots span{display:block;font-size:13.5px;color:#6b6559;margin-top:8px;text-align:center}
+.sr-collection .cta{display:inline-block;background:#9e2b25;color:#fff;text-decoration:none;
+ padding:13px 30px;border-radius:3px;font-size:16px;letter-spacing:2px;margin:6px 0 10px}
+.sr-collection .cta:hover{background:#86241f}
+.sr-collection .cta.cta-minor{background:#fff;color:#9e2b25;border:1px solid #9e2b25;padding:11px 24px;font-size:15px}
+.sr-collection .cta.cta-minor:hover{background:#f6f1e6}
+.sr-collection .note{font-size:14.5px;color:#6b6559;line-height:1.95}
+.sr-collection .fine{margin-top:40px;padding-top:20px;border-top:1px solid #e3ddd0;
+ font-size:13.5px;color:#6b6559;line-height:1.95}
+@media (max-width:640px){.sr-collection h1{font-size:27px}.sr-collection h2{font-size:20px}}
+.sr-collection .shots{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.sr-collection .shots li a{display:block;height:100%;background:#fff;border:1px solid #e3ddd0;
+ border-radius:6px;padding:14px 16px 12px;color:#45423c}
+.sr-collection .shots li a:hover{border-color:#b03826}
+.sr-collection .shots b{display:block;font-weight:400;font-size:19px;letter-spacing:2px;
+ color:#1f1d1a;margin:0 0 3px;font-family:"Ma Shan Zheng","Songti SC",serif}
+.sr-collection .shots span{display:block;font-size:12.5px;color:#6b6559;line-height:1.75;
+ text-align:left;margin:0}
+.sr-collection .shots em{display:block;font-style:normal;font-size:13.5px;color:#45423c;
+ margin-top:6px;line-height:1.75}
+.sr-collection .shots i{display:block;font-style:normal;font-size:12.5px;color:#b03826;
+ letter-spacing:1px;margin-top:8px;padding-top:8px;border-top:1px solid #f0ebdf}
+@media (max-width:900px){.sr-collection .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.sr-collection .shots{gap:10px}.sr-collection .shots b{font-size:17px}}</style>
+<div id="box1"><div class="sr-collection">
+<h1>商</h1>
+<p class="sub">约公元前 1600 — 前 1046 年</p>
+<div class="rule"></div>
+<div class="lead">
+  <b>「惟殷先人，有册有典」</b>
+  —— 《尚书 · 多士》
+</div>
+
+<h2>手机竖版 · 免费</h2>
+<p class="price">iPhone / Android 各 1 张 · 免费领取</p>
+<p>商的手机竖版壁纸，不带底纹。全十六朝共 32 张，留邮箱一次发给你。</p>
+<p><a class="cta" href="/collection/#signup">免费领取 32 张 →</a></p>
+
+<h2>桌面横版</h2>
+<p class="price">预告价：单朝 ¥12 ｜ 商周套装 ¥19 ｜ 首发有折扣</p>
+<p>1x 与 4K 两种规格。宣纸底、朱砂点睛，本朝底纹为玄鸟。</p>
+<p><a class="cta" href="/collection/#signup" style="background:transparent;border:1px solid #cfc7b8;color:#45423c">即将开售 · 通知我</a></p>
+
+<h2>字体演变</h2>
+<p class="price">单期 ¥12 ｜ 商周套装 ¥19</p>
+<p>商是甲骨文，周是金文。一期三联，含 4K。</p>
+<p><a class="cta" href="/collection/#signup" style="background:transparent;border:1px solid #cfc7b8;color:#45423c">即将开售 · 通知我</a></p>
+
+<h2>读这个朝代的长卷</h2>
+<p>商是汉字第一次被抓到现行的一朝。此前千年，字在陶片上、在绳结里、在口耳之间；到了商，字被刻在龟甲与兽骨上——殷墟出土的有……</p>
+<p><a class="cta" href="/5000years/shang/">读《商》全文 →</a></p>
+</div>
+</div>
+<div id="box2"><div class="sr-collection">
+<h1>朝代</h1>
+<p class="sub">十六朝 · 朝朝一句金句、一件文物</p>
+<div class="rule"></div>
+<div class="lead">
+  <b>十六朝，朝朝一句金句、一件文物。</b>
+  手机竖版免费，桌面横版按朝成套。
+</div>
+
+<ul class="shots">
+<li><a href="/collection/dynasty/sanhuang/"><b>三皇五帝</b><span>约公元前 2700 年及更早</span><em>观乎人文，以化成天下</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/xia/"><b>夏</b><span>约公元前 2070 — 前 1600 年</span><em>禹，吾无间然矣</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/shang/"><b>商</b><span>约公元前 1600 — 前 1046 年</span><em>惟殷先人，有册有典</em><i>即将开售</i></a></li>
+<li><a href="/collection/dynasty/zhou/"><b>周</b><span>公元前 1046 — 前 256 年</span><em>周虽旧邦，其命维新</em><i>即将开售</i></a></li>
+<li><a href="/collection/dynasty/qin/"><b>秦</b><span>公元前 221 — 前 207 年</span><em>六王毕，四海一</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/han/"><b>汉</b><span>公元前 202 — 220 年</span><em>明犯强汉者，虽远必诛</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/sanguo/"><b>三国</b><span>220 — 280 年</span><em>滚滚长江东逝水，浪花淘尽英雄</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/jin/"><b>两晋南北朝</b><span>266 — 589 年</span><em>仰观宇宙之大，俯察品类之盛</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/sui/"><b>隋</b><span>581 — 618 年</span><em>尽道隋亡为此河，至今千里赖通波</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/tang/"><b>唐</b><span>618 — 907 年</span><em>九天阊阖开宫殿，万国衣冠拜冕旒</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/wudai/"><b>五代十国</b><span>907 — 960 年</span><em>春花秋月何时了，往事知多少</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/song/"><b>宋</b><span>960 — 1279 年</span><em>为天地立心，为生民立命，为往圣继绝学，为万世开太平</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/yuan/"><b>元</b><span>1271 — 1368 年</span><em>地也，你不分好歹何为地，天也，你错勘贤愚枉做天</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/ming/"><b>明</b><span>1368 — 1644 年</span><em>你未看此花时，此花与汝心同归于寂</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/qing/"><b>清</b><span>1636 — 1912 年</span><em>我劝天公重抖擞，不拘一格降人才</em><i>正在准备</i></a></li>
+<li><a href="/collection/dynasty/juexing/"><b>觉醒年代</b><span>1912 — 1949 年</span><em>愿中国青年都摆脱冷气，只是向上走</em><i>正在准备</i></a></li>
+</ul>
+
+<p><a class="cta" href="/collection/" style="background:transparent;border:1px solid #cfc7b8;color:#45423c">← 回到商店首页</a></p>
+</div>
+</div>
+<div id="out"></div>
+<script>
+function scan(id){
+ var box=document.getElementById(id), bad=[], r0=box.getBoundingClientRect();
+ box.querySelectorAll('*').forEach(function(e){
+   var r=e.getBoundingClientRect();
+   if(r.width>r0.width+0.5 || r.right>r0.right+0.5 || r.left<r0.left-0.5){
+     bad.push(e.tagName+'.'+(e.className||'')+' w'+r.width.toFixed(0)+' l'+r.left.toFixed(0)+' r'+r.right.toFixed(0));
+   }
+ });
+ return id+' boxW='+r0.width.toFixed(0)+' scrollW='+box.scrollWidth+' 越界元素='+(bad.length?bad.join(' ; '):'0');
+}
+document.getElementById('out').textContent='RESULT|'+scan('box1')+' || '+scan('box2');
+</script></body></html>

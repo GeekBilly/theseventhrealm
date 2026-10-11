@@ -1,0 +1,67 @@
+<style>
+section{padding:clamp(44px,6vw,60px) 24px}
+.hero{min-height:54vh}
+.verse{position:relative;padding:clamp(34px,5vw,54px) 24px}
+.vsrc{margin-top:22px;font-size:13px;letter-spacing:3px;color:rgba(26,26,24,.5)}
+.relic{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,3vw,30px);max-width:840px;margin:0 auto}
+.relic .card{border:1px solid rgba(26,26,24,.13);border-radius:3px;padding:20px 16px;background:rgba(255,255,255,.55)}
+.relic .card .k{font-family:var(--f-brush);font-size:clamp(20px,2.8vw,28px);color:var(--cinnabar);display:block;margin-bottom:8px}
+.relic .card .t{font-size:13px;letter-spacing:4px;color:var(--ink2);margin-bottom:8px}
+.relic .card .d{font-size:15.5px;letter-spacing:2px;line-height:1.85;color:var(--ink)}
+.era-nav{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;
+  font-family:var(--f-brush);font-size:clamp(15px,2vw,18px);letter-spacing:3px}
+.era-nav a{color:var(--ink)}
+.era-nav a:hover{color:var(--cinnabar)}
+.era-nav .sep{color:rgba(26,26,24,.25)}
+.fineprint{max-width:660px;margin:26px auto 0;font-size:12.5px;letter-spacing:2px;
+  line-height:1.9;color:rgba(26,26,24,.45);text-align:center}
+@media(max-width:640px){.relic{grid-template-columns:1fr}}
+</style>
+
+<header class="hero">
+  <p class="zi-top">上下五千年 · 第十卷</p>
+  <h1>唐</h1>
+  <p class="subtitle">万国衣冠拜冕旒 · 诗酒盛长安</p>
+  <div><span class="seal">618 — 907</span></div>
+</header>
+
+<section class="verse reveal">
+  <div class="vpoem"><p>九天阊阖开宫殿，万国衣冠拜冕旒</p></div>
+  <span class="ghost">唐</span>
+  <p class="vsrc">—— 王维《和贾舍人早朝大明宫之作》</p>
+</section>
+
+<section>
+  <div class="prose">
+    <p>唐是长安的时代。那个不靠神迹庇佑、靠诗人撑腰的黄金时代——李白的月光、杜甫的秋风、玄奘的脚印，都留在这一卷里。</p>
+    <h2>长安：当时的世界级城市</h2>
+    <p>唐长安城面积约八十四平方公里，是当时世界上规模最大的城市之一，胡商、僧侣、留学生混居其间。日本遣唐使前后十余次来华，把律令、文字与建筑一并带了回去。</p>
+    <h2>玄奘：十七年，五万里</h2>
+    <p>贞观年间玄奘西行求法，往返十七年，行程五万里，带回佛经六百余部并主持译场。他不是被神接走的，是一步一步走过去的。</p>
+    <h2>诗与印刷</h2>
+    <p>《全唐诗》收录诗作近五万首。雕版印刷在唐代趋于成熟，文字第一次可以被批量复制。</p>
+    <p>盛唐的灯，是诗人点的。</p>
+  </div>
+</section>
+
+<section>
+  <div class="relic reveal">
+      <div class="card"><span class="k">字</span><p class="t">楷书法度</p><p class="d">欧、颜、柳，写字有了可学的标准。</p></div>
+      <div class="card"><span class="k">物</span><p class="t">雕版印刷</p><p class="d">文字第一次批量复制。</p></div>
+      <div class="card"><span class="k">事</span><p class="t">玄奘西行</p><p class="d">十七年，五万里，六百余部经。</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="finale">
+    <p class="final-line">盛唐的灯，是诗人点的。</p>
+  </div>
+</section>
+
+<section>
+  <div class="era-nav">
+    <a href="/5000years/sui/">← 隋</a><span class="sep">☷</span><a href="/5000years/">总览</a><span class="sep">☷</span><a href="/5000years/wudai/">五代十国 →</a>
+  </div>
+  <p class="fineprint">年代与字形取通行说法；先秦部分学者间存在不同意见，凡有争议处已在文中标明。若发现错漏，欢迎写信至 hello@theseventhrealm.com 指正，核实后即改。</p>
+  <p style="text-align:center;margin-top:22px"><a class="back-home" href="/5000years/">← 回到上下五千年</a></p>
+</section>

@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>第七境 · 每日晨检看板</title><style>@import url('https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap');
+:root{
+  --white:#ffffff; --wash:#f7f6f3; --wash2:#fbfaf8;
+  --ink:#1a1a18; --ink2:#6b675f; --ink3:#9a958c; --line:rgba(26,26,24,.10);
+  --cinnabar:#b03826; --cinnabar-soft:rgba(176,56,38,.10);
+  --ok:#4a7c59; --warn:#a86a1c; --na:#a5a19a;
+  --f-brush:'Ma Shan Zheng','Xingkai SC','STXingkai','KaiTi','STKaiti',serif;
+  --f-body:'Noto Serif SC','Songti SC','STSong','KaiTi',serif;
+}
+body{background:var(--wash);color:var(--ink);font-family:var(--f-body);margin:0;padding:0 20px 60px}@import url('https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap');
+.mb{
+  --white:#ffffff; --wash:#f7f6f3; --wash2:#fbfaf8;
+  --ink:#1a1a18; --ink2:#6b675f; --ink3:#9a958c; --line:rgba(26,26,24,.10);
+  --cinnabar:#b03826; --cinnabar-soft:rgba(176,56,38,.10);
+  --ok:#4a7c59; --warn:#a86a1c; --na:#a5a19a;
+  --f-brush:'Ma Shan Zheng','Xingkai SC','STXingkai','KaiTi','STKaiti',serif;
+  --f-body:'Noto Serif SC','Songti SC','STSong','KaiTi',serif;
+}
+
+.mb,.mb *{box-sizing:border-box}
+.mb{color:var(--ink);font-family:var(--f-body);line-height:1.9;
+ padding:0 0 24px;max-width:960px;margin:0 auto}
+.mb img{max-width:100%;height:auto}
+.mb header{padding:8px 0 24px;border-bottom:1px solid var(--line);margin-bottom:28px;
+ position:relative;overflow:hidden}
+.mb header .ghost{position:absolute;right:-10px;top:8px;font-family:var(--f-brush);
+ font-size:clamp(90px,18vw,150px);color:rgba(26,26,24,.045);pointer-events:none;line-height:1}
+.mb h1{font-family:var(--f-brush);font-size:32px;font-weight:400;letter-spacing:.14em}
+.mb .sub{color:var(--ink2);font-size:14px;letter-spacing:.08em;margin-top:8px}
+.mb .stamp{display:inline-block;border:1px solid var(--cinnabar);color:var(--cinnabar);
+ padding:2px 10px;font-size:12px;letter-spacing:.14em;margin-top:14px}
+.mb h2{font-family:var(--f-body);font-size:18px;font-weight:600;letter-spacing:.12em;
+ margin:36px 0 16px;padding-left:12px;border-left:3px solid var(--cinnabar)}
+.mb .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.mb .card{background:var(--wash);padding:20px 22px}
+.mb .card .k{font-size:12px;color:var(--ink3);letter-spacing:.1em}
+.mb .card .v{font-family:var(--f-brush);font-size:32px;line-height:1.3;margin-top:6px}
+.mb .card .u{font-family:var(--f-body);font-size:13px;color:var(--ink2);margin-left:3px}
+.mb .card .n{font-size:12px;color:var(--ink3);margin-top:6px;line-height:1.7}
+.mb table{width:100%;border-collapse:collapse;background:var(--white);font-size:14px}
+.mb th,.mb td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.mb th{font-size:12px;color:var(--ink3);letter-spacing:.08em;font-weight:500;background:var(--wash)}
+.mb .ok{color:var(--ok)}.mb .warn{color:var(--warn)}
+.mb .bad{color:var(--cinnabar)}.mb .na{color:var(--na)}
+.mb .bars{display:flex;align-items:flex-end;gap:8px;height:88px;margin-top:10px}
+.mb .bars .b{flex:1;background:var(--cinnabar);opacity:.72;position:relative}
+.mb .bars .b span{position:absolute;bottom:-22px;left:0;right:0;text-align:center;
+ font-size:10px;color:var(--ink3)}
+.mb .spark{margin-bottom:26px}
+.mb pre{background:var(--wash);padding:14px 16px;font-size:12.5px;
+ font-family:"SF Mono",Menlo,monospace;color:var(--ink2);overflow-x:auto;white-space:pre-wrap;
+ line-height:1.7}
+.mb details{background:var(--wash);padding:0 18px;margin-top:12px}
+.mb summary{cursor:pointer;padding:14px 0;font-size:14px;letter-spacing:.06em;color:var(--ink2)}
+.mb details pre{background:none;padding:0 0 16px}
+.mb ul{margin:12px 0 0 22px;font-size:14px;color:var(--ink2);line-height:1.9}
+.mb li{margin-bottom:6px}
+.mb code{font-family:"SF Mono",Menlo,monospace;font-size:12.5px;color:var(--ink2)}
+.mb footer{margin-top:48px;padding-top:22px;border-top:1px solid var(--line);
+ font-size:12.5px;color:var(--ink3);letter-spacing:.06em;line-height:1.9}
+@media(max-width:600px){.mb h1{font-size:26px}.mb .card .v{font-size:26px}}
+
+.mb .qjbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.mb .qjbtn{font-family:var(--f-body);font-size:13px;letter-spacing:.1em;color:var(--ink2);
+ background:var(--white);border:1px solid var(--line);border-radius:2px;padding:5px 14px;cursor:pointer}
+.mb .qjbtn:hover{color:var(--cinnabar);border-color:rgba(176,56,38,.35)}
+.mb .qjbtn[disabled]{opacity:.5;cursor:progress}
+.mb .qjbtn.ok{color:var(--ok);border-color:rgba(74,124,89,.4)}
+.mb .qjbtn.bad{color:var(--cinnabar);border-color:rgba(176,56,38,.4)}
+.mb .qjtip{font-size:12px;color:var(--ink3);letter-spacing:.06em}
+</style></head><body><div class="mb"><header><div class="ghost">晨</div>
+<h1>每日晨检 · 看板</h1>
+<div class="sub">第七境 · The Seventh Realm　|　2026 年 10 月 11 日　10:08 生成</div>
+<div class="stamp">数据来自本地台账 · 点「刷新数据」重新取数</div>
+<div class="qjbar">
+      <button class="qjbtn" id="qj-refresh" type="button"
+ title="点一下：重新取数并重建本页（Shift + 点：同时同步到资料库）">刷新数据</button>
+      <span class="qjtip" id="qj-refresh-tip">随时重新取数</span>
+    </div></header><h2>一 · 站点健康</h2><div class='grid'><div class="card"><div class="k">首页响应</div><div class="v ok">200<span class="u"></span></div><div class="n">首页 200 · /5000years/ —（带 UA 复核；默认 UA 被 CF 拦 403）</div></div><div class="card"><div class="k">证书剩余</div><div class="v ok">76 天<span class="u"></span></div><div class="n"></div></div><div class="card"><div class="k">HTTP→HTTPS</div><div class="v ok">301<span class="u"></span></div><div class="n"></div></div><div class="card"><div class="k">Cloudflare</div><div class="v ok">已生效<span class="u"></span></div><div class="n"></div></div></div><h2>二 · 站点流量</h2><div class='grid'><div class="card"><div class="k">访次（2026-10-11）</div><div class="v bad">68<span class="u"></span></div><div class="n">较前一日 -88%</div></div><div class="card"><div class="k">净访次（去噪）</div><div class="v ">64<span class="u"></span></div><div class="n">机器人占比 5.9%</div></div><div class="card"><div class="k">内容页 Top1</div><div class="v ">/<span class="u"></span></div><div class="n">41 次</div></div><div class="card"><div class="k">累计采集</div><div class="v ">15 天<span class="u"></span></div><div class="n">采集于 2026-10-11 10:08</div></div></div><div class="spark"><div class="k" style="font-size:12px;color:#8a867e;letter-spacing:.1em">近 7 日净访次</div><div class="bars"><div class="b" style="height:77%"><span>10-05</span></div><div class="b" style="height:56%"><span>10-06</span></div><div class="b" style="height:100%"><span>10-07</span></div><div class="b" style="height:44%"><span>10-08</span></div><div class="b" style="height:79%"><span>10-09</span></div><div class="b" style="height:79%"><span>10-10</span></div><div class="b" style="height:14%"><span>10-11</span></div></div></div><h2>三 · 积分</h2><div class='grid'><div class="card"><div class="k">今日基线日额</div><div class="v ">20.0 分<span class="u"></span></div><div class="n">工作日 8 / 生产日 20</div></div><div class="card"><div class="k">今日动态可用</div><div class="v ">13.1 分（硬上限 60）<span class="u"></span></div><div class="n">硬上限 60</div></div><div class="card"><div class="k">本月已用</div><div class="v ">198.98 / 500 分<span class="u"></span></div><div class="n"></div></div><div class="card"><div class="k">重活池</div><div class="v ">已用 68.02 / 90 分（每月 ≤2 次，单次 ≤45）<span class="u"></span></div><div class="n">每月 ≤2 次 · 单次 ≤45</div></div></div><div class="card"><div class="k">真实余额（账本）</div><div class="v ok">906.65<span class="u">分</span></div><div class="n">快照日期 2026-10-11</div></div><details style='margin-top:12px'><summary>积分预算脚本原始输出</summary><pre>2026-10-11（周日·生产日）
+  今日基线日额 : 20.0 分
+  今日动态可用 : 13.1 分（硬上限 60）
+  本月已用     : 198.98 / 500 分
+  剩余额度     : 301.02 分，剩余 21 天
+  重活池       : 已用 68.02 / 90 分（每月 ≤2 次，单次 ≤45）
+  缓冲         : 54.0 分</pre></details><h2>四 · DeepSeek 余额</h2><div class='grid'><div class="card"><div class="k">余额</div><div class="v ok">¥25.25<span class="u"></span></div><div class="n">较上次 -3.42 元</div></div><div class="card"><div class="k">记账时点</div><div class="v ">2026-10-10 21:00<span class="u"></span></div><div class="n">每日 21:00 自动记账</div></div><div class="card"><div class="k">赠送余额</div><div class="v ">¥0.00<span class="u"></span></div><div class="n">无</div></div><div class="card"><div class="k">账户可用</div><div class="v ok">是<span class="u"></span></div><div class="n"></div></div></div><h2>五 · SEO 与推送</h2><div class='grid'><div class="card"><div class="k">百度收录</div><div class="v ">未能获取<span class="u"></span></div><div class="n"></div></div><div class="card"><div class="k">已推送 URL</div><div class="v ">43<span class="u">条</span></div><div class="n">累计去重</div></div><div class="card"><div class="k">本次推送</div><div class="v ">无待推（43/43 已全部推送）<span class="u"></span></div><div class="n"></div></div><div class="card"><div class="k">推送额度</div><div class="v ">10<span class="u">条/日</span></div><div class="n">API 提交</div></div></div><h2>六 · 当前待办（NOW.md）</h2><details open><summary>展开 / 收起</summary><pre># NOW · 当前状态
+
+
+## 🔴 正在进行（≤3 条）
+
+1. **三端协同方案已定，尚未施工** —— 这是当前唯一的结构性欠账
+   - 结论：WB 原生多端协同可用（本机 5.7.6）⇒ Mac mini 作唯一执行机，**不用搬 1.8 GB、不用动 674 个路径**
+   - ⏸ **未验证 Mac mini 的休眠 / 断电自启 / WB 开机自启设置** —— 这是新方案唯一单点
+   - 🔴 连带：备份三层（Time Machine / Git 每日 commit / 异地周备）**一层都没做**
+
+2. **post2 社区发文** —— **状态仍未确认**（10-08 23:59 截止）
+
+3. **两件「必须人工上传」的欠账**（REST 传不动，见申请单 `REQ-2026-10-09-07`）
+   - IndexNow key + `sitemap-baidu.xml`：本地已 43 条，线上仍旧的 24 条
+   - 🔴 **新**：`wallpaper-dynasty-32-20261009.zip`（3.0 MB，字形线 32 张）→ `/wp-content/uploads/2026/10/`。
+     实测 REST **413** ⇒ 走 WP 后台/cPanel；**文件名保持不变**，拿到 URL 后换 MailerLite 邮件正文
+     （把「金句线」改为「字形演变」）—— 页面 `/collection/` 不用改，文案本就写的「十六朝 32 张（iPhone/Android 各 16 张）」
+
+## ✅ 刚完成（10-09）
+
+- ⭐ **16 朝画卷视频 P0 已打通**（商＋清两段各 15 秒实渲完，`0 积分`）
+  - 产物在 `02-商品/03-字形线/动画/`：`P0样片-商+清-无音轨.mp4`（30.08s）、
+    `P0-商-15s-配乐.mp4`、`P0-清-15s-配乐.mp4`（配乐取各自在整片里的真实位置：35s／215s）、
+    `P0-节奏胶片条.png`
+  - 验收：722 帧缺 0、失败 0；终态帧 vs 成品 **商 0.99／清 0.90**（判据 &lt;3）
+  - 🔴 顺手挖出并修掉两个**让「画卷展开」从未生效**的真 bug（动画 CSS 落进注释、
+    `:nth-of-type` 选漏元素）——详见 `提案-16朝画卷视频-20261009.md` §3.3b
+  - **等你确认观感**后再跑余 14 朝（约 2.8 小时机器时间）
+
+- **第七境工作台已在团队空间建成**：213 份知识层全部入库（201 首轮 + 11 重试 + 1 json），
+  8 个分区 16 个文件夹，首页导航已建，语义检索实测通过（问&quot;明代心学&quot;精准命中《传习录》段落）。
+  - 落地：团队空间「第七境」› `00-工作台导航` › **00-工作台首页**
+  - 申请单 `REQ-2026-10-09-01` 已回填为 ✅ 已执行（含执行差异与坑位记录）
+- **水墨风门户页「第七境 · 工作台」已建**（可视化入口，与文字首页并列）
+  - `00-工作台导航` › **第七境 · 工作台**（kind=web）
+  - 品牌横幅 → 家底数字 → 八分区卡片（直链目录）→ 十四朝壁纸画廊 → 三条纪律
+  - 用第七境自有水墨规范，**没套官方示例的青绿**；质检 QUALITY_OK；**尚未发布公开链接**
+- **每日晨检看板已上线并接入晨检任务**（10-09）
+  - `00-工作台导航` › **每日晨检看板**（node `csMhWQGumhu0dSU3swjthz`），门户页已加「今日晨检」入口
+  - </pre></details><h2>七 · 口径与纪律</h2><ul>
+<li>本页数据<b>全部来自本地台账</b>，生成过程不联网、不消耗积分；站点体检项由晨检写入 <code>morning-status.json</code>，缺失即显示「本次未提供」。</li>
+<li>积分「预算日额」是自定口径（每月 500），「真实余额」是平台账本快照，二者不同量级，<b>不可混用</b>。</li>
+<li>本页每天<b>覆盖更新同一节点</b>，不按天堆积；历史曲线请以本地 <code>站点数据.csv</code> 为准。</li>
+<li>真源始终在本地。本页是消费端只读副本，要改数据请改本地后重新生成。</li></ul><footer>第七境 · 一个个人创作者　|　生成于 2026-10-11 10:08
+　|　数据源：站点数据.csv · deepseek-balance.csv · credits-budget.py · 积分账本 · NOW.md</footer></div><script>
+(function(){
+var API='http://127.0.0.1:8787';
+var btn=document.getElementById('qj-refresh');
+if(!btn){return;}
+var tipEl=document.getElementById('qj-refresh-tip');
+function say(s){ if(tipEl){tipEl.textContent=s;} }
+function to(url,opt,ms){
+  opt=opt||{};
+  if(typeof AbortController==='function'){
+    var c=new AbortController(); opt.signal=c.signal;
+    var t=setTimeout(function(){c.abort();},ms||1500);
+    return fetch(url,opt).then(function(r){clearTimeout(t);return r;},
+                               function(e){clearTimeout(t);throw e;});
+  }
+  return fetch(url,opt);
+}
+function offline(){
+  var remote=(location.protocol==='https:')||
+             (location.hostname!=='127.0.0.1'&&location.hostname!=='localhost'&&location.hostname!=='');
+  btn.disabled=false; btn.className='qjbtn';
+  say(remote?'云端页连不到本机服务（浏览器规则）· 已重新载入；要实时取数请在本机打开 127.0.0.1:8787'
+             :'刷新服务未启动 · 已重新载入；在终端跑 refresh-server.py 后可真取数');
+  setTimeout(function(){ location.reload(); },600);
+}
+
+function go(upload){
+  btn.disabled=true;
+  say(upload?'正在取数并同步云端…':'正在取数…');
+  to(API+'/ping',{cache:'no-store'},1200).then(function(){
+    return to(API+'/refresh'+(upload?'?upload=1':''),{method:'POST',cache:'no-store'},240000);
+  }).then(function(r){return r.json();}).then(function(j){
+    btn.disabled=false;
+    if(j&&j.ok){ say('已刷新 · '+(j.gen||'')+(j.uploaded?' · 已同步云端':'')+' · 正在载入');
+      setTimeout(function(){ location.reload(); },900);
+    }else{ say('刷新失败：'+((j&&j.error)||'服务端未返回数据')); }
+  }).catch(function(){ offline(); });
+}
+btn.addEventListener('click',function(ev){ go(!!ev.shiftKey); });
+})();
+</script></body></html>

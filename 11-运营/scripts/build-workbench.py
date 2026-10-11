@@ -1,0 +1,905 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+第七境 · 工作台门户生成器（多 tab 单页）
+
+与 build-morning-board.py 的关系：
+  - 本页的「今日晨检」tab **内嵌** `11-运营/reports/morning-fragment.html`（晨检脚本产出）。
+  - 因此本页必须每天重建一次，否则 tab 里永远是旧数据；
+    `build-morning-board.py --upload` 会自动串起本脚本，无需单独调度。
+
+用法：
+  python3 11-运营/scripts/build-workbench.py             # 只生成本地 HTML
+  python3 11-运营/scripts/build-workbench.py --upload    # 覆盖更新资料库固定节点
+"""
+import os
+import re
+import json
+import html
+import importlib.util
+import subprocess
+import sys
+from datetime import datetime, date
+
+ROOT = "/Users/billyhou/WorkBuddy/2026-09-25-15-56-17"
+OUT = os.path.join(ROOT, "11-运营/reports/工作台.html")
+FRAG = os.path.join(ROOT, "11-运营/reports/morning-fragment.html")
+IMG_JSON = os.path.join(ROOT, "11-运营/data/workbench-images.json")
+FOLDER_JSON = os.path.join(ROOT, "11-运营/data/workbench-folders.json")
+NOW_MD = os.path.join(ROOT, ".workbuddy/memory/NOW.md")
+MW_JSON = os.path.join(ROOT, "11-运营/data/market-watch.json")
+# 站点流量：由 11-运营/scripts/cf-analytics.py collect 产出（每日随晨检采集）
+TRAF_JSON = os.path.join(ROOT, "04-市场/03-推广获客/数据回收/站点分析/明细-latest.json")
+TRAF_CSV = os.path.join(ROOT, "04-市场/03-推广获客/数据回收/站点分析/站点数据.csv")
+# 页面路径的中文名（只列真的有人看的内容页，其余原样显示）
+PATH_CN = {
+    "/": "首页",
+    "/collection/": "藏品总览",
+    "/collection/dynasty/": "朝代专栏",
+    "/collection/people/": "人物专栏",
+    "/collection/books/": "典集专栏",
+    "/5000years/": "五千年长卷",
+    "/faq/": "常见问题",
+    "/privacy/": "隐私政策",
+    "/about/": "关于我们",
+    "/en/": "英文站",
+}
+# 朝代页 slug → 中文
+DYNASTY_CN = {
+    "sanhuang": "三皇五帝", "xia": "夏", "shang": "商", "zhou": "周", "qin": "秦",
+    "han": "汉", "sanguo": "三国", "jin": "两晋南北朝", "sui": "隋", "tang": "唐",
+    "wudai": "五代十国", "song": "宋", "yuan": "元", "ming": "明", "qing": "清",
+    "juexing": "觉醒年代",
+}
+# 明显不是真人访问的路径（扫描器常用），从"真人页"里剔除
+JUNK_HINT = ("@fs", "secrets", "service_account", "readme.html", "license.txt",
+             "actuator", "meta-data", ".aws", ".ssh", ".env", "wp-config",
+             "credentials", "phpinfo", "shell", "adminer", "phpmyadmin")
+
+
+def path_cn(p):
+    """把路径转成人看得懂的中文名。"""
+    if p in PATH_CN:
+        return PATH_CN[p]
+    m = re.match(r"^/5000years/([a-z]+)/?$", p or "")
+    if m and m.group(1) in DYNASTY_CN:
+        return f"五千年 · {DYNASTY_CN[m.group(1)]}"
+    m = re.match(r"^/collection/dynasty/([a-z]+)/?$", p or "")
+    if m and m.group(1) in DYNASTY_CN:
+        return f"朝代 · {DYNASTY_CN[m.group(1)]}"
+    return p
+
+
+def is_junk(p):
+    lp = (p or "").lower()
+    return any(h in lp for h in JUNK_HINT)
+
+# 设计 token 与晨检取数函数都复用同一份实现，避免两边各写一套（风格漂移 / 口径漂移）。
+# 注意：项目脚本用连字符命名，Python 不能直接 import，只能按文件路径加载。
+def _load(name, filename):
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+qj_theme = _load("qj_theme", "qj_theme.py")
+bmb = _load("bmb", "build-morning-board.py")
+qjr = _load("qjr", "qj_refresh.py")
+
+# 固定节点：团队空间「第七境」› 00-工作台导航 › 第七境 · 工作台
+NODE_ID = "KCOnwrcKvGZhtvmIQpobOd"
+SPACE_ID = "vtgKWy99bZoF6oKAIzqfHt"
+HOME_DOC = "lRuFJ3vuAXgplbPJL2VkGL"          # 00-工作台首页（文字版）
+BOARD_NODE = "csMhWQGumhu0dSU3swjthz"        # 每日晨检看板（独立页）
+SKILL = "/Applications/WorkBuddy.app/Contents/Resources/app.asar.unpacked/resources/plugins/workbuddy-builtin/skills/library"
+
+
+def load_json(p, default):
+    if not os.path.exists(p):
+        return default
+    try:
+        return json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return default
+
+
+IMG = load_json(IMG_JSON, {})
+F = load_json(FOLDER_JSON, {})
+
+
+def img(key):
+    for k, v in IMG.items():
+        if k.endswith(key) and v:
+            return v
+    return ""
+
+
+LOGO_BANNER = img("logo-banner.png")
+
+ORDER = [("sanhuang", "三皇", "传说时代"), ("xia", "夏", "前 2070—前 1600"),
+         ("shang", "商", "前 1600—前 1046"), ("zhou", "周", "前 1046—前 256"),
+         ("qin", "秦", "前 221—前 206"), ("han", "汉", "前 202—220"),
+         ("sanguo", "三国", "220—280"), ("jin", "晋", "265—420"),
+         ("sui", "隋", "581—618"), ("tang", "唐", "618—907"),
+         ("wudai", "五代", "907—960"), ("song", "宋", "960—1279"),
+         ("ming", "明", "1368—1644"), ("qing", "清", "1644—1912")]
+
+SECTIONS = [
+    ("01", "内容资产", "146", "典籍库 44 · 历史长卷 36 · 成书稿 22 · 写作 41", "01-内容资产"),
+    ("02", "商品与作品规范", "5", "产品线规划 · 作品范式 · 版式铁律", "02-商品与作品规范"),
+    ("03", "市场与增长", "38", "竞品研究 · 市场调研 · 推广获客 · 报告", "03-市场与增长"),
+    ("04", "课程", "11", "开站实录 · 风险管控 · 变现实录", "04-课程"),
+    ("05", "社区与发布", "5", "发帖指南 · 已发布长文", "05-社区与发布"),
+    ("06", "规划与决策", "5", "1-3-5-10 年规划 · 节奏表 · 决策日志", "06-规划与决策"),
+    ("07", "品牌总纲与铁律", "3", "总原则 · 空间结构 · 事实核查", "07-品牌总纲与铁律"),
+]
+
+TABS = [("today", "今日"), ("morning", "晨检详报"), ("sections", "内容分区"),
+        ("scroll", "字形长卷"), ("market", "市场风向"), ("traffic", "流量"),
+        ("rules", "纪律与边界")]
+
+CSS = qj_theme.FONTS + qj_theme.tokens(":root") + """
+*{box-sizing:border-box;margin:0;padding:0}
+img{max-width:100%;height:auto}
+body{background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:inherit;text-decoration:none}
+
+.brand{padding:0 0 6px}
+.brand img{width:100%;display:block}
+
+.tabbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid rgba(26,26,24,.08);border-bottom:1px solid rgba(26,26,24,.08)}
+.tabbar .wrap{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 24px}
+.tab{font-family:var(--f-brush);font-size:19px;letter-spacing:2px;color:var(--ink3);
+ background:none;border:0;border-bottom:2px solid transparent;padding:8px 18px;cursor:pointer;
+ transition:color .2s,border-color .2s}
+.tab:hover{color:var(--ink2)}
+.tab.on{color:var(--cinnabar);border-bottom-color:var(--cinnabar)}
+@media(max-width:520px){.tab{font-size:16px;padding:8px 12px}}
+
+/* 面板不再输出标题：tab 上已经写着「今日 / 晨检详报 / …」，页面上再来一遍是重复。
+   每个面板只保留一行说明或更新时间。 */
+.panel{padding:34px 0 40px;position:relative}
+.panel[hidden]{display:none}
+.lead{text-align:center;color:var(--ink2);font-size:15px}
+.divider{width:200px;height:1px;margin:38px auto;background:linear-gradient(90deg,transparent,rgba(26,26,24,.18),transparent)}
+
+/* 首屏只剩一行更新时间：进来第一眼要看到的是状态灯和待办，不是标题 */
+.hero{text-align:center;padding:0}
+.hero .sub{font-size:12.5px;color:var(--ink3);letter-spacing:.4px}
+.hero + .secbar{margin-top:18px}
+.panel#today-panel{padding-top:26px}
+.seal{display:inline-block;margin-top:26px;background:var(--cinnabar);color:#fff;font-family:var(--f-brush);font-size:15px;letter-spacing:3px;padding:7px 18px;border-radius:2px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px;text-align:center}
+.stat .n{font-family:var(--f-brush);font-size:clamp(34px,4.6vw,46px);color:var(--ink)}
+.stat .n em{font-style:normal;color:var(--cinnabar)}
+.stat .l{font-size:13px;color:var(--ink3);margin-top:4px;letter-spacing:1px}
+
+/* 今日状态灯：一眼看出有没有红的 */
+.pulse{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:30px}
+.pulse .p{background:var(--wash);padding:16px 18px;border-top:2px solid var(--line)}
+.pulse .p.ok{border-top-color:var(--ok)}
+.pulse .p.warn{border-top-color:var(--warn)}
+.pulse .p.bad{border-top-color:var(--cinnabar)}
+.pulse .p.na{border-top-color:var(--na)}
+.pulse .pk{font-size:12px;color:var(--ink3);letter-spacing:.1em}
+.pulse .pv{font-family:var(--f-brush);font-size:26px;line-height:1.3;margin-top:2px}
+.pulse .pv.bad{color:var(--cinnabar)}.pulse .pv.warn{color:var(--warn)}
+.pulse .pv.ok{color:var(--ok)}.pulse .pv.na{color:var(--na)}
+.pulse .pn{font-size:11.5px;color:var(--ink3);margin-top:4px;line-height:1.6}
+
+/* 需要你动手的事：按 P0 → 等你拍板 → 待办 排序，置顶于首屏 */
+.acts{display:flex;flex-direction:column;gap:10px;margin-top:34px}
+.grp{font-size:12.5px;letter-spacing:.14em;color:var(--ink3);margin-top:14px}
+.grp.p0{color:var(--cinnabar)}
+.grp.block{color:var(--warn)}
+.grp:first-child{margin-top:0}
+.act{display:flex;background:var(--wash);padding:16px 22px;border-left:3px solid var(--line)}
+.act.p0{border-left-color:var(--cinnabar)}
+.act.block{border-left-color:var(--warn)}
+.act.todo{border-left-color:var(--na)}
+.act .ab{flex:1;min-width:0}
+.act .at{font-size:16px;line-height:1.75}
+.act .ad{font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.85}
+.act .ad li{margin-left:18px;margin-bottom:2px}
+.secbar{display:flex;align-items:baseline;gap:12px;margin-top:40px;flex-wrap:wrap}
+.secbar + .pulse,.secbar + .acts,.secbar + .stats{margin-top:16px}
+.secbar h3{font-family:var(--f-brush);font-size:24px;font-weight:400;letter-spacing:3px}
+.secbar span{font-size:13px;color:var(--ink3)}
+
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:40px}
+.qcard{display:block;background:var(--wash);border-left:3px solid var(--cinnabar);padding:24px 26px;transition:background .25s,transform .25s}
+.qcard:hover{background:var(--wash2);transform:translateX(4px)}
+.qcard .qt{font-family:var(--f-brush);font-size:24px;letter-spacing:2px}
+.qcard .qd{font-size:13.5px;color:var(--ink2);margin-top:8px;line-height:1.85}
+.qcard .qg{display:inline-block;margin-top:12px;font-size:13px;color:var(--cinnabar);letter-spacing:1px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+.card{display:block;position:relative;background:var(--wash);padding:34px 22px 26px;text-align:center;transition:transform .25s,background .25s;overflow:hidden}
+.card:hover{transform:translateY(-4px);background:var(--wash2)}
+.card .ghost{position:absolute;top:-18px;right:8px;font-family:var(--f-brush);font-size:clamp(64px,12vw,96px);color:rgba(26,26,24,.05);line-height:1}
+.card .cno{font-size:12px;color:var(--cinnabar);letter-spacing:2px}
+.card .ctitle{display:block;font-family:var(--f-brush);font-size:26px;margin-top:8px;letter-spacing:2px}
+.card .ccount{display:block;font-size:13px;color:var(--ink3);margin-top:6px}
+.card .cdesc{display:block;font-size:13px;color:var(--ink2);margin-top:12px;line-height:1.7}
+
+.scrollrow{display:flex;gap:16px;overflow-x:auto;padding:8px 0 20px;margin-top:40px;scroll-snap-type:x mandatory}
+.wp{flex:0 0 300px;scroll-snap-align:start;text-align:center}
+.wp img{width:100%;display:block;cursor:zoom-in;transition:transform .25s;aspect-ratio:16/9;object-fit:cover}
+.wp img:hover{transform:translateY(-3px)}
+.wp figcaption{margin-top:12px}
+.wp .wn{font-family:var(--f-brush);font-size:22px;letter-spacing:3px}
+.wp .wy{display:block;font-size:12px;color:var(--ink3);margin-top:2px}
+.note{text-align:center;font-size:13px;color:var(--ink3);margin-top:6px}
+
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.rule{background:var(--wash);padding:30px 24px;text-align:center}
+.rule .rt{font-family:var(--f-brush);font-size:23px;letter-spacing:2px}
+.rule .rd{font-size:14px;color:var(--ink2);margin-top:12px;line-height:1.85}
+.rule .rn{display:inline-block;margin-bottom:14px;width:26px;height:26px;line-height:26px;background:var(--cinnabar);color:#fff;font-size:13px;border-radius:2px}
+
+.excl{margin-top:44px;background:var(--wash);padding:30px 32px}
+.excl h3{font-family:var(--f-brush);font-size:22px;letter-spacing:2px;font-weight:400}
+.excl ul{margin-top:14px;padding-left:20px;font-size:14px;color:var(--ink2);line-height:2}
+.excl .why{font-size:13px;color:var(--ink3);margin-top:12px}
+
+/* 市场风向：结论卡 + 风向网格。类名一律 mw- 前缀，避免与 .grp/.act 的 ok/warn/bad 撞车 */
+.mv{background:var(--wash);border-left:3px solid var(--cinnabar);padding:26px 30px;margin-top:18px}
+.mv .mvt{font-family:var(--f-brush);font-size:25px;letter-spacing:2px;line-height:1.6}
+.mv .mvd{font-size:15px;color:var(--ink2);margin-top:12px;line-height:1.95}
+.mv.mv-ok{border-left-color:var(--ok)}
+.mv.mv-warn{border-left-color:var(--warn)}
+.mv.mv-bad{border-left-color:var(--cinnabar)}
+.winds{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+.wind{background:var(--wash);padding:22px 26px;border-top:2px solid var(--line)}
+.wind .wt{font-family:var(--f-brush);font-size:21px;letter-spacing:1px;line-height:1.6}
+.wind .wd{font-size:14px;color:var(--ink2);margin-top:10px;line-height:1.9}
+.wind.mw-ok{border-top-color:var(--ok)}
+.wind.mw-warn{border-top-color:var(--warn)}
+.wind.mw-bad{border-top-color:var(--cinnabar)}
+@media(max-width:820px){.winds{grid-template-columns:1fr}}
+
+footer{text-align:center;padding:56px 0 80px;color:var(--ink3);font-size:13px;line-height:2;border-top:1px solid rgba(26,26,24,.1);margin-top:40px}
+footer .fbrand{font-family:var(--f-brush);font-size:20px;color:var(--ink2);letter-spacing:4px}
+
+.lb{position:fixed;inset:0;background:rgba(255,255,255,.97);display:none;align-items:center;justify-content:center;z-index:100;cursor:zoom-out;padding:24px}
+.lb.on{display:flex}
+.lb img{max-width:96vw;max-height:80vh}
+.lb .cap{position:absolute;bottom:26px;text-align:center;font-family:var(--f-brush);font-size:22px;letter-spacing:3px}
+.lb .cap span{display:block;font-family:var(--f-body);font-size:12px;color:var(--ink3);margin-top:4px}
+
+@media (max-width:820px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .rules{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .quick{grid-template-columns:1fr}
+  .wp{flex:0 0 240px}
+}
+@media (max-width:520px){ .grid{grid-template-columns:1fr} }
+""" + qjr.CSS_HOST
+
+JS = """
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+var panels=[].slice.call(document.querySelectorAll('.panel'));
+function show(id){
+  tabs.forEach(function(t){
+    var on=t.getAttribute('data-tab')===id;
+    t.classList.toggle('on',on);
+    t.setAttribute('aria-selected',on?'true':'false');
+  });
+  panels.forEach(function(p){ p.hidden = p.getAttribute('data-panel')!==id; });
+  if(history.replaceState){ history.replaceState(null,'','#'+id); }
+}
+tabs.forEach(function(t){
+  t.addEventListener('click',function(){ show(t.getAttribute('data-tab')); window.scrollTo(0,0); });
+});
+var h=(location.hash||'').replace('#','');
+var ok=panels.some(function(p){ return p.getAttribute('data-panel')===h; });
+show(ok?h:'today');
+
+function openLb(u,n,y){
+  document.getElementById('lbimg').src=u;
+  var c=document.getElementById('lbcap');
+  c.textContent='';
+  var s=document.createElement('span');
+  s.textContent=y;
+  c.appendChild(document.createTextNode(n));
+  c.appendChild(s);
+  document.getElementById('lb').classList.add('on');
+}
+function closeLb(){document.getElementById('lb').classList.remove('on');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLb();}});
+""" + qjr.js("host")
+
+
+def esc(s):
+    return html.escape(str(s))
+
+
+def md_plain(s):
+    """去掉 markdown 强调与代码标记，只留纯文本（随后统一 esc）。"""
+    s = re.sub(r"\*\*(.+?)\*\*", r"\1", s)
+    s = re.sub(r"`([^`]+)`", r"\1", s)
+    return s.strip()
+
+
+def load_actions():
+    """从 NOW.md 解析「需要你动手的事」。
+
+    刻意不另建 action-items.json：NOW.md 本来就是每次收工必写的当前状态，
+    再开一份真源必然双份漂移（这正是我们一直在消除的东西）。
+    解析三段：`🔴 正在进行` → 立即处理 ｜ `⛔ 阻塞/拍板` → 等你拍板 ｜ `▶️ 下一步` → 待办。
+    """
+    if not os.path.exists(NOW_MD):
+        return []
+    text = open(NOW_MD, encoding="utf-8", errors="ignore").read()
+    out = []
+    for blk in re.split(r"^## ", text, flags=re.M):
+        head = blk.splitlines()[0] if blk.splitlines() else ""
+        if "正在进行" in head:
+            lvl = "p0"
+        elif "阻塞" in head or "拍板" in head:
+            lvl = "block"
+        elif "下一步" in head:
+            lvl = "todo"
+        else:
+            continue
+        items = []
+        if lvl == "p0":
+            cur = None
+            for ln in blk.splitlines()[1:]:
+                m = re.match(r"^\d+\.\s+(.+)$", ln.strip())
+                if m:
+                    if cur:
+                        items.append(cur)
+                    cur = {"t": md_plain(m.group(1)), "d": []}
+                elif cur and ln.strip().startswith("- "):
+                    cur["d"].append(md_plain(ln.strip()[2:]))
+            if cur:
+                items.append(cur)
+        elif lvl == "todo":
+            for ln in blk.splitlines()[1:]:
+                m = re.match(r"^- \[ \] (.+)$", ln.strip())
+                if m:
+                    items.append({"t": md_plain(m.group(1)), "d": []})
+        else:  # 阻塞表：| 事项 | 需要你决定 | 不决定的代价 |
+            for ln in blk.splitlines()[1:]:
+                ln = ln.strip()
+                if not ln.startswith("|"):
+                    continue
+                cells = [c.strip() for c in ln.strip("|").split("|")]
+                if len(cells) < 2 or set(cells[0]) <= set("-: ") or cells[0] in ("事项",):
+                    continue
+                items.append({"t": md_plain(cells[0]),
+                              "d": [md_plain(c) for c in cells[1:] if c and c != "—"]})
+        for it in items:
+            if "——" in it["t"]:      # 「标题 —— 说明」拆成两行更好读
+                a, _, b = it["t"].partition("——")
+                it["t"], it["d"] = a.strip(), [b.strip()] + it["d"]
+            out.append({"lv": lvl, "t": it["t"], "d": it["d"]})
+    out.sort(key=lambda a: {"p0": 0, "block": 1, "todo": 2}[a["lv"]])
+    return out
+
+
+def render_acts(acts):
+    """按级别分组：首屏先看到「立即处理」，常规待办排在最后。
+    分组而不用徽标，是为了让「眼下该做什么」一眼可读，而不是 12 条平铺。"""
+    if not acts:
+        return '<p class="lead">NOW.md 里目前没有待办项。</p>'
+    groups = [("p0", "立即处理"), ("block", "等你拍板"), ("todo", "常规待办")]
+    out = ['<div class="acts">']
+    for lv, label in groups:
+        sub = [a for a in acts if a["lv"] == lv]
+        if not sub:
+            continue
+        out.append(f'<div class="grp {lv}">{label}　·　{len(sub)} 项</div>')
+        for a in sub:
+            det = "".join(f"<li>{esc(d)}</li>" for d in a["d"])
+            det = f"<ul class='ad'>{det}</ul>" if det else ""
+            out.append(f'<div class="act {lv}"><div class="ab">'
+                       f'<div class="at">{esc(a["t"])}</div>{det}</div></div>')
+    out.append("</div>")
+    return "".join(out)
+
+
+def load_pulse():
+    """今日状态灯。复用晨检脚本的取数函数：零联网、零额外实现、口径不会两边跑偏。"""
+    st = bmb.load_status()
+    tr = bmb.load_traffic()
+    ds = bmb.load_deepseek()
+    cr = bmb.load_credits()
+    items = []
+
+    http = st.get("http_code")
+    items.append({"k": "站点", "v": http or bmb.NA,
+                  "cls": "ok" if http == "200" else ("na" if not http else "bad"),
+                  "n": st.get("http_note") or "首页响应"})
+
+    ssl = st.get("ssl_days")
+    items.append({"k": "证书剩余", "v": f"{ssl} 天" if ssl is not None else bmb.NA,
+                  "cls": "ok" if (ssl or 0) >= 30 else ("bad" if ssl is not None else "na"),
+                  "n": st.get("ssl_not_after") or "Cloudflare 签发"})
+
+    if tr.get("ok"):
+        jt = f"较前一日 {tr['jump']:+d}%" if tr["jump"] is not None else tr["date"]
+        # 跳变 50% 用 warn（看一眼）而非 bad（故障）：数据不满 2 周本就不下趋势结论
+        cls = "warn" if (tr["jump"] is not None and abs(tr["jump"]) >= 50) else "ok"
+        items.append({"k": "访次（净）",
+                      "v": tr["clean"] if tr["clean"] is not None else bmb.NA,
+                      "cls": cls, "n": jt})
+    else:
+        items.append({"k": "访次（净）", "v": bmb.NA, "cls": "na", "n": "无站点数据"})
+
+    if cr.get("balance"):
+        b = cr["balance"]
+        cls, note = "ok", f"快照 {b['date']}"
+        if not b["val"] or "未取到" in str(b["val"]):
+            # 取数失败不能显示成绿色正常，否则等于用旧值冒充当日
+            cls, note = "na", "自动取数暂不可用，请看客户端左下角余额"
+        else:
+            try:
+                lag = (date.today() - datetime.strptime(b["date"], "%Y-%m-%d").date()).days
+                if lag >= 1:
+                    cls, note = "warn", f"快照 {b['date']}（{lag} 天前）"
+            except ValueError:
+                pass
+        items.append({"k": "积分余额", "v": b["val"], "cls": cls, "n": note})
+    else:
+        items.append({"k": "积分余额", "v": bmb.NA, "cls": "na", "n": "账本未读到"})
+
+    if ds.get("ok"):
+        cls = "bad" if ds["total"] < 20 else "ok"
+        note = f"较上次 {ds['drop']:+.2f} 元" if ds["drop"] is not None else ds["date"]
+        if ds.get("lag") and ds["lag"] >= 3:
+            cls = "warn"
+            note += f" · {ds['lag']} 天未记账"
+        items.append({"k": "DeepSeek", "v": f"¥{ds['total']:.2f}", "cls": cls, "n": note})
+    else:
+        items.append({"k": "DeepSeek", "v": bmb.NA, "cls": "na", "n": ""})
+    return items
+
+
+def render_pulse(items):
+    # id 供刷新按钮拿到新数据后原地重绘（不重载整页也能更新状态灯）
+    out = ['<div class="pulse" id="qj-pulse">']
+    for it in items:
+        out.append(f'<div class="p {it["cls"]}"><div class="pk">{esc(it["k"])}</div>'
+                   f'<div class="pv {it["cls"]}">{esc(it["v"])}</div>'
+                   f'<div class="pn">{esc(it["n"])}</div></div>')
+    out.append("</div>")
+    return "".join(out)
+
+
+def load_market():
+    """市场风向面板的数据源：`11-运营/data/market-watch.json`。
+
+    刻意让「结论写在报告文档里、工作台读同一份 JSON」：
+    JSON 由月度竞品扫描自动化更新，本脚本只消费不生产，
+    避免工作台显示另一套口径（真源漂移正是我们一直在消除的东西）。
+    """
+    return load_json(MW_JSON, {})
+
+
+MW_GROUPS = [("now", "立刻做　·　零成本"), ("not", "不要做　·　已否掉"),
+             ("later", "触发才动　·　记着")]
+
+
+def render_market(mw):
+    """四段式：一句结论 → 关键数据 → 风向 → 应对 → 战略走向 → 观测清单。
+
+    排序与今日 tab 同构（先判断、后数据、再动作），
+    这样扫一眼就能决定"这个月有没有需要我改方向的"。"""
+    if not mw:
+        return ('<p class="lead">尚未生成 <code>market-watch.json</code>。'
+                '跑一次月度竞品扫描即可出现在这里。</p>')
+
+    out = []
+    v = mw.get("verdict", {})
+    lvl = v.get("level", "ok")
+
+    out.append('<div class="secbar"><h3>一句结论</h3><span>'
+               f'{esc(mw.get("updated", "—"))} 扫描　·　'
+               f'下次 {esc(mw.get("next_scan", "—"))}</span></div>')
+    out.append(f'<div class="mv mv-{esc(lvl)}">'
+               f'<div class="mvt">{esc(v.get("headline", ""))}</div>'
+               f'<div class="mvd">{esc(v.get("detail", ""))}</div></div>')
+
+    ms = mw.get("metrics", [])
+    if ms:
+        out.append(f'<div class="secbar"><h3>关键数据</h3>'
+                   f'<span>{len(ms)} 项 · 每月可追踪</span></div>')
+        out.append('<div class="pulse">')
+        for it in ms:
+            c = it.get("cls", "na")
+            out.append(f'<div class="p {esc(c)}">'
+                       f'<div class="pk">{esc(it.get("k", ""))}</div>'
+                       f'<div class="pv {esc(c)}">{esc(it.get("v", ""))}</div>'
+                       f'<div class="pn">{esc(it.get("n", ""))}</div></div>')
+        out.append("</div>")
+
+    ws = mw.get("winds", [])
+    if ws:
+        out.append(f'<div class="secbar"><h3>风向</h3>'
+                   f'<span>环境在往哪边变 · {len(ws)} 条</span></div>')
+        out.append('<div class="winds">')
+        for w in ws:
+            c = w.get("cls", "ok")
+            out.append(f'<div class="wind mw-{esc(c)}">'
+                       f'<div class="wt">{esc(w.get("t", ""))}</div>'
+                       f'<div class="wd">{esc(w.get("d", ""))}</div></div>')
+        out.append("</div>")
+
+    mvs = mw.get("moves", [])
+    if mvs:
+        out.append('<div class="secbar"><h3>我们的应对</h3>'
+                   f'<span>共 {len(mvs)} 条 · 按能不能现在动排序</span></div>')
+        out.append('<div class="acts">')
+        for lv, label in MW_GROUPS:
+            sub = [m for m in mvs if m.get("lv") == lv]
+            if not sub:
+                continue
+            out.append(f'<div class="grp {esc(lv)}">{label}　·　{len(sub)} 项</div>')
+            for m in sub:
+                det = "".join(f"<li>{esc(d)}</li>" for d in m.get("d", []))
+                det = f"<ul class='ad'>{det}</ul>" if det else ""
+                out.append(f'<div class="act {esc(lv)}"><div class="ab">'
+                           f'<div class="at">{esc(m.get("t", ""))}</div>{det}</div></div>')
+        out.append("</div>")
+
+    st = mw.get("strategy", [])
+    if st:
+        out.append('<div class="secbar"><h3>战略走向</h3>'
+                   '<span>不随月度结论改，只在前提变了才动</span></div>')
+        out.append('<div class="rules">')
+        for s in st:
+            out.append(f'<div class="rule"><span class="rn">{esc(s.get("n", ""))}</span>'
+                       f'<div class="rt">{esc(s.get("t", ""))}</div>'
+                   f'<div class="rd">{esc(s.get("d", ""))}</div></div>')
+        out.append("</div>")
+
+    wl = mw.get("watchlist", [])
+    if wl:
+        out.append('<div class="excl"><h3>下次扫什么</h3><ul>')
+        for w in wl:
+            out.append(f"<li>{esc(w)}</li>")
+        out.append('</ul></div>')
+
+    return "".join(out)
+
+
+def load_traffic():
+    """站点流量的两个数据源：
+      · 明细-latest.json —— 最近一次采集的 4 天窗口明细（页面/国家/设备）
+      · 站点数据.csv     —— 15 天逐日汇总，每日 upsert
+    """
+    import csv as _csv
+    detail = load_json(TRAF_JSON, {})
+    rows = []
+    if os.path.exists(TRAF_CSV):
+        try:
+            with open(TRAF_CSV, encoding="utf-8") as f:
+                rows = list(_csv.DictReader(f))
+        except Exception:
+            rows = []
+    return detail, rows
+
+
+def _num(n):
+    try:
+        return f"{int(n):,}"
+    except Exception:
+        return str(n)
+
+
+def render_traffic(detail, rows):
+    """一句话结论 → 关键数字 → 逐日 → 真人页 → 人与设备 → 口径说明。
+
+    口径纪律（与晨检一致）：
+      · 「真人访次」= Cloudflare 的 visits_clean，已剔除已知爬虫；
+        但免费版 bot 分类不完整，所以它还偏乐观，页面里如实标注。
+      · 没数据就写「本次未提供」，不编造。
+    """
+    if not detail and not rows:
+        return ('<p class="lead">尚未采集流量数据。'
+                '跑一次 <code>11-运营/scripts/cf-analytics.py collect</code> 即可出现在这里。</p>')
+
+    cln = detail.get("visits_clean_total", 0)
+    bot = detail.get("visits_bot_total", 0)
+    tot = (cln + bot) or 1
+    noise = bot / tot * 100
+    # ⚠️ detail 是 4 天窗口的汇总，rows 是 CSV 里累积的逐日。
+    # 日均必须用【CSV 总和 ÷ CSV 天数】，不能拿 4 天窗口的数去除 15 天。
+    try:
+        csv_cln = sum(int(r.get("visits_clean") or 0) for r in rows)
+        csv_days = len([r for r in rows if r.get("date")])
+    except Exception:
+        csv_cln, csv_days = cln, 4
+    csv_days = csv_days or 4
+    per_day = csv_cln / csv_days
+    ts = detail.get("collected_at", "—")
+
+    out = []
+
+    # ── 一句结论 ──
+    out.append('<div class="secbar"><h3>一句结论</h3>'
+               f'<span>{esc(ts)} 采集　·　每日 06:30 自动更新</span></div>')
+    out.append('<div class="mv mv-ok">'
+               f'<div class="mvt">真人访次约 {_num(round(per_day))} / 天，'
+               f'噪声占 {noise:.0f}%</div>'
+               '<div class="mvd">噪声 = 爬虫 + 系统请求。'
+               'WAF 已挡掉一批扫描器（返回 403 不进统计），'
+               '但 Cloudflare 免费版的 bot 分类不完整，下面「真人页」里仍可能混入少量扫描器。</div></div>')
+
+    # ── 关键数字 ──
+    out.append('<div class="secbar"><h3>关键数字</h3>'
+               f'<span>近 4 天窗口　·　累计已采 {csv_days} 天　·　"真人"口径偏乐观</span></div>')
+    out.append('<div class="stats">')
+    out.append(f'<div class="stat"><div class="n"><em>{_num(cln)}</em></div>'
+               '<div class="l">真人访次</div></div>')
+    out.append(f'<div class="stat"><div class="n">{_num(bot)}</div>'
+               '<div class="l">爬虫与系统</div></div>')
+    out.append(f'<div class="stat"><div class="n">{noise:.0f}<em>%</em></div>'
+               '<div class="l">噪声占比</div></div>')
+    out.append(f'<div class="stat"><div class="n">{_num(round(per_day))}</div>'
+               '<div class="l">日均真人访次</div></div>')
+    out.append('</div>')
+
+    # ── 逐日 ──
+    if rows:
+        out.append('<div class="secbar"><h3>逐日</h3>'
+                   f'<span>最近 {min(len(rows), 8)} 天（已累计 {len(rows)} 天）　·　越往下越早</span></div>')
+        out.append('<div class="winds">')
+        for r in reversed(rows[-8:]):
+            d = r.get("date", "—")
+            cr = r.get("visits_clean", "—")
+            vv = r.get("visits", "—")
+            bp = r.get("bot_pct", "—")
+            cs = (r.get("countries_top5") or "").replace(" ", " · ")[:44]
+            out.append(f'<div class="wind mw-ok"><div class="wt">{esc(d)}'
+                       f'　真人 {esc(cr)} / 总 {esc(vv)}　噪声 {esc(bp)}%</div>'
+                       f'<div class="wd">{esc(cs)}</div></div>')
+        out.append('</div>')
+
+    # ── 真人看的页 ──
+    pages = [p for p in detail.get("clean_pages", []) if not is_junk(p.get("path", ""))]
+    if pages:
+        out.append('<div class="secbar"><h3>真人在看哪些页</h3>'
+                   f'<span>Top {min(len(pages), 10)}　·　已剔除扫描器路径</span></div>')
+        out.append('<div class="winds">')
+        for p in pages[:10]:
+            out.append(f'<div class="wind mw-ok">'
+                       f'<div class="wt">{esc(path_cn(p.get("path", "")))}'
+                       f'　<em>{esc(p.get("visits", 0))}</em> 次</div>'
+                       f'<div class="wd"><code>{esc(p.get("path", ""))}</code></div></div>')
+        out.append('</div>')
+
+    # ── 人与设备 ──
+    cs = detail.get("countries", [])
+    dp = detail.get("devices_pct", {})
+    if cs or dp:
+        out.append('<div class="secbar"><h3>人从哪来 · 用什么设备</h3>'
+                   '<span>国家含爬虫来源，仅供参考</span></div>')
+        out.append('<div class="winds">')
+        if cs:
+            top = " · ".join(f"{c} {_num(v)}" for c, v in cs[:6])
+            out.append(f'<div class="wind mw-ok"><div class="wt">国家</div>'
+                       f'<div class="wd">{esc(top)}</div></div>')
+        if dp:
+            dev = " · ".join(f"{k} {v}%" for k, v in dp.items())
+            out.append(f'<div class="wind mw-ok"><div class="wt">设备</div>'
+                       f'<div class="wd">{esc(dev)}</div></div>')
+        out.append('</div>')
+
+    # ── 口径说明 ──
+    out.append('<p class="note">'
+               '「真人访次」来自 Cloudflare Zone Analytics 的 visits（同 IP 30 分钟内去重）；'
+               '免费版不给 bot 分类维度，也不给 referer，所以这里只能做到「剔除已知爬虫」，'
+               '真实人数会低于显示值。<br>'
+               '数据每天 06:30 随晨检采集；Cloudflare 只回溯约 3–4 天，'
+               '历史靠 <code>站点数据.csv</code> 逐日累积，断采即永久丢失。</p>')
+    return "".join(out)
+
+
+def build():
+    gallery = ""
+    for slug, name, year in ORDER:
+        u = img(f"{slug}-1920x1080.png") or img(f"{slug}-1400.png")
+        if not u:
+            continue
+        gallery += (f'      <figure class="wp" onclick="openLb(\'{u}\',\'{name}\',\'{year}\')">\n'
+                    f'        <img src="{u}" alt="{name}·字形演变壁纸" width="1920" height="1080" loading="lazy">\n'
+                    f'        <figcaption><span class="wn">{name}</span><span class="wy">{year}</span></figcaption>\n'
+                    f'      </figure>\n')
+
+    cards = ""
+    for no, title, cnt, desc, key in SECTIONS:
+        nid = F.get(key, "")
+        cards += (f'      <a class="card" href="https://www.workbuddy.cn/space/d/{nid}" target="_blank" rel="noopener">\n'
+                  f'        <span class="ghost">{no}</span>\n'
+                  f'        <span class="cno">{no}</span>\n'
+                  f'        <span class="ctitle">{title}</span>\n'
+                  f'        <span class="ccount">{cnt} 份</span>\n'
+                  f'        <span class="cdesc">{desc}</span>\n'
+                  f'      </a>\n')
+
+    tabbar = "".join(
+        f'    <button class="tab{" on" if i == 0 else ""}" type="button" data-tab="{tid}" '
+        f'role="tab" aria-selected="{"true" if i == 0 else "false"}">{tname}</button>\n'
+        for i, (tid, tname) in enumerate(TABS))
+    # 刷新按钮常驻 tabbar：任何 tab 都能一键重新取数
+    tabbar += '    <div class="qjbar">\n      ' + qjr.button("随时重新取数") + '\n    </div>\n'
+
+    frag = ""
+    frag_ts = ""
+    if os.path.exists(FRAG):
+        frag = open(FRAG, encoding="utf-8").read()
+        # 片段自己不带 header（那是刻意的设计），所以生成时刻要从文件 mtime 取
+        frag_ts = datetime.fromtimestamp(os.path.getmtime(FRAG)).strftime("%m 月 %d 日 %H:%M")
+    else:
+        frag = ('<p class="lead">晨检片段尚未生成。跑一次 '
+                '<code>build-morning-board.py</code> 即可出现在这里。</p>')
+
+    now = datetime.now()
+
+    pulse_items = load_pulse()
+    pulse_html = render_pulse(pulse_items)
+    acts = load_actions()
+    acts_html = render_acts(acts)
+    mw = load_market()
+    mw_html = render_market(mw)
+    traf_detail, traf_rows = load_traffic()
+    traf_html = render_traffic(traf_detail, traf_rows)
+    red = sum(1 for x in pulse_items if x["cls"] in ("bad", "warn"))
+
+    panels_html = f'''
+<section class="panel" id="today-panel" data-panel="today" role="tabpanel">
+  <div class="wrap">
+    <div class="hero">
+      <p class="sub"><span id="qj-gen">{now:%m 月 %d 日 %H:%M} 生成</span> · 数据来自本地台账</p>
+    </div>
+    <div class="secbar"><h3>今日状态</h3><span id="qj-pulse-sum">{len(pulse_items)} 项指标{('　·　有 %d 项不在正常区间' % red) if red else '　·　全部正常'}</span></div>
+{pulse_html}
+    <div class="secbar"><h3>需要你动手的事</h3><span>来自 NOW.md · 共 {len(acts)} 项</span></div>
+{acts_html}
+    <div class="divider"></div>
+    <div class="secbar"><h3>家底</h3><span>沉淀了多少，不常变</span></div>
+    <div class="stats">
+      <div class="stat"><div class="n"><em>213</em></div><div class="l">已入库知识资产</div></div>
+      <div class="stat"><div class="n">263</div><div class="l">典籍条目</div></div>
+      <div class="stat"><div class="n">120</div><div class="l">历史事件条目</div></div>
+      <div class="stat"><div class="n">14</div><div class="l">已完成底纹的朝代</div></div>
+    </div>
+    <div class="quick">
+      <a class="qcard" href="https://www.workbuddy.cn/space/d/{HOME_DOC}" target="_blank" rel="noopener">
+        <span class="qt">工作台首页</span>
+        <span class="qd">文字版导航 · 分区说明 · 纪律原文</span>
+        <span class="qg">打开文档 →</span>
+      </a>
+      <a class="qcard" href="https://www.workbuddy.cn/space/d/{BOARD_NODE}" target="_blank" rel="noopener">
+        <span class="qt">晨检看板（独立页）</span>
+        <span class="qd">与「晨检详报」tab 同源，可单独收藏或分享</span>
+        <span class="qg">打开独立页 →</span>
+      </a>
+    </div>
+    <p class="note">七个 tab 各自成一页，切换不跳转；当前 tab 会记在地址栏，刷新后仍在原处。</p>
+  </div>
+</section>
+
+<section class="panel" data-panel="morning" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">{frag_ts or '—'} 生成 · 每天 06:30 自动跑 · 缺失显示「本次未提供」，不编造</p>
+{frag}
+  </div>
+</section>
+
+<section class="panel" data-panel="sections" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">点开直接进对应目录</p>
+    <div class="grid">
+{cards}    </div>
+  </div>
+</section>
+
+<section class="panel" data-panel="scroll" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">十四朝自有底纹成品 · 横向滑动 · 点击放大</p>
+    <div class="scrollrow">
+{gallery}    </div>
+    <p class="note">十六朝中尚缺「元」与「觉醒年代」两朝底纹，待补。</p>
+  </div>
+</section>
+
+<section class="panel" data-panel="market" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">{mw.get('updated','—')} 扫描 · 每月 10 日自动更新 · 数字均标来源，未核实的一律不进结论</p>
+{mw_html}
+    <p class="note">原文与逐条来源见 <code>{esc(mw.get('source_doc','—'))}</code></p>
+  </div>
+</section>
+
+<section class="panel" data-panel="traffic" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">站点真实流量 · 已剔除已知爬虫与扫描器 · 未核实的数字一律标口径，不编造</p>
+{traf_html}
+  </div>
+</section>
+
+<section class="panel" data-panel="rules" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">这套东西能长期不散，靠的是这三条</p>
+    <div class="rules">
+      <div class="rule"><span class="rn">一</span><div class="rt">单向副本</div><div class="rd">这里是消费端。要改内容，一律改本地工作区再重传；这里的改动不回写，避免两份互相矛盾的「真的」。</div></div>
+      <div class="rule"><span class="rn">二</span><div class="rt">真源唯一</div><div class="rd">本地工作区是真源，这里是它的只读投影。两边不一致时以本地为准。</div></div>
+      <div class="rule"><span class="rn">三</span><div class="rt">不存个人信息</div><div class="rd">订阅者邮箱、客户联系方式、账号凭据一律不进云端。这是有意为之，不是遗漏。</div></div>
+    </div>
+    <div class="excl">
+      <h3>刻意没放进来的东西</h3>
+      <ul>
+        <li>运营凭据与台账（含订阅者真实邮箱，属个人信息）</li>
+        <li>客户库与联系方式</li>
+        <li>壁纸产物约 980 MB、音频 171 MB（是脚本要处理的产物，两边都会漂移）</li>
+        <li>本地脚本源码、临时目录 <code>.work/</code> 与 <code>.scratch/</code></li>
+      </ul>
+      <p class="why">原因：资料库存「沉淀」不存「进行中」；产物与源数据一旦双份，漂移只是时间问题。</p>
+    </div>
+  </div>
+</section>
+'''
+
+    doc = (f'<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="utf-8">\n'
+           f'<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+           f'<title>第七境 · 工作台</title>\n<style>{CSS}</style>\n</head>\n<body>\n'
+           f'<header class="brand"><img src="{LOGO_BANNER}" alt="第七境 · The Seventh Realm" '
+           f'width="1920" height="260"></header>\n\n'
+           f'<nav class="tabbar" role="tablist"><div class="wrap">\n{tabbar}  </div></nav>\n'
+           f'{panels_html}\n'
+           f'<footer>\n  <div class="fbrand">第七境 · The Seventh Realm</div>\n'
+           f'  <div>一个个人创作者</div>\n'
+           f'  <div>工作台门户 · 内容沉淀于团队空间 · 页面生成于 {now:%Y-%m-%d %H:%M}</div>\n'
+           f'  <div>「刷新数据」要真取数，需本机刷新服务在跑：'
+           f'<code>http://127.0.0.1:{qjr.PORT}/</code>（服务未启动时会退化为重新载入）</div>\n'
+           f'</footer>\n\n'
+           f'<div class="lb" id="lb" onclick="closeLb()">\n'
+           f'  <img id="lbimg" src="" alt="" width="1920" height="1080">\n'
+           f'  <div class="cap" id="lbcap"></div>\n</div>\n\n'
+           f'<script type="application/json" id="qj-pulse-data">{qjr.pulse_payload(pulse_items)}</script>\n\n'
+           f'<script>{JS}</script>\n</body>\n</html>\n')
+
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    with open(OUT, "w", encoding="utf-8") as f:
+        f.write(doc)
+    return OUT
+
+
+def upload(path):
+    cmd = ["python3", f"{SKILL}/page/import_html.py", path,
+           "--space-id", SPACE_ID, "--node-block-id", NODE_ID]
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+    out = (r.stdout or "") + (r.stderr or "")
+    # ⚠️ import_html.py 业务失败时同样 exit 0，只是输出一行 {"error":"..."}。
+    # 只看 returncode 会把失败当成成功 —— 2026-10-11 就踩了这个坑：
+    # 刷新日志写着「同步 ok」，云端页面却一直停在旧版本上，排查时完全没线索。
+    # 所以这里必须检查输出内容，并以非零码退出，让 refresh-server 记下 FAIL。
+    if r.returncode != 0 or '"error"' in out.lower():
+        print("❌ 同步云端失败：" + out.strip()[:400], file=sys.stderr)
+        sys.exit(1)
+    return out
+
+
+if __name__ == "__main__":
+    out = build()
+    print(f"已生成：{out}（{os.path.getsize(out)/1024:.1f} KB）")
+    txt = open(out, encoding="utf-8").read()
+    print(f"  tab {txt.count('data-tab=')} 个 ｜面板 {txt.count('data-panel=')} 个 "
+          f"｜画廊 {txt.count('class=\"wp\"')} 幅 ｜内嵌晨检片段 {'有' if 'class=\"mb\"' in txt else '无'}")
+    if "--upload" in sys.argv:
+        s = open(out, encoding="utf-8").read()
+        bad = [b for b in re.findall(r'(?:src|srcset)\s*=\s*["\'](?:https?:)?//[^"\']+', s)
+               if "workbuddy" not in b and "codebuddy" not in b]
+        if bad:
+            print("❌ 存在第三方图片链接，已中止上传：", bad[:3])
+            sys.exit(1)
+        print(upload(out).strip())
