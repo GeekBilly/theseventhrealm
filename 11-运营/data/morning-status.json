@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-11 10:08",
+  "checked_at": "2026-10-11 20:08",
   "http_code": "200",
-  "http_note": "首页 200 · /5000years/ —（带 UA 复核；默认 UA 被 CF 拦 403）",
+  "http_note": "首页 200 · /5000years/ 200（带 UA 复核；默认 UA 被 CF 拦 403）",
   "http_5000years": "200",
   "http_redirect": "301",
   "ssl_days": 76,
