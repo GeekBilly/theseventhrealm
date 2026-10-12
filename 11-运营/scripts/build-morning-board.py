@@ -167,7 +167,27 @@ def load_status():
         return {}
 
 
-# ---------- 6. 当前待办 ----------
+# ---------- 6. 今日待办优先级 ----------
+def load_todos(top=5):
+    """
+    复用 daily-todos.py 的排序规则，避免同一套优先级在两个地方各写一遍。
+    文件名带连字符 ⇒ 只能用 importlib 加载，不能直接 import。
+    """
+    import importlib.util
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "daily-todos.py")
+    if not os.path.exists(f):
+        return []
+    try:
+        spec = importlib.util.spec_from_file_location("daily_todos", f)
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        items, err = m.load_pool()
+        return [] if err else m.rank(items)[:top]
+    except Exception:
+        return []
+
+
+# ---------- 7. 当前待办 ----------
 def load_now():
     f = p(".workbuddy/memory/NOW.md")
     if not os.path.exists(f):
@@ -219,6 +239,20 @@ CSS = qj_theme.FONTS + qj_theme.tokens(".mb") + """
 .mb pre{background:var(--wash);padding:14px 16px;font-size:12.5px;
  font-family:"SF Mono",Menlo,monospace;color:var(--ink2);overflow-x:auto;white-space:pre-wrap;
  line-height:1.7}
+/* 今日优先级：行动清单用有序列表，不用卡片 —— 卡片是读数，列表是要动手的事 */
+.mb ol.todo{list-style:none;padding:0;margin:0;counter-reset:todo}
+.mb ol.todo li{position:relative;padding:12px 16px 12px 46px;border-bottom:1px solid var(--line);
+ background:var(--white);counter-increment:todo;font-size:14px;line-height:1.75}
+.mb ol.todo li:before{content:counter(todo);position:absolute;left:14px;top:12px;
+ width:20px;height:20px;line-height:20px;text-align:center;font-size:11px;
+ color:var(--white);background:var(--ink3)}
+.mb ol.todo li.P0:before{background:var(--cinnabar)}
+.mb ol.todo li.P1:before{background:var(--ink2)}
+.mb ol.todo li.overdue{background:rgba(197,48,48,.045)}
+.mb ol.todo li .tag{display:inline-block;font-size:11px;letter-spacing:.06em;
+ padding:1px 7px;margin-right:8px;border:1px solid var(--line);color:var(--ink3)}
+.mb ol.todo li .tag.red{border-color:var(--cinnabar);color:var(--cinnabar)}
+.mb ol.todo li .dep{display:block;font-size:12px;color:var(--ink3);margin-top:3px}
 .mb details{background:var(--wash);padding:0 18px;margin-top:12px}
 .mb summary{cursor:pointer;padding:14px 0;font-size:14px;letter-spacing:.06em;color:var(--ink2)}
 .mb details pre{background:none;padding:0 0 16px}
@@ -255,6 +289,7 @@ def build():
     bd = load_baidu()
     st = load_status()
     nows = load_now()
+    todos = load_todos()
 
     # 站点体检
     ssl = st.get("ssl_days")
@@ -277,6 +312,33 @@ def build():
 <div class="qjbar">
       {qjr.button("随时重新取数")}
     </div></header>''')
+
+    # 今日优先级（放在最前：读数在后面，先看今天要动手的事）
+    if todos:
+        parts.append("<h2>今日优先级</h2><ol class='todo'>")
+        for x in todos:
+            flags = ""
+            hot = ""
+            if x["status"] in ("阻塞", "blocked"):
+                flags = "<span class='tag grey'>⏸ 阻塞</span>"
+            elif x["_days"] is not None and x["_days"] < 0:
+                flags = f"<span class='tag red'>逾期 {abs(x['_days'])} 天</span>"
+                hot = " overdue"
+            elif x["_days"] == 0:
+                flags = "<span class='tag red'>今天到期</span>"
+                hot = " overdue"
+            elif x["_days"] == 1:
+                flags = "<span class='tag'>明天到期</span>"
+            dep = ""
+            if x["dep"] and x["dep"] != "-":
+                dep = f"<span class='dep'>依赖：{esc(x['dep'])}</span>"
+            parts.append(
+                f"<li class='{esc(x['prio'])}{hot}'>{flags}{esc(x['title'])}{dep}</li>")
+        parts.append("</ol>")
+        parts.append(
+            f"<p class='n' style='font-size:12px;color:var(--ink3);margin-top:8px'>"
+            f"规则：逾期/今日到期 → P0 → P1 → P2，阻塞沉底　|　"
+            f"真源 <code>11-运营/data/每日待办池.md</code></p>")
 
     # 一、站点健康
     parts.append("<h2>一 · 站点健康</h2><div class='grid'>")
