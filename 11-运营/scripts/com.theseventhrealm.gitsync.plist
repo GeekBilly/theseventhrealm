@@ -8,7 +8,7 @@
 	<array>
 		<string>/bin/zsh</string>
 		<string>-c</string>
-		<string>export HOME=/Users/billyhou; cd /Users/billyhou/WorkBuddy/2026-09-25-15-56-17 &amp;&amp; sh 11-运营/scripts/qj-sync.sh auto "每日自动同步"</string>
+		<string>export HOME=/Users/billyhou; cd /Users/billyhou/WorkBuddy/2026-09-25-15-56-17 &amp;&amp; zsh 11-运营/scripts/qj-sync.sh auto "每日自动同步"</string>
 	</array>
 	<key>RunAtLoad</key>
 	<false/>

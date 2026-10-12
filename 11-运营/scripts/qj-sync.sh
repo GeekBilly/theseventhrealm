@@ -18,8 +18,14 @@
 
 set -uo pipefail
 
-SCRIPT="${0:A}"          # 🔴 zsh 函数内部的 $0 会被解析成函数名，必须先存成全局量
-ROOT="${ROOT:-$(cd "$(dirname "$SCRIPT")/../.." && pwd)}"
+# 🔴 两个坑，别改回去：
+#   ① zsh 函数内部的 $0 是函数名 ⇒ 必须在顶层先存成全局量
+#   ② launchd 用 `sh` 调用本脚本时，zsh 进入 sh 兼容模式，
+#      ${0:A} 会被解析成未定义变量 A ⇒ "A: unbound variable"（2026-10-13 实测踩到）
+#      ⇒ 下面这套是 POSIX 写法，sh / zsh 两种调用方式都能跑
+SCRIPT_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
+SCRIPT="$SCRIPT_DIR/$(basename "$0")"
+ROOT="${ROOT:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
 cd "$ROOT" || { echo "❌ 找不到项目根目录: $ROOT"; exit 1; }
 
 REPO_NAME="第七境"
