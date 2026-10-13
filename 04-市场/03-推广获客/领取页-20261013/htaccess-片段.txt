@@ -1,0 +1,22 @@
+# ============================================================
+# 第七境 · 强制 zip 下载（解决 QQ 邮箱点链接出现乱码）
+# ============================================================
+# 放在 public_html/.htaccess 的【末尾】，或已有 .htaccess 里追加
+# 作用：给 .zip 加 Content-Disposition: attachment
+#       ⇒ 浏览器一律「下载」而不是「显示二进制」
+# ============================================================
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(zip|rar|7z)$">
+    Header set Content-Disposition "attachment"
+    Header set X-Content-Type-Options "nosniff"
+  </FilesMatch>
+</IfModule>
+
+# ============================================================
+# 如果上面不生效（有些主机不允许 Header 指令），用下面这段：
+# ============================================================
+# <FilesMatch "\.zip$">
+#   ForceType application/octet-stream
+#   Header set Content-Disposition "attachment"
+# </FilesMatch>
