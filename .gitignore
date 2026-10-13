@@ -99,7 +99,9 @@ agent-browser/
 11-运营/reports/每日晨检看板.html
 11-运营/reports/morning-fragment.html
 11-运营/data/morning-status.json
+11-运营/data/订阅-latest.json
 04-市场/03-推广获客/数据回收/站点分析/明细-latest.json
+# ↑ 注意：订阅数据.csv 与站点数据.csv 是**逐日累积的历史**，不是快照 ⇒ 必须留在库里
 
 # 导出区：给资料库/云端用的快照副本，同样是派生件（随时可从源文件重生成）
 11-运营/exports/

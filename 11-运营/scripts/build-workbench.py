@@ -31,6 +31,10 @@ MW_JSON = os.path.join(ROOT, "11-运营/data/market-watch.json")
 # 站点流量：由 11-运营/scripts/cf-analytics.py collect 产出（每日随晨检采集）
 TRAF_JSON = os.path.join(ROOT, "04-市场/03-推广获客/数据回收/站点分析/明细-latest.json")
 TRAF_CSV = os.path.join(ROOT, "04-市场/03-推广获客/数据回收/站点分析/站点数据.csv")
+# 订阅名单：由 11-运营/scripts/mailerlite-stats.py collect 产出（随每轮刷新采集）
+# 🔴 只含数量与时间，绝不落邮箱明文（隐私纪律同 10-09 入库红线）
+SUBS_JSON = os.path.join(ROOT, "11-运营/data/订阅-latest.json")
+SUBS_CSV = os.path.join(ROOT, "11-运营/data/订阅数据.csv")
 # 页面路径的中文名（只列真的有人看的内容页，其余原样显示）
 PATH_CN = {
     "/": "首页",
@@ -138,7 +142,7 @@ SECTIONS = [
 
 TABS = [("today", "今日"), ("morning", "晨检详报"), ("sections", "内容分区"),
         ("scroll", "字形长卷"), ("market", "市场风向"), ("traffic", "流量"),
-        ("rules", "纪律与边界")]
+        ("subs", "订阅"), ("rules", "纪律与边界")]
 
 CSS = qj_theme.FONTS + qj_theme.tokens(":root") + """
 *{box-sizing:border-box;margin:0;padding:0}
@@ -459,6 +463,17 @@ def load_pulse():
         items.append({"k": "DeepSeek", "v": f"¥{ds['total']:.2f}", "cls": cls, "n": note})
     else:
         items.append({"k": "DeepSeek", "v": bmb.NA, "cls": "na", "n": ""})
+
+    # 名单是 Y1 唯一瓶颈，放进首屏状态灯 —— 来人时一眼看见，不用切 tab
+    sb = load_json(SUBS_JSON, {})
+    if sb.get("ok"):
+        nt = sb.get("new_today") or 0
+        last = (sb.get("last_subscribe_at") or "")[5:16] or "—"
+        v = f"{sb.get('total')} 人" + (f"（今日 +{nt}）" if nt else "")
+        items.append({"k": "订阅名单", "v": v, "cls": "ok",
+                      "n": f"最近一次 {last}"})
+    else:
+        items.append({"k": "订阅名单", "v": bmb.NA, "cls": "na", "n": "未接 MailerLite API"})
     return items
 
 
@@ -703,6 +718,123 @@ def render_traffic(detail, rows):
     return "".join(out)
 
 
+def load_subs():
+    """订阅面板的两个数据源：
+      · 订阅-latest.json —— 最近一次采集的快照（总数/分组/最近一次订阅时间/近 14 天）
+      · 订阅数据.csv     —— 逐日累积（每天一行，同日覆盖）
+    """
+    import csv as _csv
+    snap = load_json(SUBS_JSON, {})
+    rows = []
+    if os.path.exists(SUBS_CSV):
+        try:
+            with open(SUBS_CSV, encoding="utf-8") as f:
+                rows = list(_csv.DictReader(f))
+        except Exception:
+            rows = []
+    return snap, rows
+
+
+def render_subs(snap, rows):
+    """一句结论 → 关键数字 → 分组 → 近 14 天 → 口径说明。
+
+    纪律：
+      · 只显示数量与时间。**是谁一律回 MailerLite 后台看**，本页不落任何一个邮箱地址
+        （沿用 10-09 定的隐私红线：订阅者邮箱不上云、不进 Git、不进台账）。
+      · 取不到就写清怎么补上，绝不拿旧数冒充本次。
+    """
+    if not snap.get("ok"):
+        return ('<p class="lead">订阅数据还没接上。三步（一次性的事）：<br>'
+                '① MailerLite 后台 → Integrations → Developer API → 生成一个 token<br>'
+                '② 终端执行 <code>security add-generic-password -a theseventhrealm '
+                '-s mailerlite -U -w "&lt;Token&gt;"</code><br>'
+                '③ 跑一次 <code>11-运营/scripts/mailerlite-stats.py collect</code><br>'
+                '之后每轮刷新会自动带上，这里就开始有数了。</p>')
+
+    total = snap.get("total")
+    nt = snap.get("new_today") or 0
+    n7 = snap.get("new_7d") or 0
+    last = snap.get("last_subscribe_at") or "—"
+    ts = snap.get("collected_at", "—")
+    delta = snap.get("delta")
+    active = snap.get("active")
+    unconf = snap.get("unconfirmed") or 0
+
+    out = []
+    # ── 一句结论 ──
+    out.append('<div class="secbar"><h3>一句结论</h3>'
+               f'<span>{esc(ts)} 采集　·　随每轮刷新更新</span></div>')
+    if nt > 0:
+        # 名单是 Y1 唯一瓶颈，来人是大事 —— 用朱红条（本命色）而不是绿色 OK 条
+        out.append('<div class="mv">'
+                   f'<div class="mvt">今日新增 {nt} 人　·　名单共 {_num(total)} 人</div>'
+                   '<div class="mvd">最近一次有人留邮箱是 '
+                   f'{esc(last)}。<br>'
+                   '要看是谁，去 MailerLite 后台 —— 本页刻意不显示邮箱地址。</div></div>')
+    else:
+        out.append('<div class="mv mv-ok">'
+                   f'<div class="mvt">今日暂无新增　·　名单共 {_num(total)} 人</div>'
+                   f'<div class="mvd">最近一次有人留邮箱是 {esc(last)}。'
+                   '留邮箱的人要点了确认信才会进组、才会触发交付邮件，'
+                   '所以「总数」和「能收到邮件的人」不是一回事。</div></div>')
+
+    # ── 关键数字 ──
+    out.append('<div class="secbar"><h3>关键数字</h3>'
+               '<span>今日新增按订阅时间统计，与采集时刻无关</span></div>')
+    out.append('<div class="stats">')
+    out.append(f'<div class="stat"><div class="n"><em>{_num(total)}</em></div>'
+               '<div class="l">名单总数</div></div>')
+    out.append(f'<div class="stat"><div class="n">{_num(nt)}</div>'
+               '<div class="l">今日新增</div></div>')
+    out.append(f'<div class="stat"><div class="n">{_num(n7)}</div>'
+               '<div class="l">近 7 日新增</div></div>')
+    out.append(f'<div class="stat"><div class="n">{_num(unconf)}</div>'
+               '<div class="l">未点确认信</div></div>')
+    out.append('</div>')
+
+    # ── 分组 ──
+    groups = [g for g in snap.get("groups", []) if isinstance(g, dict)]
+    if groups:
+        out.append('<div class="secbar"><h3>分组</h3>'
+                   '<span>组名与 MailerLite 后台一致</span></div>')
+        out.append('<div class="winds">')
+        for g in groups[:8]:
+            out.append('<div class="wind mw-ok">'
+                       f'<div class="wt">{esc(g.get("name", "—"))}'
+                       f'　<em>{_num(g.get("count"))}</em> 人</div>'
+                       '<div class="wd">组名是分组基准，与 <code>README-空间结构.md</code> '
+                       '口径必须一字不差</div></div>')
+        out.append('</div>')
+
+    # ── 近 14 天 ──
+    daily = [d for d in snap.get("daily", []) if isinstance(d, dict)]
+    if daily:
+        out.append('<div class="secbar"><h3>近 14 天</h3>'
+                   '<span>只列有人来的日子　·　越往下越早</span></div>')
+        out.append('<div class="winds">')
+        hit = [d for d in daily if d.get("n")]
+        if not hit:
+            out.append('<div class="wind"><div class="wt">这 14 天还没有人留邮箱</div>'
+                       '<div class="wd">表单在 <code>/collection/</code> 与 21 个内容页上</div></div>')
+        for d in reversed(hit[-14:]):
+            out.append(f'<div class="wind mw-ok"><div class="wt">{esc(d.get("date", "—"))}'
+                       f'　<em>{_num(d.get("n"))}</em> 人</div>'
+                       '<div class="wd">留邮箱 → 点确认信 → 进组 → 触发交付邮件</div></div>')
+        out.append('</div>')
+
+    # ── 口径 ──
+    lag = ""
+    if delta:
+        lag = f"较上次采集 {delta:+d} 人。"
+    out.append('<p class="note">'
+               f'{esc(lag)}'
+               '总数来自 MailerLite API；「今日新增」按订阅者创建时间统计，'
+               '不受采集频率影响 —— 中午来的人，中午那一轮就能看到。<br>'
+               '🔴 隐私：本页与所有台账只存数量与时间，'
+               '<b>不落任何一个邮箱地址</b>；要看是谁去 MailerLite 后台。</p>')
+    return "".join(out)
+
+
 def build():
     gallery = ""
     for slug, name, year in ORDER:
@@ -752,6 +884,8 @@ def build():
     mw_html = render_market(mw)
     traf_detail, traf_rows = load_traffic()
     traf_html = render_traffic(traf_detail, traf_rows)
+    subs_snap, subs_rows = load_subs()
+    subs_html = render_subs(subs_snap, subs_rows)
     red = sum(1 for x in pulse_items if x["cls"] in ("bad", "warn"))
 
     panels_html = f'''
@@ -824,6 +958,13 @@ def build():
   <div class="wrap">
     <p class="lead">站点真实流量 · 已剔除已知爬虫与扫描器 · 未核实的数字一律标口径，不编造</p>
 {traf_html}
+  </div>
+</section>
+
+<section class="panel" id="subs-panel" data-panel="subs" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">订阅名单 · 只显示数量与时间 · 邮箱地址一律不落台账</p>
+{subs_html}
   </div>
 </section>
 

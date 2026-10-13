@@ -224,6 +224,19 @@ def refresh(upload=False):
             log(f"cf-analytics collect 失败：{(r.stderr or r.stdout)[:300]}")
     except Exception as e:
         steps.append(f"流量采集异常（{e}）")
+    # 订阅名单：MailerLite API。取不到（没配 token / 接口不通）只记一条原因，
+    # 绝不阻塞后面重建页面 —— 名单没接上，工作台其余部分照样要能用。
+    try:
+        r = subprocess.run([PY, os.path.join(HERE, "mailerlite-stats.py"), "collect"],
+                           capture_output=True, text=True, timeout=120, cwd=ROOT)
+        if r.returncode == 0:
+            m = re.search(r"订阅\s*(\d+)\s*人", r.stdout or "")
+            steps.append(f"订阅 {m.group(1) if m else 'ok'}")
+        else:
+            why = ((r.stdout or "") + (r.stderr or "")).strip().splitlines()
+            steps.append(f"订阅未取到（{(why[0] if why else '未知')[:36]}）")
+    except Exception as e:
+        steps.append(f"订阅采集异常（{e}）")
     for script in ("build-morning-board.py", "build-workbench.py"):
         args = [PY, os.path.join(HERE, script)]
         if upload and script == "build-morning-board.py":
