@@ -37,3 +37,4 @@ date,time,source,total,granted,toppedUp,isAvailable
 2026-10-12,21:00,api,21.83,0.00,21.83,True
 2026-10-13,21:00,api,20.44,0.00,20.44,True
 2026-10-14,21:00,api,18.83,0.00,18.83,True
+2026-10-15,21:00,api,29.90,11.07,18.83,True

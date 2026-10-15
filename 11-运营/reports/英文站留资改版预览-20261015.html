@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英文站 · Stay in touch 区块改版预览</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 20px;
+    background: #EFEDE6;
+    font-family: "Songti SC", "STSong", "SimSun", serif;
+    color: #1A1A1A;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+  .note {
+    background: #FFF8E7; border-left: 4px solid #BA7517;
+    padding: 12px 16px; margin-bottom: 28px;
+    font-size: 13px; line-height: 1.7; color: #633806;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  .note b { font-weight: 600; }
+  .card {
+    background: #FFFFFF; padding: 48px 44px;
+    border: 1px solid #E0DDD3;
+  }
+  .label {
+    font-family: -apple-system, "PingFang SC", sans-serif;
+    font-size: 12px; letter-spacing: 2px; color: #8C8578;
+    margin-bottom: 10px; text-transform: uppercase;
+  }
+  h2 {
+    font-size: 26px; font-weight: 500; margin: 0 0 6px;
+    letter-spacing: 1px;
+  }
+  .brush { display: block; width: 200px; height: 14px; margin: 0 0 22px; }
+  .brush path { fill: none; stroke: #A8342A; stroke-width: 1.6; }
+  .prose { font-size: 15px; line-height: 1.9; color: #33322E; margin: 0 0 26px; }
+  .prose strong { font-weight: 600; color: #1A1A1A; }
+
+  .mlbox { margin: 0 0 18px; }
+  .mlbox input[type=email] {
+    width: 100%; padding: 13px 16px; font-size: 15px;
+    border: 1px solid #D5D1C6; background: #FBFBF8;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+    outline: none;
+  }
+  .mlbox input[type=email]:focus { border-color: #A8342A; }
+  .btn-main {
+    display: inline-block; margin-top: 12px;
+    padding: 13px 30px; background: #A8342A; color: #FFFFFF;
+    font-size: 15px; letter-spacing: 1px; text-decoration: none;
+    border: none; cursor: pointer;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  .btn-note {
+    display: block; margin-top: 10px; font-size: 12.5px; color: #8C8578;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  .success {
+    display: none; background: #F1F5EE; border: 1px solid #C0DD97;
+    padding: 18px 20px; margin: 0 0 18px;
+    font-size: 14px; line-height: 1.8; color: #27500A;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  .success.on { display: block; }
+  .success h4 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+  .honest {
+    margin-top: 26px; padding-top: 18px; border-top: 1px dashed #DEDACF;
+    font-size: 13px; line-height: 1.8; color: #7A766C;
+  }
+  .honest a { color: #A8342A; text-decoration: none; }
+  .fine {
+    margin-top: 20px; font-size: 12px; line-height: 1.8; color: #948F84;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  .divider { height: 1px; background: #E6E2D8; margin: 34px 0; }
+  .old {
+    background: #FAF9F5; border: 1px dashed #CCC7BB; padding: 20px 22px;
+    font-size: 13px; line-height: 1.8; color: #6E6A61;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  .old .t { font-size: 12px; letter-spacing: 1px; color: #948F84; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="note">
+    <b>本地预览 · 不是线上页面</b><br>
+    这是英文站 <code>/en/</code>（WP 页面 ID 193）「Stay in touch」区块的<b>改版方案</b>。上半部分是改版后（带 MailerLite 表单），下半部分是目前线上版本（只有一个 mailto 链接）。确认后才会真正发布。
+  </div>
+
+  <div class="card">
+    <div class="label">改版后 · After</div>
+    <h2>Stay in touch</h2>
+    <svg class="brush" viewBox="0 0 200 14" preserveAspectRatio="none">
+      <path d="M3 8 C 26 5, 52 11, 84 8 C 126 4, 160 10, 197 7 C 168 12, 126 14, 92 11 C 58 9, 26 12, 3 8 Z"/>
+    </svg>
+
+    <div class="prose">
+      All 32 phone wallpapers — 16 dynasties, iPhone and Android sizes — are yours for an email address.
+      <strong>Leave it below and the download link goes out straight away.</strong>
+      No spam, and you can leave whenever you like.
+    </div>
+
+    <div class="mlbox">
+      <input type="email" placeholder="your email address" aria-label="email">
+      <button class="btn-main">Send me the 32 wallpapers</button>
+      <span class="btn-note">One click. The link arrives in your inbox.</span>
+    </div>
+
+    <div class="success on">
+      <h4>Sent</h4>
+      The download link for all 32 wallpapers is on its way — check your inbox, and your spam folder if it hasn't turned up in a few minutes.
+    </div>
+
+    <div class="honest">
+      Rather just write to a person? <a href="mailto:hello@theseventhrealm.com">hello@theseventhrealm.com</a> still works — for licensing, prints, translation or collaboration, say so in the subject line.
+    </div>
+
+    <div class="fine">
+      Phone wallpapers are free; desktop editions are delivered instantly after payment. As digital files can be copied, refunds are limited to damaged or undelivered files. Fonts follow SIL Open Font License 1.1. Ancient texts are public domain — the value here lies in selection, editing and typography.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="old">
+    <div class="t">目前线上 · Before（/en/ 第 193 号页面）</div>
+    <b>Stay in touch</b><br>
+    Want the character series as each one comes out? <b>Write to me</b> and I will add you to the list — no form, no tracking, just a reply when there is something new.<br><br>
+    → 只有一个 mailto 链接：<code>hello@theseventhrealm.com?subject=Add me to the character series</code><br><br>
+    <b>问题</b>：用户必须手动写信，转化路径长；订阅者不进 MailerLite，无法自动交付 32 张壁纸，也无法与中文站统一成一个客户池。
+  </div>
+
+</div>
+</body>
+</html>
