@@ -126,6 +126,12 @@ cmd_push() {
   need_git_identity || exit 1
   [ -z "$msg" ] && { echo "用法：sh $SCRIPT push \"提交说明\""; exit 1; }
 
+  # 先导出 MEMORY 快照：.workbuddy/ 被 .gitignore 排除，快照是它唯一的异地备份。
+  # 脚本内部已做幂等（内容未变不写盘）与失败降级（不阻塞同步）。
+  local pyb="${PYBIN:-/Users/billyhou/.workbuddy/binaries/python/versions/3.13.12/bin/python3}"
+  [ -x "$pyb" ] || pyb="$(command -v python3 2>/dev/null || echo python3)"
+  "$pyb" "$ROOT/11-运营/scripts/export-memory-snapshot.py" 2>&1 | sed 's/^/  /'
+
   git add -A
   guard_gitignore || exit 1
 
