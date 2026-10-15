@@ -11,12 +11,21 @@ export-memory-snapshot.py —— 把 .workbuddy/memory/ 里的「活约定」导
 
 做什么
     读 .workbuddy/memory/MEMORY.md（+ NOW.md），脱敏后写入
-    11-运营/reports/MEMORY快照-YYYYMM.md（同月覆盖，月末自动开新文件）。
+    11-运营/reports/MEMORY快照-YYYYMM.md（同月覆盖，次月自动开新文件）。
+    --full 时额外带上该月全部日志，写入 MEMORY快照-YYYYMM-归档.md
+    ⭐ 两个文件名刻意分开：否则每日轻量快照会把整月日志冲掉，
+       反过来若锁住同名文件，月末前的 MEMORY 更新又会进不了备份。
 
 用法
-    python3 export-memory-snapshot.py            # MEMORY.md + NOW.md
-    python3 export-memory-snapshot.py --full     # 再追加当月全部日志
-    python3 export-memory-snapshot.py --dry-run  # 只报告会不会变，不写盘
+    python3 export-memory-snapshot.py                    # MEMORY.md + NOW.md（当月文件名）
+    python3 export-memory-snapshot.py --full             # 再追加当月全部日志
+    python3 export-memory-snapshot.py --full --month 202610  # 指定月份（月初归档上月用）
+    python3 export-memory-snapshot.py --dry-run          # 只报告会不会变，不写盘
+
+参数
+    --month YYYYMM   指定快照归属月份，默认＝当前月。
+                     ⭐ 月度归档任务跑在**次月 1 日**并传上月的月份：
+                     月末当天跑会把「当天还没写完的日志」归档进去，月初跑拿到的才是整月完整版。
 
 纪律
     - 幂等：内容未变则不写盘（避免每天一次无意义 diff）
@@ -34,6 +43,8 @@ ROOT = os.environ.get("QJ_ROOT") or os.path.dirname(os.path.dirname(os.path.dirn
 MEM_DIR = os.path.join(ROOT, ".workbuddy", "memory")
 OUT_DIR = os.path.join(ROOT, "11-运营", "reports")
 OUT_NAME = "MEMORY快照-{}.md"
+ARCHIVE_NAME = "MEMORY快照-{}-归档.md"   # --full 走这个文件名，与每日轻量版互不覆盖
+LOG_MARK = "## 当月日志"   # 归档版（--full）的特征标记，轻量版不得覆盖它
 
 # ---------- 脱敏规则 ----------
 # memory 里目前没有密码和真邮箱，但加一层总没错：将来万一有人把 token 写进去
@@ -49,12 +60,25 @@ REDACT = [
 ]
 # 这两个是公开的、且仓库里本来就有，不算泄露，保留
 KEEP_OK = {"GeekBilly@users.noreply.github.com", "git@github.com"}
+# 自有域名邮箱全站公开（仓库里已有 920 处），同样不算泄露 ⇒ 自检时跳过
+KEEP_SUFFIX = ("@theseventhrealm.com",)
+
+
+EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 
 
 def redact(text: str) -> str:
     for pat, rep in REDACT:
         text = pat.sub(rep, text)
-    return text
+    # 🔴 兜底：白名单之外的一切邮箱一律打码。
+    # 只用黑名单会漏——2026-10-16 实测日志里出现个人邮箱 billy…@sina.com，
+    # 而 .workbuddy/ 被排除在 Git 之外的原因之一就是它含个人信息。
+    return EMAIL_RE.sub(
+        lambda m: m.group(0)
+        if (m.group(0) in KEEP_OK or m.group(0).endswith(KEEP_SUFFIX))
+        else "[email-redacted]",
+        text,
+    )
 
 
 def read(path: str) -> str:
@@ -68,13 +92,28 @@ def read(path: str) -> str:
         return ""
 
 
+def parse_month(argv) -> str:
+    """--month YYYYMM；默认取当前月。"""
+    if "--month" in argv:
+        i = argv.index("--month")
+        if i + 1 < len(argv):
+            v = argv[i + 1].strip()
+            if re.fullmatch(r"\d{6}", v):
+                return v
+            print(f"  ⚠️ --month 格式应为 YYYYMM，收到「{v}」，回退当月")
+    return datetime.now().strftime("%Y%m")
+
+
 def main() -> int:
     full = "--full" in sys.argv
     dry = "--dry-run" in sys.argv
 
     now = datetime.now()
-    month = now.strftime("%Y%m")
-    out_path = os.path.join(OUT_DIR, OUT_NAME.format(month))
+    month = parse_month(sys.argv)
+    ym_disp = f"{month[:4]}-{month[4:6]}"
+    # ⭐ 归档版（含日志）用独立文件名：否则每日轻量快照会把整月日志冲掉，
+    #    反过来若锁住同名文件，月末前的 MEMORY 更新又会进不了备份（两难 → 拆文件解决）
+    out_path = os.path.join(OUT_DIR, (ARCHIVE_NAME if full else OUT_NAME).format(month))
 
     memory = read(os.path.join(MEM_DIR, "MEMORY.md"))
     nowdoc = read(os.path.join(MEM_DIR, "NOW.md"))
@@ -85,11 +124,16 @@ def main() -> int:
     n_mem = len(memory)
     n_now = len(nowdoc)
 
+    scope = f"含 {ym_disp} 全部日志" if full else "不含日志（--full 可加）"
     parts = [
-        f"# 第七境 · MEMORY 快照（{month}）\n",
+        f"# 第七境 · MEMORY 快照（{ym_disp}）\n",
         f"> 本文件由 `11-运营/scripts/export-memory-snapshot.py` **自动生成**，请勿手改（下轮会覆盖）。\n",
-        f"> 生成时间：{now.strftime('%Y-%m-%d %H:%M')}　|　源：`.workbuddy/memory/MEMORY.md`"
-        + (f"　|　{full and '含当月日志' or '不含日志（手动 --full 可加）'}\n" if full else "\n"),
+        "> 生成时间：{}　|　源：`.workbuddy/memory/MEMORY.md`　|　{}\n".format(
+            now.strftime("%Y-%m-%d %H:%M"), scope),
+        # 归档上月时，MEMORY/NOW 是「导出时刻」的版本，不是当月历史版本——写明免得误读
+        (f"> ⚠️ 本文件归档的是 **{ym_disp}** 的日志；其中 MEMORY.md / NOW.md 为"
+         f"导出时刻（{now.strftime('%Y-%m-%d')}）的当前版本，非当月历史版。\n"
+         if month != now.strftime("%Y%m") else ""),
         "\n---\n",
         "\n## 为什么有这个文件\n",
         "\n`.gitignore` 把整个 `.workbuddy/` 排除在版本控制之外，所以 MEMORY.md 与每日日志\n",
@@ -127,9 +171,16 @@ def main() -> int:
     try:
         if os.path.exists(out_path):
             with open(out_path, encoding="utf-8") as f:
-                if f.read() == content:
-                    print(f"  · 快照无变化，未写盘（{os.path.basename(out_path)}）")
-                    return 0
+                existing = f.read()
+            if existing == content:
+                print(f"  · 快照无变化，未写盘（{os.path.basename(out_path)}）")
+                return 0
+            # 🔴 不许用「轻量版」覆盖已归档的「含日志版」
+            #    （qj-sync 每次 push 都跑一次轻量快照，文件名与归档版相同）
+            if not full and LOG_MARK in existing:
+                print(f"  · {os.path.basename(out_path)} 已是含日志的归档版，"
+                      f"轻量快照不覆盖（要刷新 MEMORY 部分请加 --full）")
+                return 0
     except Exception:
         pass
 
@@ -138,8 +189,8 @@ def main() -> int:
 
     # 泄露自检
     leaked = [e for e in re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", content)
-              if e not in KEEP_OK]
-    tail = f"｜泄露自检 {len(leaked)} 个邮箱" + (f"：{leaked[:3]}" if leaked else " ✅")
+              if e not in KEEP_OK and not e.endswith(KEEP_SUFFIX)]
+    tail = f"｜泄露自检 {len(leaked)} 个" + (f" ⚠️ {leaked[:3]}" if leaked else "✅（仅公开地址）")
     print(f"  · MEMORY 快照已更新：11-运营/reports/{os.path.basename(out_path)}"
           f"（{len(content)} 字符，MEMORY {n_mem} / NOW {n_now}）{tail}")
     return 0
