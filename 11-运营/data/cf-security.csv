@@ -11,5 +11,6 @@ date,events,challenge,block,bypassed,managed_challenge,top_path,top_path_n,top_c
 2026-10-10,0,0,0,0,0,,0,,0,,0,2026-10-12 21:11
 2026-10-11,408,219,122,0,219,/wp-admin/install.php,84,US,108,http://tantse.com/wp-admin/install.php?step=1,84,2026-10-14 21:10
 2026-10-12,589,240,195,0,240,/wp-admin/install.php,87,US,152,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,89,2026-10-15 21:10
-2026-10-13,856,510,213,0,510,/wp-admin/install.php,78,US,375,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l",244,2026-10-15 21:10
-2026-10-14,569,337,151,105,232,/wp-admin/admin-ajax.php,101,CN,165,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/,155,2026-10-15 21:10
+2026-10-13,856,510,213,0,510,/wp-admin/install.php,78,US,375,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l",244,2026-10-16 21:11
+2026-10-14,0,0,0,0,0,,0,,0,,0,2026-10-16 21:11
+2026-10-15,0,0,0,0,0,,0,,0,,0,2026-10-16 21:10

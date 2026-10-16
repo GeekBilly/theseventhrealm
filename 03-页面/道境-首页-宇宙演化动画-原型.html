@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>道生一 · 宇宙演化 —— 首页动画原型（动画/文字分离版）</title>
+<!-- 上线时需把 MaShanZheng 的 file:// 路径换成站点 URL（如 /wp-content/fonts/MaShanZheng.ttf） -->
+<style>
+@font-face{font-family:'MaShanZheng';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf');font-display:swap}
+:root{
+  --white:#fff;--ink:#1a1a18;--ink2:#6b675f;--ink3:#a39d92;--line:#e6e2d8;
+  --cinnabar:#b03826;
+  --f-brush:'MaShanZheng','Xingkai SC','STXingkai','KaiTi','STKaiti',serif;
+  --f-body:'Noto Serif SC','Songti SC','STSong','KaiTi',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--white);color:var(--ink);font-family:var(--f-body);
+  display:flex;flex-direction:column;align-items:center;padding:0 0 64px}
+
+/* ① 动画区：只有画面，文字不进场 */
+.hero{position:relative;width:100%;max-width:1200px;aspect-ratio:1200/500;
+  background:var(--white);overflow:hidden}
+svg.scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.st{opacity:0;transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion: no-preference){
+  .st{animation:fade 1.4s ease forwards}
+  .st.mist   {animation-delay:0s;   animation-duration:3.4s;animation-name:mistflow}
+  .st.core   {animation-delay:1.6s; animation-name:grow}
+  .st.dual   {animation-delay:4.0s; animation-name:unfold}
+  .st.triad  {animation-delay:7.0s; animation-name:grow}
+  .st.stars  {animation-delay:9.8s; animation-duration:2.2s}
+  .st.earth  {animation-delay:13.6s;animation-name:grow}
+  .st.glyph  {animation-delay:15.8s;animation-duration:2.4s}
+}
+@media (prefers-reduced-motion: reduce){.st{opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes mistflow{0%{opacity:0}18%{opacity:.85}70%{opacity:.22}100%{opacity:.10}}
+@keyframes grow{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+@keyframes unfold{from{opacity:0;transform:scale(.15) rotate(-40deg)}
+                  to{opacity:1;transform:scale(1) rotate(0)}}
+
+.par{opacity:0;transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion: no-preference){
+  .par{animation:burst 2.6s cubic-bezier(.16,.84,.3,1) forwards}
+}
+@media (prefers-reduced-motion: reduce){.par{opacity:.85}}
+@keyframes burst{
+  0%{opacity:0;transform:translate(0,0) scale(.2)}
+  22%{opacity:.9}
+  100%{opacity:.85;transform:translate(var(--dx),var(--dy)) scale(1)}
+}
+
+/* 阶段字幕：属于动画叙事（如电影字幕），不是文案区，可整块删 */
+.cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font-size:13px;letter-spacing:.32em;color:var(--ink3);opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .cap{animation:capshow 3s ease forwards}
+  .cap.c1{animation-delay:.2s}  .cap.c2{animation-delay:3.2s}
+  .cap.c3{animation-delay:5.4s} .cap.c4{animation-delay:8.4s}
+  .cap.c5{animation-delay:11.6s}.cap.c6{animation-delay:15.0s}
+}
+@keyframes capshow{0%{opacity:0}16%{opacity:1}72%{opacity:1}100%{opacity:0}}
+
+/* ② 文字区：与动画区物理分离，绝不叠压 */
+.statement{width:100%;max-width:1200px;padding:54px 24px 0;text-align:center;
+  border-top:1px solid var(--line);margin-top:8px}
+@media (prefers-reduced-motion: no-preference){
+  .statement{opacity:0;animation:fade 1.6s ease forwards;animation-delay:18.4s}
+}
+.statement .lead{font-family:var(--f-brush);font-size:clamp(24px,3.6vw,44px);
+  line-height:1.7;color:var(--ink);letter-spacing:.10em}
+.statement .sub{margin-top:16px;font-size:clamp(12px,1.2vw,15px);letter-spacing:.18em;
+  color:var(--ink2);line-height:2}
+.statement .acts{margin-top:30px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.statement a{display:inline-block;padding:14px 32px;border-radius:2px;
+  font-size:15px;letter-spacing:.16em;text-decoration:none;transition:.25s}
+.statement a.p{background:var(--cinnabar);color:#fff}
+.statement a.p:hover{background:var(--ink)}
+.statement a.s{border:1px solid var(--ink3);color:var(--ink2)}
+.statement a.s:hover{border-color:var(--ink);color:var(--ink)}
+
+.note{max-width:1200px;margin-top:30px;padding:0 24px;font-size:13px;line-height:2;color:var(--ink2)}
+.note b{color:var(--ink);font-weight:500}
+.note .red{color:var(--cinnabar)}
+.note code{background:#f4f1ea;padding:1px 6px;border-radius:2px;font-size:12px}
+.tools{margin-top:16px;padding:0 24px;display:flex;gap:10px;flex-wrap:wrap}
+.tools button{font:inherit;font-size:13px;padding:8px 18px;border:1px solid var(--ink3);
+  background:#fff;color:var(--ink2);cursor:pointer;border-radius:2px}
+.tools button:hover{border-color:var(--ink);color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="hero" id="hero">
+  <svg class="scene" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="mistG" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#1a1a18" stop-opacity=".30"/>
+        <stop offset="45%"  stop-color="#1a1a18" stop-opacity=".13"/>
+        <stop offset="100%" stop-color="#1a1a18" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="coreG" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#1a1a18" stop-opacity="1"/>
+        <stop offset="62%"  stop-color="#1a1a18" stop-opacity=".92"/>
+        <stop offset="100%" stop-color="#1a1a18" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="earthG" cx="38%" cy="34%" r="72%">
+        <stop offset="0%"   stop-color="#8fa9b8"/>
+        <stop offset="100%" stop-color="#4a5f6b"/>
+      </radialGradient>
+    </defs>
+    <g class="st mist"><circle cx="600" cy="250" r="215" fill="url(#mistG)"/></g>
+    <g class="st core"><circle cx="600" cy="250" r="16" fill="url(#coreG)"/></g>
+    <g class="st dual">
+      <circle cx="528" cy="250" r="42" fill="#1a1a18" opacity=".88"/>
+      <circle cx="672" cy="250" r="42" fill="none" stroke="#1a1a18" stroke-width="1.2" opacity=".55"/>
+      <circle cx="528" cy="250" r="6"  fill="#fff"/>
+      <circle cx="672" cy="250" r="6"  fill="#1a1a18"/>
+    </g>
+    <g class="st triad">
+      <circle cx="600" cy="206" r="9" fill="#b03826"/>
+      <circle cx="562" cy="272" r="9" fill="#1a1a18"/>
+      <circle cx="638" cy="272" r="9" fill="#1a1a18"/>
+      <path d="M600 206 L562 272 L638 272 Z" fill="none" stroke="#1a1a18" stroke-width=".8" opacity=".35"/>
+    </g>
+    <g class="st stars" id="stars"></g>
+    <g class="st earth"><circle cx="600" cy="352" r="9" fill="url(#earthG)"/></g>
+    <g class="st glyph" id="glyph" font-family="var(--f-brush)" text-anchor="middle"></g>
+  </svg>
+  <div class="cap c1">道 · 混沌未分</div>
+  <div class="cap c2">道生一 · 有物混成</div>
+  <div class="cap c3">一生二 · 负阴而抱阳</div>
+  <div class="cap c4">二生三 · 冲气以为和</div>
+  <div class="cap c5">三生万物 · 星辰与地球</div>
+  <div class="cap c6">文明 · 字与传承</div>
+</div>
+
+<div class="statement">
+  <div class="lead">见天地，见众生，唯不见神迹</div>
+  <div class="sub">永生之法不在肉身，在文明之灵的传承</div>
+  <div class="acts">
+    <a class="p" href="/collection">免费领取 16 朝壁纸</a>
+    <a class="s" href="/5000years">进入 · 上下五千年</a>
+  </div>
+</div>
+
+<div class="tools">
+  <button onclick="replay()">重播动画</button>
+  <button onclick="showEnd()">跳到终态</button>
+</div>
+
+<div class="note">
+  <b>结构（按你的要求）：动画与文字物理分离，不叠压。</b>动画区只出画面，品牌句与 CTA 在下方独立区块，
+  中间一条细分隔线 —— 粒子不会干扰文字可读性，CTA 在任何时刻都清晰可点。<br><br>
+  <b>口径（必须守住，否则是伪科学）：</b>不是老子预言了宇宙大爆炸，而是面对同一个问题「万物从何而来」，
+  道家生成论与现代宇宙学给出了<b>结构相似</b>的回答。片中每条对应只作<b>启发式并置</b>，不作因果断言。<br>
+  <span class="red">红线：全片不得出现「古人早已知晓」「科学证实老子」一类表述。</span><br><br>
+  <b>技术：</b>纯 SVG + CSS，无外部依赖、无图片、无 JS 循环定时器 —— 播完即停，停在终态，CPU 归零；
+  支持 <code>prefers-reduced-motion</code>（系统开「减弱动态效果」的用户直接看终态）。<br>
+  <b>上线前：</b>①<code>@font-face</code> 的 <code>file://</code> 换站点 URL；②动画 SVG + 文字区需整块写进
+  page 13 正文，属「改线上内容」⇒ 走 REQ 申请单；③阶段字幕属于动画叙事，若要彻底无字可整块删掉 <code>.cap</code>。
+</div>
+
+<script>
+(function(){
+  const g = document.getElementById('stars');
+  const CX = 600, CY = 250, N = 64;
+  let s = '';
+  for (let i = 0; i < N; i++){
+    const a  = (i / N) * Math.PI * 2 + (Math.random() - .5) * .5;
+    const r  = 85 + Math.random() * 235;
+    const dx = (Math.cos(a) * r).toFixed(1);
+    const dy = (Math.sin(a) * r * .62).toFixed(1);
+    const rr = (1 + Math.random() * 2.1).toFixed(2);
+    const d  = (9.8 + Math.random() * 2.4).toFixed(2);
+    s += `<circle class="par" cx="${CX}" cy="${CY}" r="${rr}" fill="#1a1a18" opacity="0" `
+       + `style="--dx:${dx}px;--dy:${dy}px;animation-delay:${d}s"/>`;
+  }
+  for (let i = 0; i < 5; i++){
+    const a = Math.random() * Math.PI * 2, r = 115 + Math.random() * 170;
+    s += `<circle class="par" cx="${CX}" cy="${CY}" r="2.2" fill="#b03826" opacity="0" `
+       + `style="--dx:${(Math.cos(a)*r).toFixed(1)}px;--dy:${(Math.sin(a)*r*.62).toFixed(1)}px;`
+       + `animation-delay:${(10.4+Math.random()*2).toFixed(2)}s"/>`;
+  }
+  g.innerHTML = s;
+})();
+
+(function(){
+  const g = document.getElementById('glyph');
+  const chars = ['日','月','山','水','人','文'];
+  const xs = [740, 690, 640, 590, 540, 490];
+  let s = '';
+  chars.forEach((c, i) => {
+    s += `<text x="${xs[i]}" y="416" font-size="40" fill="#1a1a18" opacity="0" class="par" `
+       + `style="--dx:0px;--dy:0px;animation-delay:${(15.9 + i * .28).toFixed(2)}s;`
+       + `animation-duration:1.6s">${c}</text>`;
+  });
+  g.innerHTML = s;
+})();
+
+function replay(){
+  document.querySelectorAll('.st, .par, .cap, .statement').forEach(el => {
+    el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+  });
+}
+function showEnd(){
+  document.querySelectorAll('.st, .cap, .statement').forEach(el => {
+    el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+    el.style.animationDelay = '0s'; el.style.animationDuration = '.01s';
+  });
+  document.querySelectorAll('.cap').forEach(el => el.style.opacity = '0');
+}
+</script>
+</body>
+</html>

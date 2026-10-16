@@ -103,8 +103,12 @@ def parse_fields(blob):
 
 
 def load_sections(text):
-    """按 '## ' 切块，返回 [(标题, 正文含指令, ...)]"""
-    head, *rest = re.split(r"\n(?=## )", text)
+    """按 '## ' 切块，返回 [(标题, 正文含指令, ...)]
+    ⚠️ 本项目 MEMORY.md 的标题写作 '##A xxx'（**二级标题后紧跟字母、无空格**），
+       旧正则 r"\\n(?=## )" 要求必须有空格 ⇒ 整个文件会被当成一块 __HEAD__，
+       再叠加任一 p2 指令就会被整份搬空。此处放宽为 '##' 后接任意非 '#' 字符。
+    """
+    head, *rest = re.split(r"\n(?=##[^#\n])", text)
     blocks = [("__HEAD__", head)]
     for b in rest:
         lines = b.split("\n")
@@ -112,8 +116,18 @@ def load_sections(text):
     return blocks
 
 
-def meta_of(body):
-    m = TIDY.search(body or "")
+def meta_of(body, is_head=False):
+    """解析章节标题正下方的 tidy 指令。
+
+    安全约束（2026-10-16 加固）：
+      · __HEAD__（文件头，含上位法与全局口径）**永不搬运**；
+      · tidy 指令只在正文**开头 600 字符内**识别 —— 正文深处的 `<!-- tidy: -->`
+        属于被搬运内容的一部分，不应被误当成当前章节的指令，
+        否则整章会被自己的内容指挥搬走。
+    """
+    if is_head:
+        return {"rank": "p0"}
+    m = TIDY.search((body or "")[:600])
     if not m:
         return {"rank": "p1"}
     f = parse_fields(m.group(1))
@@ -142,7 +156,7 @@ def main():
     total = len(text)
     infos = []
     for title, body in blocks:
-        m = meta_of(body)
+        m = meta_of(body, is_head=(title == "__HEAD__"))
         infos.append({"title": title, "body": body, "rank": m.get("rank", "p1"),
                       "move": m.get("move-to"), "pointer": m.get("pointer")})
 

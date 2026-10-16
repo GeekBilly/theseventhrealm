@@ -1,0 +1,171 @@
+<!-- ══════ 第七境 · 首页「宇宙演化」动画 + CTA 区 ══════
+     用法：WP 后台 → 页面 13 → 【代码编辑器】→ 粘贴 → 更新
+     ⚠️ 用区块编辑器会剥掉 <style>，必须切到代码编辑器
+     依赖：首页已加载 Ma Shan Zheng（首页原有 @import），本片段不重复声明字体
+     ══════════════════════════════════════════════════ -->
+<style>
+.qjcos-hero{position:relative;width:100%;max-width:1200px;aspect-ratio:1200/500;margin:0 auto;overflow:hidden}
+.qjcos-scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.qjcos-st{opacity:0;transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion:no-preference){
+  .qjcos-st{animation:qjcos-fade 1.4s ease forwards}
+  .qjcos-mist{animation-delay:0s;animation-duration:3.4s;animation-name:qjcos-mistflow}
+  .qjcos-core{animation-delay:1.6s;animation-name:qjcos-grow}
+  .qjcos-dual{animation-delay:4s;animation-name:qjcos-unfold}
+  .qjcos-triad{animation-delay:7s;animation-name:qjcos-grow}
+  .qjcos-stars{animation-delay:9.8s;animation-duration:2.2s}
+  .qjcos-earth{animation-delay:13.6s;animation-name:qjcos-grow}
+  .qjcos-glyph{animation-delay:15.8s;animation-duration:2.4s}
+  .qjcos-par{animation:qjcos-burst 2.6s cubic-bezier(.16,.84,.3,1) forwards}
+  .qjcos-cap{animation:qjcos-capshow 3s ease forwards}
+  .qjcos-c1{animation-delay:.2s} .qjcos-c2{animation-delay:3.2s}
+  .qjcos-c3{animation-delay:5.4s} .qjcos-c4{animation-delay:8.4s}
+  .qjcos-c5{animation-delay:11.6s} .qjcos-c6{animation-delay:15s}
+  .qjcos-stmt{animation:qjcos-fade 1.6s ease forwards;animation-delay:18.4s}
+}
+@media (prefers-reduced-motion:reduce){.qjcos-st,.qjcos-par{opacity:.85}.qjcos-stmt{opacity:1}}
+@keyframes qjcos-fade{from{opacity:0}to{opacity:1}}
+@keyframes qjcos-mistflow{0%{opacity:0}18%{opacity:.85}70%{opacity:.22}100%{opacity:.10}}
+@keyframes qjcos-grow{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+@keyframes qjcos-unfold{from{opacity:0;transform:scale(.15) rotate(-40deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes qjcos-burst{0%{opacity:0;transform:translate(0,0) scale(.2)}22%{opacity:.9}100%{opacity:.85;transform:translate(var(--dx),var(--dy)) scale(1)}}
+@keyframes qjcos-capshow{0%{opacity:0}16%{opacity:1}72%{opacity:1}100%{opacity:0}}
+.qjcos-par{opacity:0;transform-box:fill-box;transform-origin:center}
+.qjcos-cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:13px;letter-spacing:.32em;color:#a39d92;opacity:0}
+.qjcos-stmt{max-width:1200px;margin:8px auto 0;padding:54px 24px 0;text-align:center;border-top:1px solid #e6e2d8;opacity:0}
+.qjcos-lead{font-family:'Ma Shan Zheng','Xingkai SC','STXingkai','KaiTi','STKaiti',serif;font-size:clamp(24px,3.6vw,44px);line-height:1.7;color:#1a1a18;letter-spacing:.10em}
+.qjcos-sub{margin-top:16px;font-size:clamp(12px,1.2vw,15px);letter-spacing:.18em;color:#6b675f;line-height:2}
+.qjcos-acts{margin-top:30px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.qjcos-acts a{display:inline-block;padding:14px 32px;border-radius:2px;font-size:15px;letter-spacing:.16em;text-decoration:none;transition:.25s}
+.qjcos-acts .p{background:#b03826;color:#fff}
+.qjcos-acts .p:hover{background:#1a1a18}
+.qjcos-acts .s{border:1px solid #a39d92;color:#6b675f}
+.qjcos-acts .s:hover{border-color:#1a1a18;color:#1a1a18}
+</style>
+
+<div class="qjcos-hero">
+  <svg class="qjcos-scene" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="qjcos-mistG" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#1a1a18" stop-opacity=".30"/>
+        <stop offset="45%" stop-color="#1a1a18" stop-opacity=".13"/>
+        <stop offset="100%" stop-color="#1a1a18" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="qjcos-coreG" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#1a1a18" stop-opacity="1"/>
+        <stop offset="62%" stop-color="#1a1a18" stop-opacity=".92"/>
+        <stop offset="100%" stop-color="#1a1a18" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="qjcos-earthG" cx="38%" cy="34%" r="72%">
+        <stop offset="0%" stop-color="#8fa9b8"/><stop offset="100%" stop-color="#4a5f6b"/>
+      </radialGradient>
+    </defs>
+    <g class="qjcos-st qjcos-mist"><circle cx="600" cy="250" r="215" fill="url(#qjcos-mistG)"/></g>
+    <g class="qjcos-st qjcos-core"><circle cx="600" cy="250" r="16" fill="url(#qjcos-coreG)"/></g>
+    <g class="qjcos-st qjcos-dual">
+      <circle cx="528" cy="250" r="42" fill="#1a1a18" opacity=".88"/>
+      <circle cx="672" cy="250" r="42" fill="none" stroke="#1a1a18" stroke-width="1.2" opacity=".55"/>
+      <circle cx="528" cy="250" r="6" fill="#fff"/><circle cx="672" cy="250" r="6" fill="#1a1a18"/>
+    </g>
+    <g class="qjcos-st qjcos-triad">
+      <circle cx="600" cy="206" r="9" fill="#b03826"/>
+      <circle cx="562" cy="272" r="9" fill="#1a1a18"/><circle cx="638" cy="272" r="9" fill="#1a1a18"/>
+      <path d="M600 206 L562 272 L638 272 Z" fill="none" stroke="#1a1a18" stroke-width=".8" opacity=".35"/>
+    </g>
+    <g class="qjcos-st qjcos-stars">
+      <circle class="qjcos-par" cx="600" cy="250" r="1.58" opacity="0" style="--dx:90.7px;--dy:3.9px;animation-delay:10.34s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.87" opacity="0" style="--dx:238.3px;--dy:32.5px;animation-delay:10.01s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.46" opacity="0" style="--dx:90.9px;--dy:8.9px;animation-delay:11.01s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.36" opacity="0" style="--dx:131.5px;--dy:4.7px;animation-delay:11.11s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.7" opacity="0" style="--dx:216.4px;--dy:34.7px;animation-delay:9.82s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.71" opacity="0" style="--dx:199.2px;--dy:92.7px;animation-delay:10.17s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.19" opacity="0" style="--dx:112.2px;--dy:74.2px;animation-delay:10.03s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.69" opacity="0" style="--dx:147.9px;--dy:106.7px;animation-delay:11.55s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.79" opacity="0" style="--dx:217.8px;--dy:140.0px;animation-delay:11.12s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.81" opacity="0" style="--dx:115.0px;--dy:123.8px;animation-delay:11.19s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.48" opacity="0" style="--dx:44.8px;--dy:52.5px;animation-delay:10.49s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.21" opacity="0" style="--dx:90.1px;--dy:66.2px;animation-delay:10.47s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.78" opacity="0" style="--dx:54.5px;--dy:100.3px;animation-delay:10.3s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.36" opacity="0" style="--dx:121.9px;--dy:173.4px;animation-delay:11.26s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.34" opacity="0" style="--dx:90.5px;--dy:148.7px;animation-delay:10.71s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.17" opacity="0" style="--dx:-34.4px;--dy:144.4px;animation-delay:11.44s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.48" opacity="0" style="--dx:-45.6px;--dy:163.3px;animation-delay:9.88s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.44" opacity="0" style="--dx:-0.9px;--dy:91.7px;animation-delay:12.06s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.38" opacity="0" style="--dx:-59.6px;--dy:91.4px;animation-delay:10.75s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.56" opacity="0" style="--dx:-92.8px;--dy:104.8px;animation-delay:10.39s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.23" opacity="0" style="--dx:-60.3px;--dy:82.9px;animation-delay:11.95s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.09" opacity="0" style="--dx:-58.2px;--dy:76.6px;animation-delay:11.02s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.23" opacity="0" style="--dx:-36.0px;--dy:55.2px;animation-delay:11.31s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.13" opacity="0" style="--dx:-136.3px;--dy:76.8px;animation-delay:10.72s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.04" opacity="0" style="--dx:-179.8px;--dy:66.4px;animation-delay:11.87s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.43" opacity="0" style="--dx:-151.8px;--dy:126.6px;animation-delay:11.09s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.23" opacity="0" style="--dx:-179.4px;--dy:94.7px;animation-delay:10.84s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.84" opacity="0" style="--dx:-269.2px;--dy:94.2px;animation-delay:10.43s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.92" opacity="0" style="--dx:-117.3px;--dy:30.1px;animation-delay:11.89s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.28" opacity="0" style="--dx:-217.0px;--dy:56.1px;animation-delay:10.17s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.64" opacity="0" style="--dx:-211.3px;--dy:8.5px;animation-delay:11.07s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.04" opacity="0" style="--dx:-151.5px;--dy:34.1px;animation-delay:12.03s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.65" opacity="0" style="--dx:-275.4px;--dy:-32.7px;animation-delay:9.94s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.18" opacity="0" style="--dx:-294.9px;--dy:-54.0px;animation-delay:10.97s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.61" opacity="0" style="--dx:-263.7px;--dy:3.1px;animation-delay:10.11s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.56" opacity="0" style="--dx:-205.7px;--dy:-37.0px;animation-delay:11.89s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.13" opacity="0" style="--dx:-126.4px;--dy:-29.0px;animation-delay:11.55s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.09" opacity="0" style="--dx:-149.1px;--dy:-32.9px;animation-delay:11.36s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.25" opacity="0" style="--dx:-175.3px;--dy:-67.8px;animation-delay:10.34s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.48" opacity="0" style="--dx:-183.5px;--dy:-78.9px;animation-delay:10.33s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.48" opacity="0" style="--dx:-196.3px;--dy:-78.2px;animation-delay:11.97s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.5" opacity="0" style="--dx:-49.4px;--dy:-55.1px;animation-delay:11.41s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.96" opacity="0" style="--dx:-77.6px;--dy:-53.5px;animation-delay:11.17s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.7" opacity="0" style="--dx:-130.2px;--dy:-146.2px;animation-delay:10.26s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.89" opacity="0" style="--dx:-104.3px;--dy:-95.7px;animation-delay:10.92s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.07" opacity="0" style="--dx:-43.5px;--dy:-148.4px;animation-delay:10.04s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.81" opacity="0" style="--dx:-40.0px;--dy:-99.1px;animation-delay:10.4s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.89" opacity="0" style="--dx:-47.7px;--dy:-114.3px;animation-delay:10.47s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.93" opacity="0" style="--dx:-37.7px;--dy:-185.8px;animation-delay:11.87s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.1" opacity="0" style="--dx:11.9px;--dy:-59.6px;animation-delay:11.81s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.78" opacity="0" style="--dx:126.4px;--dy:-170.5px;animation-delay:10.2s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.84" opacity="0" style="--dx:38.3px;--dy:-80.4px;animation-delay:9.94s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.56" opacity="0" style="--dx:103.2px;--dy:-185.5px;animation-delay:11.68s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.01" opacity="0" style="--dx:83.2px;--dy:-102.0px;animation-delay:12.19s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.33" opacity="0" style="--dx:146.8px;--dy:-128.4px;animation-delay:10.51s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.14" opacity="0" style="--dx:176.1px;--dy:-82.9px;animation-delay:11.6s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.06" opacity="0" style="--dx:118.8px;--dy:-116.5px;animation-delay:11.85s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.17" opacity="0" style="--dx:203.1px;--dy:-145.8px;animation-delay:10.25s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.49" opacity="0" style="--dx:208.8px;--dy:-77.9px;animation-delay:10.09s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.25" opacity="0" style="--dx:136.7px;--dy:-25.8px;animation-delay:11.29s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.1" opacity="0" style="--dx:201.7px;--dy:-57.8px;animation-delay:12.04s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.5" opacity="0" style="--dx:228.9px;--dy:-67.2px;animation-delay:10.75s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="1.66" opacity="0" style="--dx:154.6px;--dy:-10.6px;animation-delay:11.6s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="3.1" opacity="0" style="--dx:183.4px;--dy:-36.7px;animation-delay:12.19s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.2" fill="#b03826" opacity="0" style="--dx:135.5px;--dy:41.7px;animation-delay:10.93s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.2" fill="#b03826" opacity="0" style="--dx:241.8px;--dy:-66.8px;animation-delay:12.16s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.2" fill="#b03826" opacity="0" style="--dx:-96.8px;--dy:64.3px;animation-delay:12.07s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.2" fill="#b03826" opacity="0" style="--dx:-63.0px;--dy:-130.0px;animation-delay:12.37s"/>
+      <circle class="qjcos-par" cx="600" cy="250" r="2.2" fill="#b03826" opacity="0" style="--dx:-66.0px;--dy:-59.4px;animation-delay:12.03s"/>
+    </g>
+    <g class="qjcos-st qjcos-earth"><circle cx="600" cy="352" r="9" fill="url(#qjcos-earthG)"/></g>
+    <g class="qjcos-st qjcos-glyph" font-family="'Ma Shan Zheng','Xingkai SC','STXingkai','KaiTi',serif" text-anchor="middle">
+      <text class="qjcos-par" x="740" y="416" opacity="0" style="--dx:0px;--dy:0px;animation-delay:15.9s;animation-duration:1.6s">日</text>
+      <text class="qjcos-par" x="690" y="416" opacity="0" style="--dx:0px;--dy:0px;animation-delay:16.18s;animation-duration:1.6s">月</text>
+      <text class="qjcos-par" x="640" y="416" opacity="0" style="--dx:0px;--dy:0px;animation-delay:16.46s;animation-duration:1.6s">山</text>
+      <text class="qjcos-par" x="590" y="416" opacity="0" style="--dx:0px;--dy:0px;animation-delay:16.74s;animation-duration:1.6s">水</text>
+      <text class="qjcos-par" x="540" y="416" opacity="0" style="--dx:0px;--dy:0px;animation-delay:17.02s;animation-duration:1.6s">人</text>
+      <text class="qjcos-par" x="490" y="416" opacity="0" style="--dx:0px;--dy:0px;animation-delay:17.3s;animation-duration:1.6s">文</text>
+    </g>
+  </svg>
+  <div class="qjcos-cap qjcos-c1">道 · 混沌未分</div>
+  <div class="qjcos-cap qjcos-c2">道生一 · 有物混成</div>
+  <div class="qjcos-cap qjcos-c3">一生二 · 负阴而抱阳</div>
+  <div class="qjcos-cap qjcos-c4">二生三 · 冲气以为和</div>
+  <div class="qjcos-cap qjcos-c5">三生万物 · 星辰与地球</div>
+  <div class="qjcos-cap qjcos-c6">文明 · 字与传承</div>
+</div>
+
+<div class="qjcos-stmt">
+  <div class="qjcos-lead">见天地，见众生，唯不见神迹</div>
+  <div class="qjcos-sub">永生之法不在肉身，在文明之灵的传承</div>
+  <div class="qjcos-acts">
+    <a class="p" href="/collection">免费领取 16 朝壁纸</a>
+    <a class="s" href="/5000years">进入 · 上下五千年</a>
+  </div>
+</div>
