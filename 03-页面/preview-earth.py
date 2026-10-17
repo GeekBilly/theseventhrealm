@@ -13,7 +13,8 @@ sys.path.insert(0, "/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/03-页面")
 _spec = importlib.util.spec_from_file_location(
     "b", "/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/03-页面/build-cosmos-v2.py")
 B = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(B)   # 复用同一套投影/曲线逻辑
+_spec.loader.exec_module(B)   # 复用同一套投影/曲线逻辑（GEO 由 scene() 填充）
+G = B.GEO["wide"]
 
 
 def sample(d, per=24):
@@ -35,7 +36,7 @@ def sample(d, per=24):
             rx, ry = float(toks[i + 1]), float(toks[i + 2])
             sweep = int(toks[i + 5])
             end = (float(toks[i + 6]), float(toks[i + 7]))
-            cx0, cy0 = B.CX, B.EY
+            cx0, cy0 = G["CX"], G["EY"]
             a0 = math.atan2(cur[1] - cy0, cur[0] - cx0)
             a1 = math.atan2(end[1] - cy0, end[0] - cx0)
             if sweep and a1 < a0:
@@ -75,13 +76,13 @@ d = ImageDraw.Draw(img)
 # 大气 + 海洋（与 SVG 的 seaG / airG 真实配色对齐）
 d.ellipse([off - 126 * S / 2, off - 126 * S / 2, off + 126 * S / 2, off + 126 * S / 2],
           fill=(111, 182, 232, 78))
-R = B.ER * S / 2
+R = G["ER"] * S / 2
 d.ellipse([off - R, off - R, off + R, off + R], fill=(47, 134, 201, 255))
 
 
 def draw(dstr, fill, width=0):
     for seg in sample(dstr):
-        p = [((x - 600) * S / 2 + off, (y - B.EY) * S / 2 + off) for x, y in seg]
+        p = [((x - G["CX"]) * S / 2 + off, (y - G["EY"]) * S / 2 + off) for x, y in seg]
         if len(p) > 2:
             if width:
                 d.line(p, fill=fill, width=width, joint="curve")
@@ -99,16 +100,14 @@ def hx(h):
     return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)) + (255,)
 
 
-for k, v in B.LAND.items():
-    dd = B.land_path(v)
+for k, dd in G["land_d"].items():
     if dd:
         draw(dd, hx(B.LAND_FILL[k]))
 
-draw(B.ice_d, (244, 250, 253, int(255 * 0.85)))
-draw(B.ice_n, (244, 250, 253, int(255 * 0.62)))
-for (lo, la, rl_, rt, op) in B.CLOUDS:
-    if B.visible(lo, la):
-        draw(B.cloud_blob(lo, la, rl_, rt), (255, 255, 255, int(255 * op)))
+draw(G["ice_d"], (244, 250, 253, int(255 * 0.85)))
+draw(G["ice_n"], (244, 250, 253, int(255 * 0.62)))
+for (dd, op) in G["cloud_list"]:
+    draw(dd, (255, 255, 255, int(255 * op)))
 
 mask = Image.new("L", (W, H), 0)
 ImageDraw.Draw(mask).ellipse([off - R, off - R, off + R, off + R], fill=255)
@@ -119,6 +118,5 @@ d.ellipse([off - R, off - R, off + R, off + R], outline=(255, 255, 255, 55), wid
 out = "/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/03-页面/地球形态校验.png"
 img.save(out)
 print(out)
-for k, v in B.LAND.items():
-    dd = B.land_path(v)
+for k, dd in G["land_d"].items():
     print(f"  {k:10s} {'有' if dd else '背面不可见（已剔除）'}")

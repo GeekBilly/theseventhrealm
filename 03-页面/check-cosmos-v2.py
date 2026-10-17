@@ -8,10 +8,23 @@ import xml.etree.ElementTree as ET
 P = "/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/03-页面/上线片段-首页宇宙演化动画-v2.html"
 src = open(P, encoding="utf-8").read()
 body = re.sub(r"<!--.*?-->", "", src, flags=re.S)
+# 片段含两套画幅（宽幅 + 竖幅）。时间线/幕区间分析只看宽幅那一份，否则会重复计数。
+MARK_T = 'class="qjcos-scene qjcos-sc-t"'
+wide = src.split(MARK_T)[0]
 
 ok, bad = [], []
 def chk(cond, msg):
     (ok if cond else bad).append(msg)
+
+chk(MARK_T in src and 'class="qjcos-scene qjcos-sc-w"' in src, "两套画幅都在（宽幅 + 竖幅）")
+
+# 0) 🔴 wpautop 防线：片段内不许有空行
+#    WP 的 wpautop 按 \n\s*\n 切块并逐块包 <p>；<style> 内一旦被插入 </p><p>，
+#    CSSOM 会吞掉后续规则 ⇒ 动画全失效 ⇒ 整块全白（2026-10-17 线上事故）。
+blank = len(re.findall(r"\n[ \t]*\n", src))
+st = re.search(r"<style[^>]*>(.*?)</style>", src, re.S)
+chk(blank == 0, f"片段内零空行（防 wpautop 插 <p>；当前 {blank} 处）")
+chk(st and "\n" not in st.group(1), "CSS 压成单行（wpautop 无从切块）")
 
 # 1) XML well-formed（浏览器对 inline SVG 走 XML 解析规则）
 try:
@@ -32,7 +45,7 @@ chk(not missing, f"HTML 中使用的 class 全部有 CSS 定义（缺失：{miss
 # 3) keyframes：引用 vs 定义
 kf_def = set(re.findall(r"@keyframes\s+([\w-]+)", css))
 kf_use = set(re.findall(r"animation-name:\s*([\w-]+)", css))
-kf_use |= set(re.findall(r"animation:\s*([\w-]+)", css))
+kf_use |= {m for m in re.findall(r"animation:\s*([\w-]+)", css) if m != "none"}
 chk(kf_use <= kf_def, f"@keyframes 引用齐全（未定义：{sorted(kf_use - kf_def)}）")
 idle = sorted(k for k in kf_def if len(re.findall(rf"\b{k}\b", css)) < 2)
 chk(not idle, f"无闲置 @keyframes（闲置：{idle}）")
@@ -73,6 +86,12 @@ for name in ["qjcos-infl", "qjcos-quarkp", "qjcos-galzoom", "qjcos-solin",
 seq = list(tl.values())
 chk(seq == sorted(seq), f"时间线递增：{tl}")
 
+# 两套画幅的 defs id 必须带后缀分开，否则 url(#…) 会抢引用到第一个
+ids_w = set(re.findall(r'\sid="(qjcos-[^"]+)"', src.split(MARK_T)[0]))
+ids_t = set(re.findall(r'\sid="(qjcos-[^"]+)"', src.split(MARK_T)[1]))
+chk(not (ids_w & ids_t), f"两套画幅的 id 不重名（重复：{sorted(ids_w & ids_t)[:4]}）")
+chk(len(ids_w) >= 8 and len(ids_t) >= 8, f"两套画幅各有完整 defs（{len(ids_w)} / {len(ids_t)}）")
+
 
 # 10) 幕间交叉溶解：相邻两幕必须有重叠（前幕还没淡完，后幕已淡入），否则视觉上就是硬切
 def _blk(name):
@@ -98,7 +117,7 @@ def dly_of(name):
 
 IN, OUT = 1.2, 1.5          # qjcos-scin / qjcos-scout 时长
 acts = []                   # (淡入起, 淡入完, 淡出起, 淡出完)
-for i, o in re.findall(r'class="qjcos-[a-z]+ qjcos-sc" style="--i:([\d.]+)s;--o:([\d.]+)s"', src):
+for i, o in re.findall(r'class="qjcos-[a-z]+ qjcos-sc" style="--i:([\d.]+)s;--o:([\d.]+)s"', wide):
     acts.append((float(i), float(i) + IN, float(o), float(o) + OUT))
 _g = dly_of("qjcos-galcore")
 acts.append((_g, _g + (dur_of("qjcos-galcore") or 0),

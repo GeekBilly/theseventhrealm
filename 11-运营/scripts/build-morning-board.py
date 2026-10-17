@@ -167,6 +167,23 @@ def load_status():
         return {}
 
 
+# ---------- 5b. 站点性能（perf-check.py 写入，可选） ----------
+def load_perf():
+    """
+    读 11-运营/data/morning-perf.json。
+    ⚠️ 判读口径（2026-10-17 实测定）：本机走透明代理 + 跨境链路，TTFB 绝对值噪声可达 ±15s，
+       不能拿来判定站点好坏。看板上因此**只把「缓存状态 / 体积 / HTTP」当硬指标**，
+       TTFB 一律标注「仅供参考」。真正属于站点的开销是 gap（冷 − 热＝多出来那次回源）。
+    """
+    f = p("11-运营/data/morning-perf.json")
+    if not os.path.exists(f):
+        return {}
+    try:
+        return json.load(open(f, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 # ---------- 6. 今日待办优先级 ----------
 def load_todos(top=5):
     """
@@ -288,6 +305,7 @@ def build():
     cr = load_credits()
     bd = load_baidu()
     st = load_status()
+    pf = load_perf()
     nows = load_now()
     todos = load_todos()
 
@@ -349,6 +367,40 @@ def build():
     parts.append(card("HTTP→HTTPS", jump301 or NA, "", "", "ok" if jump301 in ("301", "308") else "warn"))
     parts.append(card("Cloudflare", cf or NA, "", "", "ok" if cf and "生效" in str(cf) else "warn"))
     parts.append("</div>")
+
+    # 一之二、站点性能（perf-check.py 产出；TTFB 受跨境链路污染，只作趋势参考）
+    if pf.get("pages"):
+        cached = pf.get("cached_pages") or 0
+        dyn = pf.get("dynamic_pages") or 0
+        total = pf.get("pages") or 0
+        # 只有「全部页面都进了 CDN」才算绿；有 DYNAMIC 就是可优化点
+        cache_cls = "ok" if dyn == 0 else ("warn" if cached else "bad")
+        gap = pf.get("gap_avg")
+        size_kb = pf.get("size_avg_kb")
+        parts.append("<h2>一之二 · 站点性能</h2><div class='grid'>")
+        parts.append(card("HTML 进 CDN", f"{cached}/{total} 页", "",
+                          ("全部命中" if dyn == 0 else f"{dyn} 页每次回源"),
+                          cache_cls))
+        parts.append(card("回源开销", f"{gap}s" if gap is not None else NA, "",
+                          "冷−热，属站点自身的部分",
+                          "ok" if (gap or 0) < 0.5 else ("warn" if (gap or 0) < 2 else "bad")))
+        parts.append(card("HTML 体积", f"{size_kb}KB" if size_kb else NA, "",
+                          "压缩后均值", "ok" if (size_kb or 0) < 400 else "bad"))
+        parts.append(card("硬告警", pf.get("slow_count") or 0, "页", pf.get("verdict", ""),
+                          "ok" if not pf.get("slow_count") else "bad"))
+        parts.append("</div>")
+        notes = []
+        if pf.get("via_proxy"):
+            notes.append("本次经本机透明代理取样，绝对 TTFB 含跨境链路噪声")
+        if pf.get("cold_avg") is not None:
+            notes.append(
+                f"TTFB 冷(回源) 均 {pf['cold_avg']}s ／ 热(CDN) 均 {pf['hot_avg']}s —— 仅供参考")
+        if pf.get("slow"):
+            sl = "、".join(f"{esc(x['url'])}（{esc(x['why'])}）" for x in pf["slow"][:4])
+            notes.append("慢页：" + sl)
+        if notes:
+            parts.append("<p class='n' style='font-size:12px;color:var(--ink3);margin-top:8px'>"
+                         + "　|　".join(esc(x) for x in notes) + "</p>")
 
     # 二、站点分析
     parts.append("<h2>二 · 站点流量</h2>")

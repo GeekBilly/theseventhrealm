@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-10-17 14:56",
+  "pages": 3,
+  "via_proxy": true,
+  "cold_avg": 7.73,
+  "cold_max": 10.95,
+  "hot_avg": 9.91,
+  "gap_avg": -2.18,
+  "gap_max": 6.66,
+  "size_avg_kb": 11.3,
+  "cached_pages": 0,
+  "dynamic_pages": 2,
+  "slow": [
+    {
+      "url": "/",
+      "why": "回源开销大",
+      "val": 10.95
+    },
+    {
+      "url": "/collection/",
+      "why": "未缓存(参考)",
+      "val": 7.92
+    },
+    {
+      "url": "/5000years/",
+      "why": "未缓存(参考)",
+      "val": 4.32
+    }
+  ],
+  "slow_count": 0,
+  "elapsed_sec": 100.3,
+  "verdict": "✅ 站点自身无硬问题（绝对 TTFB 受跨境链路影响，仅供参考）"
+}
