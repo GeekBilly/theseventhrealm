@@ -149,7 +149,7 @@ section{padding:clamp(44px,6vw,60px) 24px}
     <h2 id="s12">十二、这一卷为什么叫“觉醒”</h2>
     <p>回到本卷的名字。</p>
     <p>1912 年之后，最关键的变化不是政权，而是<strong>人</strong>：读书的人变多了，写文章的人变多了，能参与讨论的人变多了。白话让文章能被读懂，简化与扫盲让字能被识得，编码与输入法让汉字能在机器上跑。<strong>这三件事不是三次技术升级，是同一件事的三次推进——把表达的工具交给所有人。</strong></p>
-    <p>而“觉醒”二字的含义，也应当被说得朴素一些，并且要看到它的另一半：这个过程从来不是一条直线，主张被人反对过，方法被人推翻过，很多人付出的代价并没有换来他们想要的结果。<strong>承认这一点，才谈得上把这一段写成历史而不是写成赞歌。</strong><strong>它不是一个民族忽然睁开眼睛，而是很多人一个一个地睁开了眼睛。</strong>胡适写了一篇文章，鲁迅写了一篇小说，顾颉刚查了一遍古书，裴文中挖出一块骨头，一个工程师给六千个字编了号——每一件事都不宏大，加在一起就是一次觉醒。</p>
+    <p>而“觉醒”二字的含义，也应当被说得朴素一些，并且要看到它的另一半：这个过程从来不是一条直线，主张被人反对过，方法被人推翻过，很多人付出的代价并没有换来他们想要的结果。</p><p><strong>承认这一点，才谈得上把这一段写成历史而不是写成赞歌。</strong><strong>它不是一个民族忽然睁开眼睛，而是很多人一个一个地睁开了眼睛。</strong>胡适写了一篇文章，鲁迅写了一篇小说，顾颉刚查了一遍古书，裴文中挖出一块骨头，一个工程师给六千个字编了号——每一件事都不宏大，加在一起就是一次觉醒。</p>
     <p>这与前面十五卷的口径是一致的：<strong>五千年里没有神来救过谁，也没有谁天生就该被矮化。问天的是人，记事的也是人，改字的还是人。</strong></p>
     <p>这一卷与前十五卷有一个很大的不同：前面的每一朝，都可以用一个结局收尾——某城被攻破，某个皇帝退位；而这一卷没有结局，因为它还在进行中。</p>
     <p>我们能说的只有已经发生的那一半：<strong>在最近这一百多年里，中国完成了三千年里最剧烈的一次自我改造，而改造的方向始终是让人更容易读、更容易写、更容易被听见。</strong>从文言到白话，从繁体到简体，从手写到铅字，从铅字到屏幕——每一次变化，都让文字离更多人更近一步。</p>
@@ -191,6 +191,55 @@ section{padding:clamp(44px,6vw,60px) 24px}
     </details>
 </section>
 
+<style>.sr-collection{max-width:1000px;margin:0 auto;padding:8px 0 40px;color:#1f1d1a;
+ font-family:Georgia,"Times New Roman","Songti SC","Noto Serif SC",serif;line-height:1.85}
+.sr-collection h1{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:34px;
+ letter-spacing:4px;margin:0 0 8px;font-weight:400}
+.sr-collection .sub{color:#5a554c;margin:0 0 6px;font-size:15px}
+.sr-collection .rule{height:1px;background:#e3ddd0;margin:24px 0 30px}
+.sr-collection .lead{background:#fff;border:1px solid #e3ddd0;border-left:3px solid #9e2b25;
+ border-radius:6px;padding:16px 20px;margin:0 0 36px;font-size:15.5px}
+.sr-collection .lead b{color:#9e2b25}
+.sr-collection h2{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:23px;font-weight:400;
+ letter-spacing:2px;margin:40px 0 6px}
+.sr-collection h2+.price{color:#9e2b25;font-size:14px;margin:0 0 14px;letter-spacing:1px}
+.sr-collection p{margin:0 0 14px;font-size:15.5px}
+.sr-collection .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:14px;margin:18px 0 6px;list-style:none;padding:0;justify-content:center}
+.sr-collection .shots li{margin:0}
+.sr-collection .shots.one{grid-template-columns:minmax(0,320px);justify-content:center}
+.sr-collection .shots img{width:100%;display:block;border:1px solid #e3ddd0;border-radius:4px}
+.sr-collection .shots span{display:block;font-size:13.5px;color:#6b6559;margin-top:8px;text-align:center}
+.sr-collection .cta{display:inline-block;background:#9e2b25;color:#fff;text-decoration:none;
+ padding:13px 30px;border-radius:3px;font-size:16px;letter-spacing:2px;margin:6px 0 10px}
+.sr-collection .cta:hover{background:#86241f}
+.sr-collection .cta.cta-minor{background:#fff;color:#9e2b25;border:1px solid #9e2b25;padding:11px 24px;font-size:15px}
+.sr-collection .cta.cta-minor:hover{background:#f6f1e6}
+.sr-collection .note{font-size:14.5px;color:#6b6559;line-height:1.95}
+.sr-collection .fine{margin-top:40px;padding-top:20px;border-top:1px solid #e3ddd0;
+ font-size:13.5px;color:#6b6559;line-height:1.95}
+@media (max-width:640px){.sr-collection h1{font-size:27px}.sr-collection h2{font-size:20px}}
+.sr-collection .shots{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.sr-collection .shots li a{display:block;height:100%;background:#fff;border:1px solid #e3ddd0;
+ border-radius:6px;padding:14px 16px 12px;color:#45423c}
+.sr-collection .shots li a:hover{border-color:#b03826}
+.sr-collection .shots b{display:block;font-weight:400;font-size:19px;letter-spacing:2px;
+ color:#1f1d1a;margin:0 0 3px;font-family:"Ma Shan Zheng","Songti SC",serif}
+.sr-collection .shots span{display:block;font-size:12.5px;color:#6b6559;line-height:1.75;
+ text-align:left;margin:0}
+.sr-collection .shots em{display:block;font-style:normal;font-size:13.5px;color:#45423c;
+ margin-top:6px;line-height:1.75}
+.sr-collection .shots i{display:block;font-style:normal;font-size:12.5px;color:#b03826;
+ letter-spacing:1px;margin-top:8px;padding-top:8px;border-top:1px solid #f0ebdf}
+@media (max-width:900px){.sr-collection .shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.sr-collection .shots{gap:10px}.sr-collection .shots b{font-size:17px}}</style>
+<div class="sr-collection">
+<h2>相关藏品</h2>
+<p class="price">预告价：单朝 ¥12 ｜ 商周套装 ¥19 ｜ 首发有折扣</p>
+<p><a class="cta" href="/collection/dynasty/juexing/">觉醒年代 · 壁纸与藏品 →</a></p>
+<p><a class="cta" href="/collection/dynasty/" style="background:transparent;border:1px solid #cfc7b8;color:#45423c">看看十六朝全套 →</a></p>
+</div>
+
 <section>
   <div class="era-nav">
     <a href="/5000years/qing/">← 清</a><span class="sep">☷</span><a href="/5000years/">总览</a><span class="sep">☷</span><a href="/5000years/">长卷暂止 →</a>
@@ -198,3 +247,58 @@ section{padding:clamp(44px,6vw,60px) 24px}
   <p class="fineprint">年代与字形取通行说法；先秦部分学者间存在不同意见，凡有争议处已在文中标明。若发现错漏，欢迎写信至 hello@theseventhrealm.com 指正，核实后即改。</p>
   <p style="text-align:center;margin-top:22px"><a class="back-home" href="/5000years/">← 回到上下五千年</a>　<span class="sep">☷</span>　<a class="back-home" href="/collection/">藏品 · 把五千年带在身边 →</a></p>
 </section>
+
+<section class="reveal">
+  <h2>留个邮箱，32 张壁纸发你</h2>
+  <p class="sr-form-intro">十六朝 32 张手机壁纸（iPhone / Android 各 16 张）直接发到你邮箱；桌面横版开售时也第一时间告诉你。只做这两类消息，不群发广告，随时可退订。</p>
+
+<style>
+#mlb2-46577392.ml-form-embedContainer{box-sizing:border-box;display:table;margin:0 auto;position:static;width:100%!important}
+#mlb2-46577392 h4,#mlb2-46577392 p,#mlb2-46577392 span,#mlb2-46577392 button{text-transform:none!important;letter-spacing:normal!important}
+#mlb2-46577392 .ml-form-embedWrapper{background:transparent;border:0;border-radius:4px;box-sizing:border-box;display:inline-block!important;margin:0;padding:0;position:relative}
+#mlb2-46577392 .ml-form-embedWrapper.embedForm{max-width:520px;width:100%}
+#mlb2-46577392 .ml-form-align-center{text-align:center}
+#mlb2-46577392 .ml-form-embedBody,#mlb2-46577392 .ml-form-successBody{padding:14px 0 0}
+#mlb2-46577392 .ml-form-successContent{text-align:center;margin:0 0 20px}
+#mlb2-46577392 .ml-form-successContent h4{color:#1f1d1a;font-family:inherit;font-size:22px;font-weight:400;margin:0 0 8px}
+#mlb2-46577392 .ml-form-successContent p{color:#6b6559;font-family:inherit;font-size:14px;line-height:20px;margin:0}
+#mlb2-46577392 form{margin:0;width:100%}
+#mlb2-46577392 .ml-form-formContent{margin:0 0 14px;width:100%}
+#mlb2-46577392 .ml-form-fieldRow{margin:0;width:100%}
+#mlb2-46577392 .ml-form-fieldRow input{background:#fff!important;color:#333!important;border:1px solid #d8d2c4!important;border-radius:4px!important;font-family:inherit!important;font-size:14px!important;line-height:21px!important;padding:10px 12px!important;width:100%!important;box-sizing:border-box!important;text-align:center}
+#mlb2-46577392 .ml-form-embedSubmit{margin:0 0 14px;width:100%}
+#mlb2-46577392 .ml-form-embedSubmit button{background:#9e2b25!important;border:0!important;border-radius:3px!important;color:#fff!important;cursor:pointer;font-family:inherit!important;font-size:14px!important;font-weight:700!important;line-height:21px!important;padding:10px!important;width:100%!important;box-sizing:border-box!important;letter-spacing:2px}
+#mlb2-46577392 .ml-form-embedSubmit button:hover{background:#7d211d!important}
+#mlb2-46577392 .ml-form-embedSubmit button.loading{display:none}
+#mlb2-46577392 .ml-form-embedPermissions{text-align:center;width:100%}
+#mlb2-46577392 .ml-form-embedPermissionsContent p{color:#6b6559;font-family:inherit;font-size:12px;line-height:20px;margin:0}
+#mlb2-46577392 .ml-form-embedPermissionsContent p a{color:#6b6559}
+.ml-error input{border-color:#b0201f!important}
+@media only screen and (max-width:400px){#mlb2-46577392 .ml-form-embedWrapper.embedForm{width:100%!important}}
+</style>
+<style id="sr-form-fit">
+/* 2026-10-02：让 MailerLite 表单与本站在版式上一致。
+   原嵌入自带 letter-spacing:normal!important，会把本站的字距冲掉；
+   按钮也是它自己的饱和红全宽块 —— 与本站"朱砂点眼"的做法不一路。 */
+#mlb2-46577392{max-width:520px;margin:0 auto!important}
+#mlb2-46577392 .ml-form-embedWrapper.embedForm{max-width:520px}
+#mlb2-46577392 .ml-form-embedBody{padding:4px 0 0}
+#mlb2-46577392 .ml-form-formContent{margin:0 0 10px}
+#mlb2-46577392 .ml-form-fieldRow input{border:1px solid #ded7c8!important;border-radius:2px!important;
+  padding:11px 12px!important;font-size:15px!important;letter-spacing:.06em!important;
+  background:#fff!important;color:#1a1a18!important;text-align:center}
+#mlb2-46577392 .ml-form-embedSubmit{margin:0 0 12px}
+#mlb2-46577392 .ml-form-embedSubmit button{background:transparent!important;color:#b03826!important;
+  border:1px solid #b03826!important;border-radius:2px!important;font-size:15px!important;
+  letter-spacing:.2em!important;text-indent:.2em;padding:11px 0!important;font-family:inherit!important;
+  transition:background .2s,color .2s}
+#mlb2-46577392 .ml-form-embedSubmit button:hover{background:#b03826!important;color:#fff!important}
+#mlb2-46577392 .ml-form-embedPermissionsContent p,
+#mlb2-46577392 .ml-form-successContent p{letter-spacing:.04em!important;color:#6b675f!important}
+#mlb2-46577392 .ml-form-embedPermissionsContent a{color:#8c8578!important}
+.sr-form-intro{max-width:580px;margin:0 auto 20px!important;line-height:2.1;color:#6b675f;
+  letter-spacing:.06em;font-size:15px;text-align:center}
+</style>
+<div id="mlb2-46577392" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-46577392"><div class="ml-form-align-center"><div class="ml-form-embedWrapper embedForm"><div class="ml-form-embedBody ml-form-embedBodyDefault row-form"><form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2674672/forms/200094094575273632/subscribe" data-code="" method="post" target="_blank"><div class="ml-form-formContent"><div class="ml-form-fieldRow ml-last-item"><div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="你的邮箱地址" autocomplete="email"></div></div></div><div class="ml-form-embedPermissions"><div class="ml-form-embedPermissionsContent default privacy-policy"><p><span><a href="https://theseventhrealm.com/privacy/">隐私政策</a></span></p></div></div><div class="ml-form-hidden"><input type="hidden" name="ml-submit" value="1"><input type="hidden" name="anticsrf" value="true"></div><div class="ml-form-embedSubmit"><button type="submit" class="primary">留邮箱</button><button disabled="disabled" style="display:none" type="button" class="loading"><div class="ml-form-embedSubmitLoad"></div><span class="sr-only">Loading...</span></button></div></form></div><div class="ml-form-successBody row-success" style="display:none"><div class="ml-form-successContent"><h4>已发送</h4><p>32 张壁纸的下载链接已经发到你邮箱，请查收。没看到就翻一下垃圾邮件箱。<br>过几天想再要、或者一直收不到 —— 写信到 <a href="mailto:hello@theseventhrealm.com" style="color:#b03826">hello@theseventhrealm.com</a>，我们人工补发。</p></div></div></div></div><div class="ml-form-scripts"><script>function ml_webform_success_46577392(){var w=document.querySelector('.ml-subscribe-form-46577392');if(!w)return;var s=w.querySelector('.row-success'),f=w.querySelector('.row-form');if(s)s.style.display='';if(f)f.style.display='none';}</script><script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script><script>fetch("https://assets.mailerlite.com/jsonp/2674672/forms/200094094575273632/takel")</script></div></div>
+</section>
+<style id="qj-rhythm">:root{ --sp-sec:clamp(30px,3.5vw,42px); --sp-para:clamp(16px,1.6vw,20px); --sp-block:clamp(24px,2.8vw,32px); --sp-head:clamp(38px,4.2vw,50px);}section{margin-block:0!important;padding:var(--sp-sec) 24px}.verse{padding:var(--sp-sec) 24px}.prose p{margin:var(--sp-para) 0}.prose h2{margin:var(--sp-head) 0 16px}.dispute{margin:var(--sp-block) auto 0}.finale{padding:0}.final-line{margin-top:0;line-height:1.5}.lone{line-height:1.7}footer{padding:56px 24px 48px}.sr-collection p{margin:0 0 16px}.sr-collection h2{margin:44px 0 8px}</style>

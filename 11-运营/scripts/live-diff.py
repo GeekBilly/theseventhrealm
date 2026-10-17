@@ -37,6 +37,11 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SITE = "https://theseventhrealm.com"          # 必须 apex，www 会 301 吞掉请求
 
+# 🔴 Cloudflare 会拦截 curl 默认 UA（返回 403 HTML 而非 JSON），必须伪装成浏览器。
+#    2026-10-06 首次记录，2026-10-18 修：此前每次发布前判定都取数失败，形同虚设。
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+
 STRIP = re.compile(r"</?(p|br|div|span|section|article|header|footer|nav|ul|ol|li|"
                    r"h[1-6]|table|thead|tbody|tr|td|th|details|summary|blockquote|"
                    r"figure|figcaption|hr|dl|dt|dd|pre|code|em|strong|i|b|a)\b[^>]*>", re.I)
@@ -76,7 +81,8 @@ def load_auth():
 
 
 def fetch(user, pwd, url):
-    cmd = ["curl", "-s", "-L", "--max-time", "30", "-u", f"{user}:{pwd}", url]
+    cmd = ["curl", "-s", "-L", "--max-time", "30", "-A", UA,
+           "-u", f"{user}:{pwd}", url]
     r = subprocess.run(cmd, capture_output=True, text=True)
     try:
         return json.loads(r.stdout)
