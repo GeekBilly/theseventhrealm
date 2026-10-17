@@ -43,6 +43,17 @@ DOMAIN_FREE = 0      # 无免费额度 —— 公式越简单越不会被绕过
 SPEC_FREE = 0
 FLOOR, CAP = 5000, 12000
 
+# ─────────────────────────────────────────────────────────────
+# 纯索引模式（2026-10-17 结构改版）
+# MEMORY.md 改成「宪法 + 索引」两层后，**它的体积与项目规模解耦了**：
+#   旧的规模项假设「多一份规范文档就要多留一行指针」，
+#   但索引是按**主题**分组的 —— 规范文档变多只会新增 L2 文件，不必在 MEMORY 里加行。
+# 所以索引模式下改用固定小额预算（不再套用上面的规模膨胀公式）。
+# ─────────────────────────────────────────────────────────────
+INDEX_BUDGET = 3000       # 索引模式预算 ≈2k tokens（当前 2,130，占 71%）
+INDEX_WARN = 0.85         # 软预警线：用到 85% 就提示收口，避免某天突然触顶
+AVG_INDEX_LINE = 80       # 估算「还能加几行索引」用，实测均值
+
 SKIP_DIRS = {".git", ".workbuddy", "99-归档", "node_modules", "__pycache__"}
 SPEC_RE = re.compile(r"(README|手册|规范|流程|规则|总原则|约定|指南|SOP)", re.I)
 
@@ -82,13 +93,36 @@ def scan_scale():
     return doms, specs, ndirs, mdchars
 
 
-def auto_budget(verbose=False):
+def is_index_mode(text):
+    """判断 MEMORY.md 是否已是「宪法 + 索引」两层结构。
+
+    本项目标题写作 '##A 宪法' / '##B 索引'（**二级标题后紧跟字母、无空格**），
+    同 load_sections 的放宽约定保持一致。
+    """
+    if not text:
+        return False
+    return bool(re.search(r"(?m)^##[AB]\s*\S", text)) or "纯索引" in text[:400]
+
+
+def auto_budget(text=None, verbose=False):
     doms, specs, ndirs, mdchars = scan_scale()
+    scale = {"domains": doms, "specs": specs, "dirs": ndirs, "md_chars": mdchars}
+
+    # 索引模式：预算固定，且**不准被 FLOOR=5000 顶回去**
+    if is_index_mode(text):
+        clamped = INDEX_BUDGET
+        if verbose:
+            print(f"  项目规模：活跃域 {doms} · 规范文档 {specs} 份 · 目录 {ndirs} · "
+                  f"md 合计 {mdchars:,} 字符")
+            print(f"  结构识别：**纯索引模式**（宪法 + 索引）→ 预算固定 {INDEX_BUDGET} 字符")
+            print(f"  （规模膨胀公式已停用：索引按主题分组，规范文档变多只会新增 L2 文件，"
+                  f"不必在 MEMORY 里加行。）")
+        return clamped, scale
+
     b = (BASE
          + PER_DOMAIN * max(0, doms - DOMAIN_FREE)
          + PER_SPEC * max(0, specs - SPEC_FREE))
     clamped = max(FLOOR, min(CAP, b))
-    scale = {"domains": doms, "specs": specs, "dirs": ndirs, "md_chars": mdchars}
     if verbose:
         print(f"  项目规模：活跃域 {doms} · 规范文档 {specs} 份 · 目录 {ndirs} · "
               f"md 合计 {mdchars:,} 字符")
@@ -145,13 +179,15 @@ def main():
                     help="按项目规模自动算预算（不写 --budget 时的默认行为）")
     args = ap.parse_args()
 
+    # 先读文本：结构识别要先看到内容，才能决定用哪套预算
+    text = open(MEM, encoding="utf-8").read()
+
     scale = None
     if args.budget is None:
-        args.budget, scale = auto_budget(verbose=True)
+        args.budget, scale = auto_budget(text=text, verbose=True)
     else:
         print(f"  预算：手动指定 {args.budget} 字符（跳过自动计算）")
 
-    text = open(MEM, encoding="utf-8").read()
     blocks = load_sections(text)
     total = len(text)
     infos = []
@@ -186,18 +222,47 @@ def main():
     movable = sorted([i for i in infos if i["rank"] == "p2" and i["move"]],
                      key=lambda x: -len(x["body"]))
 
-    if total <= args.budget or not args.apply:
-        print("\n--check 模式或未超预算：不移动任何内容。" if not args.apply
-              else "\n体积正常，--apply 无需动手。")
-        if total > args.budget and movable:
-            n = 0
-            need = total - args.budget
-            print(f"  提示：如需瘦身，将按 p2 从大到小搬 ——")
+    idx_mode = is_index_mode(text)
+    over = total - args.budget
+
+    if total <= args.budget:
+        if idx_mode and total >= args.budget * INDEX_WARN:
+            room = args.budget - total
+            print(f"\n⚠️ 已用到预算的 {total / args.budget * 100:.0f}%"
+                  f"（软预警线 {int(INDEX_WARN * 100)}%）")
+            print(f"   余量 {room} 字符 ≈ {int(room // AVG_INDEX_LINE)} 条索引行。建议现在收口：")
+            print("     ① 合并相似主题　② 缩短红线摘要（保留红线本身，砍解释性从句）")
+            print("     ③ 整块主题下沉为新 L2 文件，索引只留主题名 + 指针")
+        print("\n体积正常，--apply 无需动手。" if args.apply
+              else "\n--check 模式：不移动任何内容。")
+        return
+
+    # ── 超预算 ──
+    if not args.apply:
+        print(f"\n--check 模式：不移动任何内容。（超预算 {over} 字符）")
+        if movable:
+            need, n = over, 0
+            print("  可搬的 p2 章节（从大到小）：")
             for i in movable:
                 print(f"    · {i['title'][:40]} ({len(i['body'])} 字符) → {i['move']}")
                 n += len(i["body"])
                 if n >= need:
                     break
+        return
+
+    if not movable:
+        print(f"\n❌ 超预算 {over} 字符，但没有可自动搬运的章节（无 rank=p2 标注）。")
+        if idx_mode:
+            print("   纯索引模式下这是**预期状态而非故障**：宪法与索引本就不该被脚本搬走。")
+            print("   需要人工收口，三选一：")
+            print("     ① 合并相似主题（如「CF 与缓存」并入「WordPress 发布」）")
+            print("     ② 缩短红线摘要 —— 保留红线本身，砍解释性从句")
+            print("     ③ 整块主题下沉为新 L2 文件，索引只留主题名 + 指针")
+        else:
+            print("   给要下沉的章节标题**下一行**加指令：")
+            print("     <!-- tidy: rank=p2 | move-to=<目标文件> | pointer=<留档提示> -->")
+            print("   ⚠️ __HEAD__ 永不搬运；写在上一条标题下面会被前一节吸收。")
+        print("   ⚠️ 未改动任何文件，也未生成整理报告（避免每天产出空报告）。")
         return
 
     shutil.copy(MEM, MEM + ".bak")

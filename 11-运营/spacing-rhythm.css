@@ -1,0 +1,48 @@
+/* ============================================================
+   第七境 · 垂直节奏 v1.0（2026-10-17）
+   全站唯一的间距来源。
+   ------------------------------------------------------------
+   为什么要单独抽出来：
+   ① 一节自己带上下 padding，相邻两节就**叠加** —— 朝代页 60+60=120，
+      总览页 80+80=160，其余页面用主题的 68+68=136；
+   ② Twenty Twenty-Five 主题还给相邻块留 margin-block-start:1.2rem(=19px)；
+   ③ 两者相加，实测朝代页相邻节「视觉空白」= 139px —— 这就是"间距太大"。
+   现在：节首尾各 42px（相邻 84px），并把那 19px 主题残留清掉。
+
+   口径：数值只在这里改一次，其余页面靠注入同一份 CSS 承接。
+   主题 qijing.css 无法自动部署（无 cPanel/FTP 凭据），
+   所以以「页面正文末尾注入」的方式生效 —— 注入内容必须无空行，
+   否则 WordPress 的 wpautop 会往 <style> 里插 <p>，CSS 会被整段吞掉。
+   ============================================================ */
+
+:root{
+  --sp-sec:clamp(30px,3.5vw,42px);      /* 节首尾留白（相邻两节＝2×＝84px 桌面） */
+  --sp-para:clamp(16px,1.6vw,20px);     /* 段落之间（相邻 margin 会折叠，直接等于间距） */
+  --sp-block:clamp(24px,2.8vw,32px);    /* 块内大分段（如「争议」框） */
+  --sp-head:clamp(38px,4.2vw,50px);     /* 章标题之上 */
+}
+
+/* 清掉主题给相邻块留的 19px，让节距只由 --sp-sec 决定 */
+section{margin-block:0!important;padding:var(--sp-sec) 24px}
+
+/* 金句节：以前单独放 54px，比常规节还厚；现在与常规节同档 */
+.verse{padding:var(--sp-sec) 24px}
+
+/* 正文章节 */
+.prose p{margin:var(--sp-para) 0}
+.prose h2{margin:var(--sp-head) 0 16px}
+.dispute{margin:var(--sp-block) auto 0}
+
+/* 终章：以前 padding 16/6 + 金句 margin-top 22 又叠了一层，全部清零；
+   金句行框 82px 是因为继承了 line-height:1.95，42px 的字被撑到 82px 高，
+   收紧到 1.5 后为 63px，字本身大小不变、留白不再虚胖 */
+.finale{padding:0}
+.final-line{margin-top:0;line-height:1.5}
+.lone{line-height:1.7}
+
+/* 页脚：70/60 配 42 的节距偏重，收到 56/48 */
+footer{padding:56px 24px 48px}
+
+/* 藏品页（另一套版式）：向同一节奏对齐，段落 14→16、章标题上 40→44 */
+.sr-collection p{margin:0 0 16px}
+.sr-collection h2{margin:44px 0 8px}
