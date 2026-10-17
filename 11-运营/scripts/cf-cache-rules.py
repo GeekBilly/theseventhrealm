@@ -131,48 +131,60 @@ def cmd_apply():
         print("⚠️", e)
         return 2
 
+    # 🔴🔴 **顺序必须反过来**：Cache Rules 是「后匹配覆盖前匹配」（last-match-wins），
+    #    不是防火墙那种 first-match。2026-10-17 实测：把 bypass 放前面时，
+    #    /wp-json/ 照样三次 HIT（被后面的 cache:true 覆盖），等于后台接口被缓存 2 小时。
+    #    ⇒ **bypass 必须排最后**，它才能盖掉前面的 cache:true。
+    # ⚠️ ruleset API 的**单条 rule 不接受 "name" 字段**（CF 会报 unknown field "name"）；
+    #    rule 的显示名一律用 description，name 只有 ruleset 顶层才有。
     rules = [
         {
-            "name": "① 绕过：后台/登录/预览/REST/搜索",
-            "expression": BYPASS_EXPR,
-            "description": "这些请求绝不能进 CDN，否则后台会被缓存、登录态串号",
-            "action": "set_cache_settings",
-            "action_parameters": {"cache": False},
-        },
-        {
-            "name": "② 缓存 HTML：Cache Everything + Edge TTL 2h",
+            "description": "① 缓存 HTML：Cache Everything + Edge TTL 2h",
             "expression": f'(http.host eq "{SITE}")',
-            "description": "匿名访客的页面 HTML 缓存到边缘，省掉一次跨太平洋回源",
             "action": "set_cache_settings",
             "action_parameters": {
                 "cache": True,
                 "edge_ttl": {"mode": "override_origin", "default": EDGE_TTL},
                 "browser_ttl": {"mode": "override_origin", "default": BROWSER_TTL},
-                "serve_stale": {"disable": False},
-                "respect_strong_etags": True,
-                "origin_cache_control": False,
+                # ⚠️ 免费版只有 cache/edge_ttl/browser_ttl 三个字段可用。
+                #    serve_stale → 400 unknown field "disable"
+                #    origin_cache_control / respect_strong_etags → 400 not entitled to ...
+                #    加回来之前先确认 plan 已升级，否则必被拒。
             },
+        },
+        {
+            "description": "② 绕过：后台/登录/预览/REST/搜索（必须排最后才能盖掉 ①）",
+            "expression": BYPASS_EXPR,
+            "action": "set_cache_settings",
+            "action_parameters": {"cache": False},
         },
     ]
     # 规则按顺序匹配，① 命中即 bypass，不会落到 ②
-    body = {"name": RULESET_NAME, "phase": "http_request_cache_settings", "rules": rules}
-
+    # ⚠️ ruleset 的 name 被 CF 锁死为 "default"，**PUT 更新时带上 name 必被拒**：
+    #    400 the name field cannot be modified: got X, want default
+    #    所以更新只发 rules；只有首次创建（POST）才带 name/phase。
     if rs:
         path = f"/zones/{ZONE}/rulesets/{rs['id']}"
         method = "PUT"
+        body = {"rules": rules}
     else:
         path = f"/zones/{ZONE}/rulesets"
         method = "POST"
+        body = {"name": RULESET_NAME, "phase": "http_request_cache_settings", "rules": rules}
 
     d, err = call(method, path, body)
     if err or not d.get("success"):
-        print("❌ 写入失败：", err or d.get("errors"))
+        print(f"❌ 写入失败 HTTP {err}")
+        for x in (d.get("errors") or []):
+            print("   code=", x.get("code"), "|", x.get("message"))
+            if x.get("meta"):
+                print("   meta=", json.dumps(x.get("meta"), ensure_ascii=False)[:300])
         if "Authentication error" in str(d.get("errors")):
             print("   → token 无 Cache Rules 写权限，需重建 Token（见文件顶部注释）")
         return 2
     print(f"✅ Cache Rules 已写入（{method}）：")
     for r in (d.get("result") or {}).get("rules", []):
-        print("   -", r.get("name"))
+        print("   -", (r.get("description") or "")[:50])
     print("\n⚠️ 副作用（必须知道）：HTML 缓存后改首页不会立刻生效 → 跑 --purge 或等 2h")
     print("下一步：python3 cf-cache-rules.py --verify")
     return 0
@@ -193,11 +205,19 @@ def cmd_verify():
           "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
     ok = 0
     for p in ["/", "/5000years/", "/collection/"]:
-        out = subprocess.run(["curl", "-s", "-o", "/dev/null", "-L", "--max-time", "45",
-                              "-A", ua, "-D", "-", f"https://{SITE}{p}"],
-                             capture_output=True, text=True, timeout=60).stdout
-        m = re.search(r"cf-cache-status:\s*(\S+)", out, re.I)
-        st = m.group(1) if m else "取不到"
+        # 第一次必然 MISS（边缘还没有副本），所以预热一次、取第二次的状态
+        st = "取不到"
+        for _ in range(2):
+            try:
+                out = subprocess.run(["curl", "-s", "-o", "/dev/null", "-L", "--max-time", "45",
+                                      "-A", ua, "-D", "-", f"https://{SITE}{p}"],
+                                     capture_output=True, text=True, timeout=60).stdout
+            except subprocess.TimeoutExpired:
+                st = "超时"
+                break
+            m = re.search(r"cf-cache-status:\s*(\S+)", out, re.I)
+            if m:
+                st = m.group(1)
         hit = st.upper() in ("HIT", "REVALIDATED")
         ok += 1 if hit else 0
         print(f"  {p:<16} cf-cache-status = {st}  {'✅' if hit else '❌ 仍在回源'}")
