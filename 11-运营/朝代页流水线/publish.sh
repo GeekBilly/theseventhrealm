@@ -81,6 +81,17 @@ PY
 done
 
 echo
+echo "== 清 CF 缓存 =="
+if [ -n "$DRY" ]; then
+  echo "  DRY_RUN 模式，跳过"
+else
+  # 🔴 2026-10-17 起 HTML 已进 CDN（Edge TTL 2h）：不清缓存线上要 2 小时才更新。
+  #    必须放在「线上复核」之前，否则复核读到的是缓存里的旧页面。
+  /usr/bin/python3 11-运营/scripts/cf-cache-rules.py --purge \
+    || echo "  ⚠️ 清缓存失败（按规则不重试），稍后可手动再跑一次上面的命令"
+fi
+
+echo
 echo "== 线上复核 =="
 for slug in "${SLUGS[@]}"; do
   code=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/5000years/$slug/")

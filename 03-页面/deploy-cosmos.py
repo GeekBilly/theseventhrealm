@@ -7,6 +7,7 @@
     python3 deploy-cosmos.py --rollback  # 用备份原文回滚
 """
 import json
+import os
 import re
 import subprocess
 import sys
@@ -93,6 +94,22 @@ def post(content):
     return None
 
 
+CF_PURGE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "..", "11-运营", "scripts", "cf-cache-rules.py")
+
+
+def purge_cdn():
+    """清 CF 边缘缓存。
+    🔴 2026-10-17 起 HTML 已进 CDN（Edge TTL 2h），不清缓存线上要 2 小时才更新；
+    而且**必须在 verify 之前跑**，否则 verify 抓到的是缓存里的旧页面，等于白验。
+    """
+    r = subprocess.run(["/usr/bin/python3", CF_PURGE, "--purge"],
+                       capture_output=True, text=True, timeout=120)
+    out = (r.stdout or r.stderr or "").strip().replace("\n", " | ")[:160]
+    print("[purge] rc=%d %s" % (r.returncode, out))
+    return r.returncode == 0
+
+
 def verify():
     """发布后抓线上 HTML 实测：wpautop 有没有再往 <style>/<svg> 里插 <p>。"""
     pw = subprocess.run(["security", "find-generic-password", "-s",
@@ -131,8 +148,10 @@ if __name__ == "__main__":
     print("待发布正文：%d -> %d 字符 (+%d)" % (len(raw), len(new), len(new) - len(raw)))
     if "--rollback" in sys.argv:
         post(raw)
+        purge_cdn()
     elif "--dry" not in sys.argv:
         if post(new):
+            purge_cdn()      # 🔴 必须先清 CDN 缓存，再 verify
             import time
             time.sleep(3)
             verify()
