@@ -1,4 +1,4 @@
-# 用 WorkBuddy 给 WordPress 做子主题：4 个文件让每个新页面自动套上你的设计（不用写 PHP）
+# 【征文】用 WorkBuddy 给 WordPress 做子主题：4 个文件让每个新页面自动套上你的设计（不用写 PHP）
 
 > 适合人群：用 WordPress 区块主题（比如 Twenty Twenty-Five）做定制站点的人。
 > 本文的方案、文件与排查过程，都是我与 WorkBuddy 协作做出来的——不是「AI 帮我写了个网站」的成果展示，而是**每一步怎么让它做、以及中间踩了哪些坑**的完整过程。
