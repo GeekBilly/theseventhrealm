@@ -24,3 +24,6 @@ date,url,http,cold_ttfb,hot_ttfb,gap,size,cache,ray,flag
 2026-10-18,/collection/,200,2.01,0.71,1.3,14314,HIT,LHR,ok
 2026-10-18,/5000years/,200,1.91,0.82,1.1,14850,HIT,LHR,ok
 2026-10-18,/,200,1.78,0.86,0.92,49084,HIT,LHR,ok
+2026-10-19,/,200,2.6,0.64,1.96,49084,HIT,SEA,ok
+2026-10-19,/5000years/,200,2.28,1.68,0.6,14850,HIT,SEA,ok
+2026-10-19,/collection/,200,2.14,1.71,0.43,14314,HIT,SEA,ok
