@@ -94,13 +94,34 @@ else
 fi
 echo "profile：$PROFILE（小红书+抖音 cookie $(COUNT_CK) 条）"
 
-# ---- 2. 已就绪就复用 -------------------------------------------------------
+# ---- 2. 兜底：保证抖音标签存在 --------------------------------------------
+# 🔴 2026-10-20 冷启动实测抓到的真问题（不修明天就会丢数据）：
+#    TARGET 只指向小红书发布页 ⇒ Chrome 冷启动后**只有小红书一个标签**，
+#    dy-stats.sh 报 NO_DY_TAB ⇒ 当天抖音数据**永久缺失**（7 天滚动窗口不可回溯）。
+#    实测：关掉 Chrome 用 launchctl 拉起后，小红书采集正常、抖音 NO_DY_TAB。
+#    所以「已就绪」和「刚启动」两条路径都要确认抖音标签在。
+DY_HOME='https://creator.douyin.com/creator-micro/home'
+ensure_dy_tab() {
+  local has
+  has=$(curl -s --noproxy '*' --max-time 5 "http://127.0.0.1:${PORT}/json/list" 2>/dev/null \
+        | grep -c "creator\.douyin\.com")
+  if [ "${has:-0}" -eq 0 ]; then
+    curl -s --noproxy '*' --max-time 10 -X PUT \
+      "http://127.0.0.1:${PORT}/json/new?${DY_HOME}" >/dev/null 2>&1
+    echo "已补开抖音标签（冷启动不会自动恢复，必须手动补）"
+  else
+    echo "抖音标签已存在，无需补开（匹配 ${has} 行）"
+  fi
+}
+
+# ---- 3. 已就绪就复用 -------------------------------------------------------
 if port_up; then
   echo "OK 端口 ${PORT} 已就绪，无需重开"
+  ensure_dy_tab
   exit 0
 fi
 
-# ---- 3. 启动（非沙箱 + 常驻）----------------------------------------------
+# ---- 4. 启动（非沙箱 + 常驻）----------------------------------------------
 echo "正在启动小红书专用 Chrome（端口 ${PORT}）…"
 "$CHROME_BIN" \
   --user-data-dir="$PROFILE" \
@@ -116,6 +137,7 @@ for i in $(seq 1 15); do
   sleep 2
   if port_up; then
     echo "OK 已就绪：http://127.0.0.1:${PORT}"
+    ensure_dy_tab
     break
   fi
 done
