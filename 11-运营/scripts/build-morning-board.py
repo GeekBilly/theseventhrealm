@@ -184,6 +184,23 @@ def load_perf():
         return {}
 
 
+# ---------- 5c. 小红书（xhs-stats.sh 写入，可选） ----------
+def load_xhs():
+    """
+    读 11-运营/data/xhs-stats.json。
+    ⚠️ 口径（2026-10-19 定）：创作服务平台只给「近 7 天 / 近 30 天」滚动窗口，
+       断一天就永久缺一天 —— 跟 Cloudflare 分析一个道理，所以必须每天采。
+       取不到就返回 {}，看板显示「本次未提供」，绝不沿用昨天的值冒充今日。
+    """
+    f = p("11-运营/data/xhs-stats.json")
+    if not os.path.exists(f):
+        return {}
+    try:
+        return json.load(open(f, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 # ---------- 6. 今日待办优先级 ----------
 def load_todos(top=5):
     """
@@ -278,7 +295,17 @@ CSS = qj_theme.FONTS + qj_theme.tokens(".mb") + """
 .mb code{font-family:"SF Mono",Menlo,monospace;font-size:12.5px;color:var(--ink2)}
 .mb footer{margin-top:48px;padding-top:22px;border-top:1px solid var(--line);
  font-size:12.5px;color:var(--ink3);letter-spacing:.06em;line-height:1.9}
-@media(max-width:600px){.mb h1{font-size:26px}.mb .card .v{font-size:26px}}
+.mb table.xhs{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px;
+  font-family:var(--f-body);font-variant-numeric:tabular-nums}
+.mb table.xhs th{text-align:right;font-weight:400;font-size:11px;letter-spacing:.08em;
+  color:var(--ink3);padding:6px 8px;border-bottom:1px solid rgba(26,26,24,.12)}
+.mb table.xhs th:first-child,.mb table.xhs td.t{text-align:left}
+.mb table.xhs td{padding:8px;text-align:right;color:var(--ink2);
+  border-bottom:1px solid rgba(26,26,24,.06)}
+.mb table.xhs td.t{color:var(--ink);max-width:230px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+@media(max-width:600px){.mb h1{font-size:26px}.mb .card .v{font-size:26px}
+  .mb table.xhs{font-size:12px}.mb table.xhs td.t{max-width:120px}}
 """ + qjr.CSS_MB
 
 # 独立成页时的外壳（背景与字号由 body 提供）；内嵌进门户 tab 时不输出。
@@ -306,6 +333,7 @@ def build():
     bd = load_baidu()
     st = load_status()
     pf = load_perf()
+    xhs = load_xhs()
     nows = load_now()
     todos = load_todos()
 
@@ -426,6 +454,52 @@ def build():
                      f'letter-spacing:.1em">近 {len(s)} 日净访次</div><div class="bars">{bars}</div></div>')
     else:
         parts.append(f"<p class='na'>{NA}：未找到站点数据 CSV。</p>")
+
+    # 二之二、小红书（7 天滚动窗口，每天必采）
+    parts.append("<h2>二之二 · 小红书</h2>")
+    if xhs.get("ok"):
+        ov = xhs.get("overview") or {}
+        dg = xhs.get("diag") or {}
+        fn = xhs.get("fans") or {}
+        mm = xhs.get("mom") or {}
+        parts.append("<div class='grid'>")
+        parts.append(card("曝光（近 7 日）", f"{ov.get('exposure'):,}" if ov.get("exposure") is not None else NA, "",
+                          f"环比 {mm['exposure']}" if mm.get("exposure") else "", "ok"))
+        parts.append(card("观看（近 7 日）", f"{ov.get('views'):,}" if ov.get("views") is not None else NA, "",
+                          f"环比 {mm['views']}" if mm.get("views") else "", "ok"))
+        parts.append(card("封面点击率", ov.get("ctr") or NA, "",
+                          f"环比 {mm['ctr']}" if mm.get("ctr") else "", "ok"))
+        parts.append(card("总粉丝", fn.get("total") if fn.get("total") is not None else NA, "",
+                          f"近 7 日涨粉 {dg.get('newFans') if dg.get('newFans') is not None else NA} "
+                          f"／ 主页访客 {dg.get('profileVisits') if dg.get('profileVisits') is not None else NA}",
+                          "ok"))
+        parts.append("</div>")
+        notes_x = xhs.get("notes") or []
+        if notes_x:
+            rows = "".join(
+                "<tr><td class='t'>{t}</td><td>{d}</td><td>{e}</td><td>{v}</td><td>{c}</td>"
+                "<td>{l}</td><td>{s}</td><td>{f}</td></tr>".format(
+                    t=esc(n.get("title", "")), d=esc(n.get("publishedAt", ""))[:10],
+                    e=f"{n.get('exposure'):,}" if n.get("exposure") is not None else NA,
+                    v=f"{n.get('views'):,}" if n.get("views") is not None else NA,
+                    c=esc(str(n.get("ctr") or NA)), l=n.get("likes") if n.get("likes") is not None else NA,
+                    s=n.get("collects") if n.get("collects") is not None else NA,
+                    f=n.get("newFans") if n.get("newFans") is not None else NA)
+                for n in notes_x[:6])
+            parts.append(
+                "<table class='xhs'><thead><tr><th>笔记</th><th>发布</th><th>曝光</th><th>观看</th>"
+                "<th>点击率</th><th>赞</th><th>藏</th><th>涨粉</th></tr></thead>"
+                f"<tbody>{rows}</tbody></table>")
+        parts.append("<p class='n' style='font-size:12px;color:var(--ink3);margin-top:8px'>"
+                     + esc("　|　".join(filter(None, [
+                         f"统计周期 {xhs.get('period')}" if xhs.get("period") else "",
+                         f"采集于 {xhs.get('fetchedAt')}",
+                         f"共 {xhs.get('noteCount')} 篇笔记",
+                         "7 天滚动窗口，断一天缺一天 ⇒ 每天必采"])))
+                     + "</p>")
+    else:
+        parts.append(f"<p class='na'>{NA}：本次未取到小红书数据（多半是 Chrome 未开或掉登录），"
+                     f"跑 <code>11-运营/scripts/xhs-stats.sh</code> 补采。</p>")
 
     # 三、积分
     parts.append("<h2>三 · 积分</h2>")

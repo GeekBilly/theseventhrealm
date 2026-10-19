@@ -142,7 +142,7 @@ SECTIONS = [
 
 TABS = [("today", "今日"), ("morning", "晨检详报"), ("sections", "内容分区"),
         ("scroll", "字形长卷"), ("market", "市场风向"), ("traffic", "流量"),
-        ("subs", "订阅"), ("rules", "纪律与边界")]
+        ("xhs", "小红书"), ("subs", "订阅"), ("rules", "纪律与边界")]
 
 CSS = qj_theme.FONTS + qj_theme.tokens(":root") + """
 *{box-sizing:border-box;margin:0;padding:0}
@@ -835,6 +835,81 @@ def render_subs(snap, rows):
     return "".join(out)
 
 
+def render_xhs(x):
+    """小红书创作服务平台 · 近 7 日滚动窗口。
+
+    口径纪律（与站点流量一致）：
+      · 创作服务平台只给「近 7 天 / 近 30 天」滚动窗口，断一天就永久缺一天
+        ⇒ 每天随晨检采一次，采集脚本 11-运营/scripts/xhs-stats.sh。
+      · 数据直接取页面渲染值，不做估算；取不到就写「本次未提供」，不编造。
+    """
+    if not x.get("ok"):
+        return ('<p class="lead">尚未采集小红书数据。跑一次 '
+                '<code>11-运营/scripts/xhs-stats.sh</code>'
+                '（需先 <code>start-xhs-browser.sh</code> 登录一次）即可出现在这里。</p>')
+
+    def n(v):
+        return f"{v:,}" if isinstance(v, (int, float)) else "—"
+
+    ov = x.get("overview") or {}
+    dg = x.get("diag") or {}
+    fn = x.get("fans") or {}
+    mm = x.get("mom") or {}
+    notes = x.get("notes") or []
+
+    out = []
+    out.append('<div class="secbar"><h3>一句结论</h3>'
+               f'<span>{esc(x.get("fetchedAt", "—"))} 采集　·　'
+               f'统计周期 {esc(x.get("period") or "—")}　·　每天 06:30 随晨检更新</span></div>')
+    out.append('<div class="mv mv-ok">'
+               f'<div class="mvt">近 7 日曝光 {n(ov.get("exposure"))}　·　'
+               f'观看 {n(ov.get("views"))}　·　封面点击率 {esc(ov.get("ctr") or "—")}</div>'
+               '<div class="mvd">曝光与观看是「被看到多少」，封面点击率才是「封面好不好」——'
+               '点击率低说明内容没问题、封面不行；点击率不低但涨粉为 0，'
+               '说明看完了没理由关注你，钩子得改。</div></div>')
+
+    out.append('<div class="secbar"><h3>关键数字</h3><span>近 7 日 · 环比见小字</span></div>')
+    out.append('<div class="stats">')
+    for val, lab, sub in [
+        (n(ov.get("exposure")), "曝光", f"环比 {esc(mm.get('exposure') or '—')}"),
+        (n(ov.get("views")), "观看", f"环比 {esc(mm.get('views') or '—')}"),
+        (esc(ov.get("ctr") or "—"), "封面点击率", f"环比 {esc(mm.get('ctr') or '—')}"),
+        (n(fn.get("total")), "总粉丝", f"近 7 日涨粉 {n(dg.get('newFans'))}"),
+    ]:
+        out.append(f'<div class="stat"><div class="n"><em>{val}</em></div>'
+                   f'<div class="l">{esc(lab)}</div>'
+                   f'<div class="l" style="font-size:12px;opacity:.75">{sub}</div></div>')
+    out.append('</div>')
+
+    out.append('<div class="secbar"><h3>账号诊断</h3><span>与同类创作者相比</span></div>')
+    out.append(
+        '<div class="mv"><div class="mvd">'
+        f'主页访客 {n(dg.get("profileVisits"))}　·　发布 {n(dg.get("published"))} 篇　·　'
+        f'互动 {n(dg.get("interactions"))}　·　涨粉 {n(dg.get("newFans"))}　·　'
+        f'平均观看 {esc(ov.get("avgWatch") or "—")}　·　观看总时长 {esc(ov.get("totalWatch") or "—")}'
+        '</div></div>')
+
+    if notes:
+        out.append('<div class="secbar"><h3>笔记明细</h3>'
+                   f'<span>共 {len(notes)} 篇 · 近半年发布</span></div>')
+        for nt in notes[:6]:
+            out.append(
+                '<div class="mv"><div class="mvt" style="font-size:20px">'
+                f'{esc(nt.get("title") or "—")}</div>'
+                '<div class="mvd">'
+                f'{esc((nt.get("publishedAt") or "—")[:10])} 发布　·　'
+                f'曝光 {n(nt.get("exposure"))}　·　观看 {n(nt.get("views"))}　·　'
+                f'点击率 {esc(nt.get("ctr") or "—")}<br>'
+                f'赞 {n(nt.get("likes"))}　·　藏 {n(nt.get("collects"))}　·　'
+                f'评 {n(nt.get("comments"))}　·　分享 {n(nt.get("shares"))}　·　'
+                f'涨粉 {n(nt.get("newFans"))}　·　人均观看 {esc(nt.get("avgWatch") or "—")}'
+                '</div></div>')
+
+    out.append('<p class="note" style="margin-top:22px">数字取自小红书创作服务平台页面原值，'
+               '不做估算；7 天滚动窗口，断一天缺一天，所以每天必采。</p>')
+    return "".join(out)
+
+
 def build():
     gallery = ""
     for slug, name, year in ORDER:
@@ -886,6 +961,7 @@ def build():
     traf_html = render_traffic(traf_detail, traf_rows)
     subs_snap, subs_rows = load_subs()
     subs_html = render_subs(subs_snap, subs_rows)
+    xhs_html = render_xhs(bmb.load_xhs())
     red = sum(1 for x in pulse_items if x["cls"] in ("bad", "warn"))
 
     panels_html = f'''
@@ -918,7 +994,7 @@ def build():
         <span class="qg">打开独立页 →</span>
       </a>
     </div>
-    <p class="note">七个 tab 各自成一页，切换不跳转；当前 tab 会记在地址栏，刷新后仍在原处。</p>
+    <p class="note">九个 tab 各自成一页，切换不跳转；当前 tab 会记在地址栏，刷新后仍在原处。</p>
   </div>
 </section>
 
@@ -958,6 +1034,13 @@ def build():
   <div class="wrap">
     <p class="lead">站点真实流量 · 已剔除已知爬虫与扫描器 · 未核实的数字一律标口径，不编造</p>
 {traf_html}
+  </div>
+</section>
+
+<section class="panel" data-panel="xhs" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">小红书创作服务平台 · 近 7 日滚动窗口 · 数字取自页面原值，未核实的一律不进结论</p>
+{xhs_html}
   </div>
 </section>
 
