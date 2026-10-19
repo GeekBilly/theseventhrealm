@@ -35,6 +35,8 @@ TRAF_CSV = os.path.join(ROOT, "04-市场/03-推广获客/数据回收/站点分�
 # 🔴 只含数量与时间，绝不落邮箱明文（隐私纪律同 10-09 入库红线）
 SUBS_JSON = os.path.join(ROOT, "11-运营/data/订阅-latest.json")
 SUBS_CSV = os.path.join(ROOT, "11-运营/data/订阅数据.csv")
+XHS_ACCT_CSV = os.path.join(ROOT, "11-运营/data/xhs-账号数据.csv")   # 小红书逐日（每天采一次）
+LEDGER_MD = os.path.join(ROOT, "11-运营/积分账本与产能测算.md")        # 积分逐日余额/消耗
 # 页面路径的中文名（只列真的有人看的内容页，其余原样显示）
 PATH_CN = {
     "/": "首页",
@@ -140,9 +142,11 @@ SECTIONS = [
     ("07", "品牌总纲与铁律", "3", "总原则 · 空间结构 · 事实核查", "07-品牌总纲与铁律"),
 ]
 
-TABS = [("today", "今日"), ("morning", "晨检详报"), ("sections", "内容分区"),
-        ("scroll", "字形长卷"), ("market", "市场风向"), ("traffic", "流量"),
-        ("xhs", "小红书"), ("subs", "订阅"), ("rules", "纪律与边界")]
+TABS = [("today", "今日"), ("morning", "晨检详报"), ("content", "内容资产"),
+        ("market", "市场风向"), ("traffic", "站点流量"), ("xhs", "小红书"),
+        ("subs", "订阅名单"), ("rules", "纪律与边界")]
+# 说明（2026-10-19 重构）：今日＝所有平台的汇总与判断；内容分区 + 字形长卷合并为「内容资产」；
+# 每个对外平台（站点 / 小红书 / 订阅）各自一个 tab 放详情。晨检详报保留，它是原始逐项读数。
 
 CSS = qj_theme.FONTS + qj_theme.tokens(":root") + """
 *{box-sizing:border-box;margin:0;padding:0}
@@ -257,6 +261,30 @@ a{color:inherit;text-decoration:none}
 .mv.mv-ok{border-left-color:var(--ok)}
 .mv.mv-warn{border-left-color:var(--warn)}
 .mv.mv-bad{border-left-color:var(--cinnabar)}
+/* 数据总览：三张柱状图并排。纯 CSS 无依赖，断网也能看，且不引第三方脚本。 */
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-top:16px}
+.chart{background:var(--wash);padding:18px 20px 14px}
+.chart .ct{font-size:12px;color:var(--ink3);letter-spacing:.1em}
+.chart .cv{font-family:var(--f-brush);font-size:28px;line-height:1.3;margin-top:4px;
+  font-variant-numeric:tabular-nums}
+.chart .cv em{font-style:normal;color:var(--cinnabar)}
+.chart .cb{display:flex;align-items:flex-end;justify-content:flex-start;gap:3px;height:84px;
+  margin-top:14px;border-bottom:1px solid rgba(26,26,24,.1)}
+/* max-width 是刻意的：小红书刚接入时只有 1 天数据，不加限制单根柱会撑满整行，看着像故障 */
+.chart .col{flex:1;max-width:26px;min-height:2px;border-radius:2px 2px 0 0;
+  background:var(--cinnabar);opacity:.82;transition:opacity .2s}
+.chart .col:hover{opacity:1}
+.chart .col.zero{background:rgba(26,26,24,.12)}
+.chart .lab{display:flex;gap:3px;margin-top:5px}
+.chart .lab span{flex:1;text-align:center;font-size:10px;color:var(--ink3);
+  overflow:hidden;white-space:nowrap}
+.chart .cn{font-size:12px;color:var(--ink2);margin-top:10px;line-height:1.7}
+.chart .cn em{font-style:normal;color:var(--cinnabar)}
+.ins{margin-top:16px}
+.ins .mv{margin-top:12px;padding:18px 22px}
+.ins .mvt{font-size:19px}
+.ins .mvd{font-size:14px;margin-top:8px}
+@media(max-width:640px){.charts{grid-template-columns:1fr}.chart .cv{font-size:24px}}
 .winds{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
 .wind{background:var(--wash);padding:22px 26px;border-top:2px solid var(--line)}
 .wind .wt{font-family:var(--f-brush);font-size:21px;letter-spacing:1px;line-height:1.6}
@@ -599,12 +627,27 @@ def load_traffic():
                 rows = list(_csv.DictReader(f))
         except Exception:
             rows = []
+    # CSV 是日期【倒序】写的（新的在前），而下面所有切片都按「越往后越近」来取。
+    # 不排序的话 rows[-8:] 取到的是最旧的 8 天 —— 逐日列表和柱状图都会画错时间段。
+    try:
+        rows.sort(key=lambda r: r.get("date", ""))
+    except Exception:
+        pass
     return detail, rows
 
 
 def _num(n):
     try:
         return f"{int(n):,}"
+    except Exception:
+        return str(n)
+
+
+def _fmt(n):
+    """整数加千分位、小数保留一位 —— 柱状图 hover 上要显示原始值。"""
+    try:
+        f = float(n)
+        return f"{int(f):,}" if f == int(f) else f"{f:,.1f}"
     except Exception:
         return str(n)
 
@@ -835,6 +878,161 @@ def render_subs(snap, rows):
     return "".join(out)
 
 
+def load_xhs_series(n=14):
+    """小红书逐日曝光：来自 xhs-账号数据.csv（每天晨检采一次，按日期 upsert）。
+
+    只有 1 天数据时不画趋势线（一个点画不成趋势），但数字照常显示。
+    """
+    import csv as _csv
+    if not os.path.exists(XHS_ACCT_CSV):
+        return []
+    try:
+        with open(XHS_ACCT_CSV, encoding="utf-8") as f:
+            rows = list(_csv.DictReader(f))
+    except Exception:
+        return []
+    out = []
+    for r in rows[-n:]:
+        try:
+            v = int(str(r.get("曝光数") or "0").replace(",", ""))
+        except ValueError:
+            continue
+        out.append({"d": r.get("日期", ""), "v": v})
+    return out
+
+
+def load_credit_series(n=14):
+    """积分逐日消耗：解析积分账本表格。
+
+    账本行形如 `| 2026-10-18 | **391.17** | 265.56 | … |`，
+    消耗列可能是 `—`（没填）或小数。解析不出来就跳过该日，不猜。
+    """
+    import re as _re
+    if not os.path.exists(LEDGER_MD):
+        return []
+    out = []
+    pat = _re.compile(r'^\|\s*(\d{4}-\d{2}-\d{2})\s*\|\s*\*{0,2}([\d.,]+)\*{0,2}\s*\|\s*([^|]*)\|')
+    try:
+        with open(LEDGER_MD, encoding="utf-8") as f:
+            for line in f:
+                m = pat.match(line)
+                if not m:
+                    continue
+                used = (m.group(3) or "").strip()
+                try:
+                    v = float(used.replace(",", ""))
+                except ValueError:
+                    continue      # 「—」之类没记的数不补 0，0 会被误读成「今天没花钱」
+                out.append({"d": m.group(1), "v": v, "bal": m.group(2)})
+    except Exception:
+        return []
+    return out[-n:]
+
+
+def render_chart(title, value, unit, series, note=""):
+    """一张柱状图。series = [{"d":"2026-10-13","v":273}]，最多画 14 根。"""
+    s = series[-14:]
+    mx = max((x["v"] for x in s), default=0) or 1
+    bars = "".join(
+        f'<div class="col{" zero" if x["v"] == 0 else ""}" '
+        f'style="height:{max(3, round(x["v"] / mx * 100))}%" '
+        f'title="{esc(x["d"])}　{_fmt(x["v"])}"></div>' for x in s)
+    lab = "".join(f'<span>{esc(x["d"][5:].replace("-", "/"))}</span>' for x in s)
+    if not s:
+        bars = '<div class="cn">暂无逐日数据</div>'
+        lab = ""
+    return (f'<div class="chart"><div class="ct">{esc(title)}</div>'
+            f'<div class="cv"><em>{esc(str(value))}</em>{esc(unit)}</div>'
+            f'<div class="cb">{bars}</div><div class="lab">{lab}</div>'
+            f'<div class="cn">{note}</div></div>')
+
+
+def render_insight(tr, xhs, cred, subs_snap):
+    """把所有重要数据归拢成几条判断。
+
+    纪律：只写能从数据直接读出来的东西 —— 不编趋势、不做预测。
+    「数据不满 2 周不下趋势结论」这条口径与晨检一致，这里同样遵守。
+    """
+    out = []
+    add = lambda lv, t, d: out.append(
+        f'<div class="mv mv-{lv}"><div class="mvt">{t}</div><div class="mvd">{d}</div></div>')
+
+    # ── 站点 ──
+    s = tr.get("series") or []
+    if s:
+        last7 = s[-7:]
+        a = sum(x["v"] for x in last7) / len(last7)
+        prev7 = s[-14:-7]
+        botp = tr.get("bot")
+        if len(s) >= 14 and prev7:
+            b = sum(x["v"] for x in prev7) / len(prev7)
+            chg = (a - b) / b * 100 if b else 0
+            lv = "ok" if abs(chg) < 30 else ("warn" if abs(chg) < 50 else "bad")
+            trend = (f"近 7 日 <em>{a:.0f}</em> / 天，前 7 日 {b:.0f} / 天，"
+                     f"{'涨' if chg >= 0 else '跌'} {abs(chg):.0f}%")
+        else:
+            lv = "ok"
+            trend = (f"近 {len(last7)} 日 <em>{a:.0f}</em> / 天"
+                     f"　·　累计 {len(s)} 天，不足 14 天暂不下趋势结论")
+        noise = f"噪声 {botp}%" if botp is not None else "噪声未知"
+        top = f"{tr.get('top1')} {tr.get('top1v')} 次" if tr.get("top1") else "—"
+        add(lv, "站点", f"{trend}　·　{noise}　·　内容页 Top1 {esc(top)}。"
+                        f"噪声低于 30% 时这些数可以信；高于 50% 时先看是不是被扫了，别当结论。")
+
+    # ── 小红书 ──
+    if xhs.get("ok"):
+        ov = xhs.get("overview") or {}
+        dg = xhs.get("diag") or {}
+        fn = xhs.get("fans") or {}
+        e, v = ov.get("exposure") or 0, ov.get("views") or 0
+        ctr = ov.get("ctr") or "—"
+        nf = dg.get("newFans") or 0
+        rate = (v / e * 100) if e else 0
+        cost = f"　·　约 {e // nf:,} 次曝光换 1 个粉丝" if nf and e else ""
+        add("ok", "小红书",
+            f"近 7 日曝光 <em>{e:,}</em>　·　观看 {v:,}（曝光转化率 {rate:.1f}%）　·　"
+            f"封面点击率 {esc(ctr)}　·　涨粉 {nf}　·　总粉丝 {fn.get('total')}{cost}。"
+            f"封面点击率说明封面好不好；它不低但涨粉为 0，说明钩子不行，不是内容不行。")
+    else:
+        add("na", "小红书", "本次未取到数据（Chrome 未开或掉登录）。7 天滚动窗口，断一天缺一天。")
+
+    # ── 积分 ──
+    if cred:
+        used7 = [x["v"] for x in cred[-7:] if x["v"] > 0]
+        bal = cred[-1].get("bal") if cred else None
+        if used7:
+            avg = sum(used7) / len(used7)
+            heavy = [v for v in used7 if v > 100]
+            normal = [v for v in used7 if v <= 100]
+            navg = sum(normal) / len(normal) if normal else None
+            run = None
+            try:
+                b0 = float(str(bal).replace(",", ""))
+                run = b0 / (navg or avg)
+            except (TypeError, ValueError):
+                pass
+            lv = "warn" if (run is not None and run < 15) else "ok"
+            # 含重活日的均值会算出「2 天见底」这种伪警报，所以两个口径都给
+            detail = f"近 {len(used7)} 日均耗 {avg:.1f} 分/天"
+            if heavy and navg is not None:
+                detail += (f"（含 {len(heavy)} 个重活日，单日最高 {max(heavy):.0f} 分）；"
+                           f"剔除重活日后 <em>{navg:.1f}</em> 分/天")
+            add(lv, "积分",
+                f"余额 <em>{esc(str(bal))}</em>　·　{detail}"
+                + (f"　·　按日常节奏约 {run:.0f} 天见底" if run else "")
+                + "。跑道 &lt;15 天就停批量出图与视频。")
+
+    # ── 订阅 ──
+    if subs_snap.get("ok"):
+        n = subs_snap.get("total") or 0
+        nt = subs_snap.get("new_today") or 0
+        add("ok" if n else "warn", "订阅名单",
+            f"<em>{n}</em> 人" + (f"（今日 +{nt}）" if nt else "") +
+            "　·　这是 Y1 唯一瓶颈：内容再多，没人留下联系方式就等于没发生。")
+
+    return "".join(out) if out else ""
+
+
 def render_xhs(x):
     """小红书创作服务平台 · 近 7 日滚动窗口。
 
@@ -961,7 +1159,40 @@ def build():
     traf_html = render_traffic(traf_detail, traf_rows)
     subs_snap, subs_rows = load_subs()
     subs_html = render_subs(subs_snap, subs_rows)
-    xhs_html = render_xhs(bmb.load_xhs())
+    xhs_snap = bmb.load_xhs()
+    xhs_html = render_xhs(xhs_snap)
+
+    # 今日 tab 的「数据总览」：三张柱状图 + 从数据直接读出来的判断。
+    # 数据源全部走各自的真源（CF CSV / 小红书 CSV / 积分账本），不在这里另起一套口径。
+    tr_bmb = bmb.load_traffic()
+    xhs_series = load_xhs_series()
+    cred_series = load_credit_series()
+    # 站点序列优先取 CSV 的逐日累积（已 20+ 天），比晨检那个 7 日窗口长得多，
+    # 柱状图才看得出趋势；取不到再退回晨检的 series。
+    s = []
+    for r in traf_rows[-14:]:
+        try:
+            s.append({"d": r.get("date", ""),
+                      "v": int(str(r.get("visits_clean") or 0).replace(",", ""))})
+        except ValueError:
+            continue
+    if not s:
+        s = tr_bmb.get("series") or []
+    # 判断与图表共用同一条序列，避免两处口径打架
+    tr_bmb = dict(tr_bmb)
+    tr_bmb["series"] = s
+    site_avg = round(sum(x["v"] for x in s[-7:]) / 7) if len(s) >= 7 else (s[-1]["v"] if s else 0)
+    charts_html = (
+        render_chart("站点 · 真人访次/天", _num(site_avg), "", s,
+                     f"近 {len(s)} 日　·　已剔除已知爬虫　·　越往右越近")
+        + render_chart("小红书 · 曝光/天",
+                       _num((xhs_snap.get("overview") or {}).get("exposure") or 0), "",
+                       xhs_series,
+                       "近 7 日滚动窗口　·　每天晨检采一次，断一天缺一天")
+        + render_chart("积分 · 每日消耗",
+                       (cred_series[-1]["bal"] if cred_series else "—"), " 分余额",
+                       cred_series, "柱高＝当日消耗　·　单日 >100 分是重活日"))
+    insight_html = render_insight(tr_bmb, xhs_snap, cred_series, subs_snap)
     red = sum(1 for x in pulse_items if x["cls"] in ("bad", "warn"))
 
     panels_html = f'''
@@ -972,6 +1203,14 @@ def build():
     </div>
     <div class="secbar"><h3>今日状态</h3><span id="qj-pulse-sum">{len(pulse_items)} 项指标{('　·　有 %d 项不在正常区间' % red) if red else '　·　全部正常'}</span></div>
 {pulse_html}
+    <div class="secbar"><h3>数据总览</h3><span>所有平台的关键数字 · 每天 06:30 随晨检更新</span></div>
+    <div class="charts">
+{charts_html}
+    </div>
+    <div class="secbar"><h3>今日判断</h3><span>只写能从数据直接读出来的东西 · 不编趋势 · 不预测</span></div>
+    <div class="ins">
+{insight_html}
+    </div>
     <div class="secbar"><h3>需要你动手的事</h3><span>来自 NOW.md · 共 {len(acts)} 项</span></div>
 {acts_html}
     <div class="divider"></div>
@@ -1005,20 +1244,15 @@ def build():
   </div>
 </section>
 
-<section class="panel" data-panel="sections" role="tabpanel" hidden>
+<section class="panel" data-panel="content" role="tabpanel" hidden>
   <div class="wrap">
     <p class="lead">点开直接进对应目录</p>
     <div class="grid">
 {cards}    </div>
-  </div>
-</section>
-
-<section class="panel" data-panel="scroll" role="tabpanel" hidden>
-  <div class="wrap">
-    <p class="lead">十四朝自有底纹成品 · 横向滑动 · 点击放大</p>
+    <div class="secbar"><h3>字形长卷</h3><span>十四朝自有底纹成品 · 点击放大</span></div>
+    <p class="lead">横向滑动　·　十六朝中尚缺「元」与「觉醒年代」两朝底纹，待补</p>
     <div class="scrollrow">
 {gallery}    </div>
-    <p class="note">十六朝中尚缺「元」与「觉醒年代」两朝底纹，待补。</p>
   </div>
 </section>
 
