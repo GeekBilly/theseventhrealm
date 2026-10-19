@@ -36,6 +36,7 @@ TRAF_CSV = os.path.join(ROOT, "04-市场/03-推广获客/数据回收/站点分�
 SUBS_JSON = os.path.join(ROOT, "11-运营/data/订阅-latest.json")
 SUBS_CSV = os.path.join(ROOT, "11-运营/data/订阅数据.csv")
 XHS_ACCT_CSV = os.path.join(ROOT, "11-运营/data/xhs-账号数据.csv")   # 小红书逐日（每天采一次）
+DY_ACCT_CSV = os.path.join(ROOT, "11-运营/data/dy-账号数据.csv")     # 抖音逐日（每天采一次）
 LEDGER_MD = os.path.join(ROOT, "11-运营/积分账本与产能测算.md")        # 积分逐日余额/消耗
 # 页面路径的中文名（只列真的有人看的内容页，其余原样显示）
 PATH_CN = {
@@ -144,9 +145,9 @@ SECTIONS = [
 
 TABS = [("today", "今日"), ("morning", "晨检详报"), ("content", "内容资产"),
         ("market", "市场风向"), ("traffic", "站点流量"), ("xhs", "小红书"),
-        ("subs", "订阅名单"), ("rules", "纪律与边界")]
+        ("dy", "抖音"), ("subs", "订阅名单"), ("rules", "纪律与边界")]
 # 说明（2026-10-19 重构）：今日＝所有平台的汇总与判断；内容分区 + 字形长卷合并为「内容资产」；
-# 每个对外平台（站点 / 小红书 / 订阅）各自一个 tab 放详情。晨检详报保留，它是原始逐项读数。
+# 每个对外平台（站点 / 小红书 / 抖音 / 订阅）各自一个 tab 放详情。晨检详报保留，它是原始逐项读数。
 
 CSS = qj_theme.FONTS + qj_theme.tokens(":root") + """
 *{box-sizing:border-box;margin:0;padding:0}
@@ -901,6 +902,30 @@ def load_xhs_series(n=14):
     return out
 
 
+def load_dy_series(n=14):
+    """抖音逐日播放量：来自 dy-账号数据.csv（每天晨检采一次，按日期 upsert）。
+
+    跟小红书同一个毛病：数据中心只给 7 天滚动窗口，断一天缺一天。
+    只有 1 天数据时不画趋势线，但数字照常显示。
+    """
+    import csv as _csv
+    if not os.path.exists(DY_ACCT_CSV):
+        return []
+    try:
+        with open(DY_ACCT_CSV, encoding="utf-8") as f:
+            rows = list(_csv.DictReader(f))
+    except Exception:
+        return []
+    out = []
+    for r in rows[-n:]:
+        try:
+            v = int(str(r.get("播放量") or "0").replace(",", ""))
+        except ValueError:
+            continue
+        out.append({"d": r.get("日期", ""), "v": v})
+    return out
+
+
 def load_credit_series(n=14):
     """积分逐日消耗：解析积分账本表格。
 
@@ -947,7 +972,7 @@ def render_chart(title, value, unit, series, note=""):
             f'<div class="cn">{note}</div></div>')
 
 
-def render_insight(tr, xhs, cred, subs_snap):
+def render_insight(tr, xhs, dy, cred, subs_snap):
     """把所有重要数据归拢成几条判断。
 
     纪律：只写能从数据直接读出来的东西 —— 不编趋势、不做预测。
@@ -995,6 +1020,34 @@ def render_insight(tr, xhs, cred, subs_snap):
             f"封面点击率说明封面好不好；它不低但涨粉为 0，说明钩子不行，不是内容不行。")
     else:
         add("na", "小红书", "本次未取到数据（Chrome 未开或掉登录）。7 天滚动窗口，断一天缺一天。")
+
+    # ── 抖音 ──
+    if dy.get("ok"):
+        ov = dy.get("overview") or {}
+        ct = dy.get("content") or {}
+        fn = dy.get("fans") or {}
+        pl = ov.get("plays") or 0
+        ir = ov.get("interactRate") or "—"
+        fr = ov.get("finishRate") or "—"
+        f5 = ct.get("finish5s") or "—"
+        b2 = ct.get("bounce2s") or "—"
+        # 2 秒跳出率是短视频独有的生死线：百分比越高，开头越没留住人
+        b2v = None
+        try:
+            b2v = float(str(b2).replace("%", ""))
+        except ValueError:
+            pass
+        lv = "warn" if (b2v is not None and b2v >= 60) else "ok"
+        diag = ("2 秒跳出率是短视频的生死线，六成以上在这里划走 "
+                "⇒ 问题在开头两秒，不在后面内容。" if (b2v is not None and b2v >= 60)
+                else "开头留得住人，先看完播率与互动率再决定改不改。")
+        add(lv, "抖音",
+            f"近 7 日播放 <em>{pl:,}</em>　·　互动率 {esc(ir)}　·　完播率 {esc(fr)}　·　"
+            f"5 秒完播 {esc(f5)}　·　2 秒跳出 {esc(b2)}　·　"
+            f"平均播放 {esc(ct.get('avgPlay') or '—')}　·　涨粉 {fn.get('net') if fn.get('net') is not None else '—'}。"
+            f"{diag}")
+    else:
+        add("na", "抖音", "本次未取到数据（Chrome 未开或掉登录）。同样是 7 天滚动窗口，断一天缺一天。")
 
     # ── 积分 ──
     if cred:
@@ -1108,6 +1161,97 @@ def render_xhs(x):
     return "".join(out)
 
 
+def render_dy(x):
+    """抖音创作者中心 · 数据中心。
+
+    口径纪律（与小红书、站点流量一致）：
+      · 数据中心只给「近 7 天 / 近 30 天」滚动窗口，断一天就永久缺一天
+        ⇒ 每天随晨检采一次，采集脚本 11-运营/scripts/dy-stats.sh。
+      · 数字直接取页面渲染值，不做估算；取不到就写「本次未提供」，不编造。
+      · 抖音独有指标（2 秒跳出率 / 5 秒完播率 / 平均播放时长）是短视频的判断依据，
+        这几项在小红书那边没有对应物，别拿同一套口径套两个平台。
+    """
+    if not x.get("ok"):
+        return ('<p class="lead">尚未采集抖音数据。跑一次 '
+                '<code>11-运营/scripts/dy-stats.sh</code>'
+                '（需先在 9226 的 Chrome 登录 creator.douyin.com）即可出现在这里。</p>')
+
+    def n(v):
+        return f"{v:,}" if isinstance(v, (int, float)) else "—"
+
+    ov = x.get("overview") or {}
+    ct = x.get("content") or {}
+    fn = x.get("fans") or {}
+    pc = x.get("pct") or {}
+    vids = x.get("videos") or []
+
+    out = []
+    out.append('<div class="secbar"><h3>一句结论</h3>'
+               f'<span>{esc(x.get("fetchedAt", "—"))} 采集　·　'
+               f'统计周期 {esc(x.get("period") or "—")}　·　每天随晨检更新</span></div>')
+    out.append('<div class="mv mv-ok">'
+               f'<div class="mvt">近 7 日播放 {n(ov.get("plays"))}　·　'
+               f'互动率 {esc(ov.get("interactRate") or "—")}　·　'
+               f'完播率 {esc(ov.get("finishRate") or "—")}</div>'
+               '<div class="mvd">播放量是「被推给多少人」，完播率是「内容撑不撑得住」——'
+               '播放高而完播低，是推荐给错了人；两个一起低，才是内容本身没立住。</div></div>')
+
+    out.append('<div class="secbar"><h3>关键数字</h3><span>近 7 日 · 取自数据中心原值</span></div>')
+    out.append('<div class="stats">')
+    for val, lab, sub in [
+        (n(ov.get("plays")), "播放量",
+         f"超过同类作者 {pc['higherThan']}%" if pc.get("higherThan") is not None else "—"),
+        (esc(ov.get("interactRate") or "—"), "互动率", "赞+评+分享 / 播放"),
+        (esc(ov.get("finishRate") or "—"), "完播率", "看完的人占比"),
+        (n(fn.get("total")), "总粉丝", f"净增 {n(fn.get('net'))}"),
+    ]:
+        out.append(f'<div class="stat"><div class="n"><em>{val}</em></div>'
+                   f'<div class="l">{esc(lab)}</div>'
+                   f'<div class="l" style="font-size:12px;opacity:.75">{esc(sub)}</div></div>')
+    out.append('</div>')
+
+    out.append('<div class="secbar"><h3>短视频专属读数</h3>'
+               '<span>这几项小红书那边没有，是抖音自己的判断依据</span></div>')
+    out.append('<div class="stats">')
+    for val, lab, sub in [
+        (esc(ct.get("finish5s") or "—"), "5 秒完播率", "撑过前 5 秒的人"),
+        (esc(ct.get("bounce2s") or "—"), "2 秒跳出率", "越低越好 · ≥60% 要改开头"),
+        (esc(ct.get("avgPlay") or "—"), "平均播放时长", "单个作品的停留"),
+        (esc(ct.get("coverCtr") or "—"), "封面点击率", "0 ＝ 未进入推荐流样本"),
+    ]:
+        out.append(f'<div class="stat"><div class="n"><em>{val}</em></div>'
+                   f'<div class="l">{esc(lab)}</div>'
+                   f'<div class="l" style="font-size:12px;opacity:.75">{esc(sub)}</div></div>')
+    out.append('</div>')
+
+    out.append('<div class="secbar"><h3>作品数据</h3>'
+               f'<span>{esc(ct.get("period") or "—")}　·　数据中心默认 tab</span></div>')
+    out.append(
+        '<div class="mv"><div class="mvd">'
+        f'投稿 {n(ct.get("posted"))}　·　总播放 {n(ct.get("plays"))}　·　'
+        f'点赞 {n(ct.get("likes"))}　·　分享 {n(ct.get("shares"))}　·　评论 {n(ct.get("comments"))}<br>'
+        f'粉丝：总量 {n(fn.get("total"))}　·　吸粉 {n(fn.get("gained"))}　·　'
+        f'脱粉 {n(fn.get("lost"))}　·　回访 {n(fn.get("returning"))}'
+        '</div></div>')
+
+    if vids:
+        out.append('<div class="secbar"><h3>播放量贡献 TOP3</h3>'
+                   f'<span>共 {len(vids)} 个</span></div>')
+        for v in vids[:6]:
+            out.append(
+                '<div class="mv"><div class="mvt" style="font-size:20px">'
+                f'{esc(v.get("title") or "—")}</div>'
+                '<div class="mvd">'
+                f'7 日新增播放 {n(v.get("plays7d"))}'
+                '</div></div>')
+
+    out.append('<p class="note" style="margin-top:22px">数字取自抖音创作者中心页面原值，'
+               '不做估算；7 天滚动窗口，断一天缺一天，所以每天必采。'
+               '⚠️ 只有 <code>/creator-micro/data-center/operation</code> 这一个路由有数据，'
+               '<code>content-data</code> 是空的。</p>')
+    return "".join(out)
+
+
 def build():
     gallery = ""
     for slug, name, year in ORDER:
@@ -1161,11 +1305,14 @@ def build():
     subs_html = render_subs(subs_snap, subs_rows)
     xhs_snap = bmb.load_xhs()
     xhs_html = render_xhs(xhs_snap)
+    dy_snap = bmb.load_dy()
+    dy_html = render_dy(dy_snap)
 
     # 今日 tab 的「数据总览」：三张柱状图 + 从数据直接读出来的判断。
     # 数据源全部走各自的真源（CF CSV / 小红书 CSV / 积分账本），不在这里另起一套口径。
     tr_bmb = bmb.load_traffic()
     xhs_series = load_xhs_series()
+    dy_series = load_dy_series()
     cred_series = load_credit_series()
     # 站点序列优先取 CSV 的逐日累积（已 20+ 天），比晨检那个 7 日窗口长得多，
     # 柱状图才看得出趋势；取不到再退回晨检的 series。
@@ -1189,10 +1336,14 @@ def build():
                        _num((xhs_snap.get("overview") or {}).get("exposure") or 0), "",
                        xhs_series,
                        "近 7 日滚动窗口　·　每天晨检采一次，断一天缺一天")
+        + render_chart("抖音 · 播放量/天",
+                       _num((dy_snap.get("overview") or {}).get("plays") or 0), "",
+                       dy_series,
+                       "近 7 日滚动窗口　·　每天晨检采一次，断一天缺一天")
         + render_chart("积分 · 每日消耗",
                        (cred_series[-1]["bal"] if cred_series else "—"), " 分余额",
                        cred_series, "柱高＝当日消耗　·　单日 >100 分是重活日"))
-    insight_html = render_insight(tr_bmb, xhs_snap, cred_series, subs_snap)
+    insight_html = render_insight(tr_bmb, xhs_snap, dy_snap, cred_series, subs_snap)
     red = sum(1 for x in pulse_items if x["cls"] in ("bad", "warn"))
 
     panels_html = f'''
@@ -1275,6 +1426,13 @@ def build():
   <div class="wrap">
     <p class="lead">小红书创作服务平台 · 近 7 日滚动窗口 · 数字取自页面原值，未核实的一律不进结论</p>
 {xhs_html}
+  </div>
+</section>
+
+<section class="panel" data-panel="dy" role="tabpanel" hidden>
+  <div class="wrap">
+    <p class="lead">抖音创作者中心 · 近 7 日滚动窗口 · 数字取自页面原值，未核实的一律不进结论</p>
+{dy_html}
   </div>
 </section>
 

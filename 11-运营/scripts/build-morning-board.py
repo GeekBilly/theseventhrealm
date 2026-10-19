@@ -201,6 +201,23 @@ def load_xhs():
         return {}
 
 
+# ---------- 5d. 抖音（dy-stats.sh 写入，可选） ----------
+def load_dy():
+    """
+    读 11-运营/data/dy-stats.json。
+    ⚠️ 口径（2026-10-19 定）：抖音数据中心同样是「近 7 天 / 近 30 天」滚动窗口，
+       断一天就永久缺一天 —— 跟小红书、Cloudflare 分析一个道理，必须每天采。
+       取不到返回 {}，看板显示「本次未提供」，绝不沿用昨天的值冒充今日。
+    """
+    f = p("11-运营/data/dy-stats.json")
+    if not os.path.exists(f):
+        return {}
+    try:
+        return json.load(open(f, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 # ---------- 6. 今日待办优先级 ----------
 def load_todos(top=5):
     """
@@ -334,6 +351,7 @@ def build():
     st = load_status()
     pf = load_perf()
     xhs = load_xhs()
+    dy = load_dy()
     nows = load_now()
     todos = load_todos()
 
@@ -500,6 +518,49 @@ def build():
     else:
         parts.append(f"<p class='na'>{NA}：本次未取到小红书数据（多半是 Chrome 未开或掉登录），"
                      f"跑 <code>11-运营/scripts/xhs-stats.sh</code> 补采。</p>")
+
+    # 二之三、抖音（同样 7 天滚动窗口，每天必采）
+    parts.append("<h2>二之三 · 抖音</h2>")
+    if dy.get("ok"):
+        ov = dy.get("overview") or {}
+        ct = dy.get("content") or {}
+        fn = dy.get("fans") or {}
+        pc = dy.get("pct") or {}
+        parts.append("<div class='grid'>")
+        parts.append(card("播放量（近 7 日）", f"{ov.get('plays'):,}" if ov.get("plays") is not None else NA, "",
+                          f"超过同类作者 {pc['higherThan']}%" if pc.get("higherThan") is not None else "", "ok"))
+        parts.append(card("互动率", ov.get("interactRate") or NA, "",
+                          f"完播率 {ov.get('finishRate') or NA} · 平均播放 {ct.get('avgPlay') or NA}", "ok"))
+        parts.append(card("投稿 / 点赞", f"{ct.get('posted') if ct.get('posted') is not None else NA} / "
+                                        f"{ct.get('likes') if ct.get('likes') is not None else NA}", "",
+                          f"分享 {ct.get('shares') if ct.get('shares') is not None else NA} · "
+                          f"评论 {ct.get('comments') if ct.get('comments') is not None else NA} · "
+                          f"5 秒完播 {ct.get('finish5s') or NA}", "ok"))
+        parts.append(card("总粉丝", fn.get("total") if fn.get("total") is not None else NA, "",
+                          f"净增 {fn.get('net') if fn.get('net') is not None else NA} · "
+                          f"2 秒跳出 {ct.get('bounce2s') or NA}", "ok"))
+        parts.append("</div>")
+        vids = dy.get("videos") or []
+        if vids:
+            rows = "".join(
+                "<tr><td class='t'>{t}</td><td>{p}</td></tr>".format(
+                    t=esc(v.get("title", "")),
+                    p=f"{v.get('plays7d'):,}" if v.get("plays7d") is not None else NA)
+                for v in vids[:6])
+            parts.append(
+                "<table class='xhs'><thead><tr><th>作品（播放量贡献 TOP3）</th>"
+                "<th>7 日新增播放</th></tr></thead>"
+                f"<tbody>{rows}</tbody></table>")
+        parts.append("<p class='n' style='font-size:12px;color:var(--ink3);margin-top:8px'>"
+                     + esc("　|　".join(filter(None, [
+                         f"统计周期 {dy.get('period')}" if dy.get("period") else "",
+                         f"采集于 {dy.get('fetchedAt')}",
+                         f"共 {dy.get('videoCount')} 个作品",
+                         "7 天滚动窗口，断一天缺一天 ⇒ 每天必采"])))
+                     + "</p>")
+    else:
+        parts.append(f"<p class='na'>{NA}：本次未取到抖音数据（多半是 Chrome 未开或掉登录），"
+                     f"跑 <code>11-运营/scripts/dy-stats.sh</code> 补采。</p>")
 
     # 三、积分
     parts.append("<h2>三 · 积分</h2>")
