@@ -30,10 +30,20 @@
 set -u
 
 CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-PORT="${1:-9226}"
 SRC="$HOME/.workbuddy/browser-profile"
 PROFILE="$HOME/.workbuddy/xhs-creator"
 TARGET='https://creator.xiaohongshu.com/publish/publish?source=official&from=menu&target=image'
+
+# 参数：start-xhs-browser.sh [端口] [--force-sync]
+PORT=""
+FORCE_SYNC=0
+for _a in "$@"; do
+  case "$_a" in
+    --force-sync) FORCE_SYNC=1 ;;
+    *) PORT="$_a" ;;
+  esac
+done
+PORT="${PORT:-9226}"
 
 port_up() {
   curl -s --noproxy '*' --max-time 3 "http://127.0.0.1:${PORT}/json/version" 2>/dev/null \
@@ -41,31 +51,48 @@ port_up() {
 }
 
 # ---- 1. 同步登录态到独立 profile -------------------------------------------
+# 🔴 2026-10-20 加固：默认**不再无条件覆盖**（此前每次启动都 cp，实测会丢登录态）
+#    根因：源 profile（9222 积分取数专用）里**只有小红书 cookie、没有抖音 cookie**，
+#          无条件 cp 会把 9226 里已登录的抖音 cookie（41+11 条）整个抹掉；
+#          即便只登了小红书，也会被 9222 那份**旧快照**覆盖成掉登录状态。
+#    现在：目标 profile 里只要还有这两个站的 cookie 就**跳过同步**；
+#          只有确实要从 9222 重新拉登录态时才显式加 --force-sync。
+#    另：任何一次真正覆盖前，都先把现有 Cookies 备份到 ~/.workbuddy/backups/。
 mkdir -p "$PROFILE/Default"
-if [ -f "$SRC/Local State" ]; then
-  cp "$SRC/Local State" "$PROFILE/Local State"
-fi
-if [ -f "$SRC/Default/Cookies" ]; then
-  cp "$SRC/Default/Cookies" "$PROFILE/Default/Cookies"
-fi
-[ -d "$SRC/Default/Local Storage" ] && cp -R "$SRC/Default/Local Storage" "$PROFILE/Default/" 2>/dev/null
 
-HAS_XHS=$(/Users/billyhou/.workbuddy/binaries/python/versions/3.13.12/bin/python3 - <<'PY' 2>/dev/null
-import sqlite3, os
-p = os.path.expanduser("~/.workbuddy/xhs-creator/Default/Cookies")
-if not os.path.exists(p):
-    print(0); raise SystemExit
-c = sqlite3.connect(p)
+COUNT_CK() {
+  [ -f "$PROFILE/Default/Cookies" ] || { echo 0; return; }
+  /Users/billyhou/.workbuddy/binaries/python/versions/3.13.12/bin/python3 - "$PROFILE" <<'PY' 2>/dev/null
+import sqlite3, sys, os
+p = os.path.join(sys.argv[1], "Default/Cookies")
 try:
-    print(c.execute("select count(*) from cookies where host_key like '%xiaohongshu%'").fetchone()[0])
+    c = sqlite3.connect(f"file:{p}?mode=ro", uri=True)
+    print(c.execute(
+        "select count(*) from cookies "
+        "where host_key like '%xiaohongshu%' or host_key like '%douyin%'").fetchone()[0])
 except Exception:
     print(0)
-finally:
-    c.close()
 PY
-)
-echo "已同步 profile：$PROFILE（小红书 cookie ${HAS_XHS} 条）"
-[ "${HAS_XHS:-0}" -eq 0 ] && echo "WARN 源 profile 里没有小红书 cookie，起窗后多半要扫码"
+}
+
+HAS_XHS=$(COUNT_CK)
+if [ "${HAS_XHS:-0}" -gt 0 ] && [ "$FORCE_SYNC" -ne 1 ]; then
+  echo "OK profile 里已有 ${HAS_XHS} 条小红书/抖音 cookie → **跳过同步**，保留现有登录态"
+  echo "   如需从 9222 重新拉登录态：zsh $0 ${PORT} --force-sync"
+else
+  if [ -f "$PROFILE/Default/Cookies" ]; then
+    BK="$HOME/.workbuddy/backups/xhs-creator-$(date +%Y%m%d-%H%M%S)"
+    mkdir -p "$BK"
+    cp "$PROFILE/Default/Cookies" "$BK/Cookies" 2>/dev/null
+    cp "$PROFILE/Local State" "$BK/Local-State" 2>/dev/null
+    echo "已备份现有登录态 → $BK"
+  fi
+  [ -f "$SRC/Local State" ] && cp "$SRC/Local State" "$PROFILE/Local State"
+  [ -f "$SRC/Default/Cookies" ] && cp "$SRC/Default/Cookies" "$PROFILE/Default/Cookies"
+  [ -d "$SRC/Default/Local Storage" ] && cp -R "$SRC/Default/Local Storage" "$PROFILE/Default/" 2>/dev/null
+  echo "已从 9222 profile 同步登录态到 $PROFILE"
+fi
+echo "profile：$PROFILE（小红书+抖音 cookie $(COUNT_CK) 条）"
 
 # ---- 2. 已就绪就复用 -------------------------------------------------------
 if port_up; then

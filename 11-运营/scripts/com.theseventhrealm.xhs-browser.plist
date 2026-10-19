@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.theseventhrealm.xhs-browser</string>
+
+  <!-- 开机/登录后拉起 9226 的小红书+抖音专用 Chrome -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/11-运营/scripts/start-xhs-browser.sh</string>
+    <string>9226</string>
+  </array>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <!-- 故意不开 KeepAlive：你手动关掉 Chrome 后不要被反复拉回来 -->
+  <key>KeepAlive</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/xhs-chrome-launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/xhs-chrome-launchd.log</string>
+</dict>
+</plist>
+
+<!--
+安装（在你自己的终端里跑，Agent 沙箱无权注册 launchd）：
+  cp "/Users/billyhou/WorkBuddy/2026-09-25-15-56-17/11-运营/scripts/com.theseventhrealm.xhs-browser.plist" ~/Library/LaunchAgents/
+  launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.theseventhrealm.xhs-browser.plist 2>/dev/null
+  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.theseventhrealm.xhs-browser.plist
+  launchctl list | grep xhs-browser
+
+卸载：
+  launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.theseventhrealm.xhs-browser.plist
+  rm ~/Library/LaunchAgents/com.theseventhrealm.xhs-browser.plist
+
+⚠️ 取舍：装上后每次开机/登录会自动弹出一个 Chrome 窗口（9226 必须是有头模式，无头跑不了小红书/抖音）。
+   如果你不想开机就被弹窗打扰，就别装 —— 登录态本来就在磁盘上，
+   重启后手动跑一次 start-xhs-browser.sh 即可恢复。
+-->
