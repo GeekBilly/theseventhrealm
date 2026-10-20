@@ -14,9 +14,18 @@
    一、样式加载
    ============================================================ */
 add_action( 'wp_enqueue_scripts', function () {
-	/* 字体：原来写死在 qijing.css 第 5 行用 @import —— 那是**串行阻塞**：
-	   浏览器必须先下完 qijing.css 才知道要去下字体 CSS，实测多花 2.5–4.7 秒。
-	   改成独立 <link> 入队后与 qijing.css **并行**下载，字体与观感完全不变。 */
+	/* 字体加载三改史（别再改回去）：
+	   ① 原始：写死在 qijing.css 第 5 行 @import —— 串行阻塞，实测多花 2.5–4.7 秒。
+	   ② 改独立 <link> 入队 —— 与 qijing.css 并行下载，字体与观感不变。
+	   ③ 2026-10-20 改**异步加载**（REQ-2026-10-20-01，方案 C 止血）：
+	      原因 —— fonts.loli.net 是第三方，且它自己也跑在 Cloudflare 上。实测
+	      该 CSS 体积 325 KB（333,857 字节）、三次 TTFB 1.73s / 2.97s / 5.33s，
+	      字体分片所在的第三个域名 gstatic.loli.net 单次最高 9.76s。
+	      它原本是 media='all' 的**渲染阻塞样式**，浏览器必须等它下完才画第一屏；
+	      安卓自带浏览器没有云加速、严格执行阻塞，超时就直接判「网页无法打开」。
+	      改成 media='print' + onload 还原为 all 之后：不再阻塞首屏，
+	      页面先用系统字体画出，字体到位后自动换上（CSS 内已 font-display:swap）。
+	      ⚠️ 这只是止血；彻底方案是字体自托管＋子集化（同一份申请单的方案 A）。 */
 	wp_enqueue_style(
 		'sr-webfonts',
 		'https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap',
@@ -30,6 +39,32 @@ add_action( 'wp_enqueue_scripts', function () {
 		'1.7.0'
 	);
 }, 20 );
+
+/* ============================================================
+   一·乙 把 webfont 的 <link> 改成非阻塞（2026-10-20 / REQ-2026-10-20-01）
+   WordPress 的 wp_enqueue_style 固定输出 media='all'，浏览器会阻塞渲染等它。
+   改成 media='print'（不参与首屏渲染）＋ onload 还原，另加 noscript 兜底：
+     · 开 JS 的浏览器：首屏零阻塞，字体后到再换上
+     · 关 JS 的浏览器：noscript 那份照常加载，观感不丢
+   任何一步没匹配上都原样返回，绝不输出坏标签。
+   ============================================================ */
+add_filter( 'style_loader_tag', function ( $html, $handle ) {
+	if ( 'sr-webfonts' !== $handle ) {
+		return $html;
+	}
+	$async = preg_replace(
+		'/media=([\'"])all\1/i',
+		"media=\"print\" onload=\"this.media='all'\"",
+		$html
+	);
+	if ( null === $async ) {
+		return $html;
+	}
+	if ( preg_match( '/href=([\'"])(.+?)\1/i', $html, $m ) ) {
+		$async .= '<noscript><link rel="stylesheet" href="' . $m[2] . '"></noscript>';
+	}
+	return $async;
+}, 10, 2 );
 
 /* ============================================================
    一·补 空段落清理
