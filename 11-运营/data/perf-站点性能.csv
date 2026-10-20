@@ -30,3 +30,6 @@ date,url,http,cold_ttfb,hot_ttfb,gap,size,cache,ray,flag
 2026-10-20,/,200,1.7,0.64,1.06,49084,HIT,PDX,ok
 2026-10-20,/5000years/,200,1.6,0.64,0.96,14850,HIT,PDX,ok
 2026-10-20,/collection/,200,1.59,1.68,-0.09,14314,HIT,PDX,ok
+2026-10-21,/,200,1.9,1.02,0.87,49084,HIT,PDX,ok
+2026-10-21,/5000years/,200,1.83,0.69,1.15,14850,HIT,PDX,ok
+2026-10-21,/collection/,200,1.68,0.6,1.07,14314,EXPIRED,PDX,ok

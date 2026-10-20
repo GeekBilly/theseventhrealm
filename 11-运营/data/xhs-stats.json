@@ -1,31 +1,31 @@
 {
   "ok": true,
-  "fetchedAt": "2026-10-19 06:50",
-  "date": "2026-10-19",
-  "period": "10-12 至 10-18",
+  "fetchedAt": "2026-10-20 05:02",
+  "date": "2026-10-20",
+  "period": "10-13 至 10-19",
   "diag": {
-    "views": 209,
-    "newFans": 0,
+    "views": 241,
+    "newFans": 1,
     "profileVisits": 9,
     "published": 1,
-    "interactions": 6
+    "interactions": 11
   },
   "overview": {
-    "exposure": 1345,
-    "views": 209,
-    "ctr": "16.4%",
-    "avgWatch": "10秒",
-    "totalWatch": "40.3分钟",
+    "exposure": 1580,
+    "views": 241,
+    "ctr": "15.8%",
+    "avgWatch": "12秒",
+    "totalWatch": "45.6分钟",
     "finishRate": "0%"
   },
   "mom": {
-    "exposure": "+183%",
-    "views": "+553%",
-    "ctr": "+141%"
+    "exposure": "+227%",
+    "views": "+630%",
+    "ctr": "+132%"
   },
   "fans": {
     "total": 1,
-    "added": 0,
+    "added": 1,
     "lost": 0
   },
   "notes": [
@@ -33,11 +33,11 @@
       "title": "16 张朝代手机壁纸，原图私信我",
       "publishedAt": "2026-10-18 09:38",
       "exposure": 1516,
-      "views": 232,
+      "views": 274,
       "ctr": "15.60%",
       "likes": 5,
       "comments": 3,
-      "collects": 3,
+      "collects": 5,
       "newFans": 2,
       "shares": 0,
       "avgWatch": "12s",
@@ -47,11 +47,11 @@
       "title": "十六个朝代，各自留了一句话",
       "publishedAt": "2026-10-10 06:36",
       "exposure": 547,
-      "views": 47,
+      "views": 48,
       "ctr": "8.60%",
       "likes": 0,
       "comments": 1,
-      "collects": 1,
+      "collects": 2,
       "newFans": 0,
       "shares": 0,
       "avgWatch": "13s",
