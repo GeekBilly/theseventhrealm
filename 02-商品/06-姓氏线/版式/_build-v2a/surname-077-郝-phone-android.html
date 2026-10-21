@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!--
+════════════════════════════════════════════════════════════════════════════
+ 姓氏线（B 线）· 手机竖版模板 v11-phone · 基准 1080×1920
+   唯一的竖版版式出处。对应横版 `模板-姓氏-v11{,-mac}.html`（1920×1080 / 1920×1248）。
+
+ 为什么单开一份（而不是给横版加 @media）：
+   竖版不是横版的等比缩放 —— 画心由**横排四联**改成**纵向四格**，
+   金句由「右上题跋」改到「右侧一列」、落款从「左下」改贴左侧中部，
+   七个区位的相对关系全变了。参照 A 线 `模板-朝代-v9-竖版.html` 的同一条做法。
+
+ 画幅缩放（在生成器 gen-surname-v2a.py --tpl phone --variant 里，本文件只写基准）：
+   ios      1179×2556   iPhone 15/16/17 Pro 原生（19.5:9）
+   android  1080×2400   当代安卓主流（20:9）
+   std      1080×1920   基准本身（仅供对照／回归）
+   纵向锚点（top / bottom）× ky = H/1920
+   横向一切（left / right / width / height / 字号 / 字距 / 间距）× kx = W/1080
+
+ 七个区位（与横版一一对应，换成竖向读法）：
+   ① 左上角系列标 .series-tag   = 「姓 氏 源 流 · {姓}」
+   ② 画心上方标题两行 .series   = 「一 姓 四 体 · 三 千 年」+「自 上 而 下 · 自 草 书 至 碑 刻」
+   ③ 画心 .quat                 = **纵向四格**：自上而下 = 草书 | 行书 | 隶书 | 碑刻
+      ⭐ 竖版没有「右起展卷」这回事（那属于横版自左而右的镜像说法），
+         竖版就是**自上而下展卷**：第一格在最上，自上往下读 = 草书 → 碑刻
+         （用户 2026-10-21 定：横版「碑刻→草书」是自左而右，竖版若照搬
+           就会变成「自下而上」读演变顺序，反了，故整序反转）
+   ④ 右侧竖排金句 .quote + 出处 .src = 《百家姓》该姓所在四字句
+   ⑤ 左侧竖排列款 .colophon     = 第七境 + 朱砂点 + 印章
+   ⑥ 正下中品牌行 .brand-block  = 「第七境™」+ www.theseventhrealm.com
+   ⑦ 品牌行上方 .meta           = 拼音 + {简}/{繁} · 源流{朝代} · {年份}
+
+ 纵向分配（基准 1920 高）：title 顶 300 / quat 夹在 340～1660（bottom:260）
+   / meta 底 228 / brand 底 118 / quote·src 顶 560（src 底边与金句盒底 880 齐平）。
+   ⭐ .quat 是 justify-content:center 的 flex column，格子数变了自动继承对称。
+
+ 字号算法（在生成器里，此处不持数）：
+   可用高 = 1920 − 380 − 300 = 1240；扣掉 3 道分隔线（49px/道）后按 4 格平分，
+   每格再刨掉标签两行（≈59px）与行高 1.06 ⇒ 基准字号 ≈ 202px。
+
+ 🔴 本期竖版＝**轻量版，无人物底纹**（2026-10-21 备货方案）：
+   人物底纹 99/100 姓未生图（5–10 积分/张，余额不够），且需人工标定。
+   `.figure` 样式**保留备用**（参数与横版一致，竖版高度改 1200），
+   但 body 里**不含 img** —— 哪天要出带底纹版，把 img 那一行加回来即可。
+
+ 🔴 与横版共用的三条硬约束（改前必读）：
+   · 品牌行中英分立：中文产品只写「第七境™ + www.theseventhrealm.com」（TANTSE 属英文站）
+   · 'serif' 被 @font-face 占成思源宋体 **Black**，小字不要用 'serif'
+   · 不引外链 webfont：同一份 HTML 两次出图小字会不同，批量必翻车
+
+ 数据槽位与横版完全一致（tag / title / verse / src / quat / meta），
+   生成器只做槽位替换，不持有任何版式数值。
+   ⚠️ 本注释块里不许出现完整的注释定界符字面量，否则大注释会被提前闭合、
+      残余文字被当成正文渲染 → 整幅下移（横版 2026-10-03 踩过）。
+════════════════════════════════════════════════════════════════════════════
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face{font-family:'serif';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/NotoSerifSC-Black.ttf')}
+@font-face{font-family:'lishu';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/aoyagireisyosimo_ttf_2_01.ttf')}
+@font-face{font-family:'lishu2';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/隶书/AlimamaDaoLiTi-Regular-简体.ttf')}
+@font-face{font-family:'xing';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/挚芒行.ttf')}
+@font-face{font-family:'cao';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/fonts/柳建毛草.ttf')}
+@font-face{font-family:'msz';src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf')}
+:root{
+  --ink:#1a1a18; --ink2:#54504a; --cinnabar:#b03826;
+  --f-body:'Noto Serif SC',Georgia,serif;
+  --f-brush:'msz','Ma Shan Zheng Local','Ma Shan Zheng','KaiTi',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:2400px;overflow:hidden;background:#ffffff}
+body{color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+.stage{position:relative;width:1080px;height:2400px;overflow:hidden}
+
+/* ⑧ 人物底纹（备用，本期不使用）：参数与横版一致，竖版高度 1200、贴右下 */
+.figure{position:absolute;right:0;bottom:0;height:1200px;opacity:.32;z-index:2;
+  pointer-events:none}
+
+/* ① 左上角系列标（A 线竖版同值：left70 / top72 / 22px / 字距7） */
+.series-tag{position:absolute;left:70px;top:90px;z-index:6;
+  font-family:var(--f-body);font-size:22px;letter-spacing:7px;color:#6b675f;
+  text-indent:7px}
+
+/* ② 画心上方标题两行（A 线竖版同值：top300；主 28/字距12，副 18/字距6，行间16） */
+.series{position:absolute;left:540px;top:375px;transform:translateX(-50%);z-index:6;
+  text-align:center;white-space:nowrap}
+.series .t{font-family:var(--f-body);font-size:28px;letter-spacing:12px;color:#24221d;
+  text-indent:12px}
+.series .h{margin-top:20px;font-family:var(--f-body);font-size:18px;letter-spacing:6px;
+  color:#5a564e;text-indent:6px}
+
+/* ④ 右侧竖排金句（右起第一列贴最右）：一列 4 字，逐字一个 span */
+.quote{position:absolute;right:64px;top:700px;display:flex;gap:18px;
+  align-items:flex-start;z-index:5}
+.vc{display:flex;flex-direction:column;align-items:center;width:58px}
+.vc span{font-family:var(--f-brush);font-size:50px;line-height:1.6;color:var(--ink)}
+/* 出处：金句左侧一列（right = 64 + 58 + 18 = 140），竖排
+   ⭐ 纵向位置＝**横版（桌面壁纸版）同一条口径：底边与金句盒底边齐平**
+      （横版 .src 注释：「底部与金句盒底齐平」，top 由盒底反推＝90）
+      基准下反推：金句盒 top560 + 4 字 ×(50px × lh1.6)=320 ⇒ 盒底 880
+                  出处列高 ≈ 11 字 ×(18px + 字距 6px) = 264
+                  ⇒ top = 880 − 264 = **616**
+      ⚠️ 别把 .src 的 top 写成与 .quote 同值（560）—— 那是**顶边齐平**，
+         出处整体吊在上面、离金句盒底空一大截（2026-10-21 首版就是这么错的）。
+      ⚠️ 竖排文字的纵向长度由 font-size（走 kx）决定，而锚点 top 走 ky，
+         两档画幅下会有几像素漂移，属 A 线既定口径，不额外补偿。 */
+.src{position:absolute;right:140px;top:770px;writing-mode:vertical-rl;
+  font-family:var(--f-body);font-size:18px;letter-spacing:6px;line-height:1.6;
+  color:#4a463f;z-index:5}
+
+/* ③ 画心四联字区：纵向四格，**自上而下 = 草书 | 行书 | 隶书 | 碑刻**
+      （＝横版 ORDER4 的**逆序**：横版自左而右 = 碑刻|隶书|行书|草书；
+        竖版照搬会变成「自下而上」读演变顺序，故整序反转 —— 用户 2026-10-21 定）
+      ⚠️ 顺序由**生成器**决定（fill() 里 tpl=='phone' 时 reversed(ORDER4)），
+         本文件 body 里的示例只是「赵」的成品示意，两者必须一致。
+      ⚠️ .ch 固定 height 是「逐格光学归一化」的地基：行盒顶恒在格内top，
+         字号变化只向下溢出，不推动下方标签。 */
+.quat{position:absolute;left:540px;top:425px;bottom:375px;transform:translateX(-50%);
+  z-index:5;display:flex;flex-direction:column;align-items:center;
+  justify-content:center}
+.cell{text-align:center;position:relative}
+.cell .ch{font-size:233px;line-height:1.06;color:#1a1a18;height:247px}
+.cell .lb{margin-top:11px;font-family:var(--f-body);font-size:17px;letter-spacing:5px;
+  color:#7f796d;text-indent:5px;white-space:nowrap}
+.cell .lb b{display:block;font-weight:400;font-size:12px;letter-spacing:3px;
+  color:#a8a092;margin-top:6px;text-indent:3px}
+/* 格间横断线：A 线竖版同值宽 200，边距收到 20（占位 = 1 + 20*2 = 41） */
+.divider{width:200px;height:1px;background:#ded7c9;margin:20px auto;flex:0 0 auto}
+
+/* ⑦ 品牌行上方「拼音 + 年代」（A 线 .era 同值：bottom228） */
+.meta{position:absolute;left:540px;bottom:285px;transform:translateX(-50%);z-index:5;
+  text-align:center;font-family:Georgia,'Times New Roman',serif}
+.meta .en{font-size:18px;letter-spacing:6px;color:#4a463f;text-transform:uppercase;
+  text-indent:6px}
+.meta .sub{margin-top:9px;font-size:15px;letter-spacing:4px;color:#6b675f;
+  font-family:var(--f-body);line-height:1.4;text-indent:4px}
+
+/* ⑤ 左侧竖排列款 + 钤印（A 线竖版同值：left56 / top1330） */
+.colophon{position:absolute;left:56px;top:1662px;z-index:6;
+  display:flex;flex-direction:column;align-items:center}
+.vstack span{display:block;text-align:center;font-family:var(--f-brush);
+  font-size:38px;line-height:1.4;color:var(--ink)}
+.vdot{width:9px;height:9px;border-radius:50%;background:var(--cinnabar);
+  margin:13px 0 12px}
+.colophon-seal{height:64px;opacity:.95}
+
+/* ⑥ 正下中品牌行（A 线竖版同值：bottom118；™ 用 Georgia 保证字形正规） */
+.brand-block{position:absolute;left:540px;bottom:148px;transform:translateX(-50%);
+  z-index:6;text-align:center}
+.brand-cn{font-family:var(--f-brush);font-size:36px;letter-spacing:4px;color:#26241f;
+  margin-right:-4px}
+.brand-cn .tm{font-family:Georgia,'Times New Roman',serif;font-size:24px;
+  vertical-align:super;letter-spacing:0;margin-left:4px;color:var(--ink)}
+.brand-url{margin-top:15px;font-family:Georgia,'Times New Roman',serif;font-size:20px;
+  letter-spacing:3px;color:#6b675f;text-indent:3px}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="series-tag">姓 氏 源 流 · 郝</div>
+
+  <div class="series"><div class="t">一 姓 四 体 · 三 千 年</div>
+    <div class="h">自 上 而 下 · 自 草 书 至 碑 刻</div></div>
+
+  <div class="quote"><div class="vc"><span>郝</span><span>邬</span><span>安</span><span>常</span></div></div>
+  <div class="src">《百家姓》北宋·第二十句</div>
+
+  <!-- 画心四联字（竖版自上而下 = 草书|行书|隶书|碑刻，＝横版顺序的逆序） -->
+  <div class="quat"><div class="cell"><div class="ch" style="font-family:'cao';font-size:296px;height:314px">郝</div><div class="lb">草书<b>柳建毛草</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'xing';font-size:296px;height:314px">郝</div><div class="lb">行书<b>挚芒行</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'lishu2';font-size:296px;height:314px">郝</div><div class="lb">隶书 · 郝<b>阿里妈妈刀隶体</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'serif';font-size:296px;height:314px">郝</div><div class="lb">碑刻<b>Noto Serif</b></div></div></div>
+
+  <div class="meta"><div class="en">HAO</div>
+    <div class="sub">郝 / 郝 · 源流 商 · c. 1300 BC</div></div>
+
+  <div class="colophon">
+    <div class="vstack"><span>第</span><span>七</span><span>境</span></div>
+    <div class="vdot"></div>
+    <img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal.png">
+  </div>
+
+  <div class="brand-block"><div class="brand-cn">第七境<span class="tm">™</span></div>
+    <div class="brand-url">www.theseventhrealm.com</div></div>
+
+</div>
+</body>
+</html>
