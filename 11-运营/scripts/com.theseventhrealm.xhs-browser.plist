@@ -20,6 +20,20 @@
   <key>KeepAlive</key>
   <false/>
 
+  <!-- 🔴 2026-10-22 新增：每天三个时点「补开」而非「常驻拉回」。
+       为什么不用 KeepAlive=true：KeepAlive 会在你手动关掉 Chrome 的瞬间把它拉回来，烦人。
+       为什么必须补开：KeepAlive=false 只保「登录后拉起一次」，
+       你关一次 Chrome 就再也没人开它 ⇒ 次日晨检必 NO_DEBUG_PORT
+       （10-22 就因此同时丢了小红书和抖音两天数据，7 天滚动窗口不可回溯）。
+       start-xhs-browser.sh 内部幂等（端口已就绪就 exit 0），重复跑不会开第二个窗口。
+       04:50 = 晨检 05:00 前 10 分钟；12:00 / 20:00 = 白天兜底。 -->
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Hour</key><integer>4</integer><key>Minute</key><integer>50</integer></dict>
+    <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>20</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+
   <key>StandardOutPath</key>
   <string>/tmp/xhs-chrome-launchd.log</string>
   <key>StandardErrorPath</key>
