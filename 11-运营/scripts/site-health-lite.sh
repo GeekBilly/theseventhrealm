@@ -15,6 +15,9 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT" || exit 1
 SITE="${SITE:-https://theseventhrealm.com}"
+# 🔴 Cloudflare 会拦 curl 默认 UA 返回 403（2026-10-06 起实测），所有取数必须带浏览器 UA，
+#    否则全站 43 条 URL 会「全部异常」——那是拦截不是故障。
+UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 OUTFILE="${2:-}"
 [ "${1:-}" = "-o" ] && OUTFILE="${2:-}"
 
@@ -41,7 +44,7 @@ done
 say ""
 say "### 2. WordPress REST 凭据"
 if [ -f "$ROOT/11-运营/wp-auth.sh" ] && WP_PASS="$(security find-generic-password -s theseventhrealm-wp -w 2>/dev/null | tr -d '\n')" && [ -n "$WP_PASS" ]; then
-  code=$(curl -s -L -o /tmp/sr_me.json -w "%{http_code}" --max-time 30 -u "MollyBot_No.2:$WP_PASS" "$SITE/wp-json/wp/v2/users/me")
+  code=$(curl -A "$UA" -s -L -o /tmp/sr_me.json -w "%{http_code}" --max-time 30 -u "MollyBot_No.2:$WP_PASS" "$SITE/wp-json/wp/v2/users/me")
   if [ "$code" = "200" ]; then
     ME_ROLE=$(/Users/billyhou/.workbuddy/binaries/python/versions/3.13.12/bin/python3 -c 'import json
 try:
@@ -60,18 +63,18 @@ fi
 # ③ 全站 URL 状态码（从 sitemap 取）
 say ""
 say "### 3. 全站 URL 状态码"
-map=$(curl -s -LL --max-time 25 "$SITE/wp-sitemap.xml" | grep -oE '<loc>[^<]+</loc>' | sed -E 's#</?loc>##g' | head -5)
-urls=$(printf '%s\n' "$map" | grep -v '^$' | while IFS= read -r sm; do curl -s -LL --max-time 25 "$sm" | grep -oE '<loc>[^<]+</loc>'; done | sed -E 's#</?loc>##g' | sort -u)
+map=$(curl -A "$UA" -s -LL --max-time 25 "$SITE/wp-sitemap.xml" | grep -oE '<loc>[^<]+</loc>' | sed -E 's#</?loc>##g' | head -5)
+urls=$(printf '%s\n' "$map" | grep -v '^$' | while IFS= read -r sm; do curl -A "$UA" -s -LL --max-time 25 "$sm" | grep -oE '<loc>[^<]+</loc>'; done | sed -E 's#</?loc>##g' | sort -u)
 total=0; bad=0
 if [ -n "$urls" ]; then
   while IFS= read -r u; do
     [ -z "$u" ] && continue
     total=$((total+1))
-    code=$(curl -s -L -o /dev/null -w "%{http_code}" --connect-timeout 10 --max-time 30 "$u")
+    code=$(curl -A "$UA" -s -L -o /dev/null -w "%{http_code}" --connect-timeout 10 --max-time 30 "$u")
     if [ "$code" = "000" ]; then
       # 000 多为瞬时抖动/限速，不是真死链——重试一次再判（2026-09-30 起：曾误报 2 条）
       sleep 2
-      code=$(curl -s -L -o /dev/null -w "%{http_code}" --connect-timeout 15 --max-time 40 "$u")
+      code=$(curl -A "$UA" -s -L -o /dev/null -w "%{http_code}" --connect-timeout 15 --max-time 40 "$u")
     fi
     if [ "$code" != "200" ]; then bad=$((bad+1)); say "- ❌ $code $u"; fi
   done <<EOF
@@ -85,7 +88,7 @@ fi
 # ④ WordPress 版本
 say ""
 say "### 4. 版本暴露"
-gen=$(curl -s -L --max-time 25 "$SITE/" | grep -oE 'name="generator" content="WordPress [0-9.]+"' | head -1 | grep -oE '[0-9]+\.[0-9.]+')
+gen=$(curl -A "$UA" -s -L --max-time 25 "$SITE/" | grep -oE 'name="generator" content="WordPress [0-9.]+"' | head -1 | grep -oE '[0-9]+\.[0-9.]+')
 [ -n "$gen" ] && say "- WordPress ${gen} —— 留意该版本的安全公告；插件更新需管理员权限，编辑角色无法代劳" \
                || say "- 未探测到 generator 标记（可能已被隐藏，属好事）"
 
@@ -128,7 +131,7 @@ fi
 say ""
 say "### 7. Cloudflare 代理"
 ips=$(dig +short "${SITE#https://}" A | tr '\n' ' ')
-cf=$(curl -s -LI --max-time 25 "$SITE/" | grep -ciE '^server: cloudflare|^cf-ray' || true)
+cf=$(curl -A "$UA" -s -LI --max-time 25 "$SITE/" | grep -ciE '^server: cloudflare|^cf-ray' || true)
 if [ "$cf" -gt 0 ]; then say "- ✅ 橙云生效（server/cf-ray 存在），解析：$ips"
 else say "- ⚠️ 未检测到 Cloudflare 响应头，可能被关代理或证书直出，解析：$ips"; fi
 
