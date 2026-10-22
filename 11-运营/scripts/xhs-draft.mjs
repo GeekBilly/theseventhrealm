@@ -8,6 +8,7 @@
 // 用法：
 //   node xhs-draft.mjs --probe              # 探测发布页 DOM 结构（不动任何内容）
 //   node xhs-draft.mjs --day=D01            # 存指定某天的草稿
+//   node xhs-draft.mjs --dry                # 干跑：只算标题/话题/配图，不碰浏览器
 //   node xhs-draft.mjs                      # 按日期自动推算今天该存哪篇
 //
 // 前提：Chrome 已用 start-xhs-browser.sh 起在 9226 且已登录小红书。
@@ -21,13 +22,21 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const PORT = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : '9226';
 const MODE = process.argv.includes('--probe') ? 'probe'
   : process.argv.includes('--upload') ? 'upload'
-  : process.argv.includes('--fix') ? 'fix' : 'draft';
+  : process.argv.includes('--fix') ? 'fix'
+  : process.argv.includes('--dry') ? 'dry' : 'draft';
 const DAY_ARG = (process.argv.find(a => a.startsWith('--day=')) || '').split('=')[1];
 
 const PUBLISH_URL = 'https://creator.xiaohongshu.com/publish/publish?source=official&from=menu&target=image';
 const DRAFT_DIR = path.join(ROOT, '04-市场', '03-推广获客', '姓氏日更-202610');
 const IMG_DIR = path.join(ROOT, '02-商品', '06-姓氏线', '成品-手机竖版', '小红书-3x4');
+const TOPIC_FILE = path.join(ROOT, '11-运营', 'data', 'xhs-topics.json');
+const LOG_FILE = path.join(ROOT, '11-运营', 'data', 'xhs-draft-log.json');
 const START_DATE = '2026-10-22';   // D01 的发布日，之后每天 +1
+
+// —— 发布口径（2026-10-22 用户定）——
+const MAX_TITLE = 22;                       // 标题字数上限，超了自动截断
+const COLLECTION = '第七境 百家姓系列';       // 平台上的合集名（用户名叫「第七境 百家姓」）
+const FIXED_TOPICS = ['壁纸', '传统文化', '国风', '手机壁纸', '书法', '东方美学', '百家姓', '汉字'];
 
 const dump = (o) => { console.log(JSON.stringify(o)); process.exit(0); };
 const fail = (o) => { console.log(JSON.stringify(o)); process.exit(1); };
@@ -43,6 +52,11 @@ const PROBE_JS = `(() => { try {
     clickables: q('button,div,a,span').map(e => ({ tag: e.tagName, t: (e.innerText||'').trim().slice(0,14), cls: String(e.className).slice(0,70) }))
       .filter(e => e.t && /草稿|发布|保存|存为|预览|定时|提交/.test(e.t + e.cls)),
     text: (document.body.innerText||'').slice(0, 800),
+    titleMax: (()=>{ const t = document.querySelector('input.d-text[placeholder="填写标题会有更多赞哦"]');
+      return t ? { maxLength: t.maxLength, valLen: (t.value||'').length } : null; })(),
+    topicish: q('div,span,label,li').map(e => ({ tag: e.tagName, cls: String(e.className).slice(0,80), t: (e.innerText||'').trim().slice(0,28) }))
+      .filter(e => /合集|原创|声明|AI|合成|生成|话题|标签|参与|活动/.test(e.t + e.cls)),
+    tail: (document.body.innerText||'').slice(-1600),
   });
 } catch(e) { return JSON.stringify({ err: String(e) }); } })()`;
 
@@ -55,7 +69,8 @@ function parseDay(day) {
   const imgsLine = (md.match(/\*\*配图\*\*[^\n]*：(.+)/) || [])[1] || '';
   const imgs = Array.from(imgsLine.matchAll(/`([^`]+\.png)`/g)).map(m => m[1]);
   const body = (md.match(/```\n([\s\S]*?)\n```/) || [])[1] || '';
-  return { day, file, title, imgs, body };
+  const surname = (file.match(/^D\d+-(.+)\.md$/) || [])[1] || '';
+  return { day, file, title, imgs, body, surname };
 }
 
 function todayDay() {
@@ -67,12 +82,61 @@ function todayDay() {
   return 'D' + String(diff + 1).padStart(2, '0');
 }
 
+// 标题截断到 22 字；截断后若停在半截括号上就把它去掉
+function fitTitle(t) {
+  if ([...t].length <= MAX_TITLE) return { text: t, truncated: false };
+  let s = [...t].slice(0, MAX_TITLE).join('');
+  s = s.replace(/[（(][^（()）]*$/, '').trim();
+  return { text: s, truncated: true };
+}
+
+// 话题：固定高流量 8 个（按真实浏览量排序）+ 当天 4 个姓氏
+function buildTopics(d) {
+  let views = {};
+  try { views = Object.fromEntries((JSON.parse(fs.readFileSync(TOPIC_FILE, 'utf8')).topics || []).map(t => [t.name, t.views])); } catch { }
+  const fixed = [...FIXED_TOPICS].sort((a, b) => (views[b] || 0) - (views[a] || 0));
+  const surnames = [...(d.surname || '')].map(c => c + '氏');
+  return { list: [...fixed, ...surnames], fixed, surnames, viewsOf: fixed.map(t => [t, views[t] || null]) };
+}
+
+// 正文：剥掉 md 里自带的话题行（统一由脚本生成），再附加精选话题
+function buildBody(d, topics) {
+  const lines = d.body.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').replace(/\n{3,}/g, '\n\n').trimEnd();
+  return lines + '\n\n' + topics.list.map(t => '#' + t).join(' ');
+}
+
 async function main() {
+  const day = todayDay();
+  if (!day) return fail({ error: 'NO_DAY', hint: '今天不在 D01–D25 窗口内，或 --day 指定的文件不存在' });
+  const d = parseDay(day);
+  if (!d) return fail({ error: 'NO_DAY_FILE', day });
+  const files = d.imgs.map(n => path.join(IMG_DIR, n));
+  const missing = files.filter(f => !fs.existsSync(f));
+  if (missing.length) return fail({ error: 'IMG_MISSING', missing });
+  if (!d.title || !d.body) return fail({ error: 'PARSE_FAIL', day: d.day, title: !!d.title, body: !!d.body });
+
+  const t = fitTitle(d.title);
+  const topics = buildTopics(d);
+  const body = buildBody(d, topics);
+
+  // —— 干跑：只看算出来的内容，不碰浏览器 ——
+  if (MODE === 'dry') return dump({
+    stage: 'dry', day: d.day, file: d.file,
+    title: t.text, titleLen: [...t.text].length, titleTruncated: t.truncated,
+    imgs: d.imgs, topics: topics.list, topicViews: topics.viewsOf,
+    bodyLen: [...body].length, body,
+  });
+
+  // —— 幂等：同一篇已存过就不再存 ——
+  let log = {};
+  try { log = JSON.parse(fs.readFileSync(LOG_FILE, 'utf8')); } catch { }
+  if (log[day] && !DAY_ARG) return dump({ stage: 'already-saved', day, at: log[day].at });
+
   let list;
   try { list = await (await fetch(`http://127.0.0.1:${PORT}/json/list`)).json(); }
   catch { return fail({ error: 'NO_DEBUG_PORT', hint: `Chrome 未以 --remote-debugging-port=${PORT} 启动` }); }
 
-  let page = list.find(t => t.type === 'page' && /xiaohongshu\.com/.test(t.url || ''));
+  let page = list.find(t2 => t2.type === 'page' && /xiaohongshu\.com/.test(t2.url || ''));
   if (!page) return fail({ error: 'NO_XHS_TAB', hint: '没找到小红书标签，先跑 start-xhs-browser.sh 并登录' });
 
   const ws = new WebSocket(page.webSocketDebuggerUrl);
@@ -90,7 +154,6 @@ async function main() {
   };
 
   await send('Page.enable'); await send('Runtime.enable');
-  // 探测模式且已经在发布页上 → 不重新导航（否则会丢掉刚上传的图片）
   let cur = '';
   try { cur = await ev('location.href'); } catch { }
   if (!((MODE === 'probe' || MODE === 'fix') && /publish\/publish/.test(cur || ''))) {
@@ -102,63 +165,93 @@ async function main() {
 
   if (MODE === 'probe') return dump(await ev(PROBE_JS));
 
-  const d = parseDay(todayDay() || '');
-  if (!d) return fail({ error: 'NO_DAY', hint: '今天不在 D01–D25 窗口内，或 --day 指定的文件不存在' });
-  const files = d.imgs.map(n => path.join(IMG_DIR, n));
-  const missing = files.filter(f => !fs.existsSync(f));
-  if (missing.length) return fail({ error: 'IMG_MISSING', missing });
-  if (!d.title || !d.body) return fail({ error: 'PARSE_FAIL', day: d.day, title: !!d.title, body: !!d.body });
-
-  // —— 1. 上传图片（这时页面才会进入编辑态，标题/正文框才出现）——
+  // —— 1. 上传图片（进入编辑态后标题/正文框才出现）——
   if (MODE !== 'fix') {
-  await send('DOM.enable');
-  const doc = await send('DOM.getDocument', { depth: -1 });
-  const rootId = doc.result?.root?.nodeId;
-  const q = await send('DOM.querySelector', { nodeId: rootId, selector: 'input.upload-input' });
-  const inputId = q.result?.nodeId;
-  if (!inputId) return fail({ error: 'NO_UPLOAD_INPUT', hint: '没找到 input.upload-input，页面结构可能已变' });
-  await send('DOM.setFileInputFiles', { files, nodeId: inputId });
-  await sleep(15000);   // 4 张图上传 + 平台处理，宁可多等
-
-  if (MODE === 'upload') return dump({ stage: 'uploaded', day: d.day, count: files.length, ...JSON.parse(await ev(PROBE_JS) || '{}') });
+    await send('DOM.enable');
+    const doc = await send('DOM.getDocument', { depth: -1 });
+    const rootId = doc.result?.root?.nodeId;
+    const q = await send('DOM.querySelector', { nodeId: rootId, selector: 'input.upload-input' });
+    const inputId = q.result?.nodeId;
+    if (!inputId) return fail({ error: 'NO_UPLOAD_INPUT', hint: '没找到 input.upload-input，页面结构可能已变' });
+    await send('DOM.setFileInputFiles', { files, nodeId: inputId });
+    await sleep(15000);
+    if (MODE === 'upload') return dump({ stage: 'uploaded', day: d.day, count: files.length, ...JSON.parse(await ev(PROBE_JS) || '{}') });
   }
 
-  // —— 2. 填标题 ——
-  // 小红书发布页没有「存草稿」按钮：上传图片后平台会自动建草稿并自动保存
-  // （页面底部显示「编辑于 刚刚」）。所以只需把内容填进去，草稿就成型了。
-  //
+  // —— 2. 标题（先清空，再插入，截断到 22 字）——
   // 🔴 2026-10-22 踩坑：只 .click() 不够 —— Input.insertText 发给的是
   //    document.activeElement，ProseMirror 的 div 被 click 后**不一定成为 activeElement**，
   //    结果正文被整个塞进了标题框。必须 focus() 后**校验 activeElement 真的是它**再插字。
   const TITLE_SEL = 'input.d-text[placeholder="填写标题会有更多赞哦"]';
   const BODY_SEL = 'div.tiptap.ProseMirror';
-  const focusJs = (sel) => `(()=>{const e=document.querySelector(${JSON.stringify(sel)}); if(!e) return 'NO'; e.scrollIntoView({block:'center'}); e.focus(); return document.activeElement===e ? 'OK' : 'NOTFOCUSED:' + String(document.activeElement && (document.activeElement.className || document.activeElement.tagName));})()`;
-  // 每次都先清空标题框（重跑时不会把旧内容顶在前面）
-  const clearJs = `(()=>{const e=document.querySelector(${JSON.stringify(TITLE_SEL)}); if(!e) return 'NO'; e.focus(); e.setSelectionRange(0,(e.value||'').length); return String((e.value||'').length);})()`;
-  const had = await ev(clearJs);
+  const clearTitleJs = `(()=>{const e=document.querySelector(${JSON.stringify(TITLE_SEL)}); if(!e) return 'NO'; e.focus(); e.setSelectionRange(0,(e.value||'').length); return String((e.value||'').length);})()`;
+  const had = await ev(clearTitleJs);
   if (had === 'NO') return fail({ error: 'NO_TITLE_INPUT' });
   if (Number(had) > 0) {
     await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8, nativeVirtualKeyCode: 8 });
     await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Backspace', code: 'Backspace', windowsVirtualKeyCode: 8, nativeVirtualKeyCode: 8 });
     await sleep(500);
   }
-  await send('Input.insertText', { text: d.title });
+  await send('Input.insertText', { text: t.text });
+  await sleep(1200);
+
+  // —— 3. 正文（清空 → focus 校验 → 插入，话题已在正文末尾）——
+  const clearBodyJs = `(()=>{const b=document.querySelector(${JSON.stringify(BODY_SEL)}); if(!b) return 'NO'; b.focus();
+    document.execCommand('selectAll'); document.execCommand('delete');
+    return document.activeElement===b ? 'OK' : 'NOTFOCUSED';})()`;
+  const cb = await ev(clearBodyJs);
+  if (cb !== 'OK') return fail({ error: 'NO_BODY_FOCUS', got: cb });
+  await send('Input.insertText', { text: body });
+  await sleep(6000);
+
+  // —— 4. 选合集「第七境 百家姓系列」——
+  const openColl = await ev(`(()=>{const b=document.querySelector('div.collection-plugin-button'); if(!b) return 'NO'; b.scrollIntoView({block:'center'}); b.click(); return 'OK';})()`);
+  await sleep(2200);
+  const pickColl = await ev(`(()=>{const els=Array.from(document.querySelectorAll('div,span,li'))
+    .filter(x=>String(x.innerText||'').trim().includes('百家姓') && x.offsetParent);
+    if(!els.length) return 'NOTFOUND';
+    els.sort((a,b)=>a.querySelectorAll('*').length-b.querySelectorAll('*').length);
+    els[0].click(); return 'OK';})()`);
+  await sleep(1800);
+  const collNow = await ev(`(()=>{const w=document.querySelector('div.collection-plugin-wrapper'); return w? w.innerText.replace(/\\n/g,' ').slice(0,80):'NO';})()`);
+
+  // —— 5. 原创声明 / 内容含 AI 合成 ——
+  // ⚠️ 2026-10-22 实测：这两个开关用 JS click、真实鼠标事件、键盘 Space/Enter 都点不动
+  //    （可能是账号权限未开放，或组件用了自定义事件）。这里仍然尝试一次，
+  //    但状态无法可靠读回，输出里标 unknown ⇒ 简报提醒人在发布前手动确认。
+  await ev(`(()=>{const w=document.querySelector('div.original-wrapper'); const c=w&&w.querySelector('.custom-switch-card'); if(c){c.scrollIntoView({block:'center'}); c.click();} return 1;})()`);
+  await sleep(1200);
+  const swState = await ev(`(()=>{const w=document.querySelector('div.original-wrapper'); if(!w) return 'NO';
+    const s=w.querySelector('.custom-switch-icon svg'); const m=s?String(s.outerHTML).match(/scaleX\\((-?[\\d.]+)\\)/):null;
+    return m?m[1]:'?';})()`);
+  await ev(`(()=>{const w=Array.from(document.querySelectorAll('.d-select-wrapper')).filter(x=>String(x.innerText||'').includes('添加内容类型声明')&&x.offsetParent)[0];
+    if(!w) return 'NO'; const m=w.querySelector('.d-select-main'); if(!m) return 'NOMAIN'; m.scrollIntoView({block:'center'}); m.click(); return 'OK';})()`);
   await sleep(1500);
 
-  // —— 3. 填正文（ProseMirror contenteditable） ——
-  const r2 = await ev(focusJs(BODY_SEL));
-  if (r2 !== 'OK') return fail({ error: 'NO_BODY_FOCUS', got: r2 });
-  await send('Input.insertText', { text: d.body });
-  await sleep(8000);   // 等平台自动保存
-
-  // —— 4. 验证：标题/正文是否落上、草稿箱计数、是否显示「编辑于」 ——
+  // —— 6. 验证 + 落日志 ——
   const verify = await ev(`(() => { try {
-    const t = document.querySelector('${TITLE_SEL}');
+    const ti = document.querySelector('${TITLE_SEL}');
     const b = document.querySelector('div.tiptap.ProseMirror');
     const m = (document.body.innerText||'').match(/草稿箱\\((\\d+)\\)/);
-    return JSON.stringify({ title: (t && t.value) || '', bodyLen: ((b && b.innerText) || '').length, draftBox: m ? m[1] : null, autoSaved: /编辑于/.test(document.body.innerText||'') });
+    return JSON.stringify({ title: (ti && ti.value) || '', bodyLen: ((b && b.innerText) || '').length,
+      draftBox: m ? m[1] : null, autoSaved: /编辑于/.test(document.body.innerText||'') });
   } catch(e) { return JSON.stringify({ err: String(e) }); } })()`);
-  return dump({ stage: 'draft-saved', day: d.day, ...JSON.parse(verify || '{}') });
+  const v = JSON.parse(verify || '{}');
+
+  log[day] = { at: new Date().toISOString(), file: d.file, title: t.text };
+  fs.writeFileSync(LOG_FILE, JSON.stringify(log, null, 1));
+
+  return dump({
+    stage: 'draft-saved', day: d.day, file: d.file,
+    title: t.text, titleLen: [...t.text].length, titleTruncated: t.truncated,
+    topics: topics.list, topicViews: topics.viewsOf,
+    collection: collNow.includes('百家姓') ? COLLECTION : ('未选中:' + collNow),
+    collectionOpened: openColl, collectionPicked: pickColl,
+    original: swState === '?' ? 'unknown' : ('scaleX=' + swState),
+    aiDeclare: 'unknown',
+    manual: ['原创声明', '内容含 AI 合成标注'],
+    ...v,
+  });
 }
 
 main().catch(e => fail({ error: 'EXCEPTION', msg: String(e) }));
