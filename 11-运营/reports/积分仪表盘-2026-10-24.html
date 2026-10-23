@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>积分仪表盘 · 2026/10/24</title>
+<style>
+  :root{ --bg:#faf8f5; --card:#fff; --ink:#2b2b2b; --sub:#6b6b6b; --line:#e6e1da; --red:#b03a2e; --teal:#3b5f6b; }
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px;background:var(--bg);color:var(--ink);
+       font:15px/1.6 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:20px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .kpi .k{font-size:12px;color:var(--sub)}
+  .kpi .v{font-size:24px;font-weight:600;margin-top:2px}
+  .kpi .s{font-size:12px;color:var(--sub);margin-top:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+  .card h2{font-size:15px;margin:0 0 12px}
+  svg{width:100%;height:auto;display:block}
+  .val{font-size:11px;font-weight:600;text-anchor:middle}
+  .lbl{font-size:11px;fill:#6b6b6b;text-anchor:middle}
+  .avg{font-size:11px;fill:#c9a227}
+  .bar{height:10px;background:#ece7e0;border-radius:6px;overflow:hidden;margin-top:6px}
+  .bar span{display:block;height:100%;background:#b03a2e;width:5%}
+  .alert{background:#fdeceb;border:1px solid #f0c4bf;color:#8f2c22;border-radius:8px;padding:10px 12px;margin-bottom:16px}
+  .ok{background:#eef4f2;border:1px solid #cfe0dc;color:#25544b;border-radius:8px;padding:10px 12px;margin-bottom:16px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+  th{color:var(--sub);font-weight:500;font-size:12px}
+  ul{margin:8px 0 0;padding-left:20px} li{margin:3px 0}
+  .todo{color:var(--sub)}
+  @media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><div class="wrap">
+<h1>积分仪表盘</h1>
+<div class="meta">数据时点 2026/10/24 00:06:44 · 来源：WorkBuddy 官方接口自动取数</div>
+
+<div class="alert">🔴 红线报警：按近 7 日均值，跑道仅 0.8 天（&lt; 15 天）→ 暂停批量壁纸生产，优先赚分</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="k">当前余额</div><div class="v">123.89</div><div class="s">体验版 · 周期已用 4579.11 / 4703</div></div>
+  <div class="kpi"><div class="k">近 7 日日均消耗</div><div class="v">149.7</div><div class="s">7 日合计 1047.87</div></div>
+  <div class="kpi"><div class="k">可支撑天数</div><div class="v" style="color:#b03a2e">0.8</div>
+    <div class="s">轻活基线口径 0 天</div>
+    <div class="bar"><span></span></div></div>
+  <div class="kpi"><div class="k">月度需求缺口</div><div class="v">276</div><div class="s">按日均月耗 4491（超上限 4091）</div></div>
+</div>
+
+<div class="card">
+  <h2>近 7 日逐日消耗（柱形图）</h2>
+  <svg viewBox="0 0 720 260" role="img" aria-label="近7日积分消耗柱状图">
+    <line x1="56" y1="214" x2="710" y2="214" stroke="#e6e1da"/>
+    <rect x="81.7" y="41.5" width="56.0" height="172.5" rx="3" fill="#b03a2e"/><text x="109.7" y="34.5" class="val" fill="#b03a2e">265.56</text><text x="109.7" y="234.0" class="lbl">10-18</text><rect x="189.0" y="122.3" width="56.0" height="91.7" rx="3" fill="#3b5f6b"/><text x="217.0" y="115.3" class="val" fill="#3b5f6b">141.22</text><text x="217.0" y="234.0" class="lbl">10-19</text><rect x="296.3" y="180.3" width="56.0" height="33.7" rx="3" fill="#3b5f6b"/><text x="324.3" y="173.3" class="val" fill="#3b5f6b">51.89</text><text x="324.3" y="234.0" class="lbl">10-20</text><rect x="403.7" y="16.0" width="56.0" height="198.0" rx="3" fill="#b03a2e"/><text x="431.7" y="9.0" class="val" fill="#b03a2e">304.89</text><text x="431.7" y="234.0" class="lbl">10-21</text><rect x="511.0" y="173.2" width="56.0" height="40.8" rx="3" fill="#3b5f6b"/><text x="539.0" y="166.2" class="val" fill="#3b5f6b">62.81</text><text x="539.0" y="234.0" class="lbl">10-22</text><rect x="618.3" y="70.2" width="56.0" height="143.8" rx="3" fill="#b03a2e"/><text x="646.3" y="63.2" class="val" fill="#b03a2e">221.5</text><text x="646.3" y="234.0" class="lbl">10-23</text><line x1="56" y1="116.8" x2="710" y2="116.8" stroke="#c9a227" stroke-width="1.5" stroke-dasharray="6 4"/><text x="708" y="110.8" class="avg" text-anchor="end">日均 149.7</text>
+  </svg>
+  <div class="meta" style="margin:8px 0 0">深色柱＝重活日（单日 &gt;200 分）；虚线＝7 日均值。轻活基线 0 分/天。</div>
+</div>
+
+<div class="card"><h2>逐日明细</h2>
+<table><tr><th>日期</th><th>消耗（分）</th><th>类型</th></tr>
+<tr><td>2026-10-18</td><td>265.56</td><td>重活日</td></tr><tr><td>2026-10-19</td><td>141.22</td><td>常规</td></tr><tr><td>2026-10-20</td><td>51.89</td><td>常规</td></tr><tr><td>2026-10-21</td><td>304.89</td><td>重活日</td></tr><tr><td>2026-10-22</td><td>62.81</td><td>常规</td></tr><tr><td>2026-10-23</td><td>221.5</td><td>重活日</td></tr>
+</table></div>
+
+<div class="card"><h2>今日行动</h2><ul>
+  <li>签到：客户端左下角头像 → 领取今日礼包（第 7 天 1000 分，断签可用补登卡）</li>
+  <li class="todo">赚分：社区发文 1000 分/篇（精选再 +2000），稿子在 <code>09-社区/</code> 目录，一篇篇发</li>
+  <li class="todo">⏸ 暂停批量壁纸生产（红线生效）</li>
+</ul></div>
+</div></body></html>

@@ -1,27 +1,27 @@
 {
   "ok": true,
-  "fetchedAt": "2026-10-23 20:43",
+  "fetchedAt": "2026-10-23 05:02",
   "date": "2026-10-23",
-  "period": null,
+  "period": "10-16 至 10-22",
   "diag": {
-    "views": null,
-    "newFans": null,
-    "profileVisits": null,
-    "published": null,
-    "interactions": null
+    "views": 356,
+    "newFans": 1,
+    "profileVisits": 12,
+    "published": 2,
+    "interactions": 16
   },
   "overview": {
-    "exposure": null,
-    "views": null,
-    "ctr": null,
-    "avgWatch": null,
+    "exposure": 2419,
+    "views": 356,
+    "ctr": "15.2%",
+    "avgWatch": "12秒",
     "totalWatch": null,
-    "finishRate": null
+    "finishRate": "0%"
   },
   "mom": {
-    "exposure": null,
-    "views": null,
-    "ctr": null
+    "exposure": "+380%",
+    "views": "+790%",
+    "ctr": "+89%"
   },
   "fans": {
     "total": 1,
@@ -33,7 +33,7 @@
       "title": "赵钱孙李｜赵武灵王到李广，四种写法",
       "publishedAt": "2026-10-22 07:07",
       "exposure": 254,
-      "views": 14,
+      "views": 22,
       "ctr": "5.10%",
       "likes": 0,
       "comments": 1,
@@ -47,7 +47,7 @@
       "title": "16 张朝代手机壁纸，原图私信我",
       "publishedAt": "2026-10-18 09:38",
       "exposure": 2099,
-      "views": 364,
+      "views": 371,
       "ctr": "16.50%",
       "likes": 6,
       "comments": 3,
@@ -61,7 +61,7 @@
       "title": "十六个朝代，各自留了一句话",
       "publishedAt": "2026-10-10 06:36",
       "exposure": 569,
-      "views": 48,
+      "views": 49,
       "ctr": "8.40%",
       "likes": 0,
       "comments": 1,
