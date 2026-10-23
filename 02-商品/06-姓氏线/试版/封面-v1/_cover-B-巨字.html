@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+ 百家姓封面 v1 · 版 B「单字巨字」1179×1572（小红书 3:4）
+ 同样是朝代数配色，但把冲击力压到一个字上：巨字占满 + 右侧竖排源流（朝代 .quote 同款）
+ 钩子换成互动型：报姓我现做
+-->
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face{font-family:'Noto Serif SC Black Local';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/nssc-black.woff2') format('woff2');
+  font-weight:900}
+@font-face{font-family:'msz';
+  src:url('file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/字体/MaShanZheng.ttf') format('truetype')}
+
+:root{--white:#ffffff;--ink:#1a1a18;--ink2:#54504a;--cinnabar:#b03826;
+  --f-brush:'msz','Ma Shan Zheng',serif;--f-body:'Noto Serif SC',Georgia,serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1179px;height:1572px;overflow:hidden;background:var(--white)}
+.stage{position:relative;width:1179px;height:1572px;background:#fff;overflow:hidden}
+
+.texture{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.32;pointer-events:none;filter:grayscale(100%) contrast(.96);
+  -webkit-mask-image:radial-gradient(ellipse 88% 62% at 52% 40%,#000 55%,transparent 100%);
+  mask-image:radial-gradient(ellipse 88% 62% at 52% 40%,#000 55%,transparent 100%)}
+
+.series-tag{position:absolute;left:64px;top:60px;z-index:2;
+  font-family:var(--f-body);font-size:22px;letter-spacing:7px;color:#6b675f;text-indent:7px}
+
+/* 巨字：占满画心 */
+.hero{position:absolute;left:520px;top:300px;transform:translateX(-50%);z-index:2;position:absolute}
+.hero .big{font-family:'Noto Serif SC Black Local','Songti SC',serif;font-weight:900;
+  font-size:660px;line-height:1;color:var(--ink);position:relative;display:inline-block}
+.hero .cinnabar-dot{position:absolute;right:6px;top:96px;width:22px;height:22px;border-radius:50%;
+  background:var(--cinnabar);box-shadow:20px 26px 0 -8px rgba(176,56,38,.35)}
+
+/* 右侧竖排源流（朝代 .quote 同款，右起） */
+.quote{position:absolute;right:74px;top:340px;display:flex;gap:18px;align-items:flex-start;z-index:2}
+.vc{display:flex;flex-direction:column;align-items:center;width:56px}
+.vc span{font-family:var(--f-brush);font-size:48px;line-height:1.6;color:var(--ink)}
+.vc.src{width:auto;align-self:flex-end;margin-bottom:-8px}
+.vc.src span{font-family:var(--f-body);font-size:17px;line-height:1.6;color:#4a463f}
+.vc.src .rot{display:block;transform:rotate(90deg);line-height:1}
+
+/* 竖排源流左侧的注 */
+.side{position:absolute;right:250px;top:360px;z-index:2;text-align:right}
+.side .who{font-family:var(--f-body);font-size:24px;letter-spacing:5px;color:#3d3931;text-indent:5px}
+.side .what{margin-top:10px;font-family:var(--f-body);font-size:17px;letter-spacing:3px;color:#78736a;text-indent:3px}
+
+/* 钩子：互动型 */
+.hook{position:absolute;left:589px;bottom:250px;transform:translateX(-50%);z-index:2;text-align:center;white-space:nowrap}
+.hook-main{font-family:var(--f-brush);font-size:54px;letter-spacing:4px;color:var(--cinnabar);line-height:1.3}
+.hook-sub{margin-top:14px;font-family:var(--f-body);font-size:19px;letter-spacing:6px;color:#5a564e;text-indent:6px}
+
+.colophon{position:absolute;left:56px;bottom:250px;z-index:3;display:flex;flex-direction:column;align-items:center}
+.vstack span{display:block;text-align:center;font-family:var(--f-brush);font-size:38px;line-height:1.4;color:var(--ink)}
+.vdot{width:9px;height:9px;border-radius:50%;background:var(--cinnabar);margin:13px 0 12px}
+.colophon-seal{height:64px;opacity:.95}
+
+.brand-block{position:absolute;left:589px;bottom:96px;transform:translateX(-50%);z-index:3;text-align:center}
+.brand-cn{font-family:var(--f-brush);font-size:36px;letter-spacing:4px;color:#26241f}
+.brand-cn .tm{font-family:Georgia,'Times New Roman',serif;font-size:24px;vertical-align:super;letter-spacing:0;margin-left:4px;color:var(--ink)}
+.brand-url{margin-top:12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;letter-spacing:3px;color:#6b675f;text-indent:3px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="series-tag">上 下 五 千 年 · 姓 氏</div>
+
+  <div class="hero" style="left:470px;top:270px">
+    <div class="big">赵<div class="cinnabar-dot"></div></div>
+  </div>
+
+  <div class="side">
+    <div class="who">赵 · 赵武灵王</div>
+    <div class="what">战国赵国君 · 胡服骑射</div>
+  </div>
+
+  <div class="quote">
+    <div class="vc src"><span class="rot">《</span><span>史</span><span>记</span><span>·</span><span>赵</span><span>世</span><span>家</span><span class="rot">》</span></div>
+    <div class="vc"><span>胡</span><span>服</span><span>骑</span><span>射</span></div>
+  </div>
+
+  <div class="hook">
+    <div class="hook-main">评论区报个姓，我做给你</div>
+    <div class="hook-sub">原 图 私 信 我 · 壁 纸 免 费 领</div>
+  </div>
+
+  <div class="colophon">
+    <div class="vstack"><span>第</span><span>七</span><span>境</span></div>
+    <div class="vdot"></div>
+    <img class="colophon-seal" src="file:///Users/billyhou/WorkBuddy/2026-09-25-15-56-17/02-商品/02-素材/底纹/seal.png">
+  </div>
+
+  <div class="brand-block">
+    <div class="brand-cn">第七境<span class="tm">™</span></div>
+    <div class="brand-url">www.theseventhrealm.com</div>
+  </div>
+</div>
+</body>
+</html>

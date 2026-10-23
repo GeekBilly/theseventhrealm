@@ -29,6 +29,9 @@ const DAY_ARG = (process.argv.find(a => a.startsWith('--day=')) || '').split('='
 const PUBLISH_URL = 'https://creator.xiaohongshu.com/publish/publish?source=official&from=menu&target=image';
 const DRAFT_DIR = path.join(ROOT, '04-市场', '03-推广获客', '姓氏日更-202610');
 const IMG_DIR = path.join(ROOT, '02-商品', '06-姓氏线', '成品-手机竖版', '小红书-3x4');
+// 封面：图 1 专用（2026-10-23 起）。版式复刻《16 张朝代手机壁纸》成功封面，
+// 由 02-商品/06-姓氏线/版式/gen-cover-v2.py 生成，文件名 DNN-四姓-封面-1179x1572.png
+const COVER_DIR = path.join(ROOT, '02-商品', '06-姓氏线', '成品-手机竖版', '封面-3x4');
 const TOPIC_FILE = path.join(ROOT, '11-运营', 'data', 'xhs-topics.json');
 const LOG_FILE = path.join(ROOT, '11-运营', 'data', 'xhs-draft-log.json');
 const START_DATE = '2026-10-22';   // D01 的发布日，之后每天 +1
@@ -110,7 +113,14 @@ async function main() {
   if (!day) return fail({ error: 'NO_DAY', hint: '今天不在 D01–D25 窗口内，或 --day 指定的文件不存在' });
   const d = parseDay(day);
   if (!d) return fail({ error: 'NO_DAY_FILE', day });
-  const files = d.imgs.map(n => path.join(IMG_DIR, n));
+  // 图 1 = 封面（v2 版式），其后才是 4 张单字卡
+  const coverName = `${d.day}-${d.surname}-封面-1179x1572.png`;
+  const coverPath = path.join(COVER_DIR, coverName);
+  if (!fs.existsSync(coverPath)) return fail({
+    error: 'COVER_MISSING', cover: coverName,
+    hint: '先跑 gen-cover-v2.py --day ' + d.day,
+  });
+  const files = [coverPath, ...d.imgs.map(n => path.join(IMG_DIR, n))];
   const missing = files.filter(f => !fs.existsSync(f));
   if (missing.length) return fail({ error: 'IMG_MISSING', missing });
   if (!d.title || !d.body) return fail({ error: 'PARSE_FAIL', day: d.day, title: !!d.title, body: !!d.body });
@@ -123,7 +133,8 @@ async function main() {
   if (MODE === 'dry') return dump({
     stage: 'dry', day: d.day, file: d.file,
     title: t.text, titleLen: [...t.text].length, titleTruncated: t.truncated,
-    imgs: d.imgs, topics: topics.list, topicViews: topics.viewsOf,
+    cover: coverName, imgs: d.imgs, uploadOrder: files.map(f => path.basename(f)),
+    topics: topics.list, topicViews: topics.viewsOf,
     bodyLen: [...body].length, body,
   });
 
