@@ -83,7 +83,7 @@ body{color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialias
   text-indent:8px}
 
 /* ② 画心上方标题两行（A 线竖版同值：top300；主 28/字距12，副 18/字距6，行间16） */
-.series{position:absolute;left:590px;top:399px;transform:translateX(-50%);z-index:6;
+.series{position:absolute;left:590px;top:313px;transform:translateX(-50%);z-index:6;
   text-align:center;white-space:nowrap}
 .series .t{font-family:var(--f-body);font-size:31px;letter-spacing:13px;color:#24221d;
   text-indent:13px}
@@ -91,7 +91,9 @@ body{color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialias
   color:#5a564e;text-indent:7px}
 
 /* ④ 右侧竖排金句（右起第一列贴最右）：一列 4 字，逐字一个 span */
-.quote{position:absolute;right:70px;top:746px;display:flex;gap:20px;
+.qgroup{position:absolute;right:109px;top:453px;bottom:399px;z-index:5;
+  display:flex;align-items:center;justify-content:flex-end;gap:44px}
+.quote{display:flex;gap:20px;
   align-items:flex-start;z-index:5}
 .vc{display:flex;flex-direction:column;align-items:center;width:63px}
 .vc span{font-family:var(--f-brush);font-size:55px;line-height:1.6;color:var(--ink)}
@@ -105,7 +107,7 @@ body{color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialias
          出处整体吊在上面、离金句盒底空一大截（2026-10-21 首版就是这么错的）。
       ⚠️ 竖排文字的纵向长度由 font-size（走 kx）决定，而锚点 top 走 ky，
          两档画幅下会有几像素漂移，属 A 线既定口径，不额外补偿。 */
-.src{position:absolute;right:153px;top:820px;writing-mode:vertical-rl;
+.src{writing-mode:vertical-rl;
   font-family:var(--f-body);font-size:20px;letter-spacing:7px;line-height:1.6;
   color:#4a463f;z-index:5}
 
@@ -164,8 +166,10 @@ body{color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialias
   <div class="series"><div class="t">一 姓 四 体 · 三 千 年</div>
     <div class="h">自 上 而 下 · 自 草 书 至 碑 刻</div></div>
 
-  <div class="quote"><div class="vc"><span>滕</span><span>殷</span><span>罗</span><span>毕</span></div></div>
-  <div class="src">《百家姓》北宋·第十九句</div>
+  <div class="qgroup">
+    <div class="src">《百家姓》北宋·第十九句</div>
+    <div class="quote"><div class="vc"><span>滕</span><span>殷</span><span>罗</span><span>毕</span></div></div>
+  </div>
 
   <!-- 画心四联字（竖版自上而下 = 草书|行书|隶书|碑刻，＝横版顺序的逆序） -->
   <div class="quat"><div class="cell"><div class="ch" style="font-family:'cao';font-size:313px;height:332px">罗</div><div class="lb">草书<b>柳建毛草</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'xing';font-size:313px;height:332px">罗</div><div class="lb">行书<b>挚芒行</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'lishu';font-size:313px;height:332px">羅</div><div class="lb">隶书 · 羅<b>青柳隷書</b></div></div><div class="divider"></div><div class="cell"><div class="ch" style="font-family:'serif';font-size:313px;height:332px">罗</div><div class="lb">碑刻<b>Noto Serif</b></div></div></div>
