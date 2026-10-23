@@ -167,7 +167,7 @@ ORDER4_BY_TPL = {'std': ORDER4, 'mac': ORDER4,
                  'phone': tuple(reversed(ORDER4)), 'square': tuple(reversed(ORDER4))}
 
 
-def fill(rec, cellchars, cellsize, celldy, labelextra, cellfont, tpl='std'):
+def fill(rec, cellchars, cellsize, celldy, labelextra, cellfont, tpl='std', cellh=None):
     """读模板 → 替换 6 个数据槽位 → 返回成品 HTML。
 
     四格顺序与副标题文案都按 tpl 分叉，见上面的 ORDER4_BY_TPL / TITLE_SUB。
@@ -184,7 +184,11 @@ def fill(rec, cellchars, cellsize, celldy, labelextra, cellfont, tpl='std'):
             #    字的下伸笔画（草书尤甚，「李」实测溢出 1.3em）会穿进下一行的标签。
             #    只对手机两版加，std/mac 横版是已定版口径，不动。
             if tpl in ('phone', 'square'):
-                st += f";height:{round(cellsize[k] * 1.06)}px"
+                hh = (cellh or cellsize)[k]          # 行盒按**未缩**字号撑 ⇒ 缩小的字形居中其内
+                st += f";height:{round(hh)}px"
+                lh = hh / cellsize[k]
+                if abs(lh - 1.06) > 0.02:
+                    st += f";line-height:{lh:.2f}"   # 字号缩了 ⇒ 行高跟着放大保持垂直居中
         if celldy.get(k):
             st += f";transform:translateY({celldy[k]}px)"
         # 隶书格若换了字形/字体，标注写明实际字形：「隶书 · 趙 / 青柳隷書」
@@ -343,6 +347,7 @@ def build(d, seq, item, lishu_mode='trad', norm=None, tpl='std', variant='ios'):
             cover[k], cellchars[k], cellfont[k] = 'missing', sv, k
             notes.append(f"缺字：{FONT_LABEL[k][1]} 无「{sv}」")
 
+    cellh = None                               # phone/square 才有：未缩字号的行盒高度
     n = ((norm or {}).get(f"{order:03d}") or (norm or {}).get(str(order))
          or (norm or {}).get(order) or {})
     cellsize = {k: v['size'] for k, v in n.items() if 'size' in v}
@@ -355,10 +360,17 @@ def build(d, seq, item, lishu_mode='trad', norm=None, tpl='std', variant='ios'):
         if tpl == 'phone':
             base /= g['kx']                     # scale_html 之后会再 × kx ⇒ 先换算回基准
         HB = 232.0                              # 横版 .ch 基准字号（模板里的值）
-        cellsize = {k: round(base * (cellsize.get(k, HB) / HB)) for k in ORDER4}
+        # 🔴 草书字形纵向溢出 ≈1.28–1.3em（赵/李实测，笔画穿过本格标签），
+        #    只缩草书字号，行盒高度按原字号撑（fill 里用 cellh），其余三体不动。
+        #    0.78 ⇒ 314px 行盒可容 1.3em 字形（314/1.3≈242 ≥ 296×0.78≈231）。
+        FONT_SHRINK = {'cao': 0.78} if tpl == 'phone' else {}
+        ratio = {k: (cellsize.get(k, HB) / HB) for k in ORDER4}
+        cellh = {k: round(base * ratio[k] * 1.06) for k in ORDER4}
+        cellsize = {k: round(base * ratio[k] * FONT_SHRINK.get(k, 1.0)) for k in ORDER4}
         celldy = {}
 
-    html = fill(rec, cellchars, cellsize, celldy, labelextra, cellfont, tpl)
+    html = fill(rec, cellchars, cellsize, celldy, labelextra, cellfont, tpl,
+                cellh=cellh if tpl in ('phone', 'square') else None)
     if tpl == 'phone':
         html = scale_html(html, g)
     return html, rec, cover, notes, cellfont
