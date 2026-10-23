@@ -13,7 +13,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--serif);
   -webkit-font-smoothing:antialiased;padding:0 0 56px}
-.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
 
 header{text-align:center;padding:52px 0 34px}
 header .kick{font-size:13px;letter-spacing:6px;text-indent:6px;color:var(--gray)}
@@ -22,7 +22,7 @@ header .sub{margin-top:14px;font-size:15px;color:var(--light);line-height:1.9}
 header .rule{width:120px;height:2px;background:var(--cinnabar);margin:22px auto 0}
 
 .cols{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-top:34px}
-.form{flex:1 1 320px;min-width:300px}
+.form{flex:1 1 330px;min-width:300px}
 .stage{flex:0 0 320px;margin:0 auto}
 
 label.t{display:block;font-size:13px;letter-spacing:2px;color:var(--gray);margin-bottom:10px}
@@ -35,12 +35,12 @@ button{font-family:var(--serif);cursor:pointer;border-radius:2px;transition:.15s
 .btn-ghost{flex:0 0 auto;padding:12px 16px;font-size:15px;background:#fff;
   border:1px solid var(--hair);color:var(--dark)}
 .btn-ghost:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
-.tip{font-size:13px;color:var(--light);margin-top:10px;min-height:20px}
+.tip{font-size:13px;color:var(--light);margin-top:10px;min-height:44px;line-height:1.7}
+.tip b{color:var(--ink);font-weight:700}
 .tip.warn{color:var(--cinnabar)}
 
 .chips{margin-top:8px;border:1px solid var(--hair);background:#fff;border-radius:2px;
-  padding:12px;max-height:132px;overflow-y:auto;
-  display:flex;flex-wrap:wrap;gap:6px}
+  padding:12px;max-height:132px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px}
 .chips button{border:none;background:transparent;font-size:16px;color:var(--dark);
   width:34px;height:34px;line-height:34px;text-align:center}
 .chips button:hover{background:#f2efe7;color:var(--cinnabar)}
@@ -49,6 +49,7 @@ button{font-family:var(--serif);cursor:pointer;border-radius:2px;transition:.15s
 .fmt{margin-top:22px;display:flex;flex-direction:column;gap:9px}
 .fmt label{font-size:14px;color:var(--dark);display:flex;align-items:center;gap:9px;cursor:pointer}
 .fmt input{accent-color:var(--cinnabar)}
+.fmt .sm{font-size:12px;color:var(--light)}
 
 canvas{width:100%;max-width:320px;display:block;margin:0 auto;
   border:1px solid var(--hair);box-shadow:0 2px 18px rgba(26,26,24,.08);background:#fff}
@@ -61,7 +62,7 @@ canvas{width:100%;max-width:320px;display:block;margin:0 auto;
 .how{margin-top:46px;border-top:1px solid var(--hair);padding-top:26px}
 .how h2{font-size:16px;letter-spacing:3px;margin-bottom:14px}
 .how ol{padding-left:20px;font-size:14px;color:var(--dark);line-height:2.1}
-.note{margin-top:34px;font-size:13px;color:var(--light);line-height:2}
+.note{margin-top:30px;font-size:13px;color:var(--light);line-height:2}
 footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spacing:1px}
 @media(max-width:720px){.cols{flex-direction:column}.stage{order:-1}}
 </style>
@@ -72,7 +73,7 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spa
 <header>
   <div class="kick">第 七 境 · 上 下 五 千 年</div>
   <h1>百家姓卡 · 姓氏壁纸生成器</h1>
-  <div class="sub">输入你的姓，生成一张可以存下来的竖版卡<br>大字、本姓历史人物、出处序号，一次排好</div>
+  <div class="sub">输入你的姓，取回这一姓的成品卡与手机壁纸<br>一姓四体 · 竖排注 · 印章 · 品牌域名，与公开发布的版本同一套</div>
   <div class="rule"></div>
 </header>
 
@@ -85,18 +86,19 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spa
     </div>
     <div class="tip" id="tip"></div>
 
-    <label class="t" style="margin-top:22px">《百家姓》前 100 姓 · 点选</label>
+    <label class="t" style="margin-top:16px">《百家姓》前 100 姓 · 点选</label>
     <div class="chips" id="chips"></div>
 
     <div class="fmt">
-      <label><input type="radio" name="fmt" value="v" checked>竖版 1179 × 1572（手机壁纸）</label>
-      <label><input type="radio" name="fmt" value="s">方版 1080 × 1080（头像 / 朋友圈）</label>
+      <label><input type="radio" name="fmt" value="card" checked>小红书卡 1179 × 1572<span class="sm">四体 + 竖排注</span></label>
+      <label><input type="radio" name="fmt" value="wall">手机壁纸 1179 × 2556<span class="sm">iOS 竖版</span></label>
+      <label><input type="radio" name="fmt" value="sq">方版 1080 × 1080<span class="sm">卡片完整放入</span></label>
     </div>
   </div>
 
   <div class="stage">
     <canvas id="cv"></canvas>
-    <button class="btn-main" id="dl">下载这张卡</button>
+    <button class="btn-main" id="dl">下载这张</button>
     <div class="cap" id="cap"></div>
   </div>
 </div>
@@ -104,14 +106,14 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spa
 <div class="how">
   <h2>怎么用</h2>
   <ol>
-    <li>在左边输入你的姓（也可以从下面 100 姓里点一个，或点「随机」）。</li>
-    <li>选竖版还是方版，右边实时出图。</li>
-    <li>点「下载这张卡」，得到一张无水印 PNG，可直接设为手机壁纸或发出去。</li>
+    <li>输入你的姓（或从下面 100 姓里点一个，也可以点「随机」）。</li>
+    <li>选小红书卡 / 手机壁纸 / 方版，右边实时换图。</li>
+    <li>点「下载这张」，得到一张无水印 PNG，可直接发、可设为壁纸。</li>
   </ol>
   <div class="note">
-    收录范围：《百家姓》前 100 姓，每姓配一位史有明载的人物（如 赵·赵武灵王、郑·郑和、萧·萧何）。
-    未收录的姓也能生成，人物一行留白待补。<br>
-    全部在浏览器本地完成，输入的字不上传、不留存。
+    收录范围：《百家姓》前 100 姓。每姓一卡，卡面四个写法依次为草书、行书、隶书、碑刻（某体缺字时按字体实际覆盖替换，卡上如实标注）。<br>
+    未收录的姓也能出图：现场用系统宋体排一张简版，人物一行留白待补。<br>
+    全部在浏览器本地完成：输入的字不上传、不留存。
   </div>
 </div>
 
@@ -525,13 +527,14 @@ const DATA = [
 const INK='#1a1a18', CIN='#b03826', GRAY='#6b675f', DARK='#3d3931', LIGHT='#78736a', HAIR='#ded7c9';
 const SERIF = "'Songti SC','STSong','Noto Serif CJK SC','Source Han Serif SC','SimSun',serif";
 const MAP = new Map(DATA.map((d,i)=>[d.s, {n:d.n, idx:i+1}]));
+const SIZE = {card:[1179,1572,'cards','-1179x1572.png'],
+              wall:[1179,2556,'wall','-1179x2556.png'],
+              sq:[1080,1080,'cards','-1179x1572.png']};
 
-const cv = document.getElementById('cv');
-const ctx = cv.getContext('2d');
-const elSn = document.getElementById('sn');
-const elTip = document.getElementById('tip');
-const elCap = document.getElementById('cap');
-const elChips = document.getElementById('chips');
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const elSn=document.getElementById('sn'), elTip=document.getElementById('tip'), elCap=document.getElementById('cap');
+const elChips=document.getElementById('chips');
+const cache={}; let seq=0;
 
 DATA.forEach(d=>{
   const b=document.createElement('button'); b.textContent=d.s; b.title=d.s+' · '+d.n;
@@ -539,80 +542,104 @@ DATA.forEach(d=>{
   elChips.appendChild(b);
 });
 
-function drawSpaced(text, cx, y, sp){
-  const cs=[...text];
-  const ws=cs.map(c=>ctx.measureText(c).width);
-  let total=ws.reduce((a,b)=>a+b,0)+sp*(cs.length-1);
-  let x=cx-total/2;
+function spaced(text,cx,y,sp){
+  const cs=[...text], ws=cs.map(c=>ctx.measureText(c).width);
+  let x=cx-(ws.reduce((a,b)=>a+b,0)+sp*(cs.length-1))/2;
   const prev=ctx.textAlign; ctx.textAlign='left';
   cs.forEach((c,i)=>{ ctx.fillText(c,x,y); x+=ws[i]+sp; });
   ctx.textAlign=prev;
 }
 
-function render(){
-  const v = document.querySelector('input[name=fmt]:checked').value==='v';
-  const W = v?1179:1080, H = v?1572:1080;
-  cv.width=W; cv.height=H;
-  const sc = W/1179;
-  const CX = W/2;
-  const sRaw = (elSn.value||'').trim();
-  const s = sRaw || '赵';
-  const rec = MAP.get(s);
-  const F = (px,w)=>`${w} ${Math.round(px*sc)}px ${SERIF}`;
-
+/* 未收录的姓 / 图加载失败：现场排一张简版 */
+function drawFallback(s, W, H, sc){
+  const CX=W/2, F=(px,w)=>`${w} ${Math.round(px*sc)}px ${SERIF}`;
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
   ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-
   ctx.font=F(27,400); ctx.fillStyle=GRAY;
-  drawSpaced('第七境 · 上下五千年', CX, H*0.127, 11*sc);
-
-  ctx.fillStyle=CIN; ctx.fillRect((W-0.712*W)/2, H*0.152, 0.712*W, Math.max(2,3*sc));
-
+  spaced('第七境 · 上下五千年',CX,H*0.127,11*sc);
+  ctx.fillStyle=CIN; ctx.fillRect((W-0.712*W)/2,H*0.152,0.712*W,Math.max(2,3*sc));
   ctx.font=F(420,700); ctx.fillStyle=INK; ctx.textBaseline='middle';
-  drawSpaced(s, CX, H*0.369, 0);
-  ctx.textBaseline='alphabetic';
-
+  spaced(s,CX,H*0.369,0); ctx.textBaseline='alphabetic';
   ctx.font=F(48,700); ctx.fillStyle=DARK;
-  drawSpaced(rec ? (s+' · '+rec.n) : (s+' · 本姓待补'), CX, H*0.566, 8*sc);
-
-  ctx.fillStyle=HAIR; ctx.fillRect((W-0.712*W)/2, H*0.611, 0.712*W, Math.max(1,Math.round(sc)));
-
+  spaced(s+' · 本姓待补',CX,H*0.566,8*sc);
+  ctx.fillStyle=HAIR; ctx.fillRect((W-0.712*W)/2,H*0.611,0.712*W,Math.max(1,Math.round(sc)));
   ctx.font=F(58,700); ctx.fillStyle=CIN;
-  drawSpaced(rec ? ('百家姓 · 第 '+rec.idx+' 位') : '百家姓 · 已收录前 100 姓', CX, H*0.674, 6*sc);
-
+  spaced('百家姓 · 已收录前 100 姓',CX,H*0.674,6*sc);
   ctx.font=F(25,400); ctx.fillStyle=LIGHT;
-  drawSpaced(v?'竖版 1179×1572 · 可直接设为壁纸':'方版 1080×1080 · 适合头像与朋友圈', CX, H*0.738, 3*sc);
-  drawSpaced('无水印 · 长按即可保存', CX, H*0.775, 3*sc);
-
+  spaced('竖版 '+W+'×'+H+' · 可直接设为壁纸',CX,H*0.738,3*sc);
+  spaced('无水印 · 长按即可保存',CX,H*0.775,3*sc);
   const sw=0.129*W, sh=sw*0.618, sx=(W-sw)/2, sy=H*0.825;
   ctx.strokeStyle=CIN; ctx.lineWidth=Math.max(3,4*sc); ctx.strokeRect(sx,sy,sw,sh);
   ctx.font=F(34,700); ctx.fillStyle=CIN; ctx.textBaseline='middle';
-  drawSpaced('第七境', CX, sy+sh/2, 7*sc);
-  ctx.textBaseline='alphabetic';
+  spaced('第七境',CX,sy+sh/2,7*sc); ctx.textBaseline='alphabetic';
+}
 
-  // UI 文案
-  if(!sRaw){ elTip.className='tip'; elTip.textContent=''; }
-  else if(rec){ elTip.className='tip'; elTip.textContent='《百家姓》第 '+rec.idx+' 位 · '+s+' · '+rec.n; }
-  else { elTip.className='tip warn'; elTip.textContent='「'+s+'」不在已收录的 100 姓内，人物留白待补，卡片照常生成。'; }
-  elCap.textContent = (v?'1179 × 1572':'1080 × 1080') + ' PNG · 无水印';
+function load(src){
+  if(cache[src]) return Promise.resolve(cache[src]);
+  return new Promise((res,rej)=>{
+    const im=new Image();
+    im.onload=()=>{cache[src]=im; res(im);};
+    im.onerror=()=>rej(new Error(src));
+    im.src=src;
+  });
+}
+
+async function sync(){
+  const raw=(elSn.value||'').trim();
+  const s=raw||'赵';
+  const fmt=document.querySelector('input[name=fmt]:checked').value;
+  const [W,H,dir,suf]=SIZE[fmt];
+  const sc=W/1179;
+  const my=++seq;
+
+  cv.width=W; cv.height=H;
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  const rec=MAP.get(s);
+
+  let ok=false, dim='-';
+  if(rec){
+    try{
+      const im=await load(dir+'/'+encodeURIComponent(s)+suf);
+      if(my!==seq) return;
+      dim=im.naturalWidth+'x'+im.naturalHeight;
+      if(fmt==='sq'){
+        const pad=60, k=Math.min((W-pad*2)/im.width,(H-pad*2)/im.height);
+        const dw=im.width*k, dh=im.height*k;
+        ctx.drawImage(im,(W-dw)/2,(H-dh)/2,dw,dh);
+      }else{
+        ctx.drawImage(im,0,0,W,H);
+      }
+      ok=true;
+    }catch(e){ ok=false; }
+  }
+  if(my!==seq) return;
+  if(!ok) drawFallback(s,W,H,sc);
+
+  if(!raw){ elTip.className='tip'; elTip.textContent=''; }
+  else if(rec && ok){ elTip.className='tip'; elTip.innerHTML='《百家姓》第 '+rec.idx+' 位 · <b>'+s+' · '+rec.n+'</b><br>卡面四体：草书 / 行书 / 隶书 / 碑刻'; }
+  else if(rec){ elTip.className='tip warn'; elTip.textContent='图没加载出来，已退回简版（刷新页面可重试）。'; }
+  else { elTip.className='tip warn'; elTip.textContent='「'+s+'」不在已收录的 100 姓内，现场排了简版，人物留白待补。'; }
+
+  elCap.textContent = W+' × '+H+' PNG · 无水印';
+  document.documentElement.dataset.st=(ok?'IMG':'FALLBACK')+'|'+W+'x'+H+'|'+dim;
   [...elChips.children].forEach(b=>b.classList.toggle('on', b.textContent===s));
 }
 
-function sync(){ render(); }
 elSn.addEventListener('input', sync);
 document.querySelectorAll('input[name=fmt]').forEach(r=>r.addEventListener('change', sync));
-document.getElementById('rand').onclick=()=>{
-  elSn.value = DATA[Math.floor(Math.random()*DATA.length)].s; sync();
-};
+document.getElementById('rand').onclick=()=>{ elSn.value=DATA[Math.floor(Math.random()*DATA.length)].s; sync(); };
 document.getElementById('dl').onclick=()=>{
   cv.toBlob(b=>{
     const a=document.createElement('a');
     a.href=URL.createObjectURL(b);
     a.download='百家姓卡-'+(elSn.value||'赵')+'-'+cv.width+'x'+cv.height+'.png';
-    a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+    a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
   },'image/png');
 };
-render();
+const Q=new URLSearchParams(location.search);
+if(Q.get('s')) elSn.value=Q.get('s');
+if(Q.get('fmt')&&SIZE[Q.get('fmt')]) document.querySelector('input[name=fmt][value='+Q.get('fmt')+']').checked=true;
+sync();
 </script>
 </body>
 </html>
