@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>百家姓卡 · 姓氏壁纸生成器</title>
+<style>
+:root{
+  --ink:#1a1a18; --cinnabar:#b03826; --gray:#6b675f; --dark:#3d3931;
+  --light:#78736a; --hair:#ded7c9; --paper:#fbfaf6;
+  --serif:'Songti SC','STSong','Noto Serif CJK SC','Source Han Serif SC','SimSun',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);
+  -webkit-font-smoothing:antialiased;padding:0 0 56px}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+
+header{text-align:center;padding:52px 0 34px}
+header .kick{font-size:13px;letter-spacing:6px;text-indent:6px;color:var(--gray)}
+header h1{margin-top:16px;font-size:34px;font-weight:700;letter-spacing:2px}
+header .sub{margin-top:14px;font-size:15px;color:var(--light);line-height:1.9}
+header .rule{width:120px;height:2px;background:var(--cinnabar);margin:22px auto 0}
+
+.cols{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-top:34px}
+.form{flex:1 1 320px;min-width:300px}
+.stage{flex:0 0 320px;margin:0 auto}
+
+label.t{display:block;font-size:13px;letter-spacing:2px;color:var(--gray);margin-bottom:10px}
+.inputrow{display:flex;gap:10px}
+input[type=text]{flex:1;font-family:var(--serif);font-size:22px;letter-spacing:4px;
+  padding:12px 14px;border:1px solid var(--hair);background:#fff;color:var(--ink);
+  border-radius:2px;outline:none;text-align:center}
+input[type=text]:focus{border-color:var(--cinnabar)}
+button{font-family:var(--serif);cursor:pointer;border-radius:2px;transition:.15s}
+.btn-ghost{flex:0 0 auto;padding:12px 16px;font-size:15px;background:#fff;
+  border:1px solid var(--hair);color:var(--dark)}
+.btn-ghost:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
+.tip{font-size:13px;color:var(--light);margin-top:10px;min-height:20px}
+.tip.warn{color:var(--cinnabar)}
+
+.chips{margin-top:8px;border:1px solid var(--hair);background:#fff;border-radius:2px;
+  padding:12px;max-height:132px;overflow-y:auto;
+  display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:none;background:transparent;font-size:16px;color:var(--dark);
+  width:34px;height:34px;line-height:34px;text-align:center}
+.chips button:hover{background:#f2efe7;color:var(--cinnabar)}
+.chips button.on{background:var(--ink);color:#fff}
+
+.fmt{margin-top:22px;display:flex;flex-direction:column;gap:9px}
+.fmt label{font-size:14px;color:var(--dark);display:flex;align-items:center;gap:9px;cursor:pointer}
+.fmt input{accent-color:var(--cinnabar)}
+
+canvas{width:100%;max-width:320px;display:block;margin:0 auto;
+  border:1px solid var(--hair);box-shadow:0 2px 18px rgba(26,26,24,.08);background:#fff}
+.btn-main{display:block;width:100%;max-width:320px;margin:16px auto 0;padding:14px;
+  font-size:17px;letter-spacing:3px;text-indent:3px;background:var(--cinnabar);
+  color:#fff;border:none}
+.btn-main:hover{background:#982e1f}
+.cap{text-align:center;font-size:13px;color:var(--light);margin-top:10px}
+
+.how{margin-top:46px;border-top:1px solid var(--hair);padding-top:26px}
+.how h2{font-size:16px;letter-spacing:3px;margin-bottom:14px}
+.how ol{padding-left:20px;font-size:14px;color:var(--dark);line-height:2.1}
+.note{margin-top:34px;font-size:13px;color:var(--light);line-height:2}
+footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spacing:1px}
+@media(max-width:720px){.cols{flex-direction:column}.stage{order:-1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kick">第 七 境 · 上 下 五 千 年</div>
+  <h1>百家姓卡 · 姓氏壁纸生成器</h1>
+  <div class="sub">输入你的姓，生成一张可以存下来的竖版卡<br>大字、本姓历史人物、出处序号，一次排好</div>
+  <div class="rule"></div>
+</header>
+
+<div class="cols">
+  <div class="form">
+    <label class="t">你的姓</label>
+    <div class="inputrow">
+      <input type="text" id="sn" maxlength="2" placeholder="如：赵" value="赵">
+      <button class="btn-ghost" id="rand">随机</button>
+    </div>
+    <div class="tip" id="tip"></div>
+
+    <label class="t" style="margin-top:22px">《百家姓》前 100 姓 · 点选</label>
+    <div class="chips" id="chips"></div>
+
+    <div class="fmt">
+      <label><input type="radio" name="fmt" value="v" checked>竖版 1179 × 1572（手机壁纸）</label>
+      <label><input type="radio" name="fmt" value="s">方版 1080 × 1080（头像 / 朋友圈）</label>
+    </div>
+  </div>
+
+  <div class="stage">
+    <canvas id="cv"></canvas>
+    <button class="btn-main" id="dl">下载这张卡</button>
+    <div class="cap" id="cap"></div>
+  </div>
+</div>
+
+<div class="how">
+  <h2>怎么用</h2>
+  <ol>
+    <li>在左边输入你的姓（也可以从下面 100 姓里点一个，或点「随机」）。</li>
+    <li>选竖版还是方版，右边实时出图。</li>
+    <li>点「下载这张卡」，得到一张无水印 PNG，可直接设为手机壁纸或发出去。</li>
+  </ol>
+  <div class="note">
+    收录范围：《百家姓》前 100 姓，每姓配一位史有明载的人物（如 赵·赵武灵王、郑·郑和、萧·萧何）。
+    未收录的姓也能生成，人物一行留白待补。<br>
+    全部在浏览器本地完成，输入的字不上传、不留存。
+  </div>
+</div>
+
+<footer>第七境 · 一个个人创作者 · theseventhrealm.com</footer>
+</div>
+
+<script>
+const DATA = [
+{
+"s": "赵",
+"n": "赵武灵王"
+},
+{
+"s": "钱",
+"n": "钱镠"
+},
+{
+"s": "孙",
+"n": "孙武"
+},
+{
+"s": "李",
+"n": "李广"
+},
+{
+"s": "周",
+"n": "周瑜"
+},
+{
+"s": "吴",
+"n": "吴起"
+},
+{
+"s": "郑",
+"n": "郑和"
+},
+{
+"s": "王",
+"n": "王羲之"
+},
+{
+"s": "冯",
+"n": "冯异"
+},
+{
+"s": "陈",
+"n": "陈胜"
+},
+{
+"s": "褚",
+"n": "褚遂良"
+},
+{
+"s": "卫",
+"n": "卫青"
+},
+{
+"s": "蒋",
+"n": "蒋琬"
+},
+{
+"s": "沈",
+"n": "沈括"
+},
+{
+"s": "韩",
+"n": "韩信"
+},
+{
+"s": "杨",
+"n": "杨业"
+},
+{
+"s": "朱",
+"n": "朱元璋"
+},
+{
+"s": "秦",
+"n": "秦琼"
+},
+{
+"s": "尤",
+"n": "尤袤"
+},
+{
+"s": "许",
+"n": "许慎"
+},
+{
+"s": "何",
+"n": "何逊"
+},
+{
+"s": "吕",
+"n": "吕尚"
+},
+{
+"s": "施",
+"n": "施琅"
+},
+{
+"s": "张",
+"n": "张骞"
+},
+{
+"s": "孔",
+"n": "孔子"
+},
+{
+"s": "曹",
+"n": "曹操"
+},
+{
+"s": "严",
+"n": "严光"
+},
+{
+"s": "华",
+"n": "华佗"
+},
+{
+"s": "金",
+"n": "金日磾"
+},
+{
+"s": "魏",
+"n": "魏徵"
+},
+{
+"s": "陶",
+"n": "陶渊明"
+},
+{
+"s": "姜",
+"n": "姜维"
+},
+{
+"s": "戚",
+"n": "戚继光"
+},
+{
+"s": "谢",
+"n": "谢安"
+},
+{
+"s": "邹",
+"n": "邹忌"
+},
+{
+"s": "喻",
+"n": "喻皓"
+},
+{
+"s": "柏",
+"n": "柏良器"
+},
+{
+"s": "水",
+"n": "水乡漠"
+},
+{
+"s": "窦",
+"n": "窦宪"
+},
+{
+"s": "章",
+"n": "章邯"
+},
+{
+"s": "云",
+"n": "云敞"
+},
+{
+"s": "苏",
+"n": "苏武"
+},
+{
+"s": "潘",
+"n": "潘岳"
+},
+{
+"s": "葛",
+"n": "葛洪"
+},
+{
+"s": "奚",
+"n": "奚康生"
+},
+{
+"s": "范",
+"n": "范仲淹"
+},
+{
+"s": "彭",
+"n": "彭越"
+},
+{
+"s": "郎",
+"n": "郎士元"
+},
+{
+"s": "鲁",
+"n": "鲁仲连"
+},
+{
+"s": "韦",
+"n": "韦孝宽"
+},
+{
+"s": "昌",
+"n": "昌豨"
+},
+{
+"s": "马",
+"n": "马援"
+},
+{
+"s": "苗",
+"n": "苗晋卿"
+},
+{
+"s": "凤",
+"n": "凤翕如"
+},
+{
+"s": "花",
+"n": "花云"
+},
+{
+"s": "方",
+"n": "方孝孺"
+},
+{
+"s": "俞",
+"n": "俞大猷"
+},
+{
+"s": "任",
+"n": "任昉"
+},
+{
+"s": "袁",
+"n": "袁绍"
+},
+{
+"s": "柳",
+"n": "柳宗元"
+},
+{
+"s": "酆",
+"n": "酆舒"
+},
+{
+"s": "鲍",
+"n": "鲍叔牙"
+},
+{
+"s": "史",
+"n": "史可法"
+},
+{
+"s": "唐",
+"n": "唐寅"
+},
+{
+"s": "费",
+"n": "费祎"
+},
+{
+"s": "廉",
+"n": "廉颇"
+},
+{
+"s": "岑",
+"n": "岑参"
+},
+{
+"s": "薛",
+"n": "薛仁贵"
+},
+{
+"s": "雷",
+"n": "雷义"
+},
+{
+"s": "贺",
+"n": "贺知章"
+},
+{
+"s": "倪",
+"n": "倪瓒"
+},
+{
+"s": "汤",
+"n": "汤显祖"
+},
+{
+"s": "滕",
+"n": "滕文公"
+},
+{
+"s": "殷",
+"n": "殷仲堪"
+},
+{
+"s": "罗",
+"n": "罗隐"
+},
+{
+"s": "毕",
+"n": "毕昇"
+},
+{
+"s": "郝",
+"n": "郝隆"
+},
+{
+"s": "邬",
+"n": "邬彤"
+},
+{
+"s": "安",
+"n": "安金藏"
+},
+{
+"s": "常",
+"n": "常遇春"
+},
+{
+"s": "乐",
+"n": "乐毅"
+},
+{
+"s": "于",
+"n": "于谦"
+},
+{
+"s": "时",
+"n": "时大彬"
+},
+{
+"s": "傅",
+"n": "傅说"
+},
+{
+"s": "皮",
+"n": "皮日休"
+},
+{
+"s": "卞",
+"n": "卞壸"
+},
+{
+"s": "齐",
+"n": "齐己"
+},
+{
+"s": "康",
+"n": "康进之"
+},
+{
+"s": "伍",
+"n": "伍子胥"
+},
+{
+"s": "余",
+"n": "余靖"
+},
+{
+"s": "元",
+"n": "元结"
+},
+{
+"s": "卜",
+"n": "卜商（子夏）"
+},
+{
+"s": "顾",
+"n": "顾恺之"
+},
+{
+"s": "孟",
+"n": "孟子"
+},
+{
+"s": "平",
+"n": "平当"
+},
+{
+"s": "黄",
+"n": "黄歇"
+},
+{
+"s": "和",
+"n": "和峤"
+},
+{
+"s": "穆",
+"n": "穆崇"
+},
+{
+"s": "萧",
+"n": "萧何"
+},
+{
+"s": "尹",
+"n": "尹吉甫"
+}
+];
+
+const INK='#1a1a18', CIN='#b03826', GRAY='#6b675f', DARK='#3d3931', LIGHT='#78736a', HAIR='#ded7c9';
+const SERIF = "'Songti SC','STSong','Noto Serif CJK SC','Source Han Serif SC','SimSun',serif";
+const MAP = new Map(DATA.map((d,i)=>[d.s, {n:d.n, idx:i+1}]));
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const elSn = document.getElementById('sn');
+const elTip = document.getElementById('tip');
+const elCap = document.getElementById('cap');
+const elChips = document.getElementById('chips');
+
+DATA.forEach(d=>{
+  const b=document.createElement('button'); b.textContent=d.s; b.title=d.s+' · '+d.n;
+  b.onclick=()=>{ elSn.value=d.s; sync(); };
+  elChips.appendChild(b);
+});
+
+function drawSpaced(text, cx, y, sp){
+  const cs=[...text];
+  const ws=cs.map(c=>ctx.measureText(c).width);
+  let total=ws.reduce((a,b)=>a+b,0)+sp*(cs.length-1);
+  let x=cx-total/2;
+  const prev=ctx.textAlign; ctx.textAlign='left';
+  cs.forEach((c,i)=>{ ctx.fillText(c,x,y); x+=ws[i]+sp; });
+  ctx.textAlign=prev;
+}
+
+function render(){
+  const v = document.querySelector('input[name=fmt]:checked').value==='v';
+  const W = v?1179:1080, H = v?1572:1080;
+  cv.width=W; cv.height=H;
+  const sc = W/1179;
+  const CX = W/2;
+  const sRaw = (elSn.value||'').trim();
+  const s = sRaw || '赵';
+  const rec = MAP.get(s);
+  const F = (px,w)=>`${w} ${Math.round(px*sc)}px ${SERIF}`;
+
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+
+  ctx.font=F(27,400); ctx.fillStyle=GRAY;
+  drawSpaced('第七境 · 上下五千年', CX, H*0.127, 11*sc);
+
+  ctx.fillStyle=CIN; ctx.fillRect((W-0.712*W)/2, H*0.152, 0.712*W, Math.max(2,3*sc));
+
+  ctx.font=F(420,700); ctx.fillStyle=INK; ctx.textBaseline='middle';
+  drawSpaced(s, CX, H*0.369, 0);
+  ctx.textBaseline='alphabetic';
+
+  ctx.font=F(48,700); ctx.fillStyle=DARK;
+  drawSpaced(rec ? (s+' · '+rec.n) : (s+' · 本姓待补'), CX, H*0.566, 8*sc);
+
+  ctx.fillStyle=HAIR; ctx.fillRect((W-0.712*W)/2, H*0.611, 0.712*W, Math.max(1,Math.round(sc)));
+
+  ctx.font=F(58,700); ctx.fillStyle=CIN;
+  drawSpaced(rec ? ('百家姓 · 第 '+rec.idx+' 位') : '百家姓 · 已收录前 100 姓', CX, H*0.674, 6*sc);
+
+  ctx.font=F(25,400); ctx.fillStyle=LIGHT;
+  drawSpaced(v?'竖版 1179×1572 · 可直接设为壁纸':'方版 1080×1080 · 适合头像与朋友圈', CX, H*0.738, 3*sc);
+  drawSpaced('无水印 · 长按即可保存', CX, H*0.775, 3*sc);
+
+  const sw=0.129*W, sh=sw*0.618, sx=(W-sw)/2, sy=H*0.825;
+  ctx.strokeStyle=CIN; ctx.lineWidth=Math.max(3,4*sc); ctx.strokeRect(sx,sy,sw,sh);
+  ctx.font=F(34,700); ctx.fillStyle=CIN; ctx.textBaseline='middle';
+  drawSpaced('第七境', CX, sy+sh/2, 7*sc);
+  ctx.textBaseline='alphabetic';
+
+  // UI 文案
+  if(!sRaw){ elTip.className='tip'; elTip.textContent=''; }
+  else if(rec){ elTip.className='tip'; elTip.textContent='《百家姓》第 '+rec.idx+' 位 · '+s+' · '+rec.n; }
+  else { elTip.className='tip warn'; elTip.textContent='「'+s+'」不在已收录的 100 姓内，人物留白待补，卡片照常生成。'; }
+  elCap.textContent = (v?'1179 × 1572':'1080 × 1080') + ' PNG · 无水印';
+  [...elChips.children].forEach(b=>b.classList.toggle('on', b.textContent===s));
+}
+
+function sync(){ render(); }
+elSn.addEventListener('input', sync);
+document.querySelectorAll('input[name=fmt]').forEach(r=>r.addEventListener('change', sync));
+document.getElementById('rand').onclick=()=>{
+  elSn.value = DATA[Math.floor(Math.random()*DATA.length)].s; sync();
+};
+document.getElementById('dl').onclick=()=>{
+  cv.toBlob(b=>{
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(b);
+    a.download='百家姓卡-'+(elSn.value||'赵')+'-'+cv.width+'x'+cv.height+'.png';
+    a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+  },'image/png');
+};
+render();
+</script>
+</body>
+</html>
