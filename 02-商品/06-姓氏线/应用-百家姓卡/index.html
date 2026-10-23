@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>百家姓卡 · 姓氏壁纸生成器</title>
+<title>百家姓 · 姓氏壁纸生成器</title>
 <style>
 :root{
   --ink:#1a1a18; --cinnabar:#b03826; --gray:#6b675f; --dark:#3d3931;
@@ -72,8 +72,8 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spa
 
 <header>
   <div class="kick">第 七 境 · 上 下 五 千 年</div>
-  <h1>百家姓卡 · 姓氏壁纸生成器</h1>
-  <div class="sub">输入你的姓，取回这一姓的成品卡与手机壁纸<br>一姓四体 · 竖排注 · 印章 · 品牌域名，与公开发布的版本同一套</div>
+  <h1>百家姓 · 姓氏壁纸生成器</h1>
+  <div class="sub">输入你的姓，取回这一姓的手机壁纸<br>一姓四体 · 竖排注 · 印章 · 品牌域名，与公开发布的版本同一套</div>
   <div class="rule"></div>
 </header>
 
@@ -90,9 +90,8 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spa
     <div class="chips" id="chips"></div>
 
     <div class="fmt">
-      <label><input type="radio" name="fmt" value="card" checked>小红书卡 1179 × 1572<span class="sm">四体 + 竖排注</span></label>
-      <label><input type="radio" name="fmt" value="wall">手机壁纸 1179 × 2556<span class="sm">iOS 竖版</span></label>
-      <label><input type="radio" name="fmt" value="sq">方版 1080 × 1080<span class="sm">卡片完整放入</span></label>
+      <label><input type="radio" name="fmt" value="ios" checked>iPhone 竖版 1179 × 2556<span class="sm">iOS 壁纸</span></label>
+      <label><input type="radio" name="fmt" value="and">Android 竖版 1080 × 2400<span class="sm">安卓壁纸</span></label>
     </div>
   </div>
 
@@ -107,8 +106,8 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#9a948a;letter-spa
   <h2>怎么用</h2>
   <ol>
     <li>输入你的姓（或从下面 100 姓里点一个，也可以点「随机」）。</li>
-    <li>选小红书卡 / 手机壁纸 / 方版，右边实时换图。</li>
-    <li>点「下载这张」，得到一张无水印 PNG，可直接发、可设为壁纸。</li>
+    <li>选 iPhone 还是 Android，右边实时换图（尺寸按各自屏幕给全）。</li>
+    <li>点「下载这张」，得到一张无水印 PNG，存进相册直接设为壁纸。</li>
   </ol>
   <div class="note">
     收录范围：《百家姓》前 100 姓。每姓一卡，卡面四个写法依次为草书、行书、隶书、碑刻（某体缺字时按字体实际覆盖替换，卡上如实标注）。<br>
@@ -527,9 +526,8 @@ const DATA = [
 const INK='#1a1a18', CIN='#b03826', GRAY='#6b675f', DARK='#3d3931', LIGHT='#78736a', HAIR='#ded7c9';
 const SERIF = "'Songti SC','STSong','Noto Serif CJK SC','Source Han Serif SC','SimSun',serif";
 const MAP = new Map(DATA.map((d,i)=>[d.s, {n:d.n, idx:i+1}]));
-const SIZE = {card:[1179,1572,'cards','-1179x1572.png'],
-              wall:[1179,2556,'wall','-1179x2556.png'],
-              sq:[1080,1080,'cards','-1179x1572.png']};
+const SIZE = {ios:[1179,2556,'wall','-1179x2556.png'],
+              and:[1080,2400,'wall-android','-1080x2400.png']};
 
 const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
 const elSn=document.getElementById('sn'), elTip=document.getElementById('tip'), elCap=document.getElementById('cap');
@@ -602,13 +600,7 @@ async function sync(){
       const im=await load(dir+'/'+encodeURIComponent(s)+suf);
       if(my!==seq) return;
       dim=im.naturalWidth+'x'+im.naturalHeight;
-      if(fmt==='sq'){
-        const pad=60, k=Math.min((W-pad*2)/im.width,(H-pad*2)/im.height);
-        const dw=im.width*k, dh=im.height*k;
-        ctx.drawImage(im,(W-dw)/2,(H-dh)/2,dw,dh);
-      }else{
-        ctx.drawImage(im,0,0,W,H);
-      }
+      ctx.drawImage(im,0,0,W,H);
       ok=true;
     }catch(e){ ok=false; }
   }
@@ -616,7 +608,7 @@ async function sync(){
   if(!ok) drawFallback(s,W,H,sc);
 
   if(!raw){ elTip.className='tip'; elTip.textContent=''; }
-  else if(rec && ok){ elTip.className='tip'; elTip.innerHTML='《百家姓》第 '+rec.idx+' 位 · <b>'+s+' · '+rec.n+'</b><br>卡面四体：草书 / 行书 / 隶书 / 碑刻'; }
+  else if(rec && ok){ elTip.className='tip'; elTip.innerHTML='《百家姓》第 '+rec.idx+' 位 · <b>'+s+' · '+rec.n+'</b><br>壁面四体：草书 / 行书 / 隶书 / 碑刻'; }
   else if(rec){ elTip.className='tip warn'; elTip.textContent='图没加载出来，已退回简版（刷新页面可重试）。'; }
   else { elTip.className='tip warn'; elTip.textContent='「'+s+'」不在已收录的 100 姓内，现场排了简版，人物留白待补。'; }
 
@@ -632,7 +624,7 @@ document.getElementById('dl').onclick=()=>{
   cv.toBlob(b=>{
     const a=document.createElement('a');
     a.href=URL.createObjectURL(b);
-    a.download='百家姓卡-'+(elSn.value||'赵')+'-'+cv.width+'x'+cv.height+'.png';
+    a.download='百家姓壁纸-'+(elSn.value||'赵')+'-'+cv.width+'x'+cv.height+'.png';
     a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
   },'image/png');
 };
