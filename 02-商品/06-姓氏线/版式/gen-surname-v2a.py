@@ -362,8 +362,13 @@ def build(d, seq, item, lishu_mode='trad', norm=None, tpl='std', variant='ios'):
         HB = 232.0                              # 横版 .ch 基准字号（模板里的值）
         # 🔴 草书字形纵向溢出 ≈1.28–1.3em（赵/李实测，笔画穿过本格标签），
         #    只缩草书字号，行盒高度按原字号撑（fill 里用 cellh），其余三体不动。
-        #    0.78 ⇒ 314px 行盒可容 1.3em 字形（314/1.3≈242 ≥ 296×0.78≈231）。
-        FONT_SHRINK = {'cao': 0.78} if tpl == 'phone' else {}
+        #    基准 0.78；个别字下伸更长（何/卫/周…实测仍压），逐字系数在
+        #    shrink-caoshu.json 覆盖（tune-caoshu.py 收敛产出）。
+        import json as _json
+        _sp = TPLDIR / 'shrink-caoshu.json'
+        _shrink_tbl = _json.loads(_sp.read_text(encoding='utf-8')) if _sp.exists() else {}
+        FONT_SHRINK = {'cao': _shrink_tbl.get('char', {}).get(sv, _shrink_tbl.get('default', 0.78))
+                       } if tpl == 'phone' else {}
         ratio = {k: (cellsize.get(k, HB) / HB) for k in ORDER4}
         cellh = {k: round(base * ratio[k] * 1.06) for k in ORDER4}
         cellsize = {k: round(base * ratio[k] * FONT_SHRINK.get(k, 1.0)) for k in ORDER4}
