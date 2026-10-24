@@ -68,7 +68,12 @@ function parseDay(day) {
   const file = fs.readdirSync(DRAFT_DIR).find(f => f.startsWith(day + '-'));
   if (!file) return null;
   const md = fs.readFileSync(path.join(DRAFT_DIR, file), 'utf8');
-  const title = (md.match(/\*\*标题\*\*：(.+)/) || [])[1]?.trim() || '';
+  // 🔴 2026-10-25 修复：文案里 `**标题**：xxx（15 字）` 的「（N 字）」是给编辑看的字数标注，
+  //    以前直接整行取走 ⇒ D01–D04 实际发布标题末尾都带着「（15 字）」，等于把草稿备注发到了线上。
+  //    这里剥掉末尾的字数标注；文件里保留标注不影响判断。
+  const title = ((md.match(/\*\*标题\*\*：(.+)/) || [])[1]?.trim() || '')
+    .replace(/[（(]\s*\d+\s*字\s*[）)]\s*$/, '')
+    .trim();
   const imgsLine = (md.match(/\*\*配图\*\*[^\n]*：(.+)/) || [])[1] || '';
   const imgs = Array.from(imgsLine.matchAll(/`([^`]+\.png)`/g)).map(m => m[1]);
   const body = (md.match(/```\n([\s\S]*?)\n```/) || [])[1] || '';
