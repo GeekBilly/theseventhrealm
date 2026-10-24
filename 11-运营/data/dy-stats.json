@@ -1,33 +1,33 @@
 {
   "ok": true,
-  "fetchedAt": "2026-10-23 05:02",
-  "date": "2026-10-23",
-  "period": "2026-10-17至2026-10-23",
+  "fetchedAt": "2026-10-24 05:58",
+  "date": "2026-10-24",
+  "period": "2026-10-18至2026-10-24",
   "overview": {
     "plays": 357,
     "interactRate": "0.8%",
-    "finishRate": "6.6%",
+    "finishRate": "6.9%",
     "works": 1,
     "fanNet": 0
   },
   "pct": {
     "plays": 357,
-    "higherThan": 66.64
+    "higherThan": 66.69
   },
   "content": {
-    "period": "2026-10-17至2026-10-23",
+    "period": "2026-10-18至2026-10-24",
     "posted": 1,
     "plays": 357,
     "likes": 2,
     "shares": 1,
     "comments": 0,
-    "finish5s": "22.22%",
-    "bounce2s": "63.06%",
+    "finish5s": "22.46%",
+    "bounce2s": "62.87%",
     "coverCtr": "0",
-    "avgPlay": "5.71s"
+    "avgPlay": "5.75s"
   },
   "fans": {
-    "period": "2026-10-17至2026-10-23",
+    "period": "2026-10-18至2026-10-24",
     "total": 0,
     "net": 0,
     "gained": 0,
