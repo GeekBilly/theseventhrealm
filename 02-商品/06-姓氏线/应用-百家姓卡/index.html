@@ -579,7 +579,9 @@ function load(src){
     const im=new Image();
     im.onload=()=>{cache[src]=im; res(im);};
     im.onerror=()=>rej(new Error(src));
-    im.src=src;
+    // 🔴 线上分享链接带 ?sharecode=…，缺它静态资源一律 403。
+    //    图片 URL 必须跟着带同一串查询参数，本地 file:// 无 search 则原样取。
+    im.src = src + (src.indexOf('?')<0 ? (location.search||'') : '');
   });
 }
 
