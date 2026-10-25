@@ -233,6 +233,8 @@ def main():
             print(f"   余量 {room} 字符 ≈ {int(room // AVG_INDEX_LINE)} 条索引行。建议现在收口：")
             print("     ① 合并相似主题　② 缩短红线摘要（保留红线本身，砍解释性从句）")
             print("     ③ 整块主题下沉为新 L2 文件，索引只留主题名 + 指针")
+            print("   🔴 落盘位置：新内容一律写 `11-运营/记忆库/<主题>.md` 再在索引加一行；")
+            print("      **不要** append 到 `.workbuddy/memory/MEMORY-下沉-*.md`（10-17 前旧结构的做法）。")
         print("\n体积正常，--apply 无需动手。" if args.apply
               else "\n--check 模式：不移动任何内容。")
         return
@@ -258,6 +260,8 @@ def main():
             print("     ① 合并相似主题（如「CF 与缓存」并入「WordPress 发布」）")
             print("     ② 缩短红线摘要 —— 保留红线本身，砍解释性从句")
             print("     ③ 整块主题下沉为新 L2 文件，索引只留主题名 + 指针")
+            print("   🔴 落盘位置：新内容一律写 `11-运营/记忆库/<主题>.md` 再在索引加一行；")
+            print("      **不要** append 到 `.workbuddy/memory/MEMORY-下沉-*.md`（10-17 前旧结构的做法）。")
         else:
             print("   给要下沉的章节标题**下一行**加指令：")
             print("     <!-- tidy: rank=p2 | move-to=<目标文件> | pointer=<留档提示> -->")
