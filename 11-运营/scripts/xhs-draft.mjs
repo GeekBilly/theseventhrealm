@@ -39,7 +39,10 @@ const START_DATE = '2026-10-22';   // D01 的发布日，之后每天 +1
 // —— 发布口径（2026-10-22 用户定）——
 const MAX_TITLE = 22;                       // 标题字数上限，超了自动截断
 const COLLECTION = '第七境 百家姓系列';       // 平台上的合集名（用户名叫「第七境 百家姓」）
-const FIXED_TOPICS = ['壁纸', '传统文化', '国风', '手机壁纸', '书法', '东方美学', '百家姓', '汉字'];
+// 🔴 2026-10-26 用户改口径：平台话题上限 10 个 ⇒ 固定话题砍到 6 个（去掉「壁纸」「书法」），
+//    6 固定 + 当天 4 姓氏 = 正好 10。MAX_TOPICS 是硬兜底，超了从尾部截断。
+const FIXED_TOPICS = ['传统文化', '国风', '手机壁纸', '东方美学', '百家姓', '汉字'];
+const MAX_TOPICS = 10;
 
 const dump = (o) => { console.log(JSON.stringify(o)); process.exit(0); };
 const fail = (o) => { console.log(JSON.stringify(o)); process.exit(1); };
@@ -98,13 +101,14 @@ function fitTitle(t) {
   return { text: s, truncated: true };
 }
 
-// 话题：固定高流量 8 个（按真实浏览量排序）+ 当天 4 个姓氏
+// 话题：固定 6 个（按真实浏览量排序）+ 当天 4 个姓氏，硬上限 10 个
 function buildTopics(d) {
   let views = {};
   try { views = Object.fromEntries((JSON.parse(fs.readFileSync(TOPIC_FILE, 'utf8')).topics || []).map(t => [t.name, t.views])); } catch { }
   const fixed = [...FIXED_TOPICS].sort((a, b) => (views[b] || 0) - (views[a] || 0));
   const surnames = [...(d.surname || '')].map(c => c + '氏');
-  return { list: [...fixed, ...surnames], fixed, surnames, viewsOf: fixed.map(t => [t, views[t] || null]) };
+  const list = [...fixed, ...surnames].slice(0, MAX_TOPICS);
+  return { list, fixed, surnames, viewsOf: fixed.map(t => [t, views[t] || null]) };
 }
 
 // 正文：剥掉 md 里自带的话题行（统一由脚本生成），再附加精选话题
@@ -221,15 +225,45 @@ async function main() {
   await sleep(6000);
 
   // —— 4. 选合集「第七境 百家姓系列」——
+  // 🔴 2026-10-26 重写：旧版用 el.click() 点最小节点，D01–D05 实测**一次都没选中**
+  //    （回读仍是「加入合集 … 选择合集」）。新版：开弹层 → 按标签优先级挑候选行 →
+  //    **真实鼠标事件**点中心点（reds/React 组件常不吃 el.click()）→ 逐个候选尝试并回读校验。
+  //    ⚠️ 不点任何「确定/完成」类按钮：发布页上有真·发布按钮，误点是不可逆对外动作。
+  const collState = () => ev(`(()=>{const w=document.querySelector('div.collection-plugin-wrapper')||document.querySelector('div.collection-plugin-button');
+    return w? (w.innerText||'').replace(/\\n/g,' ').slice(0,80) : 'NO';})()`);
+
   const openColl = await ev(`(()=>{const b=document.querySelector('div.collection-plugin-button'); if(!b) return 'NO'; b.scrollIntoView({block:'center'}); b.click(); return 'OK';})()`);
-  await sleep(2200);
-  const pickColl = await ev(`(()=>{const els=Array.from(document.querySelectorAll('div,span,li'))
-    .filter(x=>String(x.innerText||'').trim().includes('百家姓') && x.offsetParent);
-    if(!els.length) return 'NOTFOUND';
-    els.sort((a,b)=>a.querySelectorAll('*').length-b.querySelectorAll('*').length);
-    els[0].click(); return 'OK';})()`);
-  await sleep(1800);
-  const collNow = await ev(`(()=>{const w=document.querySelector('div.collection-plugin-wrapper'); return w? w.innerText.replace(/\\n/g,' ').slice(0,80):'NO';})()`);
+  await sleep(2500);
+
+  const candsRaw = openColl === 'OK' ? await ev(`(()=>{
+    const pri=(e)=>{const c=String(e.className);const t=e.tagName;
+      if(e.getAttribute&&e.getAttribute('role')==='option')return 0;
+      if(t==='LI')return 1;
+      if(/option|item|cell|row/i.test(c))return 2;
+      if(t==='LABEL')return 3;
+      return 4;};
+    const els=Array.from(document.querySelectorAll('li,label,div,span,a,button'))
+      .filter(x=>x.offsetParent && String(x.innerText||'').trim().includes('百家姓'))
+      .filter(x=>x.querySelectorAll('*').length<40);
+    els.sort((a,b)=>pri(a)-pri(b)||a.querySelectorAll('*').length-b.querySelectorAll('*').length);
+    return JSON.stringify(els.slice(0,4).map(x=>{const r=x.getBoundingClientRect();
+      return {tag:x.tagName,cls:String(x.className).slice(0,50),txt:(x.innerText||'').trim().slice(0,24),
+        x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2),w:Math.round(r.width),h:Math.round(r.height)};}));})()`) : '[]';
+
+  let collNow = await collState();
+  let pickColl = openColl === 'OK' ? 'NOTFOUND' : 'NO_BUTTON';
+  let tried = [];
+  for (const c of (JSON.parse(candsRaw || '[]') || [])) {
+    if (c.w < 5 || c.h < 5 || c.w > 600 || c.h > 160) { tried.push('SKIP:' + c.txt); continue; }
+    for (const [type, button] of [['mouseMoved', 'none'], ['mousePressed', 'left'], ['mouseReleased', 'left']]) {
+      await send('Input.dispatchMouseEvent', { type, x: c.x, y: c.y, button, clickCount: 1 });
+    }
+    await sleep(1600);
+    collNow = await collState();
+    tried.push(c.txt);
+    if (/百家姓/.test(collNow) && !/选择合集/.test(collNow)) { pickColl = 'OK:' + c.txt; break; }
+    pickColl = 'CLICKED_NOT_APPLIED:' + c.txt;
+  }
 
   // —— 5. 原创声明 / 内容含 AI 合成 ——
   // ⚠️ 2026-10-22 实测：这两个开关用 JS click、真实鼠标事件、键盘 Space/Enter 都点不动
@@ -261,8 +295,8 @@ async function main() {
     stage: 'draft-saved', day: d.day, file: d.file,
     title: t.text, titleLen: [...t.text].length, titleTruncated: t.truncated,
     topics: topics.list, topicViews: topics.viewsOf,
-    collection: collNow.includes('百家姓') ? COLLECTION : ('未选中:' + collNow),
-    collectionOpened: openColl, collectionPicked: pickColl,
+    collection: collNow.includes('百家姓') && !/选择合集/.test(collNow) ? COLLECTION : ('未选中:' + collNow),
+    collectionOpened: openColl, collectionPicked: pickColl, collectionTried: tried,
     original: swState === '?' ? 'unknown' : ('scaleX=' + swState),
     aiDeclare: 'unknown',
     manual: ['原创声明', '内容含 AI 合成标注'],

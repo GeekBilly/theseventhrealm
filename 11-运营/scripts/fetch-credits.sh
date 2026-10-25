@@ -21,7 +21,20 @@
 
 set -u
 
-PORT="${1:-9222}"
+# 端口：显式给了就用给的；否则 9222（积分专用常驻 Chrome）→ 9226（小红书常驻 Chrome）依次探测。
+# 2026-10-26：9222 的常驻进程会悄悄死掉，而 9226 有 plist 每天 04:50 补开，
+#   所以新增 9226 兜底 —— 两个浏览器同为 clone profile，workbuddy.cn 登录态通用。
+if [ -n "${1:-}" ]; then
+  PORT="$1"
+else
+  PORT=""
+  for p in 9222 9226; do
+    if curl -s --noproxy '*' --max-time 3 "http://127.0.0.1:${p}/json/version" 2>/dev/null | grep -q "webSocketDebuggerUrl"; then
+      PORT="$p"; break
+    fi
+  done
+  [ -n "$PORT" ] || PORT=9222
+fi
 DIR="$(cd "$(dirname "$0")" && pwd)"
 NODE="$(ls -d /Users/billyhou/.workbuddy/binaries/node/versions/*/bin/node 2>/dev/null | tail -1)"
 URL="https://www.workbuddy.cn/profile/plans-usage"
@@ -45,26 +58,36 @@ port_up || {
 case "$(taburl)" in
   *"profile/plans-usage"*) ;;
   *)
+    # 2026-10-26 改：只复用「已经是 workbuddy.cn」的标签；没有就**新开一个标签**，
+    #   绝不接管别的标签 —— 兜底到 9226 时那边有小红书发布页，被导航走会打断日更。
     "$NODE" - "$PORT" "$URL" <<'NODEEOF'
 const [port, url] = process.argv.slice(2);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 (async () => {
   const list = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-  const page = list.find(t => t.type === 'page' && /workbuddy\.cn/.test(t.url || ''))
-             || list.find(t => t.type === 'page' && !/^chrome|extension/.test(t.url || ''));
-  if (!page) process.exit(1);
-  const ws = new WebSocket(page.webSocketDebuggerUrl);
-  await new Promise((res, rej) => { ws.onopen = res; ws.onerror = () => rej(new Error('ws')); });
-  let id = 0;
-  const send = (m, p) => new Promise((r) => {
-    const my = ++id;
-    const h = (ev) => { const x = JSON.parse(ev.data); if (x.id === my) { ws.removeEventListener('message', h); r(x); } };
-    ws.addEventListener('message', h); ws.send(JSON.stringify({ id: my, method: m, params: p }));
-  });
-  await send('Page.enable', {});
-  await send('Page.navigate', { url });
-  await sleep(6000);
-  ws.close();
+  const page = list.find(t => t.type === 'page' && /workbuddy\.cn/.test(t.url || ''));
+  if (page) {
+    const ws = new WebSocket(page.webSocketDebuggerUrl);
+    await new Promise((res, rej) => { ws.onopen = res; ws.onerror = () => rej(new Error('ws')); });
+    let id = 0;
+    const send = (m, p) => new Promise((r) => {
+      const my = ++id;
+      const h = (ev) => { const x = JSON.parse(ev.data); if (x.id === my) { ws.removeEventListener('message', h); r(x); } };
+      ws.addEventListener('message', h); ws.send(JSON.stringify({ id: my, method: m, params: p }));
+    });
+    await send('Page.enable', {});
+    await send('Page.navigate', { url });
+    await sleep(6000);
+    ws.close();
+    return;
+  }
+  // 没有 workbuddy.cn 标签 → 新开（Chrome 新版要求 PUT）
+  const tryNew = async (method) => {
+    const r = await fetch(`http://127.0.0.1:${port}/json/new?${encodeURIComponent(url)}`, { method });
+    return r.ok;
+  };
+  if (!(await tryNew('PUT'))) await tryNew('GET');
+  await sleep(7000);
 })().catch(() => process.exit(1));
 NODEEOF
     ;;

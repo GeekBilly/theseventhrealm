@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>积分仪表盘 · 2026/10/24</title>
+<title>积分仪表盘 · 2026/10/26</title>
 <style>
   :root{ --bg:#faf8f5; --card:#fff; --ink:#2b2b2b; --sub:#6b6b6b; --line:#e6e1da; --red:#b03a2e; --teal:#3b5f6b; }
   *{box-sizing:border-box}
@@ -22,7 +22,7 @@
   .lbl{font-size:11px;fill:#6b6b6b;text-anchor:middle}
   .avg{font-size:11px;fill:#c9a227}
   .bar{height:10px;background:#ece7e0;border-radius:6px;overflow:hidden;margin-top:6px}
-  .bar span{display:block;height:100%;background:#b03a2e;width:5%}
+  .bar span{display:block;height:100%;background:#b03a2e;width:21%}
   .alert{background:#fdeceb;border:1px solid #f0c4bf;color:#8f2c22;border-radius:8px;padding:10px 12px;margin-bottom:16px}
   .ok{background:#eef4f2;border:1px solid #cfe0dc;color:#25544b;border-radius:8px;padding:10px 12px;margin-bottom:16px}
   table{width:100%;border-collapse:collapse;font-size:14px}
@@ -33,31 +33,31 @@
   @media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
 </style></head><body><div class="wrap">
 <h1>积分仪表盘</h1>
-<div class="meta">数据时点 2026-10-24 00:06（已过去 53 小时，自动取数暂不可用） 2026/10/24 00:06:44 · 来源：WorkBuddy 官方接口自动取数</div>
+<div class="meta">数据时点 2026/10/26 06:22:07 · 来源：WorkBuddy 官方接口自动取数</div>
 
-<div class="alert">🔴 红线报警：按近 7 日均值，跑道仅 0.8 天（&lt; 15 天）→ 暂停批量壁纸生产，优先赚分</div>
+<div class="alert">🔴 红线报警：按近 7 日均值，跑道仅 3.1 天（&lt; 15 天）→ 暂停批量壁纸生产，优先赚分</div>
 
 <div class="kpis">
-  <div class="kpi"><div class="k">当前余额</div><div class="v">123.89</div><div class="s">体验版 · 周期已用 4579.11 / 4703</div></div>
-  <div class="kpi"><div class="k">近 7 日日均消耗</div><div class="v">149.7</div><div class="s">7 日合计 1047.87</div></div>
-  <div class="kpi"><div class="k">可支撑天数</div><div class="v" style="color:#b03a2e">0.8</div>
+  <div class="kpi"><div class="k">当前余额</div><div class="v">470.12</div><div class="s">体验版 · 周期已用 4732.88 / 5203</div></div>
+  <div class="kpi"><div class="k">近 7 日日均消耗</div><div class="v">152.67</div><div class="s">7 日合计 1068.72</div></div>
+  <div class="kpi"><div class="k">可支撑天数</div><div class="v" style="color:#b03a2e">3.1</div>
     <div class="s">轻活基线口径 0 天</div>
     <div class="bar"><span></span></div></div>
-  <div class="kpi"><div class="k">月度需求缺口</div><div class="v">276</div><div class="s">按日均月耗 4491（超上限 4091）</div></div>
+  <div class="kpi"><div class="k">月度需求缺口</div><div class="v">0</div><div class="s">按日均月耗 4580（超上限 4180）</div></div>
 </div>
 
 <div class="card">
   <h2>近 7 日逐日消耗（柱形图）</h2>
   <svg viewBox="0 0 720 260" role="img" aria-label="近7日积分消耗柱状图">
     <line x1="56" y1="214" x2="710" y2="214" stroke="#e6e1da"/>
-    <rect x="81.7" y="41.5" width="56.0" height="172.5" rx="3" fill="#b03a2e"/><text x="109.7" y="34.5" class="val" fill="#b03a2e">265.56</text><text x="109.7" y="234.0" class="lbl">10-18</text><rect x="189.0" y="122.3" width="56.0" height="91.7" rx="3" fill="#3b5f6b"/><text x="217.0" y="115.3" class="val" fill="#3b5f6b">141.22</text><text x="217.0" y="234.0" class="lbl">10-19</text><rect x="296.3" y="180.3" width="56.0" height="33.7" rx="3" fill="#3b5f6b"/><text x="324.3" y="173.3" class="val" fill="#3b5f6b">51.89</text><text x="324.3" y="234.0" class="lbl">10-20</text><rect x="403.7" y="16.0" width="56.0" height="198.0" rx="3" fill="#b03a2e"/><text x="431.7" y="9.0" class="val" fill="#b03a2e">304.89</text><text x="431.7" y="234.0" class="lbl">10-21</text><rect x="511.0" y="173.2" width="56.0" height="40.8" rx="3" fill="#3b5f6b"/><text x="539.0" y="166.2" class="val" fill="#3b5f6b">62.81</text><text x="539.0" y="234.0" class="lbl">10-22</text><rect x="618.3" y="70.2" width="56.0" height="143.8" rx="3" fill="#b03a2e"/><text x="646.3" y="63.2" class="val" fill="#b03a2e">221.5</text><text x="646.3" y="234.0" class="lbl">10-23</text><line x1="56" y1="116.8" x2="710" y2="116.8" stroke="#c9a227" stroke-width="1.5" stroke-dasharray="6 4"/><text x="708" y="110.8" class="avg" text-anchor="end">日均 149.7</text>
+    <rect x="76.2" y="180.3" width="51.5" height="33.7" rx="3" fill="#3b5f6b"/><text x="102.0" y="173.3" class="val" fill="#3b5f6b">51.89</text><text x="102.0" y="234.0" class="lbl">10-20</text><rect x="168.2" y="16.0" width="51.5" height="198.0" rx="3" fill="#b03a2e"/><text x="194.0" y="9.0" class="val" fill="#b03a2e">304.89</text><text x="194.0" y="234.0" class="lbl">10-21</text><rect x="260.2" y="173.2" width="51.5" height="40.8" rx="3" fill="#3b5f6b"/><text x="286.0" y="166.2" class="val" fill="#3b5f6b">62.81</text><text x="286.0" y="234.0" class="lbl">10-22</text><rect x="352.2" y="58.8" width="51.5" height="155.2" rx="3" fill="#b03a2e"/><text x="378.0" y="51.8" class="val" fill="#b03a2e">239.04</text><text x="378.0" y="234.0" class="lbl">10-23</text><rect x="444.2" y="71.0" width="51.5" height="143.0" rx="3" fill="#b03a2e"/><text x="470.0" y="64.0" class="val" fill="#b03a2e">220.21</text><text x="470.0" y="234.0" class="lbl">10-24</text><rect x="536.2" y="90.7" width="51.5" height="123.3" rx="3" fill="#3b5f6b"/><text x="562.0" y="83.7" class="val" fill="#3b5f6b">189.88</text><text x="562.0" y="234.0" class="lbl">10-25</text><rect x="628.2" y="214.0" width="51.5" height="0.0" rx="3" fill="#3b5f6b"/><text x="654.0" y="207.0" class="val" fill="#3b5f6b">0</text><text x="654.0" y="234.0" class="lbl">10-26</text><line x1="56" y1="114.9" x2="710" y2="114.9" stroke="#c9a227" stroke-width="1.5" stroke-dasharray="6 4"/><text x="708" y="108.9" class="avg" text-anchor="end">日均 152.67</text>
   </svg>
   <div class="meta" style="margin:8px 0 0">深色柱＝重活日（单日 &gt;200 分）；虚线＝7 日均值。轻活基线 0 分/天。</div>
 </div>
 
 <div class="card"><h2>逐日明细</h2>
 <table><tr><th>日期</th><th>消耗（分）</th><th>类型</th></tr>
-<tr><td>2026-10-18</td><td>265.56</td><td>重活日</td></tr><tr><td>2026-10-19</td><td>141.22</td><td>常规</td></tr><tr><td>2026-10-20</td><td>51.89</td><td>常规</td></tr><tr><td>2026-10-21</td><td>304.89</td><td>重活日</td></tr><tr><td>2026-10-22</td><td>62.81</td><td>常规</td></tr><tr><td>2026-10-23</td><td>221.5</td><td>重活日</td></tr>
+<tr><td>2026-10-20</td><td>51.89</td><td>常规</td></tr><tr><td>2026-10-21</td><td>304.89</td><td>重活日</td></tr><tr><td>2026-10-22</td><td>62.81</td><td>常规</td></tr><tr><td>2026-10-23</td><td>239.04</td><td>重活日</td></tr><tr><td>2026-10-24</td><td>220.21</td><td>重活日</td></tr><tr><td>2026-10-25</td><td>189.88</td><td>常规</td></tr><tr><td>2026-10-26</td><td>0</td><td>常规</td></tr>
 </table></div>
 
 <div class="card"><h2>今日行动</h2><ul>
