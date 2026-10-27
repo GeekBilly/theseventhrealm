@@ -1,41 +1,36 @@
 {
   "ok": true,
-  "fetchedAt": "2026-10-26 05:02",
-  "date": "2026-10-26",
-  "period": "2026-10-20至2026-10-26",
+  "fetchedAt": "2026-10-27 06:36",
+  "date": "2026-10-27",
+  "period": "2026-10-21至2026-10-27",
   "overview": {
-    "plays": 50,
+    "plays": 0,
     "interactRate": "0.0%",
-    "finishRate": "14.3%",
+    "finishRate": "0.0%",
     "works": 0,
     "fanNet": 0
   },
   "pct": null,
   "content": {
-    "period": "2026-10-20至2026-10-26",
-    "posted": 0,
-    "plays": 50,
-    "likes": 0,
-    "shares": 0,
-    "comments": 0,
-    "finish5s": "33.33%",
-    "bounce2s": "69.05%",
-    "coverCtr": "0",
-    "avgPlay": "9.67s"
+    "period": "2026-10-21至2026-10-27",
+    "posted": null,
+    "plays": null,
+    "likes": null,
+    "shares": null,
+    "comments": null,
+    "finish5s": null,
+    "bounce2s": null,
+    "coverCtr": null,
+    "avgPlay": null
   },
   "fans": {
-    "period": "2026-10-20至2026-10-26",
-    "total": 0,
-    "net": 0,
-    "gained": 0,
-    "lost": 0,
-    "returning": 0
+    "period": "2026-10-21至2026-10-27",
+    "total": null,
+    "net": null,
+    "gained": null,
+    "lost": null,
+    "returning": null
   },
-  "videos": [
-    {
-      "title": "十六个朝代，各自留了一句话。#历史朝代 #汉字之美在华夏 #中国历史朝代顺序 #激发对汉字文化的兴趣",
-      "plays7d": 50
-    }
-  ],
-  "videoCount": 1
+  "videos": [],
+  "videoCount": 0
 }
