@@ -1,23 +1,17 @@
 {
-  "checked_at": "2026-10-28 06:36",
+  "checked_at": "2026-10-29 05:01",
   "pages": 3,
   "via_proxy": false,
-  "cold_avg": 3.3,
-  "cold_max": 5.2,
-  "hot_avg": 1.72,
-  "gap_avg": 1.58,
-  "gap_max": 4.31,
+  "cold_avg": 1.81,
+  "cold_max": 1.93,
+  "hot_avg": 0.88,
+  "gap_avg": 0.93,
+  "gap_max": 1.17,
   "size_avg_kb": 25.6,
-  "cached_pages": 2,
+  "cached_pages": 3,
   "dynamic_pages": 0,
-  "slow": [
-    {
-      "url": "/collection/",
-      "why": "回源开销大",
-      "val": 5.2
-    }
-  ],
+  "slow": [],
   "slow_count": 0,
-  "elapsed_sec": 14.8,
+  "elapsed_sec": 7.8,
   "verdict": "✅ 站点自身无硬问题（绝对 TTFB 受跨境链路影响，仅供参考）"
 }
