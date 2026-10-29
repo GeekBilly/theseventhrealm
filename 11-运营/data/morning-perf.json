@@ -1,17 +1,28 @@
 {
-  "checked_at": "2026-10-29 05:01",
+  "checked_at": "2026-10-30 05:07",
   "pages": 3,
   "via_proxy": false,
-  "cold_avg": 1.81,
-  "cold_max": 1.93,
-  "hot_avg": 0.88,
-  "gap_avg": 0.93,
-  "gap_max": 1.17,
-  "size_avg_kb": 25.6,
-  "cached_pages": 3,
+  "cold_avg": 7.98,
+  "cold_max": 20.44,
+  "hot_avg": 6.09,
+  "gap_avg": 1.89,
+  "gap_max": 18.73,
+  "size_avg_kb": 20.9,
+  "cached_pages": 2,
   "dynamic_pages": 0,
-  "slow": [],
-  "slow_count": 0,
-  "elapsed_sec": 7.8,
-  "verdict": "✅ 站点自身无硬问题（绝对 TTFB 受跨境链路影响，仅供参考）"
+  "slow": [
+    {
+      "url": "/",
+      "why": "回源开销大",
+      "val": 20.44
+    },
+    {
+      "url": "/collection/",
+      "why": "HTTP非200",
+      "val": 1.64
+    }
+  ],
+  "slow_count": 1,
+  "elapsed_sec": 53.8,
+  "verdict": "⚠️ 有硬告警，建议处理"
 }
