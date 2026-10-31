@@ -1,33 +1,17 @@
 {
-  "checked_at": "2026-10-31 05:05",
+  "checked_at": "2026-11-01 05:01",
   "pages": 3,
   "via_proxy": false,
-  "cold_avg": 14.2,
-  "cold_max": 14.21,
-  "hot_avg": 15.33,
-  "gap_avg": -1.15,
-  "gap_max": -1.15,
-  "size_avg_kb": 0.0,
-  "cached_pages": 0,
+  "cold_avg": 1.74,
+  "cold_max": 1.89,
+  "hot_avg": 1.08,
+  "gap_avg": 0.66,
+  "gap_max": 1.15,
+  "size_avg_kb": 25.6,
+  "cached_pages": 3,
   "dynamic_pages": 0,
-  "slow": [
-    {
-      "url": "/5000years/",
-      "why": "HTTP非200",
-      "val": 14.21
-    },
-    {
-      "url": "/collection/",
-      "why": "HTTP非200",
-      "val": 14.18
-    },
-    {
-      "url": "/",
-      "why": "HTTP非200",
-      "val": ""
-    }
-  ],
-  "slow_count": 3,
-  "elapsed_sec": 121.0,
-  "verdict": "⚠️ 有硬告警，建议处理"
+  "slow": [],
+  "slow_count": 0,
+  "elapsed_sec": 7.9,
+  "verdict": "✅ 站点自身无硬问题（绝对 TTFB 受跨境链路影响，仅供参考）"
 }
