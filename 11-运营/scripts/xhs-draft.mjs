@@ -266,17 +266,105 @@ async function main() {
   }
 
   // —— 5. 原创声明 / 内容含 AI 合成 ——
-  // ⚠️ 2026-10-22 实测：这两个开关用 JS click、真实鼠标事件、键盘 Space/Enter 都点不动
-  //    （可能是账号权限未开放，或组件用了自定义事件）。这里仍然尝试一次，
-  //    但状态无法可靠读回，输出里标 unknown ⇒ 简报提醒人在发布前手动确认。
-  await ev(`(()=>{const w=document.querySelector('div.original-wrapper'); const c=w&&w.querySelector('.custom-switch-card'); if(c){c.scrollIntoView({block:'center'}); c.click();} return 1;})()`);
-  await sleep(1200);
-  const swState = await ev(`(()=>{const w=document.querySelector('div.original-wrapper'); if(!w) return 'NO';
-    const s=w.querySelector('.custom-switch-icon svg'); const m=s?String(s.outerHTML).match(/scaleX\\((-?[\\d.]+)\\)/):null;
-    return m?m[1]:'?';})()`);
-  await ev(`(()=>{const w=Array.from(document.querySelectorAll('.d-select-wrapper')).filter(x=>String(x.innerText||'').includes('添加内容类型声明')&&x.offsetParent)[0];
-    if(!w) return 'NO'; const m=w.querySelector('.d-select-main'); if(!m) return 'NOMAIN'; m.scrollIntoView({block:'center'}); m.click(); return 'OK';})()`);
-  await sleep(1500);
+  // 🔴 2026-11-02 推翻旧结论：不是「点不动」，是**点错了目标**。
+  //    应点 `.d-switch-simulator`（开关本体）；`.custom-switch-card` 是整张卡片（308×44），不响应点击。
+  //    状态看 class 是否含 checked —— ⚠️ `unchecked` 也含 checked 子串，必须用 \b 边界。
+  //    技术依据 `11-运营/小红书定时发布-技术发现-20261102.md`。
+  const SW_ORIGINAL = 'div.original-wrapper .d-switch-simulator';
+  const SW_POSTTIME = 'div.post-time-wrapper .d-switch-simulator';
+  const mouseClick = async (x, y) => {
+    for (const [type, button] of [['mouseMoved', 'none'], ['mousePressed', 'left'], ['mouseReleased', 'left']]) {
+      await send('Input.dispatchMouseEvent', { type, x, y, button, clickCount: 1 });
+    }
+  };
+  const flipSwitch = async (sel) => {
+    const raw = await ev("(()=>{const s=document.querySelector(" + JSON.stringify(sel) + "); if(!s) return null;"
+      + " s.scrollIntoView({block:'center'}); const r=s.getBoundingClientRect();"
+      + " return JSON.stringify({x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2),"
+      + " on:/\\bchecked\\b/.test(String(s.className))});})()");
+    if (!raw) return { state: 'NO_SWITCH' };
+    const b = JSON.parse(raw);
+    if (b.on) return { state: 'ALREADY_ON' };
+    await mouseClick(b.x, b.y);
+    await sleep(2000);
+    const after = await ev("(()=>{const s=document.querySelector(" + JSON.stringify(sel) + ");"
+      + " return s ? (/\\bchecked\\b/.test(String(s.className)) ? 'ON' : 'STILL_OFF') : 'NO_SWITCH';})()");
+    return { state: after };
+  };
+
+  const originalSw = await flipSwitch(SW_ORIGINAL);
+
+  // AI 合成声明：⚠️ 下拉会因焦点丢失自动关闭 ⇒ 打开 + 选择必须在同一串连续动作里完成
+  const aiNow = await ev("(()=>{const w=Array.from(document.querySelectorAll('.d-select-wrapper'))"
+    + ".filter(x=>String(x.innerText||'').includes('添加内容类型声明')&&x.offsetParent)[0];"
+    + " return w ? (w.innerText||'').replace(/\\n/g,' ').slice(0,60) : 'NO';})()");
+  let aiRes = 'SKIPPED';
+  if (aiNow !== 'NO' && !/AI合成/.test(aiNow)) {
+    const raw = await ev("(async()=>{const sl=(ms)=>new Promise(r=>setTimeout(r,ms));"
+      + " const w=Array.from(document.querySelectorAll('.d-select-wrapper'))"
+      + ".filter(x=>String(x.innerText||'').includes('添加内容类型声明')&&x.offsetParent)[0];"
+      + " const m=w&&w.querySelector('.d-select-main'); if(!m) return 'NOMAIN';"
+      + " m.scrollIntoView({block:'center'}); m.click(); await sl(900);"
+      + " const os=Array.from(document.querySelectorAll('li,div,span')).filter(o=>o.offsetParent"
+      + " && o.children.length===0 && /AI合成/.test((o.innerText||'').trim()));"
+      + " if(!os.length) return 'NO_OPTION'; const r=os[0].getBoundingClientRect();"
+      + " return JSON.stringify({x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2),txt:(os[0].innerText||'').trim()});})()");
+    if (raw && String(raw)[0] === '{') { const b = JSON.parse(raw); await mouseClick(b.x, b.y); await sleep(1200); aiRes = 'PICKED:' + b.txt; }
+    else aiRes = String(raw);
+  } else if (/AI合成/.test(aiNow)) aiRes = 'ALREADY';
+
+  // —— 5.5 定时发布（2026-11-03 新增）——
+  // 用户 2026-11-03 决策：晨检自动存草稿 + **自动设好定时发布**，人只负责点「提交」。
+  // ⏰ 默认当天 20:03（--time=HH:MM 可改）。若目标时刻已过或不足 30 分钟 ⇒ 自动顺延次日。
+  // ⚠️ 分钟列无首尾 padding ⇒ 「00」无法居中会 snap 到 03，**设不出整点**，属平台限制。
+  const TIME_ARG = (process.argv.find(a => a.startsWith('--time=')) || '').split('=')[1] || '20:03';
+  const [SH, SM] = TIME_ARG.split(':').map(Number);
+  const nowD = new Date();
+  let stT = new Date(nowD.getFullYear(), nowD.getMonth(), nowD.getDate(), SH, SM, 0, 0);
+  if (stT.getTime() - nowD.getTime() < 30 * 60000) stT = new Date(stT.getTime() + 86400000);
+  const sDay = String(stT.getDate());
+  const sHH = String(stT.getHours()).padStart(2, '0');
+  const sMM = String(stT.getMinutes()).padStart(2, '0');
+  const schedTarget = stT.getFullYear() + '-' + String(stT.getMonth() + 1).padStart(2, '0')
+    + '-' + String(stT.getDate()).padStart(2, '0') + ' ' + sHH + ':' + sMM;
+
+  const timeSw = await flipSwitch(SW_POSTTIME);
+  const sched = { switch: timeSw.state, target: schedTarget };
+  if (timeSw.state === 'ON' || timeSw.state === 'ALREADY_ON') {
+    sched.picker = await ev("(()=>{const w=document.querySelector('div.post-time-wrapper'); if(!w) return 'NO_WRAP';"
+      + " const i=w.querySelector('input.d-text'); if(!i) return 'NO_INPUT';"
+      + " i.scrollIntoView({block:'center'}); i.click(); return 'OK';})()");
+    await sleep(2000);
+    // 日期格：叶子文本 == 目标日，排除跨月/禁用的 prev/next/other/disabled
+    const cellRaw = await ev("(()=>{const pop=document.querySelector('.post-time-date-picker-popover')||document.body;"
+      + " const cs=Array.from(pop.querySelectorAll('*')).filter(e=>e.children.length===0"
+      + " && !/prev|next|other|disabled/i.test(String(e.className))"
+      + " && (e.innerText||'').trim()===" + JSON.stringify(sDay) + ");"
+      + " if(!cs.length) return 'NO_CELL'; const r=cs[0].getBoundingClientRect();"
+      + " return JSON.stringify({x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2)});})()");
+    if (cellRaw && String(cellRaw)[0] === '{') { const b = JSON.parse(cellRaw); await mouseClick(b.x, b.y); await sleep(1500); sched.day = 'CLICKED'; }
+    else sched.day = String(cellRaw);
+    // 时间列：bar[0]=小时 / bar[1]=分钟 —— 必须「scrollTop 居中 + 轻触 snap」才生效
+    const snapCol = async (idx, val) => {
+      const raw = await ev("(()=>{const bars=Array.from(document.querySelectorAll('.d-timepicker-timebar'));"
+        + " const bar=bars[" + idx + "]; if(!bar) return 'NO_BAR';"
+        + " const t=Array.from(bar.children).find(i=>(i.innerText||'').trim()===" + JSON.stringify(val) + ");"
+        + " if(!t) return 'NO_ITEM'; bar.scrollTop=t.offsetTop-bar.clientHeight/2+t.clientHeight/2;"
+        + " const r=bar.getBoundingClientRect();"
+        + " return JSON.stringify({x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2),st:bar.scrollTop});})()");
+      if (!raw || String(raw)[0] !== '{') return String(raw);
+      const b = JSON.parse(raw);
+      await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: b.x, y: b.y }] });
+      await send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: b.x, y: b.y - 2 }] });
+      await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      await sleep(1200);
+      return 'SNAPPED';
+    };
+    sched.hour = await snapCol(0, sHH);
+    sched.min = await snapCol(1, sMM);
+    sched.value = await ev("(()=>{const w=document.querySelector('div.post-time-wrapper');"
+      + " const i=w&&w.querySelector('input.d-text'); return i?i.value:null;})()");
+  }
 
   // —— 6. 验证 + 落日志 ——
   const verify = await ev(`(() => { try {
@@ -297,9 +385,11 @@ async function main() {
     topics: topics.list, topicViews: topics.viewsOf,
     collection: collNow.includes('百家姓') && !/选择合集/.test(collNow) ? COLLECTION : ('未选中:' + collNow),
     collectionOpened: openColl, collectionPicked: pickColl, collectionTried: tried,
-    original: swState === '?' ? 'unknown' : ('scaleX=' + swState),
-    aiDeclare: 'unknown',
-    manual: ['原创声明', '内容含 AI 合成标注'],
+    original: originalSw.state,
+    aiDeclare: aiRes,
+    schedule: sched,
+    manual: ['点「发布笔记」提交（提交按钮自动化定位不到，永远人工点）'],
+    manualNote: '原创声明不随草稿保存：若中途重开过草稿箱，提交前需当场重勾',
     ...v,
   });
 }
