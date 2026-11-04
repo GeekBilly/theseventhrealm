@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "fetchedAt": "2026-11-03 05:02",
-  "date": "2026-11-03",
-  "period": "2026-10-28至2026-11-03",
+  "fetchedAt": "2026-11-04 05:03",
+  "date": "2026-11-04",
+  "period": "2026-10-29至2026-11-04",
   "overview": {
     "plays": 0,
     "interactRate": "0.0%",
@@ -12,24 +12,24 @@
   },
   "pct": null,
   "content": {
-    "period": "2026-10-28至2026-11-03",
-    "posted": null,
-    "plays": null,
-    "likes": null,
-    "shares": null,
-    "comments": null,
-    "finish5s": null,
-    "bounce2s": null,
-    "coverCtr": null,
-    "avgPlay": null
+    "period": "2026-10-29至2026-11-04",
+    "posted": 0,
+    "plays": 0,
+    "likes": 0,
+    "shares": 0,
+    "comments": 0,
+    "finish5s": "0",
+    "bounce2s": "0",
+    "coverCtr": "0",
+    "avgPlay": "0"
   },
   "fans": {
-    "period": "2026-10-28至2026-11-03",
-    "total": null,
-    "net": null,
-    "gained": null,
-    "lost": null,
-    "returning": null
+    "period": "2026-10-29至2026-11-04",
+    "total": 0,
+    "net": 0,
+    "gained": 0,
+    "lost": 0,
+    "returning": 0
   },
   "videos": [],
   "videoCount": 0
