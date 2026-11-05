@@ -22,6 +22,9 @@ CAP=3500
 mkdir -p "$LOGDIR"
 
 # ---------- 各步骤 ----------
+step_gate() {
+  python3 11-运营/scripts/model-cost-gate.py
+}
 step_sync() {
   zsh 11-运营/scripts/qj-sync.sh auto "晨检前自动同步（采集器）"
 }
@@ -43,7 +46,9 @@ step_baidu() {
   echo "-- 爬虫可达性（Baiduspider）："
   python3 11-运营/scripts/check-crawler-access.py 2>&1 | tail -5
   echo "-- 百度收录数："
-  curl -s -m 15 -A "$UA" "https://www.baidu.com/s?wd=site%3Atheseventhrealm.com" | grep -oE '找到相关结果数[^,，<]{0,30}' | head -1 || echo "取不到（正常现象，35 天+取不到过）"
+  local bi
+  bi=$(curl -s -m 15 -A "$UA" "https://www.baidu.com/s?wd=site%3Atheseventhrealm.com" | grep -oE '找到相关结果数[^,，<]{0,30}' | head -1)
+  echo "${bi:-取不到（已 35 天+取不到，常态）}"
   echo "-- 百度 API 推送（日额度 10，脚本自动去重）："
   if source 11-运营/baidu-push-auth.sh 2>/dev/null; then
     python3 11-运营/scripts/baidu-push.py --limit 10 2>&1 | tail -3
@@ -59,6 +64,9 @@ step_perf() {
   else
     python3 11-运营/scripts/perf-check.py
   fi
+}
+step_budget() {
+  python3 11-运营/scripts/credits-budget.py
 }
 step_cf() {
   python3 11-运营/scripts/cf-analytics.py all
@@ -115,34 +123,61 @@ step_tidy() {
 }
 
 # ---------- 执行器 ----------
+# todos 用「头部截断」（Top5 在输出开头）；其余步骤默认尾部截断（摘要在结尾）
 run_step() {
-  local name="$1"; shift
+  local name="$1" fn="$2" mode="${3:-tail}"
   echo ""
   echo "===== [$name] ====="
   local out rc n
-  out=$("$@" 2>&1); rc=$?
+  out=$("$fn" 2>&1); rc=$?
   { echo ""; echo "===== [$name] exit=$rc ====="; printf '%s\n' "$out"; } >> "$LOG"
   n=$(printf '%s' "$out" | wc -c | tr -d ' ')
   if [ "$n" -gt "$CAP" ]; then
-    printf '%s' "$out" | tail -c "$CAP"
+    if [ "$mode" = "head" ]; then
+      printf '%s' "$out" | head -c "$CAP"
+    else
+      printf '%s' "$out" | tail -c "$CAP"
+    fi
     echo ""
-    echo "...（已截断至尾部 $CAP 字符 / 全量 ${n} 字符，完整输出见 $LOG，需要再定向读）"
+    echo "...（已截断 / 全量 ${n} 字符，完整输出见 $LOG，需要再定向读）"
   else
     printf '%s\n' "$out"
   fi
   echo "[$name] exit=$rc"
 }
 
-ALL_STEPS=(sync site baidu perf cf xhs dy draft credits todos ds review slim tidy)
+ALL_STEPS=(sync site baidu perf budget cf xhs dy draft credits todos ds review slim tidy)
 steps=("$@")
 [ $# -eq 0 ] && steps=("${ALL_STEPS[@]}")
 
-echo "morning-collect v1.0 $(date '+%F %T')｜参数：$*｜工作目录：$ROOT" | tee -a "$LOG"
+echo "morning-collect v1.2 $(date '+%F %T')｜参数：$*｜工作目录：$ROOT" | tee -a "$LOG"
+
+# ---------- 模型性价比闸门（2026-11-06 用户指令：晨检第一步）----------
+# 倍率过高 ⇒ 直接中止，一个采集步骤都不跑、不做 Git 落盘。
+GATE_OUT=$(python3 11-运营/scripts/model-cost-gate.py 2>&1); GATE_RC=$?
+{ echo ""; echo "===== [gate] ====="; printf '%s\n' "$GATE_OUT"; echo "===== [gate] exit=$GATE_RC ====="; } >> "$LOG"
+echo ""
+echo "===== [gate] ====="
+printf '%s\n' "$GATE_OUT"
+if [ "$GATE_RC" -eq 3 ]; then
+  echo "[gate] exit=3"
+  echo "🔴 模型性价比不合格 ⇒ 采集器已中止（未执行任何采集步骤，未做任何落盘）。请切换到低成本模型后重跑。"
+  exit 3
+fi
+echo "[gate] exit=$GATE_RC"
+
 bad=0
 for s in "${steps[@]}"; do
   case "$s" in
-    sync|site|baidu|perf|cf|xhs|dy|draft|credits|todos|ds|review|slim|tidy)
-      run_step "$s" "step_$s"
+    gate)
+      echo "[gate] 已在闸门检查中执行过，跳过重复运行"
+      ;;
+    sync|site|baidu|perf|budget|cf|xhs|dy|draft|credits|todos|ds|review|slim|tidy)
+      if [ "$s" = "todos" ]; then
+        run_step "$s" "step_$s" head
+      else
+        run_step "$s" "step_$s" tail
+      fi
       ;;
     *)
       echo "未知步骤：$s（合法：${ALL_STEPS[*]}）"

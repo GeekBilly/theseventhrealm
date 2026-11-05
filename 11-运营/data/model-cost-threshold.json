@@ -1,0 +1,5 @@
+{
+  "max_multiplier": 0.30,
+  "source": "2026-11-06 用户指令：晨检第一步查模型性价比，倍率过高即停",
+  "note": "晨检是脚本化例行任务，无需旗舰推理；space-bunny/glm-5.3-flash/minimax-m3.1-flash x0.08、deepseek-v4.1-flash x0.11、fast-model x0.21 均合格；≥x0.33 视为不具性价比"
+}
