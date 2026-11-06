@@ -81,3 +81,6 @@ date,url,http,cold_ttfb,hot_ttfb,gap,size,cache,ray,flag
 2026-11-06,/,200,1.82,0.73,1.09,49151,HIT,SJC,ok
 2026-11-06,/5000years/,200,1.68,0.83,0.85,14923,HIT,SJC,ok
 2026-11-06,/collection/,200,1.61,0.76,0.85,14454,HIT,SJC,ok
+2026-11-07,/collection/,200,2.9,0.74,2.16,14454,HIT,SJC,ok
+2026-11-07,/,200,1.85,0.77,1.09,49151,HIT,SJC,ok
+2026-11-07,/5000years/,200,1.85,0.78,1.07,14923,HIT,SJC,ok
