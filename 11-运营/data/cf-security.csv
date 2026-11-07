@@ -33,5 +33,6 @@ date,events,challenge,block,bypassed,managed_challenge,top_path,top_path_n,top_c
 2026-11-01,846,382,334,0,382,/,73,US,411,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,37,2026-11-04 21:10
 2026-11-02,1309,687,424,0,687,/,74,ID,318,"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l",314,2026-11-05 21:10
 2026-11-03,1146,650,404,0,650,/,97,US,344,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,321,2026-11-06 21:10
-2026-11-04,2342,815,1406,0,815,/,135,NL,1089,Go-http-client/1.1,328,2026-11-06 21:10
-2026-11-05,1507,317,1086,0,317,/,162,NL,1245,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/,184,2026-11-06 21:10
+2026-11-04,2342,815,1406,0,815,/,135,NL,1089,Go-http-client/1.1,328,2026-11-07 21:10
+2026-11-05,1507,317,1086,0,317,/,162,NL,1245,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/,184,2026-11-07 21:10
+2026-11-06,234,72,94,0,72,/robots.txt,24,ZA,59,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,41,2026-11-07 21:10
