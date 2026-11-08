@@ -235,6 +235,15 @@ def main():
             print("     ③ 整块主题下沉为新 L2 文件，索引只留主题名 + 指针")
             print("   🔴 落盘位置：新内容一律写 `11-运营/记忆库/<主题>.md` 再在索引加一行；")
             print("      **不要** append 到 `.workbuddy/memory/MEMORY-下沉-*.md`（10-17 前旧结构的做法）。")
+            # 机器可读闸门：晨检每次跑 tidy 都据此判断「今天必须压」
+            print(f"MEMORY_GATE=NEED_COMPRESS total={total} warn={int(args.budget * INDEX_WARN)} "
+                  f"budget={args.budget} ratio={total / args.budget:.2f}")
+            print("   🔴 动作（11-08 用户定，当天压不推到明天）：把冗余细节**原文整节写进** "
+                  "`11-运营/记忆库/<主题>.md`，MEMORY.md 索引压到 < "
+                  f"{int(args.budget * INDEX_WARN)} 字符，再复跑 --check 确认。")
+        else:
+            print(f"MEMORY_GATE=OK total={total} warn={int(args.budget * INDEX_WARN)} "
+                  f"budget={args.budget} ratio={total / args.budget:.2f}")
         print("\n体积正常，--apply 无需动手。" if args.apply
               else "\n--check 模式：不移动任何内容。")
         return
@@ -250,6 +259,8 @@ def main():
                 n += len(i["body"])
                 if n >= need:
                     break
+        print(f"MEMORY_GATE=NEED_COMPRESS total={total} warn={int(args.budget * INDEX_WARN)} "
+              f"budget={args.budget} ratio={total / args.budget:.2f}")
         return
 
     if not movable:
