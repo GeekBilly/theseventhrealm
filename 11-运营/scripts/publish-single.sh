@@ -87,10 +87,13 @@ fi
 
 API="$SITE/wp-json/wp/v2/pages"
 AUTH=(-u "$WP_USER:$WP_APP_PASS")
+# CF 会拒 curl 默认 UA（curl/8.x）→ 返回 403 而非 JSON，发布静默失败。
+# 2026-10-20 补：所有对 WP REST 的请求一律带浏览器 UA。
+UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 
 echo
 echo "== 查重 =="
-EXIST=$(curl -s "${AUTH[@]}" "$API?slug=$SLUG&status=any&per_page=1" \
+EXIST=$(curl -s -A "$UA" "${AUTH[@]}" "$API?slug=$SLUG&status=any&per_page=1" \
         | tr -d '\n' | sed -n 's/.*"id":\([0-9]\{1,\}\).*/\1/p')
 if [ -n "$EXIST" ]; then
   echo "  已存在 #${EXIST} → 走更新"
@@ -116,11 +119,11 @@ PY
 echo
 echo "== 发布到 $SITE =="
 if [ -n "$EXIST" ]; then
-  RES=$(curl -s -X POST "${AUTH[@]}" -H 'Content-Type: application/json' \
+  RES=$(curl -s -A "$UA" -X POST "${AUTH[@]}" -H 'Content-Type: application/json' \
         --data-binary "$PAYLOAD" "$API/$EXIST")
   ACT="更新 #${EXIST}"
 else
-  RES=$(curl -s -X POST "${AUTH[@]}" -H 'Content-Type: application/json' \
+  RES=$(curl -s -A "$UA" -X POST "${AUTH[@]}" -H 'Content-Type: application/json' \
         --data-binary "$PAYLOAD" "$API")
   ACT="新建"
 fi
@@ -136,7 +139,7 @@ echo "  $ACT  →  $LINK"
 
 echo
 echo "== 线上复核 =="
-CODE=$(curl -s -o /dev/null -w '%{http_code}' -L "$SITE/$SLUG/")
+CODE=$(curl -s -A "$UA" -o /dev/null -w '%{http_code}' -L "$SITE/$SLUG/")
 echo "  /$SLUG/  HTTP $CODE"
 
 echo

@@ -1,0 +1,228 @@
+<style>
+.sr-mt{max-width:960px;margin:0 auto;padding:8px 0 48px;color:#1f1d1a;
+ font-family:Georgia,"Times New Roman","Songti SC","Noto Serif SC",serif;line-height:1.9}
+.sr-mt h1{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:36px;
+ letter-spacing:5px;margin:0 0 10px;font-weight:400}
+.sr-mt .sub{color:#5a554c;font-size:16px;margin:0 0 6px;letter-spacing:1px}
+.sr-mt .rule{height:1px;background:#e3ddd0;margin:26px 0 30px}
+.sr-mt h2{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:24px;font-weight:400;
+ letter-spacing:2px;margin:42px 0 8px}
+.sr-mt h3{font-size:16px;font-weight:500;margin:22px 0 6px;color:#2a2622}
+.sr-mt p{margin:0 0 14px;font-size:15.5px}
+.sr-mt .lead{background:#fff;border:1px solid #e3ddd0;border-left:3px solid #9e2b25;
+ border-radius:6px;padding:18px 22px;margin:0 0 34px;font-size:15.5px}
+.sr-mt .lead b{color:#9e2b25}
+.sr-mt .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:14px;margin:22px 0 6px}
+.sr-mt .nums div{background:#faf8f3;border:1px solid #e3ddd0;border-radius:6px;padding:16px 18px}
+.sr-mt .nums b{display:block;font-family:"Ma Shan Zheng","Songti SC",serif;
+ font-size:30px;color:#9e2b25;font-weight:400;letter-spacing:1px;line-height:1.3}
+.sr-mt .nums span{font-size:13.5px;color:#6b6559}
+.sr-mt ol.steps{counter-reset:st;list-style:none;padding:0;margin:20px 0 6px}
+.sr-mt ol.steps li{counter-increment:st;position:relative;padding:0 0 18px 46px;margin:0}
+.sr-mt ol.steps li:before{content:counter(st);position:absolute;left:0;top:2px;
+ width:30px;height:30px;border-radius:50%;background:#9e2b25;color:#fff;
+ font-size:15px;text-align:center;line-height:30px;font-family:Georgia,serif}
+.sr-mt ol.steps b{display:block;font-size:16px;margin-bottom:2px}
+.sr-mt .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+ gap:14px;margin:20px 0 8px}
+.sr-mt .tiers div{background:#fff;border:1px solid #e3ddd0;border-radius:8px;padding:18px 20px}
+.sr-mt .tiers .t{font-family:"Ma Shan Zheng","Songti SC",serif;font-size:22px;color:#9e2b25;
+ letter-spacing:2px;margin:0 0 4px}
+.sr-mt .tiers .p{font-size:20px;color:#1f1d1a;margin:0 0 8px}
+.sr-mt .tiers .p s{font-size:14px;color:#6b6559}
+.sr-mt .tiers ul{margin:8px 0 0;padding-left:18px;font-size:14px;color:#5a554c}
+.sr-mt .tiers .tag{display:inline-block;font-size:12px;background:#f3ece0;color:#8a5a20;
+ border-radius:3px;padding:2px 8px;margin-bottom:8px}
+.sr-mt .files{background:#faf8f3;border:1px solid #e3ddd0;border-radius:6px;padding:16px 22px;
+ font-size:14.5px;margin:14px 0 6px}
+.sr-mt .files code{background:#fff;border:1px solid #e9e3d7;border-radius:3px;padding:1px 6px;
+ font-size:13px;color:#5a554c}
+.sr-mt .cta{display:inline-block;background:#9e2b25;color:#fff;text-decoration:none;
+ padding:13px 30px;border-radius:3px;font-size:16px;letter-spacing:2px;margin:6px 10px 10px 0}
+.sr-mt .cta:hover{background:#86241f}
+.sr-mt .cta.minor{background:#fff;color:#9e2b25;border:1px solid #9e2b25;padding:11px 24px;font-size:15px}
+.sr-mt .cta.minor:hover{background:#f6f1e6}
+.sr-mt .note{background:#fff;border:1px solid #e3ddd0;border-left:3px solid #6b6559;
+ border-radius:6px;padding:16px 20px;margin:16px 0;font-size:14.5px;color:#5a554c}
+.sr-mt .faq{border-top:1px solid #e3ddd0}
+.sr-mt .faq h3{margin-top:20px}
+.sr-mt-signup{background:#fff;border:1px solid #e3ddd0;border-radius:8px;padding:18px 22px;margin:18px 0 6px}
+.sr-mt-signup p{margin:0 0 12px;font-size:14.5px;color:#5a554c}
+.sr-mt-signup input[type=email]{width:100%;max-width:320px;padding:10px 12px;border:1px solid #cfc8b8;
+ border-radius:3px;font-size:15px;font-family:inherit;margin-bottom:10px}
+.sr-mt-signup button{background:#9e2b25;color:#fff;border:0;padding:10px 24px;border-radius:3px;
+ font-size:15px;letter-spacing:2px;cursor:pointer;font-family:inherit}
+.sr-mt .fine{margin-top:44px;padding-top:20px;border-top:1px solid #e3ddd0;
+ font-size:13.5px;color:#6b6559}
+.sr-mt .fine a{color:#9e2b25}
+@media (max-width:640px){.sr-mt h1{font-size:27px;letter-spacing:3px}.sr-mt h2{font-size:20px}
+.sr-mt .nums b{font-size:25px}}
+</style>
+<div class="sr-mt">
+<h1>谁动了我的Token</h1>
+<p class="sub">一个长项目的记忆体检工具 · 找出额度被谁吃掉了，然后把它压回去</p>
+<div class="rule"></div>
+<div class="lead">
+  <b>你有没有这种感觉：</b>同一个项目越做越久，AI 反而越来越笨、越来越慢，
+  每一轮对话都像在重新自我介绍。<br />
+  不是模型不行，是<strong>你自己的记忆文件被写胖了</strong>——
+  每一轮对话，AI 都要把你写下的规矩、结论、历史，<strong>重新发一遍</strong>。
+  你以为它在"回忆"，其实它在重发。
+</div>
+<h2>先看三个数字</h2>
+<p>这是我在自己项目上跑出来的实测数据（体验版 0 元、22 天）：</p>
+<div class="nums">
+  <div><b>15,682</b><span>记忆文件改造前的字符数</span></div>
+  <div><b>3,398</b><span>改成索引模式后（降 78%）</span></div>
+  <div><b>4,014</b><span>22 天真实烧掉的积分</span></div>
+</div>
+<p>降掉的 78%，就是原来每一轮都在白付的那部分。
+<strong>你的项目可能比这更糟</strong>——大多数人的记忆文件是"越写越胖、从不瘦身"的类型。</p>
+<h2>为什么"清理缓存""少写点字"都没用</h2>
+<h3>成本 = 轮次 × 当前高度</h3>
+<p>你每一轮对话的账单，等于"对话轮次"乘以"此刻注入的内容高度"。
+本地缓存、历史文件都不进上下文，清磁盘救不了积分；<strong>真正在计费的是那份记忆文件。</strong></p>
+<h3>上下文是递减资源，不是水桶</h3>
+<p>塞进去的内容越多，模型越容易抓不住重点——这跟"装得越多越聪明"是反的。
+所以加大窗口不解决问题，只会让你多读一遍无关内容。</p>
+<h3>自动压缩是锯齿，不是线性</h3>
+<p>它确实会回落，但细节也一起丢了，下次还得重讲一遍。
+<strong>与其等它替你压缩，不如你自己把文件改薄。</strong></p>
+<h2>这个工具做什么</h2>
+<ol class="steps">
+  <li><b>体检：把你的记忆文件量一遍</b>
+    算出三个数字——总共多大、其中多少是"每次都用得上"的、剩下多少是"以防万一"的。
+    顺带找出两类隐形浪费：<em>主文件里从没提到过的孤儿文件</em>，和<em>提到过但磁盘上已经没有的失效引用</em>。</li>
+  <li><b>改造稿：告诉你该怎么改</b>
+    把主文件拆成三堆——该留在上层的、该下沉成一行摘要的、该归档的。
+    每一节都标好体量和处置建议，摘要位置留成填空题。</li>
+  <li><b>复验：给你改前改后的对照</b>
+    你改完再跑一次，把两个数字并排放。
+    <strong>没有对照就不算交付。</strong></li>
+</ol>
+<div class="note">
+  <strong>它不会碰你的文件。</strong><br />
+  体检只读；改造稿只新建一个文件，绝不修改、删除、移动你的任何原文件。
+  哪条该留哪条该沉，工具只给建议，<strong>最终由你拍板</strong>。
+</div>
+<h2>交付物</h2>
+<div class="files">
+  记忆体检（三个数字 ＋ 逐节处置表 ＋ 孤儿文件 ＋ 失效引用）<br />
+  索引改造稿（保留 / 下沉 / 归档 三段式，含摘要填空位）<br />
+  改前改后对照报告（字符数、token 数、降幅）<br />
+  三个模板：<code>MEMORY-索引层模板</code> <code>单主题档案模板</code> <code>每日待办模板</code>
+</div>
+<h2>三档，按需要选</h2>
+<div class="tiers">
+  <div>
+    <p class="t">自检版</p>
+    <p class="p">¥9.9 <s>（电子版清单）</s></p>
+    <ul>
+      <li>《长项目上下文自检清单》完整版</li>
+      <li>三个数字的填空表</li>
+      <li>成本黑洞对照表</li>
+    </ul>
+  </div>
+  <div>
+    <span class="tag">主推</span>
+    <p class="t">体检版</p>
+    <p class="p">¥39 <s>（一次买断，长期可用）</s></p>
+    <ul>
+      <li>记忆体检工具（脚本 + 技能）</li>
+      <li>索引改造稿生成器</li>
+      <li>三个模板</li>
+      <li>改前改后对照报告</li>
+    </ul>
+  </div>
+  <div>
+    <p class="t">陪跑季</p>
+    <p class="p">¥79 <s>（一个季度）</s></p>
+    <ul>
+      <li>体检版全部内容</li>
+      <li>一整季的版本更新</li>
+      <li>每季一次我的复盘建议（异步，不占用你时间）</li>
+    </ul>
+  </div>
+</div>
+<p><a class="cta" href="#buy">怎么买</a><a class="cta minor" href="#free">先免费看方法</a></p>
+<h2 id="buy">购买路径</h2>
+<p><strong>方式一 · 淘宝</strong>：淘宝 App 搜店铺 <strong>「第七境」</strong>，
+店铺里找「记忆体检」相关商品，两档都在（自检版 / 体检版）。</p>
+<p><strong>方式二 · WorkBuddy 技能市场</strong>：在 WorkBuddy 开放平台上架后，
+在客户端说一句话就能装上（<em>技能形态，装了就能用，不需要配环境</em>）。
+技能市场搜 <strong>「谁动了我的Token」</strong>；
+也可以先装免费的「<strong>记忆体检（免费版）</strong>」试一次体检，再决定要不要完整版。</p>
+<div class="sr-mt-signup">
+<p><strong>开售通知</strong>：留下邮箱，开售或更新时我通知你一次，不发别的。</p>
+<div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+<form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2674672/forms/200094094575273632/subscribe" data-code="" method="post" target="_blank">
+<div class="ml-form-formContent">
+<div class="ml-form-fieldRow ml-last-item">
+<div class="ml-field-group ml-field-email ml-validate-email ml-validate-required"><input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="你的邮箱地址" autocomplete="email"></div>
+</div>
+</div>
+<div class="ml-form-embedPermissions">
+<div class="ml-form-embedPermissionsContent default privacy-policy">
+<p><span><a href="https://theseventhrealm.com/privacy/">隐私政策</a></span></p>
+</div>
+</div>
+<div class="ml-form-hidden"><input type="hidden" name="ml-submit" value="1"><input type="hidden" name="anticsrf" value="true"></div>
+<div class="ml-form-embedSubmit"><button type="submit" class="primary">留邮箱</button><button disabled="disabled" style="display:none" type="button" class="loading"></p>
+<div class="ml-form-embedSubmitLoad"></div>
+<p><span class="sr-only">Loading&#8230;</span></button></div>
+</form>
+</div>
+<div class="ml-form-successBody row-success" style="display:none">
+<div class="ml-form-successContent">
+<h4>已发送</h4>
+<p>32 张壁纸的下载链接已经发到你邮箱，请查收。没看到就翻一下垃圾邮件箱。<br />过几天想再要、或者一直收不到 —— 写信到 <a href="mailto:hello@theseventhrealm.com" style="color:#b03826">hello@theseventhrealm.com</a>，我们人工补发。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="ml-form-scripts"><script>function ml_webform_success_46577392(){var w=document.querySelector('.ml-subscribe-form-46577392');if(!w)return;var s=w.querySelector('.row-success'),f=w.querySelector('.row-form');if(s)s.style.display='';if(f)f.style.display='none';}</script><script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script><script>fetch("https://assets.mailerlite.com/jsonp/2674672/forms/200094094575273632/takel")</script></div>
+</div>
+</div>
+</div>
+<h2 id="free">先免费看方法</h2>
+<p>不想先花钱，可以先读一遍我写的免费长文
+《体验版 0 元，22 天烧掉 4,014 积分：我把记忆文件从 15,682 字压到 3,398 字》——
+全文免费，数字全部带出处。看完你就知道自己是哪一种：
+<strong>是文件太胖，还是根本没意识到它在计费。</strong></p>
+<h2>常见问题</h2>
+<div class="faq">
+  <h3>这东西适合谁？</h3>
+  <p>适合"同一个项目已经做了好几周甚至几个月"的人——
+  你的记忆文件已经开始膨胀，而你又不想每次都重新把背景讲一遍。
+  如果你只是偶尔问一两个问题、用不到长期记忆，它帮不上你。</p>
+  <h3>能省多少？</h3>
+  <p>工具会算出你自己的数字：现在多少字符、改完多少、能降多少 token。
+  <strong>但我不替你报一个"每月省 X 元"的数字</strong>——
+  除非你告诉我你每天大概几轮对话、你用的模型每千 token 多少钱，
+  否则我只会给百分比和 token 绝对值。因为省多少取决于你之后怎么用，
+  编一个漂亮的数字对你没好处。</p>
+  <h3>会不会把我重要的东西删了？</h3>
+  <p>不会。工具不改你的原文件。它只是把"哪些内容像是过期的"指出来给你看，
+  <strong>删不删、怎么改，你说了算。</strong></p>
+  <h3>我不是程序员，能用吗？</h3>
+  <p>能。在 WorkBuddy 里装成技能后，你只要说"体检一下我的记忆"，它自己会跑；
+  手动跑也行，命令行只有三行参数，而且会打印中文报告。</p>
+  <h3>工具会不会不准？</h3>
+  <p>它按文字特征做判断（步骤、日志、已完成、原则），会有误判——
+  所以输出的是<strong>建议，不是判决</strong>。改之前请自己再读一遍那份改造稿。</p>
+</div>
+<h2>说清楚几件事</h2>
+<div class="note">
+  ① 我卖的是<strong>工具和方法</strong>，不承诺任何收入、不承诺"学完月入多少"。
+  那种话术是行业里被投诉最多的那一类，没必要。<br />
+  ② 我自己是这个工具的第一个用户——上面三个数字都是我在自己项目上跑出来的，
+  不是从别处抄的。你可以用同样的工具跑一遍自己的数据来验证。<br />
+  ③ 这套东西最早是在自己的工作流里被逼出来的（长期项目记忆管理），
+  后来发现同样被卡住的人不少，才有把它做成工具的想法。
+</div>
+<div class="fine">
+  <p>一个个人创作者 · 有问题写信到 <a href="mailto:hello@theseventhrealm.com">hello@theseventhrealm.com</a></p>
+  <p>本文所有数字都来自实测，出处逐条列在对应长文的附录里。工具在你的机器上只读不写，随时可验证。</p>
+</div>
+</div>
