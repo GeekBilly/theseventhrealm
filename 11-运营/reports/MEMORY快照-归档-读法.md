@@ -32,3 +32,5 @@ gunzip -c "11-运营/reports/MEMORY快照-202610-归档.md.gz" | grep -n "关键
 
 `export-memory-snapshot.py --full --month <上年月>` → gzip → `qj-sync.sh auto` 推 Git。
 生成的归档 version 入 Git 后就是异地备份，**`.gz` 不被 `.gitignore` 排除**（已实测）。
+
+> 🆕 11-09 晨检：`MEMORY快照-202610-归档.md`（656KB 明文）已移出 reports/ 到 `99-归档/MEMORY快照-202610-归档-明文.md`，内容与 `MEMORY快照-202610-归档.md.gz` 相同；读归档一律用 `gunzip -c`。
