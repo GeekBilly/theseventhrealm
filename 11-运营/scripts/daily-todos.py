@@ -28,6 +28,21 @@ DONE = {"完成", "done"}
 BLOCKED = {"阻塞", "blocked"}
 
 
+def is_closed(status):
+    """已关闭＝不再进 Top5 的状态。
+
+    口径（2026-11-10 用户定）：状态列以「取消」开头 ⇒ 视为已关闭。
+    起因：T-01／T-28 早在 10-29 就被用户判「取消」，但状态列写的是
+    「取消（2026-10-29 用户决定，不再排期）」这种带说明的长文本，
+    而脚本只精确匹配「完成」⇒ 两行一直以「逾期 33/20 天」霸占 Top1/Top2，
+    每天把真正该做的事压下去。取消＝用户已拍板结案，不该再被催。
+
+    ⚠️ 「完成」只能精确匹配：状态「草稿完成·待发布」是**未完成**，不能误杀。
+    """
+    s = (status or "").strip()
+    return s in DONE or s.startswith("取消")
+
+
 def load_pool():
     """从 markdown 抓 ``` 代码块里的管道分隔行。表头行自动跳过。"""
     if not os.path.exists(POOL):
@@ -67,7 +82,7 @@ def rank(items):
       3 段＝阻塞（沉到最后，等外部解锁，催也没用）
       其余按 P0>P1>P2
     """
-    live = [x for x in items if x["status"] not in DONE]
+    live = [x for x in items if not is_closed(x["status"])]
     for x in live:
         d = due_days(x["due"])
         x["_days"] = d
