@@ -96,3 +96,6 @@ date,url,http,cold_ttfb,hot_ttfb,gap,size,cache,ray,flag
 2026-11-11,/collection/,200,1.91,0.84,1.08,14454,EXPIRED,SEA,ok
 2026-11-11,/,200,1.78,0.78,1.0,48457,EXPIRED,DFW,ok
 2026-11-11,/5000years/,200,1.63,0.8,0.83,14923,HIT,SJC,ok
+2026-11-12,/,200,1.88,0.8,1.08,49355,-,-,ok
+2026-11-12,/5000years/,200,1.77,0.81,0.96,14923,HIT,SEA,ok
+2026-11-12,/collection/,200,1.63,0.76,0.87,14454,HIT,SEA,ok
