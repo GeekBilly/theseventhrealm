@@ -38,5 +38,6 @@ date,events,challenge,block,bypassed,managed_challenge,top_path,top_path_n,top_c
 2026-11-06,234,72,94,0,72,/robots.txt,24,ZA,59,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,41,2026-11-09 21:10
 2026-11-07,358,67,175,0,67,/robots.txt,33,US,127,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,36,2026-11-10 21:10
 2026-11-08,514,277,114,0,277,/robots.txt,29,US,219,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,54,2026-11-11 21:10
-2026-11-09,614,371,107,0,371,/robots.txt,25,CA,269,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,68,2026-11-11 21:10
-2026-11-10,1409,411,927,0,411,/,119,PL,694,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,221,2026-11-11 21:10
+2026-11-09,614,371,107,0,371,/robots.txt,25,CA,269,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,68,2026-11-12 21:10
+2026-11-10,1409,411,927,0,411,/,119,PL,694,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,221,2026-11-12 21:10
+2026-11-11,464,240,152,0,240,/robots.txt,20,MX,188,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,120,2026-11-12 21:10
