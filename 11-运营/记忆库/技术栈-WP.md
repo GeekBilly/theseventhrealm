@@ -69,3 +69,43 @@
   只搬 `ml-form-embedBody` 不算搬完；换页面时最稳是整段重写成自洽结构。
 - 📌 「目前还没开卖」这类**状态型文案有时效**：任一渠道真正可搜/可买的当天必须回来改，
   否则它自己会变成新的虚假陈述。写文案时同步在申请单里挂一条「后续必须回来改」。
+
+## MailerLite：API Token 有效 + 嵌入表单手写自定义字段（2026-11-15，页面 729）
+
+- 🔴 **修正旧口径**：`11-运营/scripts/mailerlite-edit.py` 文件头写「MailerLite 没有配 API Token，
+  改邮件内容只能走后台 UI」——这是 2026-10-02 的旧注释，**Token 后来已配好且现在有效**：
+  钥匙串 `mailerlite / theseventhrealm`，新版 `connect.mailerlite.com/api`（Bearer）与 Classic 都通。
+  读字段/分组/订阅者直接走 `mailerlite-stats.py` 同款凭据，不必开浏览器 UI。（脚本本身未改。）
+- ✅ **嵌入表单可以手写自定义字段**，但前提是**账号里先有这个字段**：
+  ① 官方 loader `webforms.min.js` 提交时用 `e = l.serialize()`（jQuery 全表单序列化）
+     ⇒ 表单内任何具名控件都会随提交带上；radio 只在 `checked` 时入参，全不选则该参数缺席、不影响订阅。
+  ② loader 的必填校验**只扫 `.ml-validate-required` 容器** ⇒ 新增的非必填块**绝不能带这个 class**，
+     否则会把「留邮箱」一并挡住。验收时数全页 `ml-validate-required` 应仍为 1。
+  ③ 字段用官方 API 建：`POST https://connect.mailerlite.com/api/fields`
+     + `{"name":"Price intent","type":"text"}` → `201`，返回 `key: price_intent`；
+     文档明确 **key 就是订阅者 `fields` 对象里的标识符**，故表单里写 `name="fields[price_intent]"`。
+     `type` 只有 text/number/date 且创建后不可改；key 由 name 派生、重命名不随之变化；
+     **删字段会清掉所有已记录的值** ⇒ 回滚时绝不自动删字段。
+  ④ 只做一次 POST；失败即整体降级（页面一字不改），不重试、不排障。**顺序必须是字段先建、页面后改**。
+- 📌 **没做端到端实测的部分**：服务端是否把该值写入订阅者，官方帮助要求「先在后台建字段」这一条已满足，
+  但本人账号未验证。不制造假订阅（污染名单 + 触发欢迎邮件）⇒ 等首个真实订阅后
+  用 `GET /api/subscribers` 回读 `fields.price_intent` 验收；若为空，改走表单编辑器 `Add new field`。
+- ✅ 可复用脚本：`11-运营/scripts/deploy-lp-intent.py`（`--dry` / 正式 / `--rollback`），
+  申请单 `REQ-2026-11-15-01`。新增块沿用「单行、内部无空行、div 平衡、只传 content」全部铁律。
+
+## 站内入口模式复用：首页 13 → 藏品 134（2026-11-15）
+
+- 「在正文末尾 `<style id="qj-rhythm">` **之前**插单行 `<section>` 文字链」已复用两次：
+  `deploy-lp-entry.py`（页面 13，`REQ-2026-11-08-02`）与
+  `deploy-collection-entry.py`（页面 134，`REQ-2026-11-15-02`）。
+  🔴 **样式必须全内联**：块在页面主容器之外，不能依赖容器继承字体/颜色。
+- 🔴 **本地稿落后于线上时的正确动作**（首次落进脚本）：本次 `03-页面/collection.html`
+  11954 字 vs 线上 12277 字（**少 323**）。按上文 live-diff 铁律「本地少＝发布是倒退，绝不能发」
+  ⇒ **以线上 `content.raw` 为底稿，改完用线上正文覆盖回本地**，且**覆盖前先落盘 .bak**。
+  不要反过来拿本地稿去 POST，也不要手改 diff 去「补齐」。
+- 📌 补入口前两查：① 全站是否已有该链接（本次线上 raw 0 处、`03-页面/*.html` 0 处）；
+  ② `<style id="qj-rhythm">` 是否唯一且位于正文最末尾（发布后必须仍是最后一块）。
+- 📌 入口文案**不要写「尚未开卖 / 即将开售」这类状态词**，避免与落地页的时效文案互相耦合
+  （一处开卖、另一处没开卖就会变成互相矛盾的陈述）。
+- 📌 发布后若额外探针超时，按「失败一次即降级」不重试不排障；脚本内 `check_front()`
+  已完成的复核才是验收依据，额外探针只是冗余。
