@@ -78,8 +78,26 @@ step_dy() {
   zsh 11-运营/scripts/dy-stats.sh
 }
 step_draft() {
-  # 脚本自带幂等：存过的 day 记在 xhs-draft-log.json，重复跑返回 already-saved
-  "$NODE" 11-运营/scripts/xhs-draft.mjs
+  # 金句线（2026-11-17 起，一天一句）：按今天日期查排期表得当天 Dxx，只存当天那一句草稿。
+  # 脚本自带幂等：存过的 day 记在 xhs-draft-verse-log.json，重复跑返回 already-saved。
+  local day
+  day=$(python3 -c "
+import csv, datetime
+try:
+    today = datetime.date.today().isoformat()
+    p = '04-市场/03-推广获客/金句日更-202611/排期表.csv'
+    for r in csv.DictReader(open(p, encoding='utf-8')):
+        if r['日期'] == today:
+            print(r['编号']); break
+except Exception:
+    pass
+")
+  if [ -z "$day" ]; then
+    echo "今天($TODAY)不在金句 30 天排期内，跳过（已发完或未开始）"
+    return 0
+  fi
+  echo "今日金句编号：$day"
+  "$NODE" 11-运营/scripts/xhs-draft-verse.mjs --day="$day"
 }
 step_credits() {
   local cache="/tmp/credits-$(date +%m%d).json"
