@@ -114,3 +114,6 @@ date,url,http,cold_ttfb,hot_ttfb,gap,size,cache,ray,flag
 2026-11-17,/,200,2.14,0.9,1.25,49355,HIT,ATL,ok
 2026-11-17,/collection/,200,2.07,0.9,1.17,14695,HIT,ATL,ok
 2026-11-17,/5000years/,200,2.04,,,14923,HIT,ATL,ok
+2026-11-18,/5000years/,200,1.88,0.94,0.94,14923,HIT,LHR,ok
+2026-11-18,/,200,1.81,0.87,0.94,49355,HIT,LHR,ok
+2026-11-18,/collection/,200,1.72,0.92,0.8,14695,HIT,LHR,ok
