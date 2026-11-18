@@ -103,7 +103,7 @@ function fitTitle(t) {
 function buildBody(d) {
   // 正文里的话题行（若有）剥掉，统一由脚本按文案 **话题** 行附加
   const lines = d.body.split('\n').filter(l => !/^\s*#/.test(l)).join('\n').replace(/\n{3,}/g, '\n\n').trimEnd();
-  const tops = d.topics.length ? d.topics : ['传统文化', '国风', '国学智慧'];
+  const tops = d.topics.length ? d.topics : ['传统文化', '国风', '书法', '东方美学', '汉字', '文化', '金句', '读书', '文学', '手机壁纸'];
   return lines + '\n\n' + tops.map(t => '#' + t).join(' ');
 }
 
