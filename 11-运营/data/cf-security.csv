@@ -45,5 +45,6 @@ date,events,challenge,block,bypassed,managed_challenge,top_path,top_path_n,top_c
 2026-11-13,557,371,92,0,371,/wp-login.php,47,BE,129,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,130,2026-11-16 21:10
 2026-11-14,993,462,443,0,462,/wp-login.php,59,SG,227,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,209,2026-11-17 21:10
 2026-11-15,568,236,198,8,228,/wp-login.php,60,US,253,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,68,2026-11-18 21:10
-2026-11-16,735,345,252,0,345,/robots.txt,29,BE,159,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,159,2026-11-18 21:10
-2026-11-17,1094,514,485,0,514,/robots.txt,28,JP,461,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,465,2026-11-18 21:10
+2026-11-16,735,345,252,0,345,/robots.txt,29,BE,159,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,159,2026-11-19 21:10
+2026-11-17,1094,514,485,0,514,/robots.txt,28,JP,461,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,465,2026-11-19 21:10
+2026-11-18,765,169,508,0,169,/robots.txt,31,US,489,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36,83,2026-11-19 21:10
