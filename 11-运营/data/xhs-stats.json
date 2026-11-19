@@ -1,160 +1,33 @@
 {
   "ok": true,
-  "fetchedAt": "2026-11-18 05:02",
-  "date": "2026-11-18",
-  "period": "11-11 至 11-17",
+  "fetchedAt": "2026-11-19 05:05",
+  "date": "2026-11-19",
+  "period": null,
   "diag": {
-    "views": 172,
-    "newFans": 3,
-    "profileVisits": 26,
-    "published": 6,
-    "interactions": 7
+    "views": null,
+    "newFans": null,
+    "profileVisits": null,
+    "published": null,
+    "interactions": null
   },
   "overview": {
-    "exposure": 2389,
-    "views": 172,
-    "ctr": "6.9%",
-    "avgWatch": "12秒",
-    "totalWatch": "25.3分钟",
-    "finishRate": "0%"
+    "exposure": null,
+    "views": null,
+    "ctr": null,
+    "avgWatch": null,
+    "totalWatch": null,
+    "finishRate": null
   },
   "mom": {
-    "exposure": "+6%",
-    "views": "-11%",
-    "ctr": "-21%"
+    "exposure": null,
+    "views": null,
+    "ctr": null
   },
   "fans": {
-    "total": 9,
-    "added": 3,
-    "lost": 0
+    "total": null,
+    "added": null,
+    "lost": null
   },
-  "notes": [
-    {
-      "title": "金句壁纸｜知彼知己，长按保存",
-      "publishedAt": "2026-11-17 08:44",
-      "exposure": 173,
-      "views": 8,
-      "ctr": "4.00%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "21s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜和穆萧尹，原图私信我",
-      "publishedAt": "2026-11-15 12:30",
-      "exposure": 339,
-      "views": 16,
-      "ctr": "4.40%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "14s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜顾孟平黄，原图私信我",
-      "publishedAt": "2026-11-15 08:20",
-      "exposure": 360,
-      "views": 21,
-      "ctr": "5.80%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "7s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜伍余元卜，原图私信我",
-      "publishedAt": "2026-11-13 08:20",
-      "exposure": 347,
-      "views": 29,
-      "ctr": "8.10%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 1,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "3s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜皮卞齐康，原图私信我",
-      "publishedAt": "2026-11-12 08:10",
-      "exposure": 333,
-      "views": 21,
-      "ctr": "6.30%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "6s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜乐于时傅，原图私信我",
-      "publishedAt": "2026-11-11 08:20",
-      "exposure": 339,
-      "views": 33,
-      "ctr": "9.70%",
-      "likes": 1,
-      "comments": 1,
-      "collects": 1,
-      "newFans": 1,
-      "shares": 0,
-      "avgWatch": "17s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜郝邬安常，原图私信我",
-      "publishedAt": "2026-11-10 08:07",
-      "exposure": 227,
-      "views": 30,
-      "ctr": "11.90%",
-      "likes": 1,
-      "comments": 2,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "14s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜滕殷罗毕，原图私信我",
-      "publishedAt": "2026-11-09 08:14",
-      "exposure": 317,
-      "views": 21,
-      "ctr": "7.30%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "3s",
-      "danmu": 0
-    },
-    {
-      "title": "百家姓手机壁纸｜雷贺倪汤，原图私信我",
-      "publishedAt": "2026-11-08 08:14",
-      "exposure": 194,
-      "views": 9,
-      "ctr": "4.60%",
-      "likes": 0,
-      "comments": 0,
-      "collects": 0,
-      "newFans": 0,
-      "shares": 0,
-      "avgWatch": "17s",
-      "danmu": 0
-    }
-  ],
-  "noteCount": 9
+  "notes": [],
+  "noteCount": 0
 }
