@@ -123,3 +123,6 @@ date,url,http,cold_ttfb,hot_ttfb,gap,size,cache,ray,flag
 2026-11-20,/,200,7.86,2.42,5.44,49355,HIT,DFW,回源开销大
 2026-11-20,/5000years/,200,5.19,4.33,0.86,14923,HIT,DFW,ok
 2026-11-20,/collection/,0,1.72,,,0,MISS,DFW,HTTP非200
+2026-11-21,/,200,1.83,0.7,1.14,49355,HIT,PDX,ok
+2026-11-21,/5000years/,200,1.82,0.76,1.06,14923,HIT,PDX,ok
+2026-11-21,/collection/,0,1.66,14.26,-12.6,0,-,-,HTTP非200

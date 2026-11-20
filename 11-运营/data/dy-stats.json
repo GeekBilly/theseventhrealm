@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "fetchedAt": "2026-11-19 05:05",
-  "date": "2026-11-19",
-  "period": "2026-11-13至2026-11-19",
+  "fetchedAt": "2026-11-20 05:03",
+  "date": "2026-11-20",
+  "period": "2026-11-14至2026-11-20",
   "overview": {
     "plays": 0,
     "interactRate": "0.0%",
@@ -12,7 +12,7 @@
   },
   "pct": null,
   "content": {
-    "period": "2026-11-13至2026-11-19",
+    "period": "2026-11-14至2026-11-20",
     "posted": 0,
     "plays": 0,
     "likes": 0,
@@ -24,13 +24,18 @@
     "avgPlay": "0"
   },
   "fans": {
-    "period": "2026-11-13至2026-11-19",
+    "period": "2026-11-14至2026-11-20",
     "total": 0,
     "net": 0,
     "gained": 0,
     "lost": 0,
     "returning": 0
   },
-  "videos": [],
-  "videoCount": 0
+  "videos": [
+    {
+      "title": "十六个朝代，各自留了一句话。#历史朝代 #汉字之美在华夏 #中国历史朝代顺序 #激发对汉字文化的兴趣",
+      "plays7d": 0
+    }
+  ],
+  "videoCount": 1
 }
