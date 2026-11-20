@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第七境 · 写作工作台</title>
+<style>
+/* ===== 第七境基准：操作台 · 面板边界 · 宋体 · 朱砂点睛 · 三级字号 22/18/16 =====
+   总=区标题22　分=分组18　细节=正文16　辅助信息14（均为最小可读，不再往下掉）
+   全部功能收进有边界的面板：每个分区/分组/入口各自成块，文字不裸露。
+   只用：浅灰底 + 白面板 + 细边框 + 朱砂一处点睛；不叠徽章、胶囊、圆点轴。 */
+:root{
+  --white:#ffffff; --paper:#f6f4ef; --ink:#1a1a18; --ink2:#6b675f;
+  --hair:rgba(26,26,24,.16); --hair2:rgba(26,26,24,.24); --ghost:rgba(26,26,24,.035);
+  --cinnabar:#b03826; --cinnabar-wash:rgba(176,56,38,.05);
+  --f:'Noto Serif SC','Songti SC','STSong','SimSun',serif;
+  --r:3px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--f);
+  font-size:16px;line-height:1.8;text-align:center;overflow-x:hidden;padding-bottom:40px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+
+/* 顶部：标题收进操作台顶栏 */
+.masthead{padding:22px 24px 14px}
+.masthead h1{font-size:26px;font-weight:600;letter-spacing:6px;line-height:1.3}
+
+/* 分区 Tab：一条有边界的操作台导航，允许换行，不硬挤一行 */
+.tabbar{position:sticky;top:0;z-index:50;background:var(--white);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid var(--hair2);border-radius:var(--r);
+  box-shadow:0 1px 4px rgba(26,26,24,.05);
+  padding:8px 12px;margin:0 24px 4px;text-align:center}
+.tabbar-inner{display:flex;justify-content:center;gap:6px 8px;
+  flex-wrap:wrap;max-width:932px;margin:0 auto}
+.tabbar label{font-size:16px;letter-spacing:1px;padding:5px 12px;
+  border:1px solid transparent;border-radius:var(--r);cursor:pointer;color:var(--ink2);white-space:nowrap}
+.tabbar label:hover{color:var(--cinnabar);background:var(--cinnabar-wash)}
+input[name=tab]{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+#tab-governing:checked ~ .tabbar label[for=tab-governing],
+#tab-mediums:checked ~ .tabbar label[for=tab-mediums],
+#tab-novel:checked ~ .tabbar label[for=tab-novel],
+#tab-units:checked ~ .tabbar label[for=tab-units],
+#tab-film:checked ~ .tabbar label[for=tab-film],
+#tab-derive:checked ~ .tabbar label[for=tab-derive],
+#tab-check:checked ~ .tabbar label[for=tab-check]{color:var(--cinnabar);background:var(--cinnabar-wash);
+  border-color:rgba(176,56,38,.4)}
+.tabpane{display:none}
+#tab-governing:checked ~ .wrap #governing,
+#tab-mediums:checked ~ .wrap #mediums,
+#tab-novel:checked ~ .wrap #novel,
+#tab-units:checked ~ .wrap #units,
+#tab-film:checked ~ .wrap #film,
+#tab-derive:checked ~ .wrap #derive,
+#tab-check:checked ~ .wrap #check{display:block}
+
+/* —— 分区 = 一块操作台面板，全部内容收进边框内 —— */
+section.tabpane{background:var(--white);border:1px solid var(--hair2);border-radius:var(--r);
+  box-shadow:0 1px 5px rgba(26,26,24,.05);padding:26px 30px 30px;margin:18px auto 0;text-align:left}
+h2{font-size:22px;font-weight:600;letter-spacing:5px;margin:0 0 4px;padding-bottom:10px;
+  border-bottom:2px solid var(--cinnabar)}
+.desc{font-size:16px;color:var(--ink);line-height:1.75;margin:12px 0 0}
+.loc{font-size:14px;color:var(--ink2);line-height:1.7;margin:6px 0 0}
+.loc b{color:var(--cinnabar);font-weight:600}
+.tools{display:flex;gap:18px;justify-content:flex-start;margin:16px 0 6px;
+  font-size:14px;color:var(--cinnabar)}
+.foldall{border-bottom:1px solid rgba(176,56,38,.4);cursor:pointer}
+
+/* 区头下方的操作台状态条（服务连接一行） */
+#svcbar{margin:0 auto 4px}
+
+/* 分组（分）：一个折叠 = 一块独立小面板，标题栏有浅底，正文收进面板 */
+details.fold{margin:12px 0;text-align:left;border:1px solid var(--hair);border-radius:var(--r);
+  background:var(--white);overflow:hidden}
+details.fold>summary{cursor:pointer;list-style:none;padding:11px 16px 11px 14px;font-size:18px;
+  font-weight:600;letter-spacing:2px;display:flex;align-items:baseline;gap:10px;
+  background:var(--ghost)}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:'＋';color:var(--cinnabar);font-size:16px;font-weight:400;flex:none}
+details.fold[open]>summary::before{content:'－'}
+details.fold[open]>summary{border-bottom:1px solid var(--hair)}
+details.fold>summary .sm{font-size:14px;font-weight:400;color:var(--ink2);
+  letter-spacing:.5px;margin-left:auto;text-align:right}
+details.fold .fbody{padding:14px 16px 16px;font-size:16px;color:var(--ink);line-height:1.85}
+details.fold .fbody p{margin:7px 0}
+.xref{color:var(--cinnabar);border-bottom:1px solid rgba(176,56,38,.4);cursor:pointer}
+
+/* 源流链：一行文字链 */
+.chain{font-size:16px;letter-spacing:1px;line-height:1.9;color:var(--ink)}
+.chain .hot{color:var(--cinnabar);font-weight:600}
+.chain .ar{color:var(--ink2);margin:0 6px}
+
+/* 入口/卡片：每张是一个有边界的小面板，一行最多两个 */
+.list{display:grid;gap:10px;margin-top:12px}
+.pair{grid-template-columns:repeat(2,1fr)}
+.cell{display:block;border:1px solid var(--hair);border-radius:var(--r);padding:12px 14px;
+  text-align:left;background:var(--white);transition:border-color .15s,background .15s}
+.cell:hover{border-color:rgba(176,56,38,.45);background:var(--cinnabar-wash)}
+.cell .t{display:block;font-size:16px;font-weight:600;letter-spacing:1px}
+.cell .d{display:block;font-size:14px;color:var(--ink2);margin-top:2px}
+.cell.live .t{color:var(--cinnabar)}
+.cell.soon{opacity:.55}
+@media(max-width:640px){.pair{grid-template-columns:1fr}}
+
+/* 总纲主卡：一块带朱砂顶边的强调面板 */
+.hero-card{display:block;border:1px solid var(--hair2);border-top:2px solid var(--cinnabar);
+  border-radius:var(--r);padding:16px 18px;margin:16px 0 0;text-align:left;background:var(--white);
+  transition:border-color .15s,background .15s}
+.hero-card:hover{background:var(--cinnabar-wash)}
+.hero-card .big{font-size:18px;font-weight:600;letter-spacing:2px;color:var(--cinnabar)}
+.hero-card .meta{margin-top:4px;font-size:14px;color:var(--ink2)}
+.hero-card .go{display:inline-block;margin-top:8px;font-size:16px;color:var(--cinnabar)}
+
+/* 年代骨架列表：整块有边界，每行之间细线分隔 */
+.roll{margin:16px 0 0;text-align:left;border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:baseline;
+  padding:10px 16px;border-top:1px solid var(--hair);background:var(--white)}
+.row:first-child{border-top:0}
+.row:hover{background:var(--cinnabar-wash)}
+.row .no{font-size:16px;color:var(--cinnabar)}
+.row .name{font-size:16px;font-weight:600;letter-spacing:1px}
+.row .years{font-size:14px;color:var(--ink2);margin-left:8px}
+.row .state{font-size:14px;color:var(--ink2);white-space:nowrap}
+.row .state.hot{color:var(--cinnabar)}
+.row.soon{opacity:.55}
+
+/* 校验清单：整块有边界 */
+.check{font-size:16px;border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;background:var(--white)}
+.check div{padding:11px 16px;border-top:1px solid var(--hair);display:flex;gap:12px;align-items:baseline}
+.check div:first-child{border-top:0}
+.check b{color:var(--cinnabar);font-weight:600;flex:none}
+
+/* 派生台：整块操作面板，内部表单域各自有边界 */
+.derive{margin:16px 0 0;text-align:left;border:1px solid var(--hair2);border-radius:var(--r);
+  background:var(--ghost);padding:18px}
+.flow{font-size:16px;font-weight:600;letter-spacing:1px;margin:0 0 4px}
+.flow .node.src{color:var(--ink)} .flow .node.out{color:var(--cinnabar)}
+.flow .arrow{color:var(--ink2);margin:0 4px}
+.flow-note{font-size:14px;color:var(--ink2);margin-bottom:14px}
+.panel{display:grid;grid-template-columns:1fr;gap:12px}
+.field{background:var(--white);border:1px solid var(--hair);border-radius:var(--r);padding:10px 12px}
+.field label{display:block;font-size:14px;color:var(--ink2);margin-bottom:5px}
+.field select,.field input{width:100%;font-family:var(--f);font-size:16px;color:var(--ink);
+  background:var(--white);border:1px solid var(--hair);border-radius:var(--r);
+  padding:8px 10px;outline:none}
+.field select:focus,.field input:focus{border-color:var(--cinnabar)}
+.btns{display:flex;gap:10px;margin:16px 0 12px;flex-wrap:wrap}
+button{font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:1px;color:#fff;
+  background:var(--ink);border:1px solid var(--ink);border-radius:var(--r);padding:9px 20px;cursor:pointer}
+button:hover{background:var(--cinnabar);border-color:var(--cinnabar)}
+button.ghost{background:var(--white);color:var(--ink);border:1px solid var(--hair2)}
+button.ghost:hover{color:var(--cinnabar);border-color:var(--cinnabar)}
+#out{width:100%;min-height:200px;font-family:var(--f);font-size:14px;line-height:1.8;
+  padding:14px 16px;border:1px solid var(--hair2);border-radius:var(--r);background:var(--white);
+  text-align:left;white-space:pre-wrap;color:var(--ink)}
+
+/* 页脚：收进一块面板 */
+footer{max-width:980px;margin:22px auto 0;padding:16px 24px;font-size:14px;color:var(--ink2);
+  background:var(--white);border:1px solid var(--hair);border-radius:var(--r)}
+footer a:hover{color:var(--cinnabar)}
+
+/* ===== 丝滑微动效（克制 · 优雅 · 简单）=====
+   只用 transform / opacity / box-shadow / text-shadow 过渡，不引入新颜色与布局位移。
+   尊重系统「减少动效」设置。 */
+:root{--ease:cubic-bezier(.22,.61,.36,1);--dur:.28s}
+
+/* 所有可交互元素统一缓动 */
+.tabbar label,.rbtn,.rraw,.foldall,.xref,.dvback,.cell,.hero-card,.row,
+.dvtoc li,.dvsec>summary,details.fold>summary,button,.field select,.field input{
+  transition:color var(--dur) var(--ease),background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease),opacity var(--dur) var(--ease)}
+
+/* 微浮：卡片/入口/行 hover 轻抬 2px + 柔光 */
+.cell:hover,.hero-card:hover,.row:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(26,26,24,.09)}
+.tabbar label:hover,.rbtn:hover,button:hover{transform:translateY(-1px)}
+button:hover{box-shadow:0 4px 12px rgba(176,56,38,.25)}
+
+/* 分区面板切换：淡入 + 轻微上浮（display:none→block 时自动重放） */
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+section.tabpane{animation:panelIn .42s var(--ease) both}
+
+/* 折叠正文展开：淡入下沉 */
+@keyframes foldIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+details.fold[open] .fbody{animation:foldIn .3s var(--ease) both}
+
+/* 服务状态点：已连接时柔光缓慢呼吸 */
+@keyframes breathe{0%,100%{opacity:.72;text-shadow:0 0 0 rgba(47,125,79,0)}
+  50%{opacity:1;text-shadow:0 0 8px rgba(47,125,79,.35)}}
+#svcStatus.on{animation:breathe 2.6s ease-in-out infinite}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
+/*__WB_READER_CSS__*/
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <h1>写作工作台</h1>
+</div>
+
+<!-- 分区状态：radio 在 tabbar 之前，tabbar / wrap 同为 body 直属同级 -->
+<input type="radio" name="tab" id="tab-governing" checked>
+<input type="radio" name="tab" id="tab-mediums">
+<input type="radio" name="tab" id="tab-novel">
+<input type="radio" name="tab" id="tab-units">
+<input type="radio" name="tab" id="tab-film">
+<input type="radio" name="tab" id="tab-derive">
+<input type="radio" name="tab" id="tab-check">
+<nav class="tabbar">
+  <div class="tabbar-inner">
+    <label for="tab-governing">总纲</label>
+    <label for="tab-mediums">体裁与表现形式</label>
+    <label for="tab-novel">小说十卷</label>
+    <label for="tab-units">十三单元</label>
+    <label for="tab-film">电影 · 多部</label>
+    <label for="tab-derive">派生台</label>
+    <label for="tab-check">一致性校验</label>
+  </div>
+</nav>
+
+<!--__WB_SVCBAR__-->
+
+<div class="wrap">
+
+<!-- ===== 零 · 总纲 ===== -->
+<section class="tabpane" id="governing">
+  <h2>总纲</h2>
+  <p class="desc">全系列唯一上层框架：定纪年、源流链、两条铁律与内容落点。其余各区只引用本区，不复制设定。</p>
+  <p class="loc">跨度 约前 2100 → 2149（S.E.1）　·　当前 <b>总纲 v3 已立</b>，正文推进至约前 2100（单元 01／卷一）</p>
+  <a class="hero-card" href="00-华夏五千年系列总纲.md">
+    <div class="big">华夏五千年 · 系列总纲</div>
+    <div class="meta">约前 2100 → 2149（S.E.1）　·　13 单元　·　三条线　·　唯一落点规则</div>
+    <div class="go">展开全纲 →</div>
+  </a>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a><a class="foldall" href="#" data-fold="close">收起全部</a></div>
+  <details class="fold" id="gd-flow"><summary>源流链与两条铁律<span class="sm">总纲一、二节</span></summary><div class="fbody">
+    <p class="chain">史实<span class="ar">→</span>总纲<span class="ar">→</span><span class="hot">小说</span><span class="ar">→</span>漫画／动画<span class="ar">→</span>电影</p>
+    <p>单向源流，流不倒灌源；上游定下的生死结局，下游只能删减与换视角。</p>
+    <p>两条最高约束：<b>单一宇宙线</b>（S.E.1 前无平行设定、死即终局）、<b>创作源流链</b>（史实→总纲→小说→漫画动画→电影，下游不得反改上游）。全文见 <a class="xref" href="00-华夏五千年系列总纲.md">总纲 →</a></p>
+  </div></details>
+  <details class="fold" id="gd-range"><summary>时间跨度与十三单元<span class="sm">细目转「十三单元」区</span></summary><div class="fbody">
+    <p>全跨度约前 2100 → 2149（S.E.1），分三段：上古（01–04）、中古近古（05–10）、近现代与星际（11–13）。逐年细目见 <a class="xref" href="#" data-gotab="units">十三单元区 →</a>；史实依据见 <a class="xref" href="任务卡-上下五千年内容工程.md">史实线 →</a>。</p>
+  </div></details>
+  <details class="fold" id="gd-place"><summary>内容放置规则<span class="sm">总纲第四节</span></summary><div class="fbody">
+    <p>一个内容只有一个家；引用写路径不复制正文；目录用 <code>NN-中文名</code>，根目录不改名。用户已拍板：目录不合并、重复版本全保留。全文见 <a class="xref" href="00-华夏五千年系列总纲.md">总纲第四节 →</a></p>
+  </div></details>
+  <details class="fold" id="gd-short"><summary>常去入口<span class="sm">三条快捷路径</span></summary><div class="fbody">
+    <div class="list">
+      <a class="cell" href="任务卡-上下五千年内容工程.md"><span class="t">史实线</span><span class="d">历史长卷 · 成书稿 · 典籍库</span></a>
+      <a class="cell" href="任务卡-小说动漫电影计划与写作.md"><span class="t">IP 线</span><span class="d">小说 · 动漫 · 电影 入口</span></a>
+      <a class="cell" href="大禹治水/00-故事圣经.md"><span class="t">第一单元 · 大禹治水</span><span class="d">约前 2100 · 故事圣经</span></a>
+    </div>
+  </div></details>
+</section>
+
+<!-- ===== 壹 · 体裁与表现形式 ===== -->
+<section class="tabpane" id="mediums">
+  <h2>体裁与表现形式</h2>
+  <p class="desc">按体裁与载体列入口，标明各自在源流链中的角色。卷目、单元细目跳到对应分区，不在本区展开。</p>
+  <p class="loc">跨全跨度 · 按体裁组织　·　当前 小说<b>卷一</b>、漫画<b>单元 01</b> 有内容，动画／电影待立</p>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a><a class="foldall" href="#" data-fold="close">收起全部</a></div>
+  <details class="fold" id="md-genre"><summary>四种叙事体裁<span class="sm">各在源流链中的位置</span></summary><div class="fbody">
+    <div class="list pair">
+      <a class="cell live" href="写作/00-写作长线计划.md"><span class="t">小说</span><span class="d">据总纲演绎 · 源 · 十卷本 41 篇</span></a>
+      <a class="cell live" href="大禹治水/00-故事圣经.md"><span class="t">漫画</span><span class="d">据小说附人物 · 扩 IP 周边</span></a>
+      <a class="cell soon" href="00-华夏五千年系列总纲.md"><span class="t">动画</span><span class="d">据小说附人物 · 待立</span></a>
+      <a class="cell soon" href="大禹治水/00-故事圣经.md"><span class="t">电影</span><span class="d">据小说剧本 · 可多部</span></a>
+    </div>
+    <p>卷目见 <a class="xref" href="#" data-gotab="novel">小说十卷区 →</a>；单元见 <a class="xref" href="#" data-gotab="units">十三单元区 →</a>；电影分部见 <a class="xref" href="#" data-gotab="film">电影区 →</a>。</p>
+  </div></details>
+  <details class="fold" id="md-form"><summary>表现形式与资产<span class="sm">落到具体文件</span></summary><div class="fbody">
+    <div class="list pair">
+      <a class="cell live" href="大禹治水/02-第一话-羽山-分镜.md"><span class="t">分镜脚本</span><span class="d">羽山 · 罪臣之子</span></a>
+      <a class="cell live" href="漫画线稿/README.md"><span class="t">人物线稿</span><span class="d">铅笔草稿 · 水墨 · 少年漫</span></a>
+      <a class="cell" href="历史长卷/进度.md"><span class="t">史实长卷</span><span class="d">119 事件节点 · 16 朝</span></a>
+      <a class="cell" href="../08-音频/"><span class="t">主题音乐</span><span class="d">IP 音频资产</span></a>
+    </div>
+  </div></details>
+</section>
+
+<!-- ===== 贰 · 小说十卷 ===== -->
+<section class="tabpane" id="novel">
+  <h2>小说 · 十卷本</h2>
+  <p class="desc">十卷的卷目、年代骨架与状态。每卷＝一个人的一生，九种品质汇于卷十的「希望」。</p>
+  <p class="loc">新石器（约前 2100）→ S.E.1–400　·　当前 <b>卷一《起源》有正文</b>，其余为框架</p>
+  <div class="roll">
+    <a class="row live" href="写作/40-卷一-第一章-留在这里的人-v2.md"><span class="no">一</span><span><span class="name">起源</span><span class="years">新石器·聚落／勇</span></span><span class="state hot">有正文</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">二</span><span><span class="name">三代</span><span class="years">商·周／礼</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">三</span><span><span class="name">帝国</span><span class="years">秦·汉／义</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">四</span><span><span class="name">分裂</span><span class="years">三国·两晋南北朝／信</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">五</span><span><span class="name">盛世</span><span class="years">隋·唐·五代／仁</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">六</span><span><span class="name">文治</span><span class="years">宋·辽金·元／智</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">七</span><span><span class="name">晚期</span><span class="years">明·清／善</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">八</span><span><span class="name">觉醒</span><span class="years">1840–1949／真</span></span><span class="state">题记已定</span></a>
+    <a class="row" href="写作/12-十卷框架总表.md"><span class="no">九</span><span><span class="name">前夜</span><span class="years">1949–2148／梦</span></span><span class="state">框架</span></a>
+    <a class="row" href="写作/08-前世轮回与第十卷揭晓机制.md"><span class="no">十</span><span><span class="name">星舰</span><span class="years">S.E.1–400／希望</span></span><span class="state hot">揭晓机制</span></a>
+  </div>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a></div>
+  <details class="fold" id="nv-support"><summary>写作支撑文档<span class="sm">写正文前先核对</span></summary><div class="fbody">
+    <div class="list">
+      <a class="cell" href="写作/33-全设定总表-v2.md"><span class="t">全设定总表</span><span class="d">写正文前先核对</span></a>
+      <a class="cell" href="写作/37-作者风格档案.md"><span class="t">作者风格</span><span class="d">文体与口吻</span></a>
+      <a class="cell" href="写作/README.md"><span class="t">篇目索引</span><span class="d">41 篇编号段含义</span></a>
+    </div>
+  </div></details>
+  <details class="fold" id="nv-progress"><summary>卷一写作进度<span class="sm">源正文转「派生台」</span></summary><div class="fbody">
+    <p>卷一已有序及正文，作为派生源在 <a class="xref" href="#" data-gotab="derive">派生台 →</a> 中可选。本区不重复列篇目，避免两处维护。</p>
+  </div></details>
+</section>
+
+<!-- ===== 叁 · 十三单元 ===== -->
+<section class="tabpane" id="units">
+  <h2>漫画／动画 · 十三单元</h2>
+  <p class="desc">十三单元的年代切分与进度。据小说把故事附到人物形象上、扩 IP 周边；实体设定进文档页。</p>
+  <p class="loc">约前 2100 → S.E.1 起　·　当前 <b>单元 01 · 大禹治水</b> 进行中，02–13 待立</p>
+  <div class="roll">
+    <a class="row hot" href="大禹治水/00-故事圣经.md"><span class="no">01</span><span><span class="name">大禹治水</span><span class="years">约前 2100</span></span><span class="state hot">进行中</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">02</span><span><span class="name">商周之变</span><span class="years">前 1600–前 256</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">03</span><span><span class="name">春秋战国</span><span class="years">前 770–前 221</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">04</span><span><span class="name">秦并六国</span><span class="years">前 221–前 207</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">05</span><span><span class="name">汉家天下</span><span class="years">前 206–公元 220</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">06</span><span><span class="name">三国两晋南北朝</span><span class="years">220–589</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">07</span><span><span class="name">隋唐盛世</span><span class="years">581–960</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">08</span><span><span class="name">宋</span><span class="years">960–1279</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">09</span><span><span class="name">元明</span><span class="years">1271–1644</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">10</span><span><span class="name">清</span><span class="years">1644–1912</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">11</span><span><span class="name">觉醒年代</span><span class="years">1840–1949</span></span><span class="state">史实线有稿</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">12</span><span><span class="name">前夜</span><span class="years">1949–2148</span></span><span class="state">待立</span></a>
+    <a class="row soon" href="00-华夏五千年系列总纲.md"><span class="no">13</span><span><span class="name">星舰</span><span class="years">S.E.1 起</span></span><span class="state">待立</span></a>
+  </div>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a></div>
+  <details class="fold" id="un-detail"><summary>单元 01 · 大禹治水 制作细目<span class="sm">约前 2100 · 进行中</span></summary><div class="fbody">
+    <div class="list">
+      <a class="cell live" href="大禹治水/01-大禹形态设定.md"><span class="t">形态设定</span><span class="d">三常态＋六变身</span></a>
+      <a class="cell live" href="大禹治水/02-第一话-羽山-分镜.md"><span class="t">第一话 · 羽山</span><span class="d">约前 2100 · 分镜</span></a>
+      <a class="cell live" href="大禹治水/03-第二话-罪臣之子-分镜.md"><span class="t">第二话 · 罪臣之子</span><span class="d">约前 2100 · 分镜</span></a>
+    </div>
+    <p>故事圣经见 <a class="xref" href="大禹治水/00-故事圣经.md">大禹治水 · 故事圣经 →</a>；人物视觉走 skill <code>ink-manga-lineart</code>，规则在 <a class="xref" href="#" data-gotab="check">一致性校验 →</a>。</p>
+  </div></details>
+</section>
+
+<!-- ===== 肆 · 电影多部 ===== -->
+<section class="tabpane" id="film">
+  <h2>电影 · 据小说多部</h2>
+  <p class="desc">只定「电影据小说剧本拆部」的原则，与单元 01 的初步拆法；改编边界跳回总纲与校验区。</p>
+  <p class="loc">约前 2100（单元 01）起 · 随小说全跨度　·　当前 <b>单元 01 初步拆为 3 部</b>，可扩展</p>
+  <div class="list">
+    <a class="cell" href="大禹治水/00-故事圣经.md"><span class="t">第一部</span><span class="d">受命＋长征前半</span></a>
+    <a class="cell" href="大禹治水/00-故事圣经.md"><span class="t">第二部</span><span class="d">轘辕山＋三过家门 · 无台词石化泪点</span></a>
+    <a class="cell" href="大禹治水/00-故事圣经.md"><span class="t">第三部</span><span class="d">九州＋终章（涂山／九鼎／归山／会稽）</span></a>
+  </div>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a></div>
+  <details class="fold" id="fm-rule"><summary>分部原则与改编边界<span class="sm">只删减与换视角，不改命</span></summary><div class="fbody">
+    <p>据小说故事线与情感高点切分，数量不预设；扩部沿用同一套设定，不另起一套。只删减与换视角，不改生死结局、不复活、流不倒灌源。</p>
+    <p>改编边界逐条见 <a class="xref" href="#" data-gotab="check">一致性校验 →</a>；源流依据见 <a class="xref" href="#" data-gotab="governing">总纲区 →</a>；分部细则见 <a class="xref" href="大禹治水/00-故事圣经.md">故事圣经 →</a>。</p>
+  </div></details>
+</section>
+
+<!-- ===== 伍 · 派生台 ===== -->
+<section class="tabpane" id="derive">
+  <h2>派生台 · 小说直生分镜</h2>
+  <p class="desc">唯一「生成派生指令」的工具区：选源正文＋目标体裁 → 输出指令。本区不存正文，也不重复设定。</p>
+  <p class="loc">工具区 · 适用全跨度　·　默认源 <b>卷一《起源》（约前 2100）</b>，随选择切换</p>
+  <div class="derive">
+    <div class="flow"><span class="node src">小说正文</span><span class="arrow">→</span><span class="node out">漫画分镜</span><span class="arrow">／</span><span class="node out">动画分镜</span><span class="arrow">／</span><span class="node out">电影分镜</span></div>
+    <div class="flow-note">一条正文，三种镜头语言；全部回到同一个宇宙线，不改生死、不改结局。</div>
+    <div class="panel">
+      <div class="field">
+        <label for="src">源 · 小说正文（或故事圣经）</label>
+        <select id="src">
+          <option value="写作/40-卷一-第一章-留在这里的人-v2.md｜卷一《起源》第一章">卷一 · 第一章《留在这里的人》v2</option>
+          <option value="写作/23-卷一-第二章-水总是从同一个地方来.md｜卷一《起源》第二章">卷一 · 第二章《水总是从同一个地方来》</option>
+          <option value="写作/24-卷一-第三章-那条路.md｜卷一《起源》第三章">卷一 · 第三章《那条路》</option>
+          <option value="写作/20-卷一-序-在有人之前.md｜卷一《起源》序">卷一 · 序《在有人之前》</option>
+          <option value="大禹治水/00-故事圣经.md｜单元01《大禹治水》">单元 01 · 大禹治水 · 故事圣经</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="medium">目标体裁</label>
+        <select id="medium">
+          <option value="manga">漫画分镜（右开本 · 页／格）</option>
+          <option value="anime">动画分镜（镜号 · 秒 · 运镜）</option>
+          <option value="film">电影分镜（场次 · 镜头 · 声音）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="episode">话／场编号与标题</label>
+        <input id="episode" value="第一话 · 羽山" placeholder="如：第一话 · 羽山">
+      </div>
+      <div class="field">
+        <label for="pages">体量（页／镜／场）</label>
+        <input id="pages" value="25 页脚本（1 扉页＋23 正文＋1 终页）" placeholder="漫画填页数；动画填分钟；电影填场次">
+      </div>
+    </div>
+    <div class="btns">
+      <button id="gen" type="button">生成派生指令</button>
+      <button id="copy" class="ghost" type="button">复制指令</button>
+    </div>
+    <textarea id="out" readonly placeholder="点「生成派生指令」，这里出现可直接复制的指令草稿……"></textarea>
+  </div>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a></div>
+  <details class="fold" id="dv-note"><summary>使用说明与边界<span class="sm">生成指令后交付前自检</span></summary><div class="fbody">
+    <p>落点遵循总纲第五节：新单元先建目录再写文件；分镜文本不塞进 <code>写作/</code> 或 <code>漫画线稿/</code>。生成的是「文字指令」，由你复制给写作助手执行，不在页面内直接出稿。</p>
+    <p>改了源正文，下游分镜不会自动语义改写——那是另一次派生动作。交付前七条核对见 <a class="xref" href="#" data-gotab="check">一致性校验 →</a>。</p>
+  </div></details>
+</section>
+
+<!-- ===== 陆 · 一致性校验 ===== -->
+<section class="tabpane" id="check">
+  <h2>一致性校验</h2>
+  <p class="desc">交付前逐条核对的清单。本区不存内容，只列校验项与铁律出处，规则跳回总纲与对应分区。</p>
+  <p class="loc">工具区 · 适用全跨度　·　当前重点核对 <b>单元 01 大禹治水（约前 2100）</b></p>
+  <div class="tools"><a class="foldall" href="#" data-fold="open">展开全部</a><a class="foldall" href="#" data-fold="close">收起全部</a></div>
+  <details class="fold" id="ck-source"><summary>源流与史实（1–3）<span class="sm">出处：总纲源流链铁律</span></summary><div class="fbody">
+    <div class="check">
+      <div><b>一</b><span>顺源流：史实→总纲→小说→漫画动画→电影，下游不倒灌上游——电影不反改小说，漫画不反改总纲。</span></div>
+      <div><b>二</b><span>从史实出发、实事求是：事实部分追得到历史长卷与典籍库；追不到的明示「艺术演绎」。</span></div>
+      <div><b>三</b><span>适度演绎只为出海传播——改的是「怎么讲」，不是「讲什么结论」，不改史实结论。</span></div>
+    </div>
+    <p>规则全文见 <a class="xref" href="#" data-gotab="governing">总纲区 →</a>；史实依据见 <a class="xref" href="任务卡-上下五千年内容工程.md">史实线 →</a>。</p>
+  </div></details>
+  <details class="fold" id="ck-line"><summary>一致性与回收（4–5）<span class="sm">出处：总纲单一宇宙线铁律</span></summary><div class="fbody">
+    <div class="check">
+      <div><b>四</b><span>人物生死、结局与其他媒介一致——小说写过的死，漫画不让那人活着；无平行宇宙／if 线。</span></div>
+      <div><b>五</b><span>伏笔与彩蛋按总纲同一答案回收，不写第二个版本；「转世／死而复生」须落回旁观式沉浸解释。</span></div>
+    </div>
+    <p>铁律全文见 <a class="xref" href="00-华夏五千年系列总纲.md">总纲铁律节 →</a>。</p>
+  </div></details>
+  <details class="fold" id="ck-quality"><summary>传播与品质（6–7）<span class="sm">出处：总纲宗旨 + skill</span></summary><div class="fbody">
+    <div class="check">
+      <div><b>六</b><span>抓当下最流行、最有效的演绎形式，目标好传播能爆火；但品质是底线，宁可慢工不出糙货。</span></div>
+      <div><b>七</b><span>人物视觉走 skill <code>ink-manga-lineart</code> 定稿流程；人物空手、道具单出设定图；史实细节逐条溯源。</span></div>
+    </div>
+    <p>人物定稿细则见 <a class="xref" href="大禹治水/01-大禹形态设定.md">大禹形态设定 →</a>。</p>
+  </div></details>
+</section>
+
+</div>
+
+<footer>
+  <a href="00-华夏五千年系列总纲.md">返回总纲</a>　·　
+  <a href="任务卡-小说动漫电影计划与写作.md">IP 线入口</a>　·　
+  <a href="写作/README.md">写作目录索引</a>
+  <div style="margin-top:10px;font-size:14px;opacity:.7">第七境 · 写作工作台 · 本地稿 · 2026-11-20</div>
+</footer>
+
+<script>
+/* 分区小工具：目录跳细节（自动展开）／跨区跳转／展开收起全部。
+   独立于文档路由脚本；文档路由由页尾注入脚本负责。 */
+(function(){
+  document.addEventListener('click',function(e){
+    var t=e.target;
+    var f=t.closest?t.closest('[data-fold]'):null;
+    if(f){
+      e.preventDefault();
+      var scope=f.closest('section')||document;
+      var ds=scope.querySelectorAll('details.fold');
+      var want=(f.getAttribute('data-fold')==='open');
+      for(var i=0;i<ds.length;i++)ds[i].open=want;
+      return;
+    }
+    var x=t.closest?t.closest('[data-gotab]'):null;
+    if(x){
+      e.preventDefault();
+      var n=x.getAttribute('data-gotab'),r=document.getElementById('tab-'+n);
+      if(r)r.checked=true;
+      if(location.hash)location.hash='';
+      window.scrollTo(0,0);
+      return;
+    }
+    var a=t.closest?t.closest('a[href^="#"]'):null;
+    if(a){
+      var id=(a.getAttribute('href')||'').slice(1);
+      var el=id?document.getElementById(id):null;
+      if(el&&el.tagName==='DETAILS'){
+        e.preventDefault();
+        el.open=true;
+        setTimeout(function(){el.scrollIntoView({block:'start'});},0);
+      }
+      return;
+    }
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var src=document.getElementById('src'),medium=document.getElementById('medium'),
+      ep=document.getElementById('episode'),pages=document.getElementById('pages'),
+      out=document.getElementById('out');
+  var common=[
+    '【创作源流链 · 见 01-内容/00-华夏五千年系列总纲.md】',
+    '· 史实→总纲→小说→漫画／动画→电影，单向源流、流不倒灌源；下游不得反改上游。',
+    '· 从史实出发、实事求是、适度演绎、一以贯之；抓当下最流行演绎形式以便传播爆火，但品质是底线。',
+    '',
+    '【单一宇宙线铁律】',
+    '· 小说／漫画／动画／电影共用一条宇宙线；S.E.1 前禁止平行设定、死即终局不复活。',
+    '· 只做删减与视角切换，不改人物生死、不改结局；伏笔彩蛋按总纲同一答案回收。',
+    '· 神话变形（化熊／化石）是典籍里的变形叙事，不是复活；回忆与幻影不算本人出场。',
+    ''
+  ];
+  function spec(kind,srcPath,epTitle,volume){
+    if(kind==='manga')return [
+      '【派生目标：漫画分镜脚本】',
+      '· 依据源正文 '+srcPath+'，把《'+epTitle+'》转为漫画分镜。',
+      '· 版式：右开本（从右往左读），每页 3–6 格；体量 '+pages.value+'。',
+      '· 对白压低：能用构图说的不画气泡，能用音效说的不写旁白；旁白仅用于开场／蒙太奇／终页。',
+      '· 每页按「## PXX — 场景名」分节，逐格写景别（远景／中景／近景／特写）＋动作＋台词／音效＋演出意图。',
+      '· 画风走 skill ink-manga-lineart：单色铅笔勾线、单一轮廓线、衣面留白；人物空手，道具单出设定图。',
+      '· 文末附典籍对照表：记载与艺术演绎分列，逐条标出处。',
+      ''
+    ];
+    if(kind==='anime')return [
+      '【派生目标：动画分镜】',
+      '· 依据源正文 '+srcPath+'，把《'+epTitle+'》转为动画分镜。',
+      '· 逐场列表：镜号／时长（秒）／景别／运镜（推拉摇移跟）／画面内容／对白／音效／音乐。',
+      '· 单镜 2–6 秒，总时长按 '+pages.value+' 控制；转场只用切与淡，不做花哨特效。',
+      '· 变身形态须与设定一致（见 大禹治水/01-大禹形态设定.md），变身只在上古单元密集使用。',
+      '· 人物表演、生死与漫画／小说同源；不新增平行版本。',
+      ''
+    ];
+    return [
+      '【派生目标：电影分镜（据小说多部拆分中的一部）】',
+      '· 依据小说源正文 '+srcPath+'，把《'+epTitle+'》转为电影剧本／分镜；据小说故事线切分，不锁死三部曲，可按情感高点多分几部。',
+      '· 逐场列表：场号／内外景／日夜／镜头／焦段与景别／运镜／画面／对白／声音设计。',
+      '· 体量 '+pages.value+'；院线级泪点优先用留白与声音，不用台词煽情（参照大禹第 18 话无台词石化）。',
+      '· 分部见 大禹治水/00-故事圣经.md 电影改编预留节；只删减与换视角，不改命、不复活，流不倒灌源。',
+      ''
+    ];
+  }
+  function landing(kind){
+    if(kind==='manga')return [
+      '【落点与命名】',
+      '· '+ep.value.trim()+' 的分镜写入对应单元目录（单元 01 → 01-内容/大禹治水/），文件名 NN-第X话-…-分镜.md。',
+      '· 新单元先建 NN-中文短名 目录再写文件，不在 写作/ 或 漫画线稿/ 里塞分镜文本。',
+      ''
+    ];
+    if(kind==='anime')return [
+      '【落点与命名】',
+      '· 动画分镜先在对应单元目录内新建 NN-第X话-…-动画分镜.md；动画目录确立后再按总纲第五节迁移（只移动不删除）。',
+      ''
+    ];
+    return [
+      '【落点与命名】',
+      '· 电影剧本／分镜先在对应单元目录内新建 NN-第X部-…-电影剧本.md 或 NN-第X场-…-电影分镜.md；电影目录确立后再按总纲第五节迁移（只移动不删除）。',
+      '· 分部依据小说故事线与情感高点，数量不预设；每部一行核心冲突，扩部沿用同一套设定。',
+      ''
+    ];
+  }
+  document.getElementById('gen').addEventListener('click',function(){
+    var pair=src.value.split('｜'),srcPath=pair[0],volume=pair[1]||'',
+        kind=medium.value,epTitle=ep.value.trim()||'未命名';
+    var text=[
+      '请依据以下设定，把小说正文派生为'+({manga:'漫画分镜',anime:'动画分镜',film:'电影分镜'}[kind])+'。',
+      '源正文：'+srcPath+'（'+volume+'）',
+      ''
+    ].concat(common,spec(kind,srcPath,epTitle,volume),landing(kind),[
+      '【交付前自检】',
+      '· 已核对：无平行设定、无本人复活、结局与小说一致、伏笔答案一致。'
+    ]).join('\n');
+    out.value=text;
+  });
+  document.getElementById('copy').addEventListener('click',function(){
+    if(!out.value){out.value='请先点「生成派生指令」。';return;}
+    out.focus();out.select();
+    var done=false;
+    try{done=document.execCommand('copy');}catch(e){}
+    if(!done && navigator.clipboard){navigator.clipboard.writeText(out.value);done=true;}
+    var b=document.getElementById('copy'),old=b.textContent;
+    b.textContent=done?'已复制':'请手动复制';
+    setTimeout(function(){b.textContent=old;},1600);
+  });
+})();
+</script>
+
+<!--__WB_READER__-->
+</body>
+</html>
